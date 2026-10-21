@@ -85,13 +85,13 @@ button{background:none;border:0;cursor:pointer}
 .empty{text-align:center;color:var(--mut);padding:40px 30px;font-size:14px}
 .empty b{display:block;color:var(--ink);font-size:16px;margin-bottom:6px;font-family:var(--disp);font-stretch:125%;text-transform:uppercase;font-weight:900}
 /* profile */
-.hero{position:relative;height:250px;overflow:visible;
+.hero{position:relative;height:160px;overflow:visible;
   background:radial-gradient(70% 90% at 50% 45%,rgba(255,255,255,.95),rgba(255,255,255,0) 70%),linear-gradient(135deg,#f3f1f2 0%,#e6e3e4 30%,#f7f6f6 55%,#e3e0e1 80%,#efedee 100%);
   border-bottom:1px solid var(--line)}
 .hero .hclip{position:absolute;inset:0;overflow:hidden}
-.hy{position:absolute;bottom:22px;font-family:var(--num);font-size:clamp(130px,40vw,250px);line-height:1;color:var(--pinkbox);opacity:.85;pointer-events:none;z-index:0}
+.hy{position:absolute;bottom:4px;font-family:var(--num);font-size:clamp(120px,40vw,165px);line-height:1;color:var(--pinkbox);opacity:.85;pointer-events:none;z-index:0}
 .hy1{left:-1vw}.hy2{right:-1vw}
-.hlogo{position:absolute;left:50%;top:30px;transform:translateX(-50%);width:min(54%,280px);z-index:1;filter:drop-shadow(0 8px 18px rgba(60,30,50,.35))}
+.hlogo{position:absolute;left:50%;top:22px;transform:translateX(-50%);width:min(54%,215px);z-index:1;filter:drop-shadow(0 8px 18px rgba(60,30,50,.35))}
 .hero .back,.hero .edit{z-index:3}
 .hero .back{position:absolute;top:16px;left:18px;background:rgba(255,255,255,.8);border:0}
 .hero .edit{position:absolute;top:16px;right:18px;background:rgba(255,255,255,.8);border:0}
@@ -160,6 +160,43 @@ button{background:none;border:0;cursor:pointer}
 .lvlbar b{color:var(--pink2)}
 .lvlbar button{color:var(--pink2);font-weight:800;font-size:12px;padding:4px}
 .cat.locked{opacity:.55}
+.namebar{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;padding:14px 18px 12px}
+.namebar .nm{min-width:0}
+.namebar h2{font-family:var(--disp);font-stretch:125%;text-transform:uppercase;font-weight:900;font-size:21px;line-height:1.05}
+.namebar p{font-size:11.5px;color:var(--mut);margin-top:3px}
+.namebar .tags{justify-content:flex-start;margin:7px 0 0}
+.namebar .teamsel{flex:none;max-width:44%;font-size:16px;font-weight:700;padding:6px 10px;text-overflow:ellipsis}
+.profcols{display:grid;grid-template-columns:44% minmax(0,1fr);gap:12px;padding:0 18px;margin-bottom:16px}
+.pphoto{position:relative;aspect-ratio:2/3;border-radius:18px;overflow:hidden;border:3px solid #fff;box-shadow:var(--shadow);max-width:100%}
+.pphoto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pphoto .ini{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-family:var(--disp);font-stretch:125%;font-weight:900;font-size:44px}
+.pcam{position:absolute;right:8px;bottom:8px;width:36px;height:36px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:15px;box-shadow:var(--shadow);z-index:2}
+.btn.cbtn{margin-top:10px;padding:12px 6px;font-size:10.5px}
+.expwrap{position:relative;min-height:100%}
+.startcard,.exp{position:absolute;inset:0;border-radius:18px;overflow:auto;scrollbar-width:none}
+.startcard::-webkit-scrollbar,.exp::-webkit-scrollbar{display:none}
+.startcard{background:var(--pinkpale);border:2px dashed var(--pinkbox);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:10px;padding:14px}
+.startcard .big{font-size:32px}
+.startcard h4{font-family:var(--disp);font-stretch:125%;text-transform:uppercase;font-weight:900;font-size:12.5px}
+.startcard p{font-size:11.5px;color:var(--mut);line-height:1.4}
+.startcard .btn{font-size:11px;padding:14px 8px}
+.exp{background:var(--pinkbox);padding:9px 10px;display:flex;flex-direction:column;gap:5px}
+.exp-h{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.exp-h h4{font-family:var(--disp);font-stretch:125%;text-transform:uppercase;font-weight:900;font-size:11px;line-height:1.1}
+.exp-h button{font-size:11px;font-weight:800;text-decoration:underline;padding:2px}
+.meta{display:flex;flex-wrap:wrap;gap:4px}
+.meta i{font-style:normal;font-size:10.5px;font-weight:800;background:rgba(255,255,255,.75);border-radius:8px;padding:4px 7px}
+.meta em{font-style:normal;display:none}
+.sub2{background:#fff;border-radius:12px;overflow:hidden;flex:none;display:flex;flex-direction:column}
+.sub2 .hd{display:flex;justify-content:space-between;align-items:center;font-family:var(--disp);font-stretch:125%;text-transform:uppercase;font-weight:900;font-size:10px;letter-spacing:.06em;padding:4px 9px;background:var(--pink);color:#fff}
+.sub2 .hd small{font-family:var(--body);font-stretch:100%;text-transform:none;letter-spacing:0;font-weight:700;font-size:10px;opacity:.9}
+.sub2.dance .hd{background:var(--ink);color:var(--pinkbox)}
+.sub2 .r2{display:flex;justify-content:space-between;gap:8px;padding:3px 9px;border-top:1px solid #f0e8ee;font-size:11.5px;line-height:1.25}
+.sub2 .hd+.r2{border-top:0}
+.sub2 .r2 span{color:var(--mut);flex:none}
+.sub2 .r2 b{font-weight:700;text-align:right;min-width:0;overflow-wrap:anywhere}
+.nt2{display:none;margin-top:auto;padding:10px 12px;font-size:13px;color:var(--mut);border-top:1px dashed #ecdbe6;line-height:1.4;white-space:pre-wrap}
+.nt2 b{display:block;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin-bottom:2px;font-weight:800}
 .notecard{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:14px;margin:0 18px 12px;box-shadow:var(--shadow)}
 .notecard .in{margin:0;min-height:70px}
 .cat textarea.in{background:rgba(255,255,255,.85);border-color:transparent;min-height:64px;margin:0}
@@ -274,6 +311,7 @@ input[type=date].in{min-height:46px;min-width:0;-webkit-appearance:none;appearan
 .mback{position:absolute;inset:0;background:rgba(20,18,20,.45)}
 .mbox{position:absolute;left:0;right:0;bottom:0;max-width:520px;margin:0 auto;background:#fff;border-radius:24px 24px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom));max-height:92vh;overflow:auto}
 .mbox h3{font-size:14px;font-weight:900;margin-bottom:12px}
+.mbox .info{margin:0;box-shadow:none;border:0;padding:0}
 .mbox video{width:100%;max-height:62vh;border-radius:14px;background:#000;display:block;margin-bottom:12px}
 #toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:13px;font-weight:700;padding:10px 16px;border-radius:14px;opacity:0;transition:.25s;z-index:60;max-width:88vw;text-align:center;pointer-events:none}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -297,9 +335,23 @@ input[type=date].in{min-height:46px;min-width:0;-webkit-appearance:none;appearan
   .ph{height:160px}
   .fab{right:max(30px,calc(50% - 520px));width:68px;height:68px}
   /* profile: wide header, skills side by side */
-  .hero{height:280px;border-radius:0 0 28px 28px;margin:0 12px}
-  .hy{font-size:250px;bottom:20px}.hy1{left:4%}.hy2{right:4%}
-  .hlogo{top:26px;width:300px}
+  .hero{height:200px;border-radius:0 0 28px 28px;margin:0 12px}
+  .hy{font-size:205px;bottom:6px}.hy1{left:5%}.hy2{right:5%}
+  .hlogo{top:24px;width:255px}
+  .namebar{padding:20px 28px 14px}.namebar h2{font-size:28px}
+  .namebar .teamsel{max-width:320px}
+  .profcols{grid-template-columns:270px minmax(0,1fr);gap:20px;padding:0 28px;margin-bottom:20px}
+  .btn.cbtn{font-size:12px;padding:14px}
+  .exp{padding:16px;gap:12px;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto 1fr;align-content:stretch}
+  .exp.two{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .exp-h,.meta{grid-column:1/-1}
+  .exp-h h4{font-size:13px}.exp-h button{font-size:13px}
+  .meta i{font-size:13px;padding:6px 10px}.meta em{display:inline}
+  .sub2 .hd{font-size:12px;padding:8px 12px}
+  .sub2 .hd small{font-size:12px}
+  .sub2 .r2{font-size:14px;padding:9px 12px}
+  .nt2{display:block}
+  .startcard h4{font-size:16px}.startcard p{font-size:14px;max-width:340px}.startcard .btn{max-width:320px;font-size:13px}
   .tags{margin-bottom:18px}
   .tabs{max-width:820px;margin:0 auto 18px}
   .tabs button{font-size:11px}
@@ -677,32 +729,53 @@ function tile(a){
     <h4>${esc(fullName(a))}</h4><p>${a.dob?`${ageTxt(a.dob)} · ${esc(divisionOf(a.dob))}`:"No DOB"}${a.team?` · ${esc(a.team)}`:""}</p></button>`;
 }
 
+function expCard(a){
+  if(!a.tryoutType)return `<div class="startcard"><div class="big">📋</div><h4>Not assessed yet</h4>
+    <p>Cheer, dance or both, their experience and tumbling level.</p><button class="btn" data-act="asmtOpen">Start assessment</button></div>`;
+  const r=(l,v)=>`<div class="r2"><span>${l}</span><b>${v?esc(v):"–"}</b></div>`;
+  const ch=a.tryoutType==="cheer"||a.tryoutType==="both",da=a.tryoutType==="dance"||a.tryoutType==="both";
+  let h=`<div class="exp ${ch&&da?"two":""}"><div class="exp-h"><h4>Athlete experience</h4><button data-act="asmtOpen">Edit</button></div>
+    <div class="meta">${a.dob?`<i>${esc(divisionOf(a.dob))} · Age ${divAge(a.dob)}<em> in ${ageYear()}</em></i>`:`<i>No DOB</i>`}<i><em>Trying out for </em>${esc(TYPE_LABEL[a.tryoutType])}</i></div>`;
+  if(ch)h+=`<div class="sub2"><div class="hd">Cheer</div>
+    ${r("Level",a.cheerLevel)}${r("Position",(a.cheerPositions||[]).join(", "))}${r("Tumbling",levelsTxt(a))}
+    ${a.cheerAssessNotes?`<div class="nt2"><b>Notes</b>${esc(a.cheerAssessNotes)}</div>`:""}</div>`;
+  if(da){
+    const styles=Object.entries(a.danceStyles||{});
+    h+=`<div class="sub2 dance"><div class="hd">Dance<small>${a.danceAllstar===true?"Allstar ✓":a.danceAllstar===false?"Not allstar":""}</small></div>
+    ${a.danceAllstar===true?(styles.length?styles.map(([st,l])=>r(esc(st),l)).join(""):r("Styles","")):a.danceAllstar===false?r("Experience",a.danceExperience):r("Allstar dance","")}
+    ${a.danceAssessNotes?`<div class="nt2"><b>Notes</b>${esc(a.danceAssessNotes)}</div>`:""}</div>`;
+  }
+  return h+`</div>`;
+}
 function vProfile(){
   const a=find(S.id);if(!a)return `<div class="empty"><b>Athlete not found</b><button class="btn ghost" data-act="go" data-v="home">Back</button></div>`;
   const st=statusOf(a);
   const teams=S.settings.teams||[];
-  const teamSel=`<select class="teamsel" id="teamSel" data-id="${a.id}"><option value="">★ Suggested team…</option>${teams.map(t=>`<option ${a.team===t?"selected":""}>${esc(t)}</option>`).join("")}${a.team&&!teams.includes(a.team)?`<option selected>${esc(a.team)}</option>`:""}</select>`;
-  if(S.tab==="videos")S.tab="skills";
-  const sc=isCheer(a),sd=isDance(a);
-  if((S.tab==="skills"&&!sc)||(S.tab==="dance"&&!sd))S.tab="assess";
-  const tabs=[["info","Athlete info"],["assess","Skill assessment"]];
+  const teamSel=`<select class="teamsel" id="teamSel" data-id="${a.id}"><option value="">★ Team</option>${teams.map(t=>`<option ${a.team===t?"selected":""}>${esc(t)}</option>`).join("")}${a.team&&!teams.includes(a.team)?`<option selected>${esc(a.team)}</option>`:""}</select>`;
+  const sc=!a.tryoutType||isCheer(a),sd=!a.tryoutType||isDance(a);
+  const tabs=[];
   if(sc)tabs.push(["skills","Cheer skills"]);
   if(sd)tabs.push(["dance","Dance skills"]);
   tabs.push(["notes",`Notes${(a.notes||[]).length?" ("+a.notes.length+")":""}`]);
+  if(!tabs.some(t=>t[0]===S.tab))S.tab=tabs[0][0];
   let body="";
-  if(S.tab==="info")body=tInfo(a);else if(S.tab==="assess")body=tAssess(a);else if(S.tab==="skills")body=tSkills(a);else if(S.tab==="dance")body=tDance(a);else body=tNotes(a);
+  if(S.tab==="skills")body=tSkills(a);else if(S.tab==="dance")body=tDance(a);else body=tNotes(a);
   return `
   <div class="hero">
     <button class="icon back" data-act="go" data-v="home" aria-label="Back">‹</button>
-    <button class="icon edit" data-act="edit" aria-label="Edit">✎</button>
+    <button class="icon edit" data-act="edit" aria-label="Edit details">✎</button>
     <span class="hy hy1" aria-hidden="true">${String(ageYear()).slice(0,2)}</span><span class="hy hy2" aria-hidden="true">${String(ageYear()).slice(2)}</span>
     <img class="hlogo" src="icons/logo.webp" alt="">
-    <div class="av ${grad(a)}">${photoHtml(a)}</div>
-    <button class="cam" data-act="photo" aria-label="Change photo">📷</button>
   </div>
-  <div class="pname"><h2>${esc(fullName(a))}</h2>
-    <p>Tryout ${pad3(a.num)}${a.dob?` · DOB ${fmtDob(a.dob)} · ${ageTxt(a.dob)} in ${ageYear()}`:""}</p></div>
-  <div class="tags">${a.dob?`<span class="tag pk">${esc(divisionOf(a.dob))}</span>`:""}${a.tryoutType?`<span class="tag">${esc(TYPE_LABEL[a.tryoutType])}</span>`:""}<span class="tag ${st==="placed"?"pk":st==="assessed"?"tl":"gd"}">${STATUS_LABEL[st]}</span>${teamSel}</div>
+  <div class="namebar"><div class="nm"><h2>${esc(fullName(a))}</h2><p>Tryout ${pad3(a.num)}</p>
+    <div class="tags">${a.dob?`<span class="tag pk">${esc(divisionOf(a.dob))}</span>`:""}${a.tryoutType?`<span class="tag">${esc(TYPE_LABEL[a.tryoutType])}</span>`:""}<span class="tag ${st==="placed"?"pk":st==="assessed"?"tl":"gd"}">${STATUS_LABEL[st]}</span></div></div>
+    ${teamSel}</div>
+  <div class="profcols">
+    <div class="pcol"><div class="pphoto ${grad(a)}"><span class="num">${pad3(a.num)}</span>${a.photoURL?`<img src="${esc(a.photoURL)}" alt="">`:`<span class="ini">${esc(initials(a))}</span>`}
+      <button class="pcam" data-act="photo" aria-label="Change photo">📷</button></div>
+      <button class="btn ghost cbtn" data-act="contact">☎ Contact info</button></div>
+    <div class="expwrap">${expCard(a)}</div>
+  </div>
   <div class="tabs">${tabs.map(([k,t])=>`<button class="${S.tab===k?"on":""}" data-act="tab" data-v="${k}">${t}</button>`).join("")}</div>
   ${body}`;
 }
@@ -713,7 +786,7 @@ function tInfo(a){
     ${r("Name",esc(fullName(a)))}
     ${r("Date of birth",a.dob?`${fmtDob(a.dob)}`:"")}
     ${r(`Age in ${ageYear()}`,a.dob?String(da):"")}
-    ${r("Division",esc(divisionOf(a.dob)))}
+    ${r("Age group",esc(divisionOf(a.dob)))}
     ${r("Tumbling levels",hasLevels(a)?esc(+a.tumbleMain===0?"All levels":`Level ${a.tumbleMain} main${a.tumbleSecond?`, Level ${a.tumbleSecond} secondary`:""}`):"")}
     ${r("Parent",esc(a.parentName))}
     ${r("Phone",a.parentPhone?`<a href="tel:${esc(a.parentPhone.replace(/\s/g,""))}">${esc(a.parentPhone)}</a>`:"")}
@@ -722,7 +795,7 @@ function tInfo(a){
     ${r("Experience",esc(a.experience))}
     ${r("Medical notes",esc(a.medical),a.medical?"med":"")}
   </div>
-  <div class="form" style="margin-top:14px"><button class="btn ghost" data-act="edit">✎ Edit details</button></div>`;
+  <button class="btn ghost" data-act="contactEdit" style="margin-top:14px">✎ Edit details</button>`;
 }
 function vidCard(v,i){
   return `<button class="vcard" data-act="playVid" data-at="${v.at}">
@@ -1017,10 +1090,11 @@ const actions={
   },
   async logout(){if(await ask("Log out?","Log out"))await B.signOut();},
   go(el){const v=el.dataset.v;go(v,{compareMode:v==="compare"||(v==="home"&&S.view==="compare")?S.compareMode:false})},
-  open(el){go("profile",{id:el.dataset.id,tab:S.view==="quick"?"skills":(S.id===el.dataset.id?S.tab:"info"),lvl:null})},
-  tab(el){S.tab=el.dataset.v;render();const a=find(S.id);
-    if(S.tab==="assess"&&a&&!a.tryoutType)actions.asmtOpen();
-    else{const t=document.querySelector(".tabs");if(t&&window.scrollY>t.offsetTop)window.scrollTo(0,t.offsetTop-8)}},
+  open(el){go("profile",{id:el.dataset.id,tab:S.view==="quick"?"skills":(S.id===el.dataset.id?S.tab:"skills"),lvl:null})},
+  tab(el){S.tab=el.dataset.v;render();const t=document.querySelector(".tabs");if(t&&window.scrollY>t.offsetTop)window.scrollTo(0,t.offsetTop-8)},
+  contact(){const a=find(S.id);if(!a)return;
+    openModal(`<div class="mhead"><h3>Contact info</h3><button class="icon" data-act="closeModal" aria-label="Close">✕</button></div>${tInfo(a)}`)},
+  contactEdit(){closeModal();go("edit")},
   asmtOpen(){const a=find(S.id);if(!a)return;
     S.asmt={id:a.id,type:a.tryoutType||null,cheerLevel:a.cheerLevel||null,positions:[...(a.cheerPositions||[])],
       tumbleMain:a.tumbleMain==null||a.tumbleMain===""?null:+a.tumbleMain,tumbleSecond:a.tumbleSecond?+a.tumbleSecond:null,cheerNotes:a.cheerAssessNotes||"",
@@ -1045,7 +1119,7 @@ const actions={
     if(d.type!=="dance")Object.assign(p,{cheerLevel:d.cheerLevel||null,cheerPositions:d.positions||[],tumbleMain:d.tumbleMain==null?null:d.tumbleMain,tumbleSecond:d.tumbleMain?d.tumbleSecond||null:null,cheerAssessNotes:(d.cheerNotes||"").trim()});
     if(d.type!=="cheer")Object.assign(p,{danceAllstar:d.danceAllstar,danceStyles:d.danceAllstar===true?d.styles||{}:{},danceExperience:d.danceAllstar===false?d.danceExp||null:null,danceAssessNotes:(d.danceNotes||"").trim()});
     const btn=document.querySelector('[data-act="asmtSave"]');if(btn){btn.disabled=true;btn.textContent="Saving…"}
-    try{await B.updateAthlete(d.id,p);S.asmt=null;closeModal();S.tab="assess";render();toast("Assessment saved ✦")}
+    try{await B.updateAthlete(d.id,p);S.asmt=null;closeModal();render();toast("Assessment saved ✦")}
     catch(e){toast("Couldn't save: "+(e.message||e));if(btn){btn.disabled=false;btn.textContent="Save assessment"}}
   },
   drate(el){const a=find(S.id),c=el.dataset.c,v=el.dataset.v,cur=((a.danceSkills||{})[c]||{}).level;
@@ -1075,7 +1149,7 @@ const actions={
       if(S.view==="edit")await B.updateAthlete(id,d);else await B.createAthlete(id,d);
       toast(S.view==="edit"?"Saved":"Athlete added ✦");
       const wasNew=S.view!=="edit";
-      go("profile",{id,tab:wasNew?"assess":S.tab});
+      go("profile",{id,tab:wasNew?"skills":S.tab});
       if(wasNew)setTimeout(()=>{if(S.view==="profile"&&S.id===id&&find(id)&&!find(id).tryoutType)actions.asmtOpen()},350);
     }catch(e){toast("Save failed: "+e.message);btn.disabled=false;btn.textContent="Try again"}
   },
