@@ -91,7 +91,31 @@ button{background:none;border:0;cursor:pointer}
 .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--pink),var(--gold));border-radius:4px;transition:width .3s}
 .sk{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;padding:7px 0;border-top:1px solid var(--line)}
 .seg{display:flex;gap:4px;flex:none}
-.seg button{font-size:10px;font-weight:600;padding:6px 8px;border-radius:8px;background:var(--card2);color:var(--mut)}
+.seg button{font-size:10px;font-weight:600;padding:6px 7px;border-radius:8px;background:var(--card2);color:var(--mut)}
+.sk .skn{min-width:0;line-height:1.35}
+.vb{display:flex;align-items:center;gap:3px;font-size:13px;padding:5px 7px!important;border:1px solid var(--line)!important;margin-left:2px}
+.vb b{font-size:10px;color:var(--pink2)}
+.vb.has{border-color:var(--pink)!important;background:#2e1a2a!important}
+.lvlhead{font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;padding:12px 0 4px;border-top:1px solid var(--line)}
+.lvlhead span{color:var(--mut);font-weight:500;text-transform:none;letter-spacing:0}
+.vrow{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:12px -14px 2px;padding:0 14px 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.vrow::-webkit-scrollbar{display:none}
+.vcard{flex:0 0 74%;max-width:260px;scroll-snap-align:start;background:var(--card2);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-align:left;padding:0}
+.vcard .vth{height:150px}
+.vcard .m{padding:8px 10px}
+.vcard h5{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vcard p{font-size:10.5px;color:var(--mut)}
+.vcard.up{display:flex;flex-direction:column;justify-content:center;padding:14px;font-size:12px;min-height:200px}
+.vcount{font-size:11px;color:var(--pink2);font-weight:600;margin-top:10px}
+.lvlcard{background:var(--card);border:2px solid var(--gold);border-radius:18px;padding:14px;margin:0 18px 12px}
+.lvlcard h4{font-size:15px;margin-bottom:2px}
+.lvlcard .chips{padding:0;margin:8px 0 12px;flex-wrap:wrap}
+.lvlbar{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin:0 18px 12px;font-size:12.5px}
+.lvlbar b{color:var(--gold)}
+.lvlbar button{color:var(--pink2);font-weight:600;font-size:12px;padding:4px}
+.cat.locked{opacity:.55}
+.lvlhead+.sk{border-top:0}
+.linkbtn{color:var(--mut);font-size:12px;text-decoration:underline;padding:8px 4px;display:block;margin:6px auto 0}
 .seg .no.on{background:#3a2a3a;color:var(--red)}.seg .wk.on{background:#4a3a1a;color:var(--gold)}.seg .ys.on{background:#1a3d38;color:var(--teal)}
 .info{margin:0 18px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:4px 14px}
 .info .r{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-top:1px solid var(--line);font-size:13px}
@@ -234,8 +258,20 @@ const DEFAULT_SETTINGS = {
   ],
   teams: [],
   skills: [
-    {cat:"Standing Tumbling", items:["Forward roll","Cartwheel","Back walkover","Standing back handspring","Standing BHS series","Standing back tuck","Standing full"]},
-    {cat:"Running Tumbling", items:["Round off","Round off BHS","Round off BHS series","Round off tuck","Round off BHS layout","Round off BHS full"]},
+    {cat:"Standing Tumbling", items:[
+      {name:"Forward roll",level:1},{name:"Backward roll",level:1},{name:"Cartwheel",level:1},{name:"Bridge kickover",level:1},{name:"Back walkover",level:1},{name:"Front walkover",level:1},
+      {name:"Standing back handspring",level:2},{name:"Standing BHS series",level:2},{name:"Walkover BHS",level:2},
+      {name:"Standing back tuck",level:3},{name:"Standing BHS tuck",level:3},
+      {name:"Jump to back tuck",level:4},{name:"Standing BHS layout",level:4},
+      {name:"Standing full",level:5},{name:"Standing BHS full",level:5},
+      {name:"Standing BHS double full",level:6}]},
+    {cat:"Running Tumbling", items:[
+      {name:"Round off",level:1},{name:"Round off rebound",level:1},
+      {name:"Round off BHS",level:2},{name:"Round off BHS series",level:2},{name:"Front walkover round off BHS",level:2},
+      {name:"Round off tuck",level:3},{name:"Round off BHS tuck",level:3},{name:"Aerial",level:3},
+      {name:"Round off BHS layout",level:4},{name:"Round off BHS step-out",level:4},{name:"Round off BHS whip",level:4},
+      {name:"Round off BHS full",level:5},{name:"Whip through to full",level:5},
+      {name:"Round off BHS double full",level:6},{name:"Whip through to double full",level:6}]},
     {cat:"Jumps", items:["Toe touch","Pike","Hurdler","Jump sequence x3"]},
     {cat:"Stunting", items:["Flyer: prep","Flyer: extension","Flyer: lib","Flyer: body positions","Base","Backspot"]},
     {cat:"Flexibility", items:["Left splits","Right splits","Middle splits","Heel stretch","Bow and arrow","Scorpion"]},
@@ -271,6 +307,7 @@ function ymd(s){if(!s)return null;const p=String(s).split("-").map(Number);retur
 function ageAt(dob,ref){const d=ymd(dob);if(!d)return null;let a=ref[0]-d[0];if(ref[1]<d[1]||(ref[1]===d[1]&&ref[2]<d[2]))a--;return a}
 function today(){const n=new Date();return [n.getFullYear(),n.getMonth()+1,n.getDate()]}
 function ageNow(dob){return ageAt(dob,today())}
+function ageYear(){const d=ymd(S.settings.ageAsAt);return d?d[0]:today()[0]}
 function divAge(dob){return ageAt(dob,ymd(S.settings.ageAsAt)||today())}
 function divisionOf(dob){const a=divAge(dob);if(a==null)return "";const ds=S.settings.divisions||[];for(const d of ds){if(a<=d.max)return d.name}return ds.length?ds[ds.length-1].name:""}
 function fmtDob(dob){const d=ymd(dob);return d?`${String(d[2]).padStart(2,"0")}/${String(d[1]).padStart(2,"0")}/${d[0]}`:""}
@@ -280,7 +317,18 @@ function initials(a){return ((a.first||"?")[0]+((a.last||"")[0]||"")).toUpperCas
 function grad(a){return "g"+((a.num||0)%6)}
 function fullName(a){return `${a.first||""} ${a.last||""}`.trim()||"Unnamed"}
 function pad3(n){return "#"+String(n||0).padStart(3,"0")}
-function skillList(){const out=[];(S.settings.skills||[]).forEach(c=>c.items.forEach(n=>out.push({cat:c.cat,name:n,key:c.cat+"|"+n})));return out}
+function normItem(it){
+  if(it&&typeof it==="object")return {name:String(it.name||"").trim(),level:it.level?+it.level:null};
+  const t=String(it||"").trim(),m=t.match(/^L(\d+)\s*[:\-.]?\s*(.+)$/i);
+  return m?{name:m[2].trim(),level:+m[1]}:{name:t,level:null};
+}
+function cats(){return (S.settings.skills||[]).map(c=>({cat:c.cat,items:(c.items||[]).map(normItem).filter(i=>i.name).map(i=>({...i,key:c.cat+"|"+i.name}))}))}
+function skillList(){const out=[];cats().forEach(c=>c.items.forEach(i=>out.push({cat:c.cat,name:i.name,level:i.level,key:i.key})));return out}
+function levelList(){const l=[...new Set(skillList().map(i=>i.level).filter(Boolean))].sort((a,b)=>a-b);return l.length?l:[1,2,3,4,5,6]}
+function hasLevels(a){return a.tumbleMain!=null&&a.tumbleMain!==""}
+function canSee(a,item){if(!item.level)return true;if(!hasLevels(a)||+a.tumbleMain===0)return true;return item.level===+a.tumbleMain||item.level===+a.tumbleSecond}
+function levelsTxt(a){if(!hasLevels(a))return "";if(+a.tumbleMain===0)return "All levels";return "L"+a.tumbleMain+(a.tumbleSecond?" + L"+a.tumbleSecond:"")}
+function ageTxt(dob){return dob?`Age ${divAge(dob)}`:""}
 function skillName(key){if(!key||key==="general")return "General";const i=key.indexOf("|");return i<0?key:key.slice(i+1)}
 function skillCat(key){if(!key||key==="general")return "General";const i=key.indexOf("|");return i<0?"General":key.slice(0,i)}
 function statusOf(a){if(a.team)return "placed";const s=a.skills||{};return Object.keys(s).length?"assessed":"new"}
@@ -383,7 +431,7 @@ function FirebaseBackend(){
 
 /* ======================= BACKEND: DEMO (this device only) ======================= */
 function DemoBackend(){
-  const K="eodth_demo_v1";let data,onA=()=>{},onS=()=>{},authCb=()=>{};
+  const K="eodth_demo_v2";let data,onA=()=>{},onS=()=>{},authCb=()=>{};
   const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v);return true}catch(e){return false}}};
   function seed(){
     const sk=(o)=>o;
@@ -399,7 +447,7 @@ function DemoBackend(){
     ];
     const now=Date.now();
     return {settings:{...clone(DEFAULT_SETTINGS),counter:A.length,teams:["Mini Level 2","Youth Level 3","Junior Level 4","Senior Level 5"]},
-      athletes:A.map((r,i)=>({id:"d"+i,num:i+1,first:r[0],last:r[1],dob:r[2],parentName:"",parentPhone:"",parentEmail:"",prevGym:"",experience:"",medical:"",
+      athletes:A.map((r,i)=>({id:"d"+i,num:i+1,tumbleMain:[2,null,4,null,1,null,5,null][i],tumbleSecond:[3,null,5,null,2,null,null,null][i],first:r[0],last:r[1],dob:r[2],parentName:"",parentPhone:"",parentEmail:"",prevGym:"",experience:"",medical:"",
         skills:sk(r[3]),notes:i===0?[{text:"Strong tumbler, very coachable. Consider for Youth L3.",by:"Lydia",at:now-3600e3}]:[],videos:[],team:i===2?"Junior Level 4":"",createdAt:now-i*1000}))};
   }
   function load(){try{data=JSON.parse(store.get(K))}catch(e){}if(!data||!data.athletes)data=seed();
@@ -493,7 +541,7 @@ function tile(a){
     <div class="ph ${grad(a)}"><span class="num">${pad3(a.num)}</span>${photoHtml(a)}</div>
     <span class="badge b-${st}">${STATUS_LABEL[st]}</span>
     ${S.compareMode?`<span class="check">${sel?"✓":""}</span>`:""}
-    <h4>${esc(fullName(a))}</h4><p>${a.dob?`Age ${ageNow(a.dob)} · ${esc(divisionOf(a.dob))}`:"No DOB"}${a.team?` · ${esc(a.team)}`:""}</p></button>`;
+    <h4>${esc(fullName(a))}</h4><p>${a.dob?`${ageTxt(a.dob)} · ${esc(divisionOf(a.dob))}`:"No DOB"}${a.team?` · ${esc(a.team)}`:""}</p></button>`;
 }
 
 function vProfile(){
@@ -501,9 +549,11 @@ function vProfile(){
   const st=statusOf(a);
   const teams=S.settings.teams||[];
   const teamSel=`<select class="teamsel" id="teamSel" data-id="${a.id}"><option value="">★ Suggested team…</option>${teams.map(t=>`<option ${a.team===t?"selected":""}>${esc(t)}</option>`).join("")}${a.team&&!teams.includes(a.team)?`<option selected>${esc(a.team)}</option>`:""}</select>`;
-  const tabs=[["info","Info"],["skills","Skills"],["videos",`Videos${(a.videos||[]).length?" ("+a.videos.length+")":""}`],["notes",`Notes${(a.notes||[]).length?" ("+a.notes.length+")":""}`]];
+  if(S.tab==="videos")S.tab="skills";
+  const nv=(a.videos||[]).length;
+  const tabs=[["info","Info"],["skills",`Skills & videos`],["notes",`Notes${(a.notes||[]).length?" ("+a.notes.length+")":""}`]];
   let body="";
-  if(S.tab==="info")body=tInfo(a);else if(S.tab==="skills")body=tSkills(a);else if(S.tab==="videos")body=tVideos(a);else body=tNotes(a);
+  if(S.tab==="info")body=tInfo(a);else if(S.tab==="skills")body=tSkills(a);else body=tNotes(a);
   return `
   <div class="hero">
     <button class="icon back" data-act="go" data-v="home" aria-label="Back">‹</button>
@@ -513,7 +563,7 @@ function vProfile(){
     <button class="cam" data-act="photo" aria-label="Change photo">📷</button>
   </div>
   <div class="pname"><h2>${esc(fullName(a))}</h2>
-    <p>Tryout ${pad3(a.num)}${a.dob?` · DOB ${fmtDob(a.dob)} · Age ${ageNow(a.dob)}`:""}</p></div>
+    <p>Tryout ${pad3(a.num)}${a.dob?` · DOB ${fmtDob(a.dob)} · ${ageTxt(a.dob)} in ${ageYear()}`:""}</p></div>
   <div class="tags">${a.dob?`<span class="tag pk">${esc(divisionOf(a.dob))}</span>`:""}<span class="tag ${st==="placed"?"pk":st==="assessed"?"tl":"gd"}">${STATUS_LABEL[st]}</span>${teamSel}</div>
   <div class="tabs">${tabs.map(([k,t])=>`<button class="${S.tab===k?"on":""}" data-act="tab" data-v="${k}">${t}</button>`).join("")}</div>
   ${body}`;
@@ -524,7 +574,9 @@ function tInfo(a){
   return `<div class="info">
     ${r("Name",esc(fullName(a)))}
     ${r("Date of birth",a.dob?`${fmtDob(a.dob)}`:"")}
-    ${r("Division",a.dob?`${esc(divisionOf(a.dob))} <span style="color:var(--mut);font-size:11px">(age ${da} at ${fmtDob(S.settings.ageAsAt)})</span>`:"")}
+    ${r(`Age in ${ageYear()}`,a.dob?String(da):"")}
+    ${r("Division",esc(divisionOf(a.dob)))}
+    ${r("Tumbling levels",hasLevels(a)?esc(+a.tumbleMain===0?"All levels":`Level ${a.tumbleMain} main${a.tumbleSecond?`, Level ${a.tumbleSecond} secondary`:""}`):"")}
     ${r("Parent",esc(a.parentName))}
     ${r("Phone",a.parentPhone?`<a href="tel:${esc(a.parentPhone.replace(/\s/g,""))}">${esc(a.parentPhone)}</a>`:"")}
     ${r("Email",a.parentEmail?`<a href="mailto:${esc(a.parentEmail)}">${esc(a.parentEmail)}</a>`:"")}
@@ -534,31 +586,69 @@ function tInfo(a){
   </div>
   <div class="form" style="margin-top:14px"><button class="btn ghost" data-act="edit">✎ Edit details</button></div>`;
 }
-function tSkills(a){
-  const s=a.skills||{};
-  return (S.settings.skills||[]).map(c=>{
-    const has=c.items.filter(n=>s[c.cat+"|"+n]===2).length;
-    return `<div class="cat"><div class="cat-h">${esc(c.cat)}<span>${has} of ${c.items.length}</span></div>
-      <div class="bar"><i style="width:${c.items.length?has/c.items.length*100:0}%"></i></div>
-      ${c.items.map(n=>{const k=c.cat+"|"+n,v=s[k];
-        return `<div class="sk"><span>${esc(n)}</span><div class="seg">${[0,1,2].map(x=>`<button class="${RATING[x].c} ${v===x?"on":""}" data-act="rate" data-id="${a.id}" data-k="${esc(k)}" data-v="${x}">${RATING[x].t}</button>`).join("")}</div></div>`}).join("")}
-    </div>`}).join("") || `<div class="empty">No skills set up yet. Add them in Settings.</div>`;
+function vidCard(v,i){
+  return `<button class="vcard" data-act="playVid" data-at="${v.at}">
+    <div class="vth ${["g0","g2","g1","g3"][i%4]}"><video src="${esc(v.url)}#t=0.1" preload="metadata" muted playsinline></video><div class="play">▶</div>${v.dur?`<span class="dur">0:${String(v.dur).padStart(2,"0")}</span>`:""}</div>
+    <div class="m"><h5>${esc(skillName(v.skill))}</h5><p>${fmtDay(v.at)}${v.by?" · "+esc(v.by):""}</p></div></button>`;
 }
-function tVideos(a){
+function upCards(a,test){
+  return Object.entries(S.uploads).filter(([,u])=>u.athleteId===a.id&&test(u.skill)).map(([id,u])=>
+    `<div class="vcard up" data-up="${id}">Uploading<br><b>${esc(skillName(u.skill))}</b><span class="pct">${Math.round(u.pct)}%</span><div class="bar" style="margin-top:8px"><i style="width:${u.pct}%"></i></div></div>`).join("");
+}
+function vidRow(a,vids,test){
+  const ups=upCards(a,test);
+  if(!vids.length&&!ups)return "";
+  return `${vids.length?`<div class="vcount">🎥 ${vids.length} video${vids.length===1?"":"s"}${vids.length>1?" · swipe to see more":""}</div>`:""}<div class="vrow">${ups}${vids.map(vidCard).join("")}</div>`;
+}
+function levelPicker(a){
+  const L=levelList(),d=(S.lvl&&S.lvl.id===a.id)?S.lvl:{id:a.id,main:null,sec:null};
+  const changing=hasLevels(a);
+  return `<div class="lvlcard"><h4>Which tumbling levels are you assessing?</h4>
+    <div class="sub">Only those levels' tumbling skills will show for ${esc(a.first||"this athlete")}.</div>
+    <div class="sect" style="margin:12px 0 0;color:var(--txt)">Main level <span class="sub" style="font-weight:400">· has most of these skills</span></div>
+    <div class="chips">${L.map(l=>`<button class="chip ${d.main===l?"on":""}" data-act="lvlMain" data-v="${l}">Level ${l}</button>`).join("")}</div>
+    <div class="sect" style="margin:0;color:var(--txt)">Secondary level <span class="sub" style="font-weight:400">· extra skills (optional)</span></div>
+    <div class="chips">${[null,...L.filter(l=>l!==d.main)].map(l=>`<button class="chip gold ${d.sec===l?"on":""}" data-act="lvlSec" data-v="${l??""}">${l?"Level "+l:"None"}</button>`).join("")}</div>
+    <button class="btn" data-act="lvlSave" ${d.main?"":"disabled"}>${d.main?`Assess Level ${d.main}${d.sec?" + "+d.sec:""}`:"Pick a main level"}</button>
+    <button class="linkbtn" data-act="lvlAll">Show all levels instead</button>
+    ${changing?`<button class="linkbtn" data-act="lvlCancel" style="margin-top:0">Cancel</button>`:""}
+  </div>`;
+}
+function tSkills(a){
+  const s=a.skills||{},cs=cats();
+  if(!cs.length)return `<div class="empty">No skills set up yet. Add them in Settings.</div>`;
+  const leveled=c=>c.items.some(i=>i.level);
+  const anyLev=cs.some(leveled);
+  const picking=anyLev&&(!hasLevels(a)||(S.lvl&&S.lvl.id===a.id));
   const vids=(a.videos||[]).slice().sort((x,y)=>y.at-x.at);
-  const cats=["All",...new Set(vids.map(v=>skillCat(v.skill)))];
-  if(!cats.includes(S.vfilter))S.vfilter="All";
-  const shown=vids.filter(v=>S.vfilter==="All"||skillCat(v.skill)===S.vfilter);
-  const ups=Object.entries(S.uploads).filter(([,u])=>u.athleteId===a.id);
-  return `
-  ${vids.length?`<div class="chips">${cats.map(c=>`<button class="chip ${S.vfilter===c?"on":""}" data-act="vfilter" data-v="${esc(c)}">${esc(c)}${c==="All"?` (${vids.length})`:""}</button>`).join("")}</div>`:""}
-  ${ups.map(([id,u])=>`<div class="upbar" data-up="${id}">Uploading ${esc(u.label)}… <span class="pct">${Math.round(u.pct)}%</span><div class="bar"><i style="width:${u.pct}%"></i></div></div>`).join("")}
-  ${shown.length?`<div class="vgrid" style="margin-top:${ups.length?10:0}px">${shown.map((v,i)=>`
-    <button class="vid" data-act="playVid" data-i="${vids.indexOf(v)}">
-      <div class="vth ${["g0","g2","g1","g3"][i%4]}"><video src="${esc(v.url)}#t=0.1" preload="metadata" muted playsinline></video><div class="play">▶</div>${v.dur?`<span class="dur">0:${String(v.dur).padStart(2,"0")}</span>`:""}</div>
-      <div class="m"><h5>${esc(skillName(v.skill))}</h5><p>${esc(skillCat(v.skill))} · ${fmtDay(v.at)}${v.by?" · "+esc(v.by):""}</p></div>
-    </button>`).join("")}</div>`:(ups.length?"":`<div class="empty" style="padding:24px 30px">No videos yet.</div>`)}
-  <button class="upload" data-act="addVideo">＋ Add video<small>Film now or choose from camera roll · max ${MAX_VIDEO_SECONDS} sec</small></button>`;
+  const catNames=cs.map(c=>c.cat);
+  let out="";
+  if(anyLev)out+=picking?levelPicker(a):`<div class="lvlbar"><span>Tumbling: <b>${esc(+a.tumbleMain===0?"All levels":`Level ${a.tumbleMain}`)}</b>${a.tumbleSecond?` + <b>Level ${a.tumbleSecond}</b>`:""}</span><button data-act="lvlChange">Change</button></div>`;
+  out+=cs.map(c=>{
+    const catVids=vids.filter(v=>skillCat(v.skill)===c.cat);
+    if(leveled(c)&&!hasLevels(a))return `<div class="cat locked"><div class="cat-h">${esc(c.cat)}<span>Pick levels above</span></div>${vidRow(a,catVids,k=>skillCat(k)===c.cat)}</div>`;
+    const items=c.items.filter(i=>canSee(a,i)).sort((x,y)=>(x.level||0)-(y.level||0));
+    const has=items.filter(i=>s[i.key]===2).length;
+    let lastLvl=null,rows="";
+    items.forEach(i=>{
+      if(i.level&&i.level!==lastLvl){
+        const tag=i.level===+a.tumbleMain?"main":(i.level===+a.tumbleSecond?"secondary":"");
+        rows+=`<div class="lvlhead">Level ${i.level} ${tag?`<span>· ${tag}</span>`:""}</div>`;lastLvl=i.level;
+      }
+      const v=s[i.key],n=vids.filter(x=>x.skill===i.key).length;
+      rows+=`<div class="sk"><span class="skn">${esc(i.name)}</span><div class="seg">${[0,1,2].map(x=>`<button class="${RATING[x].c} ${v===x?"on":""}" data-act="rate" data-id="${a.id}" data-k="${esc(i.key)}" data-v="${x}">${RATING[x].t}</button>`).join("")}<button class="vb ${n?"has":""}" data-act="skillVid" data-k="${esc(i.key)}" aria-label="Add video of ${esc(i.name)}">🎥${n?`<b>${n}</b>`:""}</button></div></div>`;
+    });
+    return `<div class="cat"><div class="cat-h">${esc(c.cat)}<span>${has} of ${items.length}</span></div>
+      <div class="bar"><i style="width:${items.length?has/items.length*100:0}%"></i></div>
+      ${rows}${vidRow(a,catVids,k=>skillCat(k)===c.cat)}</div>`;
+  }).join("");
+  const other=vids.filter(v=>!catNames.includes(skillCat(v.skill)));
+  out+=`<div class="cat"><div class="cat-h">Other videos<span>${other.length||""}</span></div>
+    <div class="sub">Clips that aren't for one skill, like a full run-through.</div>
+    ${vidRow(a,other,k=>!catNames.includes(skillCat(k)))}
+    <button class="upload" data-act="skillVid" data-k="general" style="width:100%;margin:12px 0 0">＋ Add other video<small>Max ${MAX_VIDEO_SECONDS} sec</small></button></div>
+    <p class="help" style="text-align:center;margin:8px 30px 0">Tap 🎥 on any skill to film it or pick a clip. It's saved to that skill automatically.</p>`;
+  return out;
 }
 function tNotes(a){
   const notes=(a.notes||[]).slice().sort((x,y)=>y.at-x.at);
@@ -583,7 +673,9 @@ function vForm(){
       <button class="pp main" data-act="formPhoto" data-v="camera"><i>📷</i>Take photo</button>
       <button class="pp" data-act="formPhoto" data-v="roll"><i>🖼️</i>Camera roll</button></div>
     <div class="row"><div>${f("first","First name",a.first)}</div><div>${f("last","Last name",a.last)}</div></div>
-    <div class="row"><div>${f("dob","Date of birth",a.dob,"date")}</div><div><label>Division (auto)</label><div class="auto" id="f-div">${a.dob?`Age ${ageNow(a.dob)} · ${esc(divisionOf(a.dob))}`:"–"}</div></div></div>
+    <div class="row"><div>${f("dob","Date of birth",a.dob,"date")}</div><div><label>Division (auto)</label><div class="auto" id="f-div">${a.dob?`${ageTxt(a.dob)} · ${esc(divisionOf(a.dob))}`:"–"}</div></div></div>
+    <div class="row"><div><label for="f-lvlMain">Main tumbling level</label><select class="in" id="f-lvlMain" data-keep><option value="">Set later</option><option value="0" ${a.tumbleMain===0?"selected":""}>All levels</option>${levelList().map(l=>`<option value="${l}" ${+a.tumbleMain===l&&a.tumbleMain!==0?"selected":""}>Level ${l}</option>`).join("")}</select></div>
+      <div><label for="f-lvlSec">Secondary level</label><select class="in" id="f-lvlSec" data-keep><option value="">None</option>${levelList().map(l=>`<option value="${l}" ${+a.tumbleSecond===l?"selected":""}>Level ${l}</option>`).join("")}</select></div></div>
     ${f("parentName","Parent name",a.parentName,"text","e.g. Jess Moreno")}
     <div class="row"><div>${f("parentPhone","Parent phone",a.parentPhone,"tel","04xx xxx xxx")}</div><div>${f("parentEmail","Parent email",a.parentEmail,"email","Optional")}</div></div>
     ${f("prevGym","Previous gym",a.prevGym,"text","Optional")}
@@ -602,7 +694,8 @@ function vQuick(){
     <div class="form"><div class="sect" style="margin-top:4px">1. Division</div>
       <div class="skillpick">${divs.map(d=>`<button class="chip ${qa.div===d?"on":""}" data-act="qaDiv" data-v="${esc(d)}">${esc(d)} (${S.athletes.filter(a=>d==="All"||divisionOf(a.dob)===d).length})</button>`).join("")}</div>
       <div class="sect">2. Skill</div>
-      ${(S.settings.skills||[]).map(c=>`<div class="sub" style="margin:10px 0 6px">${esc(c.cat)}</div><div class="skillpick">${c.items.map(n=>`<button class="chip" data-act="qaSkill" data-v="${esc(c.cat+"|"+n)}">${esc(n)}</button>`).join("")}</div>`).join("")}
+      ${cats().map(c=>{const groups=[...new Set(c.items.map(i=>i.level||0))];return groups.map(g=>`<div class="sub" style="margin:10px 0 6px">${esc(c.cat)}${g?` · <b style="color:var(--gold)">Level ${g}</b>`:""}</div><div class="skillpick">${c.items.filter(i=>(i.level||0)===g).map(i=>`<button class="chip" data-act="qaSkill" data-v="${esc(i.key)}">${esc(i.name)}</button>`).join("")}</div>`).join("")}).join("")}
+      <p class="help" style="margin-top:14px">Tumbling skills only show athletes being assessed at that level (plus anyone whose levels aren't set yet).</p>
     </div>`;
   }
   const list=qa.ids.map(find).filter(Boolean);
@@ -619,7 +712,7 @@ function vQuick(){
   <div class="prog"><span>${esc(qa.div==="All"?"All divisions":qa.div)}</span><span>${qa.i+1} of ${list.length}</span></div>
   <div class="bar" style="margin:0 18px"><i style="width:${(qa.i+1)/list.length*100}%"></i></div>
   <div class="card-big"><div class="ph ${grad(a)}"><span class="num" style="font-size:15px;padding:4px 10px">${pad3(a.num)}</span>${photoHtml(a)}</div>
-    <h3>${esc(fullName(a))}</h3><p>${a.dob?`Age ${ageNow(a.dob)} · ${esc(divisionOf(a.dob))}`:""}</p>
+    <h3>${esc(fullName(a))}</h3><p>${a.dob?`${ageTxt(a.dob)} · ${esc(divisionOf(a.dob))}`:""}${levelsTxt(a)?` · Tumbling ${levelsTxt(a)}`:""}</p>
     <div class="cur sub">${v!=null?`Currently: <b class="dot-${RATING[v].c}">${RATING[v].t}</b>`:"Not assessed yet"}</div></div>
   <div class="btns">${[0,1,2].map(x=>`<button class="rb rb-${RATING[x].c} ${v===x?"on":""}" data-act="qaRate" data-v="${x}"><i>${RATING[x].s}</i>${RATING[x].t}</button>`).join("")}</div>
   <div class="qnav"><button data-act="qaPrev" ${qa.i===0?"disabled style='opacity:.3'":""}>‹ Back</button><button data-act="open" data-id="${a.id}">Profile</button><button data-act="qaNext">Skip ›</button></div>
@@ -632,18 +725,19 @@ function vCompare(){
   return `<div class="top"><button class="icon" data-act="go" data-v="home">‹</button><div class="logo" style="font-size:16px">Compare</div><span style="width:38px"></span></div>
   <div class="cmp"><table>
     <tr><th></th>${list.map(a=>`<th><div class="mini ${grad(a)}">${photoHtml(a)}</div>${esc(a.first||"")}<br><span class="sub">${pad3(a.num)}</span></th>`).join("")}</tr>
-    <tr><td class="sub">Age · Division</td>${list.map(a=>`<td class="sub">${a.dob?ageNow(a.dob)+" · "+esc(divisionOf(a.dob)):"–"}</td>`).join("")}</tr>
+    <tr><td class="sub">Age · Division</td>${list.map(a=>`<td class="sub">${a.dob?divAge(a.dob)+" · "+esc(divisionOf(a.dob)):"–"}</td>`).join("")}</tr>
     <tr><td class="sub">Team</td>${list.map(a=>`<td class="sub">${esc(a.team||"–")}</td>`).join("")}</tr>
-    ${(S.settings.skills||[]).map(c=>`<tr class="ch"><td colspan="${list.length+1}">${esc(c.cat)}</td></tr>
-      <tr><td class="sub">Has it</td>${list.map(a=>`<td class="sub">${c.items.filter(n=>(a.skills||{})[c.cat+"|"+n]===2).length}/${c.items.length}</td>`).join("")}</tr>
-      ${c.items.map(n=>`<tr><td>${esc(n)}</td>${list.map(a=>`<td>${cell(a,c.cat+"|"+n)}</td>`).join("")}</tr>`).join("")}`).join("")}
+    <tr><td class="sub">Tumbling</td>${list.map(a=>`<td class="sub">${esc(levelsTxt(a)||"–")}</td>`).join("")}</tr>
+    ${cats().map(c=>{const items=c.items.filter(i=>list.some(a=>canSee(a,i)));if(!items.length)return "";return `<tr class="ch"><td colspan="${list.length+1}">${esc(c.cat)}</td></tr>
+      <tr><td class="sub">Has it</td>${list.map(a=>{const vis=items.filter(i=>canSee(a,i));return `<td class="sub">${vis.filter(i=>(a.skills||{})[i.key]===2).length}/${vis.length}</td>`}).join("")}</tr>
+      ${items.map(i=>`<tr><td>${i.level?`<span class="sub">L${i.level}</span> `:""}${esc(i.name)}</td>${list.map(a=>`<td>${canSee(a,i)?cell(a,i.key):'<span class="dot-na"> </span>'}</td>`).join("")}</tr>`).join("")}`}).join("")}
   </table></div>
   <p class="sub" style="text-align:center;margin-top:14px">✓ Has it · ~ Working · ✕ No · – Not assessed</p>`;
 }
 
 function vSettings(){
   const st=S.settings;
-  const skillsTxt=(st.skills||[]).map(c=>"# "+c.cat+"\n"+c.items.join("\n")).join("\n\n");
+  const skillsTxt=cats().map(c=>"# "+c.cat+"\n"+c.items.map(i=>(i.level?`L${i.level}: `:"")+i.name).join("\n")).join("\n\n");
   const divTxt=(st.divisions||[]).map(d=>`${d.name}: ${d.max}`).join("\n");
   const vidCount=S.athletes.reduce((n,a)=>n+(a.videos||[]).length,0);
   return `<div class="top"><button class="icon" data-act="go" data-v="home">‹</button><div class="logo" style="font-size:16px">Settings</div><span style="width:38px"></span></div>
@@ -653,12 +747,12 @@ function vSettings(){
     <div class="sub" style="margin:-4px 2px 12px">Logged in as ${esc(S.user?S.user.email:"")}</div>
     <div class="sect">Season</div>
     <label for="s-season">Season name</label><input class="in" id="s-season" value="${esc(st.season)}" data-keep>
-    <label for="s-asat">Age divisions are worked out as at</label><input class="in" id="s-asat" type="date" value="${esc(st.ageAsAt)}" data-keep>
+    <label for="s-asat">Ages and divisions are worked out as at (age shown is their age on this date)</label><input class="in" id="s-asat" type="date" value="${esc(st.ageAsAt)}" data-keep>
     <label for="s-div">Divisions (name: oldest age)</label><textarea class="in" id="s-div" rows="6" data-keep>${esc(divTxt)}</textarea>
     <div class="help">One per line, youngest first. E.g. "Mini: 9" means age 9 and under (after Tiny).</div>
     <label for="s-teams">Teams (for placements)</label><textarea class="in" id="s-teams" rows="5" placeholder="One team per line" data-keep>${esc((st.teams||[]).join("\n"))}</textarea>
     <label for="s-skills">Skills checklist</label><textarea class="in" id="s-skills" rows="16" data-keep>${esc(skillsTxt)}</textarea>
-    <div class="help">Start a category with #, then one skill per line underneath. Renaming a skill clears ticks already given for it.</div>
+    <div class="help">Start a category with #, then one skill per line underneath. Put L1 to L6 in front of a skill (like "L3: Round off BHS tuck") to tag its tumbling level. Renaming a skill clears ticks already given for it.</div>
     <button class="btn" data-act="saveSettings">Save settings</button>
     <div class="sect" style="margin-top:28px">Data</div>
     <button class="btn ghost" data-act="export" style="margin-bottom:10px">⬇ Export everyone (spreadsheet)</button>
@@ -717,8 +811,8 @@ const actions={
     try{await B.signIn(e,p)}catch(err){S.loginErr=/password|user|credential/i.test(err.code||err.message)?"Email or password is incorrect":err.message;render()}
   },
   async logout(){if(await ask("Log out?","Log out"))await B.signOut();},
-  go(el){go(el.dataset.v,el.dataset.v==="home"?{compareMode:S.view==="compare"?S.compareMode:false}:{})},
-  open(el){go("profile",{id:el.dataset.id,tab:S.view==="quick"?"skills":(S.id===el.dataset.id?S.tab:"info"),vfilter:"All"})},
+  go(el){const v=el.dataset.v;go(v,{compareMode:v==="compare"||(v==="home"&&S.view==="compare")?S.compareMode:false})},
+  open(el){go("profile",{id:el.dataset.id,tab:S.view==="quick"?"skills":(S.id===el.dataset.id?S.tab:"info"),lvl:null})},
   tab(el){S.tab=el.dataset.v;render()},
   div(el){S.div=el.dataset.v;render()},
   status(el){S.status=el.dataset.v;render()},
@@ -735,6 +829,8 @@ const actions={
   async saveForm(){
     const g=id=>(document.getElementById("f-"+id).value||"").trim();
     const d={first:g("first"),last:g("last"),dob:g("dob"),parentName:g("parentName"),parentPhone:g("parentPhone"),parentEmail:g("parentEmail"),prevGym:g("prevGym"),experience:g("experience"),medical:g("medical")};
+    const lm=document.getElementById("f-lvlMain").value,ls=document.getElementById("f-lvlSec").value;
+    d.tumbleMain=lm===""?null:+lm;d.tumbleSecond=(ls===""||d.tumbleMain===0||+ls===d.tumbleMain)?null:+ls;
     if(!d.first){toast("First name is needed");return}
     const btn=document.getElementById("saveBtn");btn.disabled=true;btn.textContent="Saving…";
     try{
@@ -769,8 +865,15 @@ const actions={
     if(n&&await ask("Delete this note?"))await B.removeFromList(a.id,"notes",n);
   },
   addVideo(){videoModal(S.id,null)},
+  skillVid(el){const k=el.dataset.k,id=S.id;pickFile("video/*").then(f=>{if(f)uploadVideo(id,f,k)})},
+  lvlMain(el){const a=find(S.id);S.lvl=(S.lvl&&S.lvl.id===a.id)?S.lvl:{id:a.id,main:null,sec:null};S.lvl.main=+el.dataset.v;if(S.lvl.sec===S.lvl.main)S.lvl.sec=null;render()},
+  lvlSec(el){const a=find(S.id);S.lvl=(S.lvl&&S.lvl.id===a.id)?S.lvl:{id:a.id,main:null,sec:null};S.lvl.sec=el.dataset.v?+el.dataset.v:null;render()},
+  async lvlSave(){const d=S.lvl;if(!d||!d.main)return;S.lvl=null;await B.updateAthlete(d.id,{tumbleMain:d.main,tumbleSecond:d.sec||null});toast(`Assessing Level ${d.main}${d.sec?" + "+d.sec:""}`)},
+  async lvlAll(){const id=S.id;S.lvl=null;await B.updateAthlete(id,{tumbleMain:0,tumbleSecond:null})},
+  lvlChange(){const a=find(S.id);S.lvl={id:a.id,main:+a.tumbleMain||null,sec:a.tumbleSecond?+a.tumbleSecond:null};render();window.scrollTo(0,document.querySelector(".tabs").offsetTop)},
+  lvlCancel(){S.lvl=null;render()},
   playVid(el){
-    const a=find(S.id);const vids=(a.videos||[]).slice().sort((x,y)=>y.at-x.at);const v=vids[+el.dataset.i];if(!v)return;
+    const a=find(S.id);const v=(a.videos||[]).find(x=>String(x.at)===el.dataset.at);if(!v)return;
     openModal(`<h3>${esc(skillName(v.skill))} <span class="sub">· ${fmtDay(v.at)}</span></h3>
       <video src="${esc(v.url)}" controls autoplay playsinline></video>
       <p class="sub" style="margin-bottom:14px">${esc(skillCat(v.skill))}${v.by?" · added by "+esc(v.by):""}</p>
@@ -789,8 +892,9 @@ const actions={
   qaDiv(el){S.qa.div=el.dataset.v;render()},
   qaSkill(el){
     const d=S.qa.div;
-    S.qa.ids=S.athletes.filter(a=>d==="All"||divisionOf(a.dob)===d).sort((x,y)=>(x.num||0)-(y.num||0)).map(a=>a.id);
-    if(!S.qa.ids.length){toast("No athletes in that division");return}
+    const item=skillList().find(i=>i.key===el.dataset.v)||{};
+    S.qa.ids=S.athletes.filter(a=>(d==="All"||divisionOf(a.dob)===d)&&canSee(a,item)).sort((x,y)=>(x.num||0)-(y.num||0)).map(a=>a.id);
+    if(!S.qa.ids.length){toast("No athletes to assess for that skill and division");return}
     S.qa.skill=el.dataset.v;S.qa.i=0;render();window.scrollTo(0,0);
   },
   qaNewSkill(){S.qa.skill=null;render()},
@@ -807,16 +911,22 @@ const actions={
   export:exportCsv,
   async saveSettings(){
     const v=id=>document.getElementById(id).value;
-    const divisions=v("s-div").split("\n").map(l=>l.trim()).filter(Boolean).map(l=>{const m=l.match(/^(.+?)[\s:]+(\d+)\s*$/);return m?{name:m[1].trim(),max:+m[2]}:null});
-    if(divisions.some(d=>!d)||!divisions.length){toast('Divisions need a name and age on each line, like "Mini: 9"');return}
+    const divLines=v("s-div").split("\n").map(l=>l.trim()).filter(Boolean);
+    const divisions=divLines.map(l=>{const nums=l.match(/\d+/g);const name=l.split(/[\d:]/)[0].replace(/[\s\-–]+$/,"").trim();return nums&&name?{name,max:+nums[nums.length-1]}:null});
+    const bad=divLines.find((l,i)=>!divisions[i]);
+    if(bad||!divisions.length){toast(bad?`Check this division line: "${bad}". It needs a name and an age, like "Mini: 9"`:"Add at least one division");return}
+    const btn=document.querySelector('[data-act="saveSettings"]');if(btn){btn.disabled=true;btn.textContent="Saving…"}
     const skills=[];let cur=null;
     v("s-skills").split("\n").map(l=>l.trim()).filter(Boolean).forEach(l=>{
       if(l.startsWith("#")){cur={cat:l.replace(/^#+/,"").trim()||"Other",items:[]};skills.push(cur)}
-      else{if(!cur){cur={cat:"Skills",items:[]};skills.push(cur)}if(!cur.items.includes(l))cur.items.push(l)}
+      else{if(!cur){cur={cat:"Skills",items:[]};skills.push(cur)}const it=normItem(l);if(it.name&&!cur.items.some(x=>x.name===it.name))cur.items.push(it.level?{name:it.name,level:it.level}:{name:it.name,level:null})}
     });
     try{localStorage.setItem("eodth_coach",v("s-coach").trim())}catch(e){}
-    await B.saveSettings({season:v("s-season").trim()||"Tryouts",ageAsAt:v("s-asat"),divisions,teams:v("s-teams").split("\n").map(l=>l.trim()).filter(Boolean),skills:skills.filter(c=>c.items.length)});
-    toast("Settings saved");go("home");
+    const slow=setTimeout(()=>toast("Still saving… check you have internet"),8000);
+    try{
+      await B.saveSettings({season:v("s-season").trim()||"Tryouts",ageAsAt:v("s-asat")||S.settings.ageAsAt||DEFAULT_SETTINGS.ageAsAt,divisions,teams:v("s-teams").split("\n").map(l=>l.trim()).filter(Boolean),skills:skills.filter(c=>c.items.length)});
+      clearTimeout(slow);toast("Settings saved");go("home");
+    }catch(e){clearTimeout(slow);toast("Couldn't save settings: "+(e.message||e));if(btn){btn.disabled=false;btn.textContent="Save settings"}}
   },
   async clearVideos(){
     const n=S.athletes.reduce((n,a)=>n+(a.videos||[]).length,0);if(!n){toast("No videos to delete");return}
@@ -828,7 +938,7 @@ const actions={
 };
 
 function videoModal(id){
-  const opts=`<option value="general">General / other</option>`+(S.settings.skills||[]).map(c=>`<optgroup label="${esc(c.cat)}">${c.items.map(n=>`<option value="${esc(c.cat+"|"+n)}">${esc(n)}</option>`).join("")}</optgroup>`).join("");
+  const opts=`<option value="general">General / other</option>`+cats().map(c=>`<optgroup label="${esc(c.cat)}">${c.items.map(i=>`<option value="${esc(i.key)}">${esc(i.name)}</option>`).join("")}</optgroup>`).join("");
   openModal(`<h3>Add a video</h3>
     <label for="vSkill">Which skill is this?</label><select class="in" id="vSkill">${opts}</select>
     <div class="row" style="margin-top:4px"><button class="btn" data-act="pickVideo" data-v="camera" data-id="${id}">🎥 Film now</button>
@@ -843,12 +953,12 @@ async function uploadVideo(id,file,skill){
   if(dur>MAX_VIDEO_SECONDS+1){toast(`That clip is ${Math.round(dur)} sec. Trim it to ${MAX_VIDEO_SECONDS} sec or less first.`);return}
   const ts=Date.now(),ext=((file.name||"").split(".").pop()||"mp4").toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,5)||"mp4";
   const path=`athletes/${id}/videos/${ts}.${ext}`,uid="u"+ts;
-  S.uploads[uid]={athleteId:id,pct:0,label:`${skillName(skill)} for ${a.first||"athlete"}`};
+  S.uploads[uid]={athleteId:id,pct:0,skill,label:`${skillName(skill)} for ${a.first||"athlete"}`};
   toast("Uploading video…");if(S.view==="profile")render();
   try{
     const url=await B.uploadFile(path,file,p=>{
       S.uploads[uid].pct=p;const el=document.querySelector(`[data-up="${uid}"]`);
-      if(el){el.querySelector(".pct").textContent=Math.round(p)+"%";el.querySelector("i").style.width=p+"%"}
+      if(el){el.querySelector(".pct").textContent=Math.round(p)+"%";el.querySelector(".bar i").style.width=p+"%"}
     });
     await B.addToList(id,"videos",{url,path,skill,at:ts,by:coachName(),dur:Math.round(dur)||0});
     toast(`Video saved to ${a.first||"profile"} ✦`);
@@ -858,8 +968,8 @@ async function uploadVideo(id,file,skill){
 
 function exportCsv(){
   const sk=skillList();
-  const head=["Tryout #","First name","Last name","DOB","Age","Division","Status","Suggested team","Parent","Phone","Email","Previous gym","Experience","Medical notes",...sk.map(s=>s.cat+": "+s.name),"Videos","Notes"];
-  const rows=S.athletes.slice().sort((a,b)=>(a.num||0)-(b.num||0)).map(a=>[a.num,a.first,a.last,fmtDob(a.dob),a.dob?ageNow(a.dob):"",divisionOf(a.dob),STATUS_LABEL[statusOf(a)],a.team,a.parentName,a.parentPhone,a.parentEmail,a.prevGym,a.experience,a.medical,
+  const head=["Tryout #","First name","Last name","DOB",`Age in ${ageYear()}`,"Division","Tumbling levels","Status","Suggested team","Parent","Phone","Email","Previous gym","Experience","Medical notes",...sk.map(s=>s.cat+": "+s.name),"Videos","Notes"];
+  const rows=S.athletes.slice().sort((a,b)=>(a.num||0)-(b.num||0)).map(a=>[a.num,a.first,a.last,fmtDob(a.dob),a.dob?divAge(a.dob):"",divisionOf(a.dob),levelsTxt(a),STATUS_LABEL[statusOf(a)],a.team,a.parentName,a.parentPhone,a.parentEmail,a.prevGym,a.experience,a.medical,
     ...sk.map(s=>{const v=(a.skills||{})[s.key];return v==null?"":RATING[v].t}),(a.videos||[]).length,(a.notes||[]).map(n=>`${n.by}: ${n.text}`).join(" | ")]);
   const csv=[head,...rows].map(r=>r.map(c=>{const s=String(c??"");return /[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s}).join(",")).join("\n");
   const blob=new Blob(["﻿"+csv],{type:"text/csv"});const url=URL.createObjectURL(blob);
@@ -868,13 +978,14 @@ function exportCsv(){
 }
 
 /* ============================ EVENT WIRING ============================ */
+window.addEventListener("unhandledrejection",e=>{const m=(e.reason&&(e.reason.message||e.reason))||"Something went wrong";toast(String(m).slice(0,140))});
 document.addEventListener("click",e=>{
   const el=e.target.closest("[data-act]");if(!el||el.disabled)return;
   const fn=actions[el.dataset.act];if(fn){e.preventDefault();fn(el)}
 });
 document.addEventListener("input",e=>{
   if(e.target.id==="search"){S.q=e.target.value;render()}
-  if(e.target.id==="f-dob"){const d=e.target.value;const el=document.getElementById("f-div");if(el)el.textContent=d?`Age ${ageNow(d)} · ${divisionOf(d)}`:"–"}
+  if(e.target.id==="f-dob"){const d=e.target.value;const el=document.getElementById("f-div");if(el)el.textContent=d?`${ageTxt(d)} · ${divisionOf(d)}`:"–"}
 });
 document.addEventListener("change",e=>{
   if(e.target.id==="teamSel"){B.updateAthlete(e.target.dataset.id,{team:e.target.value}).then(()=>toast(e.target.value?"Team set":"Team cleared"))}
