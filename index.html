@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0d0b14">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -21,7 +21,7 @@
   --txt:#f5f2fa; --mut:#9b93ad;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{background:var(--bg);color:var(--txt);font-family:Poppins,system-ui,sans-serif}
+html,body{background:var(--bg);color:var(--txt);font-family:Poppins,system-ui,sans-serif;-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:hidden}
 body{min-height:100vh}
 button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
 button{background:none;border:0;cursor:pointer}
@@ -39,7 +39,7 @@ button{background:none;border:0;cursor:pointer}
 .tools{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 18px 12px}
 .tool{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:9px 4px;font-size:12px;font-weight:600;text-align:center}
 .tool.on{border-color:var(--pink);color:var(--pink2)}
-.search{display:block;width:calc(100% - 36px);margin:0 18px 10px;background:var(--card);border-radius:12px;padding:11px 14px;font-size:14px;border:1px solid var(--line);outline:none}
+.search{display:block;width:calc(100% - 36px);margin:0 18px 10px;background:var(--card);border-radius:12px;padding:11px 14px;font-size:16px;border:1px solid var(--line);outline:none}
 .search:focus{border-color:var(--pink)}
 .chips{display:flex;gap:6px;padding:0 18px 10px;overflow-x:auto;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
@@ -80,7 +80,7 @@ button{background:none;border:0;cursor:pointer}
 .tags{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;margin:10px 18px 14px}
 .tag{font-size:11px;padding:5px 10px;border-radius:10px;background:var(--card2);border:1px solid var(--line)}
 .tag.pk{color:var(--pink2)}.tag.gd{color:var(--gold)}.tag.tl{color:var(--teal)}
-.teamsel{background:var(--card2);border:1px solid var(--gold);color:var(--gold);border-radius:10px;font-size:11px;padding:4px 8px;outline:none}
+.teamsel{background:var(--card2);border:1px solid var(--gold);color:var(--gold);border-radius:10px;font-size:16px;max-width:100%;padding:4px 8px;outline:none}
 .tabs{display:flex;margin:0 18px 14px;background:var(--card);border-radius:14px;padding:4px;position:sticky;top:0;z-index:5}
 .tabs button{flex:1;text-align:center;font-size:12px;padding:9px 0;border-radius:10px;color:var(--mut)}
 .tabs .on{background:var(--pink);color:#fff;font-weight:600}
@@ -121,10 +121,11 @@ textarea.in{min-height:80px;resize:vertical}
 /* forms */
 .form{padding:0 18px}
 label{display:block;font-size:11px;color:var(--mut);margin:0 0 5px 2px}
-.in{display:block;width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;margin-bottom:12px;outline:none}
+.in{display:block;width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:16px;margin-bottom:12px;outline:none}
 .in:focus{border-color:var(--pink)}
 select.in{appearance:none;-webkit-appearance:none}
-input[type=date].in{min-height:46px}
+input[type=date].in{min-height:46px;min-width:0;-webkit-appearance:none;appearance:none}
+.row>*,.grid>*,.tools>*,.stats>*{min-width:0}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .auto{background:var(--card2);border:1px solid var(--pink);color:var(--pink2);border-radius:12px;padding:12px 14px;font-size:13px;margin-bottom:12px;font-weight:600;min-height:46px}
 .btn{display:block;width:100%;background:var(--pink);color:#fff;text-align:center;font-weight:700;border-radius:16px;padding:14px;font-size:15px}
@@ -656,7 +657,7 @@ function vSettings(){
     <label for="s-div">Divisions (name: oldest age)</label><textarea class="in" id="s-div" rows="6" data-keep>${esc(divTxt)}</textarea>
     <div class="help">One per line, youngest first. E.g. "Mini: 9" means age 9 and under (after Tiny).</div>
     <label for="s-teams">Teams (for placements)</label><textarea class="in" id="s-teams" rows="5" placeholder="One team per line" data-keep>${esc((st.teams||[]).join("\n"))}</textarea>
-    <label for="s-skills">Skills checklist</label><textarea class="in" id="s-skills" rows="16" data-keep style="font-size:13px">${esc(skillsTxt)}</textarea>
+    <label for="s-skills">Skills checklist</label><textarea class="in" id="s-skills" rows="16" data-keep>${esc(skillsTxt)}</textarea>
     <div class="help">Start a category with #, then one skill per line underneath. Renaming a skill clears ticks already given for it.</div>
     <button class="btn" data-act="saveSettings">Save settings</button>
     <div class="sect" style="margin-top:28px">Data</div>
