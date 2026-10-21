@@ -181,6 +181,12 @@ button{background:none;border:0;cursor:pointer}
 .donebtn{flex:none;font-family:var(--disp);font-stretch:118%;text-transform:uppercase;font-weight:900;font-size:10px;letter-spacing:.03em;border-radius:10px;padding:9px 11px;background:var(--badbg);color:var(--bad)}
 .donebtn.yes{background:var(--ok);color:#fff}
 .donechoice{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cfbtns{display:grid;gap:8px}
+.cfoot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px 10px;background:var(--okbg);border-radius:12px;padding:10px 12px;margin-top:14px;font-size:12.5px;color:var(--ok)}
+.cfoot b{color:var(--ink)}.cfoot .linkbtn{margin:0;padding:2px;color:var(--mut)}
+.btn.cbtn.cdone{border-color:var(--ok);color:var(--ok)}
+.chip.dim{opacity:.45}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--bg)}
 .btn.okbtn{background:var(--ok)}.btn.nobtn{background:var(--badbg);color:var(--bad)}
 .tcard .cat-h{align-items:center}
 .tstat{font-family:var(--body)!important;font-stretch:100%!important;font-size:10.5px!important;font-weight:800!important;opacity:1!important;padding:3px 8px;border-radius:8px;background:rgba(255,255,255,.75);color:var(--mut)!important}
@@ -351,10 +357,10 @@ input[type=date].in{min-height:46px;min-width:0;-webkit-appearance:none;appearan
 .install .go{background:var(--pink);color:#fff;font-weight:800;border-radius:10px;padding:8px 12px;font-size:12px;flex:none}
 .install .x{color:var(--mut);font-size:18px;padding:2px 4px;flex:none}
 /* modal + toast */
-#modal{position:fixed;inset:0;z-index:50;display:none}
+#modal{position:fixed;inset:0;z-index:50;display:none;height:100%}
 #modal.open{display:block}
 .mback{position:absolute;inset:0;background:rgba(20,18,20,.45)}
-.mbox{position:absolute;left:0;right:0;bottom:0;max-width:520px;margin:0 auto;background:#fff;border-radius:24px 24px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom));max-height:92vh;overflow:auto}
+.mbox{position:absolute;left:0;right:0;bottom:0;max-width:520px;margin:0 auto;background:#fff;border-radius:24px 24px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom));max-height:calc(100% - env(safe-area-inset-top,0px) - 14px);overflow:auto}
 .mbox h3{font-size:14px;font-weight:900;margin-bottom:12px}
 .mbox .info{margin:0;box-shadow:none;border:0;padding:0}
 .askq{font-size:16px;font-weight:700;line-height:1.35;margin:2px 0 16px}
@@ -516,15 +522,25 @@ const APPROVALS_NEEDED=2;
 const AGES5=["Tiny","Mini","Youth","Junior","Senior"];
 const TIERS={
   cheer:[
-    {id:"sport",name:"Cheer Sport",teams:AGES5.map(d=>({name:"Cheer Sport "+d,div:d}))},
-    {id:"novice",name:"Novice",teams:[{name:"Baby Boss",sub:"Tiny",div:"Tiny"},{name:"Cheetahs",sub:"Mini",div:"Mini"}]},
-    {id:"elite",name:"Elite / Premier",teams:[{name:"Tiny Diamonds",sub:"Tiny 1",div:"Tiny"},{name:"IBK",sub:"Mini 1",div:"Mini"},{name:"Lady Lynx",sub:"Youth 1",div:"Youth"},{name:"Pink Kitties",sub:"Youth 2",div:"Youth"},{name:"Pink Assassins",sub:"Senior 2",div:"Senior"},{name:"Claw Katz",sub:"Senior 3",div:"Senior"},{name:"LD",sub:"Senior 4",div:"Senior"},{name:"Pink Panthers",sub:"Senior 5",div:"Senior"},{name:"Open team",sub:"Open",div:"Open"}]}],
+    {id:"sport",name:"Cheer Sport",teams:AGES5.map(d=>({name:"Cheer Sport "+d,div:d,rule:d.toLowerCase()}))},
+    {id:"novice",name:"Novice",teams:[{name:"Baby Boss",sub:"Tiny Novice",div:"Tiny",rule:"tinyN"},{name:"Cheetahs",sub:"Mini Novice",div:"Mini",rule:"miniN"}]},
+    {id:"elite",name:"Elite / Premier",teams:[{name:"Tiny Diamonds",sub:"Tiny 1",div:"Tiny",rule:"tiny"},{name:"IBK",sub:"Mini 1",div:"Mini",rule:"mini"},{name:"Lady Lynx",sub:"Youth 1",div:"Youth",rule:"youth"},{name:"Pink Kitties",sub:"Youth 2",div:"Youth",rule:"youth"},{name:"Pink Assassins",sub:"Senior 2",div:"Senior",rule:"senior"},{name:"Claw Katz",sub:"Senior 3",div:"Senior",rule:"senior"},{name:"LD",sub:"Senior 4",div:"Senior",rule:"senior"},{name:"Pink Panthers",sub:"Senior 5",div:"Senior",rule:"senior"},{name:"Open team",sub:"Open",div:"Open",rule:"open"}]}],
   dance:[
-    {id:"dancestars",name:"Dancestars",teams:AGES5.map(d=>({name:"Dancestars "+d,div:d}))},
-    {id:"novice",name:"Novice",teams:AGES5.map(d=>({name:"Dance Novice "+d,div:d}))},
-    {id:"intermediate",name:"Intermediate",teams:AGES5.map(d=>({name:"Dance Intermediate "+d,div:d}))},
-    {id:"premier",name:"Premier",teams:[...AGES5,"Open"].map(d=>({name:"Dance Premier "+d,div:d}))}]
+    {id:"dancestars",name:"Dancestars",teams:AGES5.map(d=>({name:"Dancestars "+d,div:d,rule:d.toLowerCase()+"N"}))},
+    {id:"novice",name:"Novice",teams:AGES5.map(d=>({name:"Dance Novice "+d,div:d,rule:d.toLowerCase()+"N"}))},
+    {id:"intermediate",name:"Intermediate",teams:AGES5.map(d=>({name:"Dance Intermediate "+d,div:d,rule:d.toLowerCase()}))},
+    {id:"premier",name:"Premier",teams:[...AGES5,"Open"].map(d=>({name:"Dance Premier "+d,div:d,rule:d.toLowerCase()}))}]
 };
+/* AASCF age grid (2026 grid moved forward one year for 2027). Ages = age at 31 Dec of the season year. Mixed / all-girl splits ignored. */
+const GRID={
+  cheer:{tinyN:[4,6],tiny:[5,6],miniN:[4,9],mini:[5,9],youthN:[5,12],youth:[6,12],juniorN:[7,15],junior:[8,15],junior56:[10,16],seniorN:[10,18],senior:[11,18],senior6:[13,18],open:[14,99],open7:[16,99]},
+  dance:{tinyN:[0,6],tiny:[4,6],miniN:[0,9],mini:[5,9],youthN:[0,12],youth:[6,12],juniorN:[0,16],junior:[8,16],seniorN:[0,18],senior:[11,18],openN:[14,99],open:[14,99]}
+};
+const GRID_ROWS={
+  cheer:[["Tiny","Novice","tinyN"],["Tiny","L1","tiny"],["Mini","Novice","miniN"],["Mini","L1–2","mini"],["Youth","Novice","youthN"],["Youth","L1–4","youth"],["Junior","Novice","juniorN"],["Junior","L1–4","junior"],["Junior","L5–6","junior56"],["Senior","Novice","seniorN"],["Senior","L1–5","senior"],["Senior","L6","senior6"],["Open","L1–6","open"],["Open","L7","open7"]],
+  dance:[["Tiny","Novice","tinyN"],["Tiny","Int / Allstar","tiny"],["Mini","Novice","miniN"],["Mini","Int / Allstar","mini"],["Youth","Novice","youthN"],["Youth","Int / Allstar","youth"],["Junior","Novice","juniorN"],["Junior","Int / Allstar","junior"],["Senior","Novice","seniorN"],["Senior","Int / Allstar","senior"],["Open","Novice","openN"],["Open","Int / Allstar","open"]]
+};
+const AGE_GROUPS=["Tiny","Mini","Youth","Junior","Senior","Open"];
 const SECTIONS=[["contact","Contact details"],["experience","Athlete experience"],["assessment","Assessment"],["teams","Suggested teams"]];
 const RATING = {0:{t:"No",c:"no",s:"✕"},1:{t:"Working",c:"wk",s:"~"},2:{t:"Has it",c:"ys",s:"✓"}};
 
@@ -554,6 +570,15 @@ function today(){const n=new Date();return [n.getFullYear(),n.getMonth()+1,n.get
 function ageNow(dob){return ageAt(dob,today())}
 function ageYear(){const d=ymd(S.settings.ageAsAt);return d?d[0]:today()[0]}
 function divAge(dob){return ageAt(dob,ymd(S.settings.ageAsAt)||today())}
+function inRule(disc,rule,age){const r=(GRID[disc]||{})[rule];return !!r&&age!=null&&age>=r[0]&&age<=r[1]}
+function discsFor(a){const d=discsOf(a);return d.length?d:["cheer","dance"]}
+function groupsAge(age,discs){if(age==null)return [];return AGE_GROUPS.filter(g=>discs.some(d=>GRID_ROWS[d].some(r=>r[0]===g&&inRule(d,r[2],age))))}
+function groupsOf(a){return a&&a.dob?groupsAge(divAge(a.dob),discsFor(a)):[]}
+function groupsMainAge(age,discs){if(age==null)return [];const m=AGE_GROUPS.filter(g=>discs.some(d=>GRID_ROWS[d].some(r=>r[0]===g&&r[1]!=="Novice"&&inRule(d,r[2],age))));return m.length?m:groupsAge(age,discs)}
+function groupsMain(a){return a&&a.dob?groupsMainAge(divAge(a.dob),discsFor(a)):[]}
+function divLabel(a){return groupsMain(a).join(" / ")}
+function eligDetail(disc,age){if(age==null)return "";const out=[];AGE_GROUPS.forEach(g=>{const rows=GRID_ROWS[disc].filter(r=>r[0]===g);const ok=rows.filter(r=>inRule(disc,r[2],age));if(!ok.length)return;out.push(ok.length===rows.length?g:g+" "+ok.map(r=>r[1]).join(", "))});return out.join(" · ")}
+function teamOk(a,disc,t){if(!a.dob)return true;return inRule(disc,t.rule,divAge(a.dob))}
 function divisionOf(dob){const a=divAge(dob);if(a==null)return "";const ds=S.settings.divisions||[];for(const d of ds){if(a<=d.max)return d.name}return ds.length?ds[ds.length-1].name:""}
 function fmtDob(dob){const d=ymd(dob);return d?`${String(d[2]).padStart(2,"0")}/${String(d[1]).padStart(2,"0")}/${d[0]}`:""}
 function fmtWhen(ts){const d=new Date(ts);return d.toLocaleDateString("en-AU",{day:"numeric",month:"short"})+", "+d.toLocaleTimeString("en-AU",{hour:"numeric",minute:"2-digit"})}
@@ -591,7 +616,24 @@ function teamLbl(p){return p.team?p.team+(p.sub?` · ${p.sub}`:""):""}
 function computeTeam(a,over={}){return discsOf(a).map(d=>{const p=over[d]||plc(a,d);return isFinal(p)?teamLbl(p):""}).filter(Boolean).join(" / ")}
 function approvedAll(a){const ds=discsOf(a);return ds.length>0&&ds.every(d=>isFinal(plc(a,d)))}
 function doneOf(a,k){return ((a.done||{})[k])||null}
-function doneBtn(a,k,cls=""){const d=doneOf(a,k);return d?`<button class="donebtn yes ${cls}" data-act="doneAsk" data-k="${k}">✓ Complete</button>`:`<button class="donebtn ${cls}" data-act="doneAsk" data-k="${k}">Mark complete</button>`}
+function doneBtn(a,k,cls=""){const d=doneOf(a,k);return d?`<button class="donebtn yes ${cls}" data-act="doneAsk" data-k="${k}">✓ Complete</button>`:`<button class="donebtn ${cls}" data-act="doneAsk" data-k="${k}">Mark as complete</button>`}
+const CONFIRM_TXT={
+  contact:{t:"Confirm contact details",b:n=>`Please check ${n}'s name, date of birth, parent details and medical notes are filled in and correct.`},
+  experience:{t:"Confirm athlete experience",b:n=>`Please check ${n}'s cheer and dance experience and tumbling level are filled in and correct.`},
+  assessment:{t:"Confirm assessment",b:n=>`Please check all of ${n}'s skills have been assessed and any videos are uploaded.`},
+  teams:{t:"Confirm suggested teams",b:n=>`Please check a team has been suggested for each of ${n}'s tryouts.`}};
+function confirmComplete(a,k,back){
+  const c=CONFIRM_TXT[k],lbl=(SECTIONS.find(x=>x[0]===k)||[k,k])[1],n=a.first||"this athlete";
+  return new Promise(res=>{S.cfRes=res;
+    openModal(`<h3>${esc(c.t)}</h3><p class="askq" style="font-weight:500;font-size:15px">${esc(c.b(n))}</p>
+      <p class="sub" style="margin:-8px 0 16px">Confirming ticks off <b>${esc(lbl)}</b> on the profile checklist.</p>
+      <div class="cfbtns"><button class="btn okbtn" data-act="cfAns" data-v="yes">Yes, it's all complete</button>
+      <button class="btn ghost" data-act="cfAns" data-v="later">No, save for later</button></div>
+      ${back?`<button class="linkbtn" data-act="cfAns" data-v="back">Go back and keep editing</button>`:""}`,{sticky:true});
+  });
+}
+function doneFoot(a,k){const d=doneOf(a,k);
+  return d?`<div class="cfoot yes"><span>✓ Marked complete by <b>${esc(d.by||"")}</b> · ${fmtDay(d.at)}</span><button class="linkbtn" data-act="undoneAsk" data-k="${k}">Mark as not complete</button></div>`:""}
 function teamSummary(a){const ds=discsOf(a);if(!ds.length)return "";return ds.map(d=>{const p=plc(a,d);return p.team?(isFinal(p)?"✓ ":"")+teamLbl(p):""}).filter(Boolean).join(" / ")}
 function checklist(a){const items=[["Contact",!!doneOf(a,"contact")],["Experience",!!doneOf(a,"experience")],["Assessment",!!doneOf(a,"assessment")],["Suggested team",!!doneOf(a,"teams")],["Approved",approvedAll(a)]];
   return `<ul class="chk">${items.map(([l,ok])=>`<li class="${ok?"y":"n"}"><i>${ok?"✓":"✕"}</i>${l}</li>`).join("")}</ul>`}
@@ -696,7 +738,7 @@ function FirebaseBackend(){
 
 /* ======================= BACKEND: DEMO (this device only) ======================= */
 function DemoBackend(){
-  const K="eodth_demo_v4";let data,onA=()=>{},onS=()=>{},authCb=()=>{};
+  const K="eodth_demo_v5";let data,onA=()=>{},onS=()=>{},authCb=()=>{};
   const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v);return true}catch(e){return false}}};
   function seed(){
     const sk=(o)=>o;
@@ -767,7 +809,7 @@ function vLogin(){
 function filtered(){
   const q=S.q.trim().toLowerCase();
   return S.athletes.filter(a=>{
-    if(S.div!=="All"&&divisionOf(a.dob)!==S.div)return false;
+    if(S.div!=="All"&&!groupsOf(a).includes(S.div))return false;
     if(S.status!=="All"&&statusOf(a)!==S.status)return false;
     if(q){const hay=(fullName(a)+" "+pad3(a.num)+" "+a.num+" "+(a.team||"")).toLowerCase();if(!hay.includes(q))return false}
     return true;
@@ -777,7 +819,7 @@ function filtered(){
 function vHome(){
   const all=S.athletes,list=filtered();
   const assessed=all.filter(a=>statusOf(a)!=="new").length;
-  const divs=["All",...(S.settings.divisions||[]).map(d=>d.name)];
+  const divs=["All",...AGE_GROUPS];
   const sts=[["All","All"],["new","To see"],["assessed","Assessed"],["placed","Placed"]];
   return `
   <div class="top"><div class="brand"><img src="icons/logo.webp" alt="EOD Allstars"><div><div class="logo"><span>Tryouts</span></div><div class="sub">${esc(S.settings.season)} ✦</div></div></div>
@@ -807,7 +849,7 @@ function tile(a){
     <div class="ph ${grad(a)}"><span class="num">${pad3(a.num)}</span>${photoHtml(a)}</div>
     <span class="badge b-${st}">${STATUS_LABEL[st]}</span>
     ${S.compareMode?`<span class="check">${sel?"✓":""}</span>`:""}
-    <h4>${esc(fullName(a))}</h4><p>${a.dob?`${ageTxt(a.dob)} · ${esc(divisionOf(a.dob))}`:"No DOB"}</p>${a.team?`<p class="tteam">★ ${esc(a.team)}</p>`:""}${checklist(a)}</button>`;
+    <h4>${esc(fullName(a))}</h4><p>${a.dob?`${ageTxt(a.dob)} · ${esc(divLabel(a))}`:"No DOB"}</p>${a.team?`<p class="tteam">★ ${esc(a.team)}</p>`:""}${checklist(a)}</button>`;
 }
 
 function expCard(a){
@@ -815,8 +857,8 @@ function expCard(a){
     <p>Cheer, dance or both, their experience and tumbling level.</p><button class="btn" data-act="asmtOpen">Start assessment</button></div>`;
   const r=(l,v)=>`<div class="r2"><span>${l}</span><b>${v?esc(v):"–"}</b></div>`;
   const ch=a.tryoutType==="cheer"||a.tryoutType==="both",da=a.tryoutType==="dance"||a.tryoutType==="both";
-  let h=`<div class="exp ${ch&&da?"two":""}"><div class="exp-h"><h4>Athlete experience</h4><span class="eh-b"><button data-act="asmtOpen">Edit</button><button class="dpill ${doneOf(a,"experience")?"yes":""}" data-act="doneAsk" data-k="experience">${doneOf(a,"experience")?"✓ Done":"Done?"}</button></span></div>
-    <div class="meta">${a.dob?`<i>${esc(divisionOf(a.dob))} · Age ${divAge(a.dob)}<em> in ${ageYear()}</em></i>`:`<i>No DOB</i>`}<i><em>Trying out for </em>${esc(TYPE_LABEL[a.tryoutType])}</i></div>`;
+  let h=`<div class="exp ${ch&&da?"two":""}"><div class="exp-h"><h4>Athlete experience</h4><span class="eh-b"><button data-act="asmtOpen">Edit</button><button class="dpill ${doneOf(a,"experience")?"yes":""}" data-act="asmtOpen">${doneOf(a,"experience")?"✓ Done":"To finish"}</button></span></div>
+    <div class="meta">${a.dob?`<i>${esc(divLabel(a))} · Age ${divAge(a.dob)}<em> in ${ageYear()}</em></i>`:`<i>No DOB</i>`}<i><em>Trying out for </em>${esc(TYPE_LABEL[a.tryoutType])}</i></div>`;
   if(ch)h+=`<div class="sub2"><div class="hd">Cheer</div>
     ${r("Level",a.cheerLevel)}${r("Position",(a.cheerPositions||[]).join(", "))}${r("Tumbling",levelsTxt(a))}
     ${a.cheerAssessNotes?`<div class="nt2"><b>Notes</b>${esc(a.cheerAssessNotes)}</div>`:""}</div>`;
@@ -851,12 +893,12 @@ function vProfile(){
     <img class="hlogo" src="icons/logo.webp" alt="">
   </div>
   <div class="namebar"><div class="nm"><h2>${esc(fullName(a))}</h2><p>Tryout ${pad3(a.num)}</p>
-    <div class="tags">${a.dob?`<span class="tag pk">${esc(divisionOf(a.dob))}</span>`:""}${a.tryoutType?`<span class="tag">${esc(TYPE_LABEL[a.tryoutType])}</span>`:""}<span class="tag ${st==="placed"?"pk":st==="assessed"?"tl":"gd"}">${STATUS_LABEL[st]}</span></div></div>
+    <div class="tags">${groupsMain(a).map(g=>`<span class="tag pk">${esc(g)}</span>`).join("")}${a.tryoutType?`<span class="tag">${esc(TYPE_LABEL[a.tryoutType])}</span>`:""}<span class="tag ${st==="placed"?"pk":st==="assessed"?"tl":"gd"}">${STATUS_LABEL[st]}</span></div></div>
     ${teamSel}</div>
   <div class="profcols">
     <div class="pcol"><div class="pphoto ${grad(a)}"><span class="num">${pad3(a.num)}</span>${a.photoURL?`<img src="${esc(a.photoURL)}" alt="">`:`<span class="ini">${esc(initials(a))}</span>`}
       <button class="pcam" data-act="photo" aria-label="Change photo">📷</button></div>
-      <button class="btn ghost cbtn" data-act="contact">☎ Contact info</button></div>
+      <button class="btn ghost cbtn ${doneOf(a,"contact")?"cdone":""}" data-act="contact">☎ Contact info${doneOf(a,"contact")?" ✓":""}</button></div>
     <div class="expwrap">${expCard(a)}</div>
   </div>
   <div class="tabs">${tabs.map(([k,t])=>`<button class="${S.tab===k?"on":""}" data-act="tab" data-v="${k}">${t}</button>`).join("")}</div>
@@ -869,7 +911,7 @@ function tInfo(a){
     ${r("Name",esc(fullName(a)))}
     ${r("Date of birth",a.dob?`${fmtDob(a.dob)}`:"")}
     ${r(`Age in ${ageYear()}`,a.dob?String(da):"")}
-    ${r("Age group",esc(divisionOf(a.dob)))}
+    ${a.dob?discsFor(a).map(d=>r(`${d==="cheer"?"Cheer":"Dance"} age groups`,esc(eligDetail(d,divAge(a.dob))||"None"))).join(""):r("Age groups","")}
     ${r("Tumbling levels",hasLevels(a)?esc(+a.tumbleMain===0?"All levels":`Level ${a.tumbleMain} main${a.tumbleSecond?`, Level ${a.tumbleSecond} secondary`:""}`):"")}
     ${r("Parent",esc(a.parentName))}
     ${r("Phone",a.parentPhone?`<a href="tel:${esc(a.parentPhone.replace(/\s/g,""))}">${esc(a.parentPhone)}</a>`:"")}
@@ -878,7 +920,7 @@ function tInfo(a){
     ${r("Experience",esc(a.experience))}
     ${r("Medical notes",esc(a.medical),a.medical?"med":"")}
   </div>
-  <button class="btn ghost" data-act="contactEdit" style="margin-top:14px">✎ Edit details</button>`;
+`;
 }
 function vidCard(v,i){
   return `<button class="vcard" data-act="playVid" data-at="${v.at}">
@@ -995,7 +1037,9 @@ function asmtHtml(){
       ${Object.keys(d.styles||{}).map(st=>`<div class="stylebox"><b>${esc(st)} level</b><div class="chips">${DANCE_LEVELS.map(l=>`<button class="chip ${d.styles[st]===l?"on":""}" data-act="asStyleLvl" data-s="${esc(st)}" data-v="${esc(l)}">${esc(l)}</button>`).join("")}</div></div>`).join("")}`:""}
     ${d.danceAllstar===false?`<div class="aq">Dance experience</div><div class="chips">${DANCE_EXP.map(x=>chip("asExp",x,d.danceExp===x)).join("")}</div>`:""}
     <div class="aq">Additional notes</div><textarea class="in" id="as-dn" placeholder="Anything else about their dance background">${esc(d.danceNotes||"")}</textarea></div>`;
-  return h+`<button class="btn" data-act="asmtSave">Save assessment</button>`;
+  const a=find(d.id),dn=a&&doneOf(a,"experience");
+  return h+(dn?`${doneFoot(a,"experience")}<button class="btn" data-act="asmtSave" style="margin-top:10px">Save changes</button>`
+    :`<div class="cfbtns"><button class="btn okbtn" data-act="asmtSave" data-done="1">✓ Save &amp; mark complete</button><button class="btn ghost" data-act="asmtSave">Save for later</button></div>`);
 }
 function asmtRender(){
   const box=document.querySelector("#modal .mbox"),y=box?box.scrollTop:0;
@@ -1010,7 +1054,7 @@ function tTeams(a){
   const ds=discsOf(a);
   let out="";
   if(!ds.length)out+=`<div class="lvlcard" style="text-align:center"><h4>Assessment needed first</h4><div class="sub" style="margin-bottom:12px">Choose cheer, dance or both in the athlete assessment to see team options.</div><button class="btn" data-act="asmtOpen">Start assessment</button></div>`;
-  const div=divisionOf(a.dob),me=myEmail(),dir=isDirector();
+  const me=myEmail(),dir=isDirector();
   out+=`<div class="skillcols tcols">`+ds.map((d,i)=>{
     const p=plc(a,d),apr=apprList(p),fin=isFinal(p),tiers=TIERS[d];
     const dr=(S.tierDraft&&S.tierDraft.id===a.id&&S.tierDraft[d])||p.tier||null;
@@ -1019,9 +1063,12 @@ function tTeams(a){
     if(fin){
       h+=`<div class="finbox"><small>Final team</small><b>${esc(p.team)}</b>${p.sub?`<span>${esc(p.sub)}</span>`:""}</div>`;
     }else{
-      h+=`<div class="aq">1 · Tier</div><div class="chips tchips">${tiers.map(t=>`<button class="chip ${dr===t.id?"on":""}" data-act="tTier" data-d="${d}" data-v="${t.id}">${esc(t.name)}</button>`).join("")}</div>`;
-      if(tier)h+=`<div class="aq">2 · Suggested team</div><div class="tgrid">${tier.teams.map(t=>{const on=p.team===t.name;const match=div&&t.div===div;
-        return `<button class="tbtn ${on?"on":""} ${match?"match":""}" data-act="tPick" data-d="${d}" data-tier="${tier.id}" data-v="${esc(t.name)}" data-sub="${esc(t.sub||"")}"><b>${esc(t.name)}</b>${t.sub?`<span>${esc(t.sub)}</span>`:""}${match?`<em>${esc(div)} age</em>`:""}</button>`}).join("")}</div>`;
+      h+=`<div class="aq">1 · Tier</div><div class="chips tchips">${tiers.map(t=>{const n=t.teams.filter(x=>teamOk(a,d,x)).length;return `<button class="chip ${dr===t.id?"on":""} ${n?"":"dim"}" data-act="tTier" data-d="${d}" data-v="${t.id}">${esc(t.name)}${a.dob?` (${n})`:""}</button>`}).join("")}</div>`;
+      if(tier){const el=tier.teams.filter(t=>teamOk(a,d,t)||p.team===t.name);
+        h+=`<div class="aq">2 · Suggested team <small>· ${a.dob?`teams ${esc(a.first||"they")} ${a.first?"is":"are"} age-eligible for`:"add a DOB to filter by age"}</small></div>`;
+        h+=el.length?`<div class="tgrid">${el.map(t=>{const on=p.team===t.name,bad=!teamOk(a,d,t);
+          return `<button class="tbtn ${on?"on":""}" data-act="tPick" data-d="${d}" data-tier="${tier.id}" data-v="${esc(t.name)}" data-sub="${esc(t.sub||"")}"><b>${esc(t.name)}</b>${t.sub?`<span>${esc(t.sub)}</span>`:""}${bad?`<em>Not age-eligible</em>`:""}</button>`}).join("")}</div>`
+          :`<p class="help" style="margin:2px 0 0">No ${esc(tier.name)} teams for ${esc(a.first||"this athlete")}'s age (${divAge(a.dob)} in ${ageYear()}). Try another tier.</p>`;}
       else h+=`<p class="help" style="margin:4px 0 0">Pick a tier to see its teams.</p>`;
     }
     if(p.team){
@@ -1062,7 +1109,7 @@ function vForm(){
       <button class="pp main" data-act="formPhoto" data-v="camera"><i>📷</i>Take photo</button>
       <button class="pp" data-act="formPhoto" data-v="roll"><i>🖼️</i>Camera roll</button></div>
     <div class="row"><div>${f("first","First name",a.first)}</div><div>${f("last","Last name",a.last)}</div></div>
-    <div class="row"><div>${f("dob","Date of birth",a.dob,"date")}</div><div><label>Division (auto)</label><div class="auto" id="f-div">${a.dob?`${ageTxt(a.dob)} · ${esc(divisionOf(a.dob))}`:"–"}</div></div></div>
+    <div class="row"><div>${f("dob","Date of birth",a.dob,"date")}</div><div><label>Division (auto)</label><div class="auto" id="f-div">${a.dob?`${ageTxt(a.dob)} · ${esc(groupsMainAge(divAge(a.dob),["cheer","dance"]).join(" / "))}`:"–"}</div></div></div>
     <div class="row"><div><label for="f-lvlMain">Main tumbling level</label><select class="in" id="f-lvlMain" data-keep><option value="">Set later</option><option value="0" ${a.tumbleMain===0?"selected":""}>All levels</option>${levelList().map(l=>`<option value="${l}" ${+a.tumbleMain===l&&a.tumbleMain!==0?"selected":""}>Level ${l}</option>`).join("")}</select></div>
       <div><label for="f-lvlSec">Secondary level</label><select class="in" id="f-lvlSec" data-keep><option value="">None</option>${levelList().map(l=>`<option value="${l}" ${+a.tumbleSecond===l?"selected":""}>Level ${l}</option>`).join("")}</select></div></div>
     ${f("parentName","Parent name",a.parentName,"text","e.g. Jess Moreno")}
@@ -1070,7 +1117,8 @@ function vForm(){
     ${f("prevGym","Previous gym",a.prevGym,"text","Optional")}
     ${f("experience","Experience",a.experience,"text","e.g. 2 years rec, 1 year allstar")}
     <label for="f-medical">Medical notes</label><textarea class="in" id="f-medical" placeholder="Injuries, conditions, allergies" data-keep>${esc(a.medical||"")}</textarea>
-    <button class="btn" data-act="saveForm" id="saveBtn">${isEdit?"Save changes":"Save athlete"}</button>
+    ${isEdit&&doneOf(a,"contact")?`<button class="btn" data-act="saveForm" id="saveBtn">Save changes</button>`
+      :`<div class="cfbtns"><button class="btn okbtn" data-act="saveForm" data-done="1" id="saveBtn">✓ Save &amp; mark complete</button><button class="btn ghost" data-act="saveForm">Save for later</button></div>`}
     ${isEdit?`<button class="btn danger" data-act="delAthlete" style="margin-top:22px">Delete athlete</button>`:""}
   </div>`;
 }
@@ -1078,10 +1126,10 @@ function vForm(){
 function vQuick(){
   const qa=S.qa;
   if(!qa.skill){
-    const divs=["All",...(S.settings.divisions||[]).map(d=>d.name)];
+    const divs=["All",...AGE_GROUPS];
     return `<div class="top"><button class="icon" data-act="go" data-v="home">✕</button><div class="logo" style="font-size:16px">Quick <span>Assess</span></div><span style="width:38px"></span></div>
     <div class="form"><div class="sect" style="margin-top:4px">1. Division</div>
-      <div class="skillpick">${divs.map(d=>`<button class="chip ${qa.div===d?"on":""}" data-act="qaDiv" data-v="${esc(d)}">${esc(d)} (${S.athletes.filter(a=>d==="All"||divisionOf(a.dob)===d).length})</button>`).join("")}</div>
+      <div class="skillpick">${divs.map(d=>`<button class="chip ${qa.div===d?"on":""}" data-act="qaDiv" data-v="${esc(d)}">${esc(d)} (${S.athletes.filter(a=>d==="All"||groupsOf(a).includes(d)).length})</button>`).join("")}</div>
       <div class="sect">2. Skill</div>
       ${cats().map(c=>{const groups=[...new Set(c.items.map(i=>i.level||0))];return groups.map(g=>`<div class="sub" style="margin:10px 0 6px">${esc(c.cat)}${g?` · <b style="color:var(--gold)">Level ${g}</b>`:""}</div><div class="skillpick">${c.items.filter(i=>(i.level||0)===g).map(i=>`<button class="chip" data-act="qaSkill" data-v="${esc(i.key)}">${esc(i.name)}</button>`).join("")}</div>`).join("")}).join("")}
       <p class="help" style="margin-top:14px">Tumbling skills only show athletes being assessed at that level (plus anyone whose levels aren't set yet).</p>
@@ -1101,7 +1149,7 @@ function vQuick(){
   <div class="prog"><span>${esc(qa.div==="All"?"All divisions":qa.div)}</span><span>${qa.i+1} of ${list.length}</span></div>
   <div class="bar" style="margin:0 18px"><i style="width:${(qa.i+1)/list.length*100}%"></i></div>
   <div class="qa-wrap"><div class="card-big"><div class="ph ${grad(a)}"><span class="num" style="font-size:15px;padding:4px 10px">${pad3(a.num)}</span>${photoHtml(a)}</div>
-    <h3>${esc(fullName(a))}</h3><p>${a.dob?`${ageTxt(a.dob)} · ${esc(divisionOf(a.dob))}`:""}${levelsTxt(a)?` · Tumbling ${levelsTxt(a)}`:""}</p>
+    <h3>${esc(fullName(a))}</h3><p>${a.dob?`${ageTxt(a.dob)} · ${esc(divLabel(a))}`:""}${levelsTxt(a)?` · Tumbling ${levelsTxt(a)}`:""}</p>
     <div class="cur sub">${v!=null?`Currently: <b class="dot-${RATING[v].c}">${RATING[v].t}</b>`:"Not assessed yet"}</div></div>
   <div><div class="btns">${[0,1,2].map(x=>`<button class="rb rb-${RATING[x].c} ${v===x?"on":""}" data-act="qaRate" data-v="${x}"><i>${RATING[x].s}</i>${RATING[x].t}</button>`).join("")}</div>
   <div class="qnav"><button data-act="qaPrev" ${qa.i===0?"disabled style='opacity:.3'":""}>‹ Back</button><button data-act="open" data-id="${a.id}">Profile</button><button data-act="qaNext">Skip ›</button></div>
@@ -1114,7 +1162,7 @@ function vCompare(){
   return `<div class="top"><button class="icon" data-act="go" data-v="home">‹</button><div class="logo" style="font-size:16px">Compare</div><span style="width:38px"></span></div>
   <div class="cmp"><table>
     <tr><th></th>${list.map(a=>`<th><div class="mini ${grad(a)}">${photoHtml(a)}</div>${esc(a.first||"")}<br><span class="sub">${pad3(a.num)}</span></th>`).join("")}</tr>
-    <tr><td class="sub">Age · Division</td>${list.map(a=>`<td class="sub">${a.dob?divAge(a.dob)+" · "+esc(divisionOf(a.dob)):"–"}</td>`).join("")}</tr>
+    <tr><td class="sub">Age · Division</td>${list.map(a=>`<td class="sub">${a.dob?divAge(a.dob)+" · "+esc(divLabel(a)):"–"}</td>`).join("")}</tr>
     <tr><td class="sub">Team</td>${list.map(a=>`<td class="sub">${esc(teamSummary(a)||"–")}</td>`).join("")}</tr>
     <tr><td class="sub">Trying out for</td>${list.map(a=>`<td class="sub">${esc(TYPE_LABEL[a.tryoutType]||"–")}</td>`).join("")}</tr>
     <tr><td class="sub">Cheer level</td>${list.map(a=>`<td class="sub">${esc(a.cheerLevel||"–")}</td>`).join("")}</tr>
@@ -1143,8 +1191,7 @@ function vSettings(){
     <div class="sect">Season</div>
     <label for="s-season">Season name</label><input class="in" id="s-season" value="${esc(st.season)}" data-keep>
     <label for="s-asat">Ages and divisions are worked out as at (age shown is their age on this date)</label><input class="in" id="s-asat" type="date" value="${esc(st.ageAsAt)}" data-keep>
-    <label for="s-div">Divisions (name: oldest age)</label><textarea class="in" id="s-div" rows="6" data-keep>${esc(divTxt)}</textarea>
-    <div class="help">One per line, youngest first. E.g. "Mini: 9" means age 9 and under (after Tiny).</div>
+    <div class="help">Age groups follow the AASCF cheer and dance age grids for ${esc(String(ageYear()))}, so athletes can be eligible for more than one.</div>
     <label for="s-skills">Skills checklist</label><textarea class="in" id="s-skills" rows="16" data-keep>${esc(skillsTxt)}</textarea>
     <div class="help">Start a category with #, then one skill per line underneath. Put L1 to L6 in front of a skill (like "L3: Round off BHS tuck") to tag its tumbling level. Renaming a skill clears ticks already given for it.</div>
     <button class="btn" data-act="saveSettings">Save settings</button>
@@ -1210,13 +1257,24 @@ const actions={
   open(el){go("profile",{id:el.dataset.id,tab:S.view==="quick"?"skills":(S.id===el.dataset.id?S.tab:"skills"),lvl:null})},
   tab(el){S.tab=el.dataset.v;render();const t=document.querySelector(".tabs");if(t&&window.scrollY>t.offsetTop)window.scrollTo(0,t.offsetTop-8)},
   contact(){const a=find(S.id);if(!a)return;
-    openModal(`<div class="mhead"><h3>Contact info</h3><button class="icon" data-act="closeModal" aria-label="Close">✕</button></div>
-      <div class="donebar ${doneOf(a,"contact")?"yes":""}" style="margin:0 0 12px"><span><b>Contact details</b></span>${doneBtn(a,"contact")}</div>${tInfo(a)}`)},
-  doneAsk(el){const a=find(S.id);if(!a)return;const k=el.dataset.k,lbl=(SECTIONS.find(x=>x[0]===k)||[k,k])[1],d=doneOf(a,k);
-    S.doneBack=document.querySelector("#modal.open .mhead h3")&&k==="contact";
-    openModal(`<h3>${esc(lbl)}</h3><p class="sub" style="margin:-4px 0 14px">${d?`Marked complete by ${esc(d.by||"")} on ${fmtDay(d.at)}.`:"Is this section complete?"}</p>
-      <div class="donechoice"><button class="btn okbtn" data-act="doneSet" data-k="${k}" data-v="1">✓ Complete</button><button class="btn nobtn" data-act="doneSet" data-k="${k}" data-v="0">✕ Not complete</button></div>
-      <button class="linkbtn" data-act="doneCancel">Cancel</button>`)},
+    const dn=doneOf(a,"contact");
+    openModal(`<div class="mhead"><h3>Contact info</h3><button class="icon" data-act="closeModal" aria-label="Close">✕</button></div>${tInfo(a)}
+      ${dn?doneFoot(a,"contact")+`<button class="btn ghost" data-act="contactEdit" style="margin-top:10px">✎ Edit details</button>`
+          :`<div class="cfbtns" style="margin-top:14px"><button class="btn okbtn" data-act="contactDone">✓ Mark as complete</button><button class="btn ghost" data-act="contactEdit">✎ Edit details</button></div>
+            <button class="linkbtn" data-act="closeModal">Not yet, finish later</button>`}`)},
+  async contactDone(){const a=find(S.id);const r=await confirmComplete(a,"contact",true);
+    if(r==="back"){actions.contact();return}closeModal();
+    if(r==="yes"){await B.setField(a.id,["done","contact"],{by:coachName(),at:Date.now()});toast("Contact details complete ✓")}else toast("Saved for later")},
+  cfAns(el){const r=S.cfRes;S.cfRes=null;if(r)r(el.dataset.v)},
+  async undoneAsk(el){const a=find(S.id),k=el.dataset.k,lbl=(SECTIONS.find(x=>x[0]===k)||[k,k])[1],wasContact=k==="contact"&&document.querySelector("#modal.open"),inAsmt=!!S.asmt;
+    if(!await ask(`Mark ${lbl.toLowerCase()} as not complete? It will show a red cross on the checklist again.`,"Mark as not complete")){if(wasContact)actions.contact();if(inAsmt)asmtRender();return}
+    await B.setField(a.id,["done",k],null);toast(`${lbl} marked as not complete`);if(wasContact)setTimeout(()=>actions.contact(),60);if(inAsmt)setTimeout(asmtRender,60)},
+  async doneAsk(el){const a=find(S.id);if(!a)return;const k=el.dataset.k;
+    if(k==="experience"){actions.asmtOpen();return}
+    if(k==="contact"){actions.contact();return}
+    if(doneOf(a,k)){actions.undoneAsk(el);return}
+    const r=await confirmComplete(a,k,false);closeModal();
+    if(r==="yes"){await B.setField(a.id,["done",k],{by:coachName(),at:Date.now()});toast(`${(SECTIONS.find(x=>x[0]===k)||[k,k])[1]} complete ✓`)}else toast("Saved for later")},
   async doneSet(el){const k=el.dataset.k,on=el.dataset.v==="1",back=S.doneBack;closeModal();
     try{await B.setField(S.id,["done",k],on?{by:coachName(),at:Date.now()}:null);toast(on?"Marked complete ✓":"Marked not complete")}catch(e){toast("Couldn't save: "+e.message)}
     if(back)setTimeout(()=>actions.contact(),50)},
@@ -1254,15 +1312,18 @@ const actions={
   asStyle(el){const st=el.dataset.v,o={...(S.asmt.styles||{})};if(st in o)delete o[st];else o[st]=null;S.asmt.styles=o;asmtRender()},
   asStyleLvl(el){S.asmt.styles[el.dataset.s]=S.asmt.styles[el.dataset.s]===el.dataset.v?null:el.dataset.v;asmtRender()},
   asExp(el){const v=el.dataset.v;S.asmt.danceExp=S.asmt.danceExp===v?null:v;asmtRender()},
-  async asmtSave(){
+  async asmtSave(el){
     const d=S.asmt;if(!d||!d.type){toast("Pick cheer, dance or both");return}
     const cn=document.getElementById("as-cn"),dn=document.getElementById("as-dn");if(cn)d.cheerNotes=cn.value;if(dn)d.danceNotes=dn.value;
+    let markDone=false;
+    if(el&&el.dataset.done){const r=await confirmComplete(find(d.id),"experience",true);if(r==="back"){asmtRender();return}markDone=r==="yes";}
     const p={tryoutType:d.type};
     if(d.type!=="dance")Object.assign(p,{cheerLevel:d.cheerLevel||null,cheerPositions:d.positions||[],tumbleMain:d.tumbleMain==null?null:d.tumbleMain,tumbleSecond:d.tumbleMain?d.tumbleSecond||null:null,cheerAssessNotes:(d.cheerNotes||"").trim()});
     if(d.type!=="cheer")Object.assign(p,{danceAllstar:d.danceAllstar,danceStyles:d.danceAllstar===true?d.styles||{}:{},danceExperience:d.danceAllstar===false?d.danceExp||null:null,danceAssessNotes:(d.danceNotes||"").trim()});
+    if(markDone)p["done.experience"]={by:coachName(),at:Date.now()};
     const btn=document.querySelector('[data-act="asmtSave"]');if(btn){btn.disabled=true;btn.textContent="Saving…"}
-    try{await B.updateAthlete(d.id,p);S.asmt=null;closeModal();render();toast("Assessment saved ✦")}
-    catch(e){toast("Couldn't save: "+(e.message||e));if(btn){btn.disabled=false;btn.textContent="Save assessment"}}
+    try{await B.updateAthlete(d.id,p);S.asmt=null;closeModal();render();toast(markDone?"Athlete experience complete ✓":(el&&el.dataset.done)||!doneOf(find(d.id),"experience")?"Saved for later":"Changes saved")}
+    catch(e){toast("Couldn't save: "+(e.message||e));closeModal()}
   },
   drate(el){const a=find(S.id),c=el.dataset.c,v=el.dataset.v,cur=((a.danceSkills||{})[c]||{}).level;
     B.setField(a.id,["danceSkills",c,"level"],cur===v?null:v).catch(e=>toast("Couldn't save: "+e.message))},
@@ -1278,22 +1339,23 @@ const actions={
     try{const blob=await compressImage(f);if(S.pendingPhoto)URL.revokeObjectURL(S.pendingPhoto.url);S.pendingPhoto={blob,url:URL.createObjectURL(blob)};render()}
     catch(e){toast("Couldn't read that photo")}
   },
-  async saveForm(){
+  async saveForm(el){
     const g=id=>(document.getElementById("f-"+id).value||"").trim();
     const d={first:g("first"),last:g("last"),dob:g("dob"),parentName:g("parentName"),parentPhone:g("parentPhone"),parentEmail:g("parentEmail"),prevGym:g("prevGym"),experience:g("experience"),medical:g("medical")};
     const lm=document.getElementById("f-lvlMain").value,ls=document.getElementById("f-lvlSec").value;
     d.tumbleMain=lm===""?null:+lm;d.tumbleSecond=(ls===""||d.tumbleMain===0||+ls===d.tumbleMain)?null:+ls;
     if(!d.first){toast("First name is needed");return}
-    const btn=document.getElementById("saveBtn");btn.disabled=true;btn.textContent="Saving…";
+    if(el&&el.dataset.done){const r=await confirmComplete({first:d.first},"contact",true);closeModal();if(r==="back")return;if(r==="yes")d["done.contact"]={by:coachName(),at:Date.now()};}
+    const btn=document.getElementById("saveBtn");if(btn){btn.disabled=true;btn.textContent="Saving…"}
     try{
       const id=S.view==="edit"?S.id:B.newId();
       if(S.pendingPhoto){const path=`athletes/${id}/photo.jpg`;d.photoURL=await B.uploadFile(path,S.pendingPhoto.blob);d.photoPath=path}
-      if(S.view==="edit")await B.updateAthlete(id,d);else await B.createAthlete(id,d);
-      toast(S.view==="edit"?"Saved":"Athlete added ✦");
+      if(S.view==="edit")await B.updateAthlete(id,d);else{const dc=d["done.contact"];delete d["done.contact"];if(dc)d.done={contact:dc};await B.createAthlete(id,d);}
+      toast((d["done.contact"]||(d.done&&d.done.contact))?"Saved and marked complete ✓":S.view==="edit"?"Saved":"Athlete added ✦");
       const wasNew=S.view!=="edit";
       go("profile",{id,tab:wasNew?"skills":S.tab});
       if(wasNew)setTimeout(()=>{if(S.view==="profile"&&S.id===id&&find(id)&&!find(id).tryoutType)actions.asmtOpen()},350);
-    }catch(e){toast("Save failed: "+e.message);btn.disabled=false;btn.textContent="Try again"}
+    }catch(e){toast("Save failed: "+e.message);if(btn){btn.disabled=false;btn.textContent="Try again"}}
   },
   async delAthlete(){
     const a=find(S.id);if(!a)return;
@@ -1347,7 +1409,7 @@ const actions={
   qaSkill(el){
     const d=S.qa.div;
     const item=skillList().find(i=>i.key===el.dataset.v)||{};
-    S.qa.ids=S.athletes.filter(a=>(d==="All"||divisionOf(a.dob)===d)&&a.tryoutType!=="dance"&&canSee(a,item)).sort((x,y)=>(x.num||0)-(y.num||0)).map(a=>a.id);
+    S.qa.ids=S.athletes.filter(a=>(d==="All"||groupsOf(a).includes(d))&&a.tryoutType!=="dance"&&canSee(a,item)).sort((x,y)=>(x.num||0)-(y.num||0)).map(a=>a.id);
     if(!S.qa.ids.length){toast("No athletes to assess for that skill and division");return}
     S.qa.skill=el.dataset.v;S.qa.i=0;render();window.scrollTo(0,0);
   },
@@ -1365,10 +1427,7 @@ const actions={
   export:exportCsv,
   async saveSettings(){
     const v=id=>document.getElementById(id).value;
-    const divLines=v("s-div").split("\n").map(l=>l.trim()).filter(Boolean);
-    const divisions=divLines.map(l=>{const nums=l.match(/\d+/g);const name=l.split(/[\d:]/)[0].replace(/[\s\-–]+$/,"").trim();return nums&&name?{name,max:+nums[nums.length-1]}:null});
-    const bad=divLines.find((l,i)=>!divisions[i]);
-    if(bad||!divisions.length){toast(bad?`Check this division line: "${bad}". It needs a name and an age, like "Mini: 9"`:"Add at least one division");return}
+    const divisions=S.settings.divisions||DEFAULT_SETTINGS.divisions;
     const btn=document.querySelector('[data-act="saveSettings"]');if(btn){btn.disabled=true;btn.textContent="Saving…"}
     const skills=[];let cur=null;
     v("s-skills").split("\n").map(l=>l.trim()).filter(Boolean).forEach(l=>{
@@ -1422,8 +1481,8 @@ async function uploadVideo(id,file,skill){
 
 function exportCsv(){
   const sk=skillList();
-  const head=["Tryout #","First name","Last name","DOB",`Age in ${ageYear()}`,"Division","Tumbling levels","Status","Final team","Parent","Phone","Email","Previous gym","Experience","Medical notes","Trying out for","Cheer level competed","Position","Cheer assessment notes","Cheer skill notes",...sk.map(s=>s.cat+": "+s.name),"Does allstar dance","Dance styles / levels","Dance experience","Dance assessment notes",...DANCE_CATS.flatMap(c=>[`Dance ${c.name}`,`Dance ${c.name} notes`]),"Cheer tier","Cheer suggested team","Cheer approvals","Dance tier","Dance suggested team","Dance approvals",...SECTIONS.map(x=>x[1]+" complete"),"Videos","Notes"];
-  const rows=S.athletes.slice().sort((a,b)=>(a.num||0)-(b.num||0)).map(a=>[a.num,a.first,a.last,fmtDob(a.dob),a.dob?divAge(a.dob):"",divisionOf(a.dob),levelsTxt(a),STATUS_LABEL[statusOf(a)],a.team,a.parentName,a.parentPhone,a.parentEmail,a.prevGym,a.experience,a.medical,TYPE_LABEL[a.tryoutType]||"",a.cheerLevel||"",(a.cheerPositions||[]).join(", "),a.cheerAssessNotes||"",a.cheerSkillNotes||"",
+  const head=["Tryout #","First name","Last name","DOB",`Age in ${ageYear()}`,"Eligible age groups","Tumbling levels","Status","Final team","Parent","Phone","Email","Previous gym","Experience","Medical notes","Trying out for","Cheer level competed","Position","Cheer assessment notes","Cheer skill notes",...sk.map(s=>s.cat+": "+s.name),"Does allstar dance","Dance styles / levels","Dance experience","Dance assessment notes",...DANCE_CATS.flatMap(c=>[`Dance ${c.name}`,`Dance ${c.name} notes`]),"Cheer tier","Cheer suggested team","Cheer approvals","Dance tier","Dance suggested team","Dance approvals",...SECTIONS.map(x=>x[1]+" complete"),"Videos","Notes"];
+  const rows=S.athletes.slice().sort((a,b)=>(a.num||0)-(b.num||0)).map(a=>[a.num,a.first,a.last,fmtDob(a.dob),a.dob?divAge(a.dob):"",divLabel(a),levelsTxt(a),STATUS_LABEL[statusOf(a)],a.team,a.parentName,a.parentPhone,a.parentEmail,a.prevGym,a.experience,a.medical,TYPE_LABEL[a.tryoutType]||"",a.cheerLevel||"",(a.cheerPositions||[]).join(", "),a.cheerAssessNotes||"",a.cheerSkillNotes||"",
     ...sk.map(s=>{const v=(a.skills||{})[s.key];return v==null?"":RATING[v].t}),
     a.danceAllstar===true?"Yes":a.danceAllstar===false?"No":"",danceStylesTxt(a),a.danceExperience||"",a.danceAssessNotes||"",
     ...DANCE_CATS.flatMap(c=>{const x=(a.danceSkills||{})[c.id]||{};return [x.level||"",x.notes||""]}),
@@ -1443,7 +1502,7 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("input",e=>{
   if(e.target.id==="search"){S.q=e.target.value;render()}
-  if(e.target.id==="f-dob"){const d=e.target.value;const el=document.getElementById("f-div");if(el)el.textContent=d?`${ageTxt(d)} · ${divisionOf(d)}`:"–"}
+  if(e.target.id==="f-dob"){const d=e.target.value;const el=document.getElementById("f-div");if(el)el.textContent=d?`${ageTxt(d)} · ${groupsMainAge(divAge(d),["cheer","dance"]).join(" / ")}`:"–"}
 });
 document.addEventListener("change",e=>{
   const t=e.target;
