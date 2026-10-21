@@ -18,6 +18,7 @@
    Satin white ground, soft pink + grey boxes, black wide display type, hot pink accents. */
 :root{
   color-scheme:light;
+  --ok:#1f9d55; --okbg:#e3f5ea; --bad:#d23b3b; --badbg:#fbe5e5;
   --bg:#f4f2f4; --ink:#141214; --txt:#141214; --mut:#6f6870; --line:#dcd6db;
   --card:#ecebe9; --card2:#ffffff; --white:#ffffff;
   --pinkbox:#e8a4d3; --pinkpale:#fbe6f3; --pink:#d6409a; --pink2:#b22a7b;
@@ -74,7 +75,8 @@ button{background:none;border:0;cursor:pointer}
 .b-assessed{background:var(--pink);color:#fff}
 .b-new{background:var(--white);color:var(--ink)}
 .b-placed{background:var(--ink);color:var(--pinkbox)}
-.check{position:absolute;bottom:56px;right:16px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.85);border:2px solid var(--ink);display:grid;place-items:center;font-size:13px;z-index:3}
+.tile .ph{height:auto;aspect-ratio:2/3;max-width:100%}
+.check{position:absolute;bottom:62px;right:16px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.85);border:2px solid var(--ink);display:grid;place-items:center;font-size:13px;z-index:3}
 .tile.sel .check{background:var(--pink);border-color:var(--pink);color:#fff}
 .g0{background:linear-gradient(135deg,#f0b8dc,#d6409a)}.g1{background:linear-gradient(135deg,#c9c4c8,#8d878c)}
 .g2{background:linear-gradient(135deg,#3a3539,#141214)}.g3{background:linear-gradient(135deg,#f6cfe7,#e195c6)}
@@ -160,6 +162,49 @@ button{background:none;border:0;cursor:pointer}
 .lvlbar b{color:var(--pink2)}
 .lvlbar button{color:var(--pink2);font-weight:800;font-size:12px;padding:4px}
 .cat.locked{opacity:.55}
+.chk{list-style:none;margin:7px 0 2px;display:grid;gap:2px}
+.chk li{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:600;color:var(--ink)}
+.chk i{font-style:normal;width:15px;height:15px;border-radius:50%;display:grid;place-items:center;font-size:9px;font-weight:900;flex:none}
+.chk li.y i{background:var(--ok);color:#fff}
+.chk li.n i{background:var(--badbg);color:var(--bad)}
+.chk li.n{color:var(--mut)}
+.tteam{color:var(--pink2)!important;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.teamchip{flex:none;max-width:46%;background:var(--white);border:1.5px solid var(--pink);color:var(--pink2);font-size:11px;font-weight:800;border-radius:10px;padding:7px 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.teamchip.fin{background:var(--ok);border-color:var(--ok);color:#fff}
+.teamchip.ghost{border-style:dashed}
+.eh-b{display:flex;gap:4px;align-items:center;flex:none}
+.dpill{font-size:10px!important;font-weight:800;text-decoration:none!important;background:rgba(255,255,255,.8);border-radius:8px;padding:3px 7px!important;color:var(--bad)}
+.dpill.yes{background:var(--ok);color:#fff}
+.donebar{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--white);border:1px solid var(--line);border-left:4px solid var(--bad);border-radius:14px;padding:9px 10px 9px 12px;margin:0 18px 12px;font-size:12px;box-shadow:var(--shadow)}
+.donebar.yes{border-left-color:var(--ok)}
+.donebar span{min-width:0;color:var(--mut)}.donebar b{color:var(--ink)}
+.donebtn{flex:none;font-family:var(--disp);font-stretch:118%;text-transform:uppercase;font-weight:900;font-size:10px;letter-spacing:.03em;border-radius:10px;padding:9px 11px;background:var(--badbg);color:var(--bad)}
+.donebtn.yes{background:var(--ok);color:#fff}
+.donechoice{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn.okbtn{background:var(--ok)}.btn.nobtn{background:var(--badbg);color:var(--bad)}
+.tcard .cat-h{align-items:center}
+.tstat{font-family:var(--body)!important;font-stretch:100%!important;font-size:10.5px!important;font-weight:800!important;opacity:1!important;padding:3px 8px;border-radius:8px;background:rgba(255,255,255,.75);color:var(--mut)!important}
+.tstat.pend{background:#fff4d6;color:#8a5a00!important}
+.tstat.fin{background:var(--ok);color:#fff!important}
+.tchips{padding:0!important;flex-wrap:wrap;margin:0}
+.tcard .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px}
+.tbtn{background:rgba(255,255,255,.85);border:2px solid transparent;border-radius:12px;padding:9px 10px;text-align:left;display:flex;flex-direction:column;gap:1px;position:relative}
+.tbtn b{font-size:12.5px;font-weight:800;line-height:1.2}
+.tbtn span{font-size:10.5px;color:var(--mut)}
+.tbtn em{font-style:normal;font-size:9.5px;font-weight:800;color:var(--pink2);text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
+.tbtn.match{border-color:rgba(214,64,154,.35)}
+.tbtn.on{background:var(--ink);border-color:var(--ink)}.tbtn.on b,.tbtn.on span,.tbtn.on em{color:#fff}
+.suggby{font-size:11.5px;color:var(--ink);margin-top:12px;background:rgba(255,255,255,.6);border-radius:10px;padding:7px 10px}
+.apprs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.appr{background:rgba(255,255,255,.8);border-radius:12px;padding:8px 6px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:2px}
+.appr i{font-style:normal;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:900;background:var(--card);color:var(--mut)}
+.appr.y i{background:var(--ok);color:#fff}
+.appr b{font-size:12px}.appr span{font-size:10px;color:var(--mut)}
+.finbox{background:#fff;border-radius:14px;padding:14px;text-align:center;border:2px solid var(--ok)}
+.finbox small{display:block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ok)}
+.finbox b{display:block;font-family:var(--disp);font-stretch:125%;text-transform:uppercase;font-weight:900;font-size:18px;margin:2px 0}
+.finbox span{font-size:12px;color:var(--mut)}
 .namebar{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;padding:14px 18px 12px}
 .namebar .nm{min-width:0}
 .namebar h2{font-family:var(--disp);font-stretch:125%;text-transform:uppercase;font-weight:900;font-size:21px;line-height:1.05}
@@ -312,6 +357,7 @@ input[type=date].in{min-height:46px;min-width:0;-webkit-appearance:none;appearan
 .mbox{position:absolute;left:0;right:0;bottom:0;max-width:520px;margin:0 auto;background:#fff;border-radius:24px 24px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom));max-height:92vh;overflow:auto}
 .mbox h3{font-size:14px;font-weight:900;margin-bottom:12px}
 .mbox .info{margin:0;box-shadow:none;border:0;padding:0}
+.askq{font-size:16px;font-weight:700;line-height:1.35;margin:2px 0 16px}
 .mbox video{width:100%;max-height:62vh;border-radius:14px;background:#000;display:block;margin-bottom:12px}
 #toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:13px;font-weight:700;padding:10px 16px;border-radius:14px;opacity:0;transition:.25s;z-index:60;max-width:88vw;text-align:center;pointer-events:none}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -333,6 +379,7 @@ input[type=date].in{min-height:46px;min-width:0;-webkit-appearance:none;appearan
   .demo,.install{margin-left:24px;margin-right:24px}
   .grid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;padding:6px 24px}
   .ph{height:160px}
+  .tile .ph{height:auto}
   .fab{right:max(30px,calc(50% - 520px));width:68px;height:68px}
   /* profile: wide header, skills side by side */
   .hero{height:200px;border-radius:0 0 28px 28px;margin:0 12px}
@@ -360,7 +407,10 @@ input[type=date].in{min-height:46px;min-width:0;-webkit-appearance:none;appearan
   .skillcols .lvlbar{display:flex}
   .skillcols .lvlcard,.skillcols .lvlbar{column-span:all}
   .vcard{flex-basis:220px}
-  .lvlcard,.lvlbar,.notecard{margin-left:24px;margin-right:24px}
+  .lvlcard,.lvlbar,.notecard,.donebar{margin-left:24px;margin-right:24px}
+  .tcols{columns:2}
+  .mbox .donebar{margin-left:0;margin-right:0}
+  .chk li{font-size:11.5px}
   .asumwrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:0 24px}
   .asumwrap .cat{margin:0}
   .info,.note,.form>*{max-width:760px}
@@ -460,6 +510,22 @@ const DANCE_EXP=["Beginner","Some dance experience","Advanced training"];
 const DANCE_CATS=[{id:"flex",name:"Flexibility / Kicks"},{id:"turns",name:"Turns"},{id:"jumps",name:"Jumps"},{id:"choreo",name:"Choreography"}];
 const DANCE_RATE=["Beginner","Intermediate","Advanced"];
 const TYPE_LABEL={cheer:"Cheer",dance:"Dance",both:"Cheer & Dance"};
+/* Program directors: their approvals count towards team decisions (2 needed). Match their login emails. */
+const DIRECTORS=[{email:"lydia.mears@outlook.com",name:"Lydia"},{email:"info@evolutionofdance.net",name:"Alissa"},{email:"livdoherty@outlook.com",name:"Liv"}];
+const APPROVALS_NEEDED=2;
+const AGES5=["Tiny","Mini","Youth","Junior","Senior"];
+const TIERS={
+  cheer:[
+    {id:"sport",name:"Cheer Sport",teams:AGES5.map(d=>({name:"Cheer Sport "+d,div:d}))},
+    {id:"novice",name:"Novice",teams:[{name:"Baby Boss",sub:"Tiny",div:"Tiny"},{name:"Cheetahs",sub:"Mini",div:"Mini"}]},
+    {id:"elite",name:"Elite / Premier",teams:[{name:"Tiny Diamonds",sub:"Tiny 1",div:"Tiny"},{name:"IBK",sub:"Mini 1",div:"Mini"},{name:"Lady Lynx",sub:"Youth 1",div:"Youth"},{name:"Pink Kitties",sub:"Youth 2",div:"Youth"},{name:"Pink Assassins",sub:"Senior 2",div:"Senior"},{name:"Claw Katz",sub:"Senior 3",div:"Senior"},{name:"LD",sub:"Senior 4",div:"Senior"},{name:"Pink Panthers",sub:"Senior 5",div:"Senior"},{name:"Open team",sub:"Open",div:"Open"}]}],
+  dance:[
+    {id:"dancestars",name:"Dancestars",teams:AGES5.map(d=>({name:"Dancestars "+d,div:d}))},
+    {id:"novice",name:"Novice",teams:AGES5.map(d=>({name:"Dance Novice "+d,div:d}))},
+    {id:"intermediate",name:"Intermediate",teams:AGES5.map(d=>({name:"Dance Intermediate "+d,div:d}))},
+    {id:"premier",name:"Premier",teams:[...AGES5,"Open"].map(d=>({name:"Dance Premier "+d,div:d}))}]
+};
+const SECTIONS=[["contact","Contact details"],["experience","Athlete experience"],["assessment","Assessment"],["teams","Suggested teams"]];
 const RATING = {0:{t:"No",c:"no",s:"✕"},1:{t:"Working",c:"wk",s:"~"},2:{t:"Has it",c:"ys",s:"✓"}};
 
 /* ================================ STATE ================================ */
@@ -511,13 +577,28 @@ function ageTxt(dob){return dob?`Age ${divAge(dob)}`:""}
 function skillName(key){if(!key||key==="general")return "General";const i=key.indexOf("|");return i<0?key:key.slice(i+1)}
 function skillCat(key){if(!key||key==="general")return "General";const i=key.indexOf("|");return i<0?"General":key.slice(0,i)}
 function danceDone(a){const d=a.danceSkills||{};return DANCE_CATS.some(c=>d[c.id]&&d[c.id].level)}
-function statusOf(a){if(a.team)return "placed";const s=a.skills||{};return (Object.keys(s).length||danceDone(a))?"assessed":"new"}
+function statusOf(a){if(a.team||approvedAll(a))return "placed";const s=a.skills||{};return (Object.keys(s).length||danceDone(a))?"assessed":"new"}
 function isCheer(a){return a.tryoutType==="cheer"||a.tryoutType==="both"||(!a.tryoutType&&(Object.keys(a.skills||{}).length>0||(a.videos||[]).some(v=>skillCat(v.skill)!=="Dance")||hasLevels(a)))}
 function isDance(a){return a.tryoutType==="dance"||a.tryoutType==="both"}
+function myEmail(){return ((S.user&&S.user.email)||"").toLowerCase()}
+function isDirector(){return DIRECTORS.some(d=>d.email===myEmail())}
+function dirName(e){const d=DIRECTORS.find(x=>x.email===e);return d?d.name:e}
+function discsOf(a){return a.tryoutType==="both"?["cheer","dance"]:a.tryoutType?[a.tryoutType]:[]}
+function plc(a,d){return ((a.placement||{})[d])||{}}
+function apprList(p){return Object.keys(p.approvals||{}).filter(e=>DIRECTORS.some(d=>d.email===e))}
+function isFinal(p){return !!p.team&&apprList(p).length>=APPROVALS_NEEDED}
+function teamLbl(p){return p.team?p.team+(p.sub?` · ${p.sub}`:""):""}
+function computeTeam(a,over={}){return discsOf(a).map(d=>{const p=over[d]||plc(a,d);return isFinal(p)?teamLbl(p):""}).filter(Boolean).join(" / ")}
+function approvedAll(a){const ds=discsOf(a);return ds.length>0&&ds.every(d=>isFinal(plc(a,d)))}
+function doneOf(a,k){return ((a.done||{})[k])||null}
+function doneBtn(a,k,cls=""){const d=doneOf(a,k);return d?`<button class="donebtn yes ${cls}" data-act="doneAsk" data-k="${k}">✓ Complete</button>`:`<button class="donebtn ${cls}" data-act="doneAsk" data-k="${k}">Mark complete</button>`}
+function teamSummary(a){const ds=discsOf(a);if(!ds.length)return "";return ds.map(d=>{const p=plc(a,d);return p.team?(isFinal(p)?"✓ ":"")+teamLbl(p):""}).filter(Boolean).join(" / ")}
+function checklist(a){const items=[["Contact",!!doneOf(a,"contact")],["Experience",!!doneOf(a,"experience")],["Assessment",!!doneOf(a,"assessment")],["Suggested team",!!doneOf(a,"teams")],["Approved",approvedAll(a)]];
+  return `<ul class="chk">${items.map(([l,ok])=>`<li class="${ok?"y":"n"}"><i>${ok?"✓":"✕"}</i>${l}</li>`).join("")}</ul>`}
 function danceStylesTxt(a){return Object.entries(a.danceStyles||{}).map(([st,l])=>st+(l?` · ${l}`:"")).join(", ")}
 const STATUS_LABEL={new:"To see",assessed:"Assessed",placed:"Placed"};
 function find(id){return S.athletes.find(a=>a.id===id)}
-function coachName(){try{const n=localStorage.getItem("eodth_coach");if(n)return n}catch(e){}return S.user&&S.user.email?S.user.email.split("@")[0]:"Coach"}
+function coachName(){try{const n=localStorage.getItem("eodth_coach");if(n)return n}catch(e){}const dn=DIRECTORS.find(d=>d.email===((S.user&&S.user.email)||"").toLowerCase());if(dn)return dn.name;return S.user&&S.user.email?S.user.email.split("@")[0]:"Coach"}
 function photoHtml(a){return a.photoURL?`<img src="${esc(a.photoURL)}" alt="">`:esc(initials(a))}
 function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("show"),2600)}
 function openModal(html,opt={}){const m=document.getElementById("modal");m.innerHTML=`<div class="mback" ${opt.sticky?"":'data-act="closeModal"'}></div><div class="mbox ${opt.cls||""}">${html}</div>`;m.classList.add("open")}
@@ -525,7 +606,7 @@ function closeModal(){const m=document.getElementById("modal");m.querySelectorAl
 function ask(msg,ok="Delete",typed){
   return new Promise(res=>{
     ask._res=res;
-    openModal(`<h3>${esc(msg)}</h3>${typed?`<label for="askTyped">Type ${typed} to confirm</label><input class="in" id="askTyped" autocomplete="off">`:""}
+    openModal(`<p class="askq">${esc(msg)}</p>${typed?`<label for="askTyped">Type ${typed} to confirm</label><input class="in" id="askTyped" autocomplete="off">`:""}
       <div class="row" style="margin-top:6px"><button class="btn ghost" data-act="askNo">Cancel</button><button class="btn ${ok==="Delete"||typed?"danger":""}" data-act="askYes" data-typed="${typed||""}">${esc(ok)}</button></div>`);
   });
 }
@@ -615,7 +696,7 @@ function FirebaseBackend(){
 
 /* ======================= BACKEND: DEMO (this device only) ======================= */
 function DemoBackend(){
-  const K="eodth_demo_v3";let data,onA=()=>{},onS=()=>{},authCb=()=>{};
+  const K="eodth_demo_v4";let data,onA=()=>{},onS=()=>{},authCb=()=>{};
   const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v);return true}catch(e){return false}}};
   function seed(){
     const sk=(o)=>o;
@@ -632,7 +713,7 @@ function DemoBackend(){
     const now=Date.now();
     return {settings:{...clone(DEFAULT_SETTINGS),counter:A.length,teams:["Mini Level 2","Youth Level 3","Junior Level 4","Senior Level 5"]},
       athletes:A.map((r,i)=>({id:"d"+i,num:i+1,tryoutType:["cheer",null,"both",null,"dance","cheer","cheer",null][i],cheerLevel:["Level 2",null,"Level 4",null,null,"Novice","Level 5",null][i],cheerPositions:[["Flyer"],[],["Main base","Back spot"],[],[],["Secondary base"],["Back spot"],[]][i],danceAllstar:[null,null,true,null,false,null,null,null][i],danceStyles:i===2?{"Jazz":"Intermediate","Hip hop":"Novice"}:{},danceExperience:i===4?"Some dance experience":null,danceSkills:i===2?{turns:{level:"Intermediate",notes:"Clean doubles both sides"}}:{},tumbleMain:[2,null,4,null,1,null,5,null][i],tumbleSecond:[3,null,5,null,2,null,null,null][i],first:r[0],last:r[1],dob:r[2],parentName:"",parentPhone:"",parentEmail:"",prevGym:"",experience:"",medical:"",
-        skills:sk(r[3]),notes:i===0?[{text:"Strong tumbler, very coachable. Consider for Youth L3.",by:"Lydia",at:now-3600e3}]:[],videos:[],team:i===2?"Junior Level 4":"",createdAt:now-i*1000}))};
+        skills:sk(r[3]),notes:i===0?[{text:"Strong tumbler, very coachable. Consider for Youth L3.",by:"Lydia",at:now-3600e3}]:[],videos:[],team:i===2?"Claw Katz · Senior 3":"",placement:i===2?{cheer:{tier:"elite",team:"Claw Katz",sub:"Senior 3",by:"Lydia",at:now-86400e3,approvals:{"lydia.mears@outlook.com":{name:"Lydia",at:now-80000e3},"livdoherty@outlook.com":{name:"Liv",at:now-70000e3}}},dance:{tier:"intermediate",team:"Dance Intermediate Junior",sub:"",by:"Emily",at:now-50000e3,approvals:{"info@evolutionofdance.net":{name:"Alissa",at:now-40000e3}}}}:{},done:i===2?{contact:{by:"Lydia",at:now},experience:{by:"Lydia",at:now},assessment:{by:"Liv",at:now},teams:{by:"Lydia",at:now}}:i===0?{contact:{by:"Lydia",at:now}}:{},createdAt:now-i*1000}))};
   }
   function load(){try{data=JSON.parse(store.get(K))}catch(e){}if(!data||!data.athletes)data=seed();
     data.athletes.forEach(a=>a.videos=(a.videos||[]).filter(v=>!String(v.url).startsWith("blob:")));}
@@ -649,7 +730,7 @@ function DemoBackend(){
     unlisten(){},
     newId(){return "d"+Date.now()},
     async createAthlete(id,d){data.settings.counter=(data.settings.counter||0)+1;data.athletes.push({...d,id,num:data.settings.counter,skills:{},notes:[],videos:[],createdAt:Date.now()});change()},
-    async updateAthlete(id,p){Object.assign(A(id),p);change()},
+    async updateAthlete(id,p){const a=A(id);for(const [k,v] of Object.entries(p)){if(k.includes(".")){const ks=k.split(".");let o=a;for(let i=0;i<ks.length-1;i++){o[ks[i]]=o[ks[i]]&&typeof o[ks[i]]==="object"?o[ks[i]]:{};o=o[ks[i]]}o[ks[ks.length-1]]=v}else a[k]=v}change()},
     async setField(id,path,v){let o=A(id);for(let i=0;i<path.length-1;i++){o[path[i]]=o[path[i]]&&typeof o[path[i]]==="object"?o[path[i]]:{};o=o[path[i]]}if(v==null)delete o[path[path.length-1]];else o[path[path.length-1]]=v;change()},
     async setRating(id,k,v){const a=A(id);a.skills=a.skills||{};if(v==null)delete a.skills[k];else a.skills[k]=v;change()},
     async addToList(id,f,item){const a=A(id);(a[f]=a[f]||[]).push(item);change()},
@@ -726,7 +807,7 @@ function tile(a){
     <div class="ph ${grad(a)}"><span class="num">${pad3(a.num)}</span>${photoHtml(a)}</div>
     <span class="badge b-${st}">${STATUS_LABEL[st]}</span>
     ${S.compareMode?`<span class="check">${sel?"✓":""}</span>`:""}
-    <h4>${esc(fullName(a))}</h4><p>${a.dob?`${ageTxt(a.dob)} · ${esc(divisionOf(a.dob))}`:"No DOB"}${a.team?` · ${esc(a.team)}`:""}</p></button>`;
+    <h4>${esc(fullName(a))}</h4><p>${a.dob?`${ageTxt(a.dob)} · ${esc(divisionOf(a.dob))}`:"No DOB"}</p>${a.team?`<p class="tteam">★ ${esc(a.team)}</p>`:""}${checklist(a)}</button>`;
 }
 
 function expCard(a){
@@ -734,7 +815,7 @@ function expCard(a){
     <p>Cheer, dance or both, their experience and tumbling level.</p><button class="btn" data-act="asmtOpen">Start assessment</button></div>`;
   const r=(l,v)=>`<div class="r2"><span>${l}</span><b>${v?esc(v):"–"}</b></div>`;
   const ch=a.tryoutType==="cheer"||a.tryoutType==="both",da=a.tryoutType==="dance"||a.tryoutType==="both";
-  let h=`<div class="exp ${ch&&da?"two":""}"><div class="exp-h"><h4>Athlete experience</h4><button data-act="asmtOpen">Edit</button></div>
+  let h=`<div class="exp ${ch&&da?"two":""}"><div class="exp-h"><h4>Athlete experience</h4><span class="eh-b"><button data-act="asmtOpen">Edit</button><button class="dpill ${doneOf(a,"experience")?"yes":""}" data-act="doneAsk" data-k="experience">${doneOf(a,"experience")?"✓ Done":"Done?"}</button></span></div>
     <div class="meta">${a.dob?`<i>${esc(divisionOf(a.dob))} · Age ${divAge(a.dob)}<em> in ${ageYear()}</em></i>`:`<i>No DOB</i>`}<i><em>Trying out for </em>${esc(TYPE_LABEL[a.tryoutType])}</i></div>`;
   if(ch)h+=`<div class="sub2"><div class="hd">Cheer</div>
     ${r("Level",a.cheerLevel)}${r("Position",(a.cheerPositions||[]).join(", "))}${r("Tumbling",levelsTxt(a))}
@@ -751,15 +832,17 @@ function vProfile(){
   const a=find(S.id);if(!a)return `<div class="empty"><b>Athlete not found</b><button class="btn ghost" data-act="go" data-v="home">Back</button></div>`;
   const st=statusOf(a);
   const teams=S.settings.teams||[];
-  const teamSel=`<select class="teamsel" id="teamSel" data-id="${a.id}"><option value="">★ Team</option>${teams.map(t=>`<option ${a.team===t?"selected":""}>${esc(t)}</option>`).join("")}${a.team&&!teams.includes(a.team)?`<option selected>${esc(a.team)}</option>`:""}</select>`;
+  const ts=teamSummary(a);
+  const teamSel=ts?`<button class="teamchip ${approvedAll(a)?"fin":""}" data-act="tab" data-v="teams">${esc(ts)}</button>`:`<button class="teamchip ghost" data-act="tab" data-v="teams">★ Pick team</button>`;
   const sc=!a.tryoutType||isCheer(a),sd=!a.tryoutType||isDance(a);
   const tabs=[];
   if(sc)tabs.push(["skills","Cheer skills"]);
   if(sd)tabs.push(["dance","Dance skills"]);
-  tabs.push(["notes",`Notes${(a.notes||[]).length?" ("+a.notes.length+")":""}`]);
+  tabs.push(["teams","Team selection"]);
+  if(S.tab==="notes")S.tab="teams";
   if(!tabs.some(t=>t[0]===S.tab))S.tab=tabs[0][0];
   let body="";
-  if(S.tab==="skills")body=tSkills(a);else if(S.tab==="dance")body=tDance(a);else body=tNotes(a);
+  if(S.tab==="skills")body=assessBar(a)+tSkills(a);else if(S.tab==="dance")body=assessBar(a)+tDance(a);else body=tTeams(a);
   return `
   <div class="hero">
     <button class="icon back" data-act="go" data-v="home" aria-label="Back">‹</button>
@@ -921,6 +1004,41 @@ function asmtRender(){
   openModal(asmtHtml(),{sticky:true,cls:"wide"});
   const nb=document.querySelector("#modal .mbox");if(nb)nb.scrollTop=y;
 }
+function assessBar(a){const d=doneOf(a,"assessment");
+  return `<div class="donebar ${d?"yes":""}"><span><b>Assessment</b>${d?` · marked complete by ${esc(d.by||"")}`:" · cheer and dance skills"}</span>${doneBtn(a,"assessment")}</div>`}
+function tTeams(a){
+  const ds=discsOf(a);
+  let out="";
+  if(!ds.length)out+=`<div class="lvlcard" style="text-align:center"><h4>Assessment needed first</h4><div class="sub" style="margin-bottom:12px">Choose cheer, dance or both in the athlete assessment to see team options.</div><button class="btn" data-act="asmtOpen">Start assessment</button></div>`;
+  const div=divisionOf(a.dob),me=myEmail(),dir=isDirector();
+  out+=`<div class="skillcols tcols">`+ds.map((d,i)=>{
+    const p=plc(a,d),apr=apprList(p),fin=isFinal(p),tiers=TIERS[d];
+    const dr=(S.tierDraft&&S.tierDraft.id===a.id&&S.tierDraft[d])||p.tier||null;
+    const tier=tiers.find(t=>t.id===dr);
+    let h=`<div class="cat tcard ${d==="cheer"?"pinkc":""}"><div class="cat-h">${d==="cheer"?"Cheer team":"Dance team"}<span class="tstat ${fin?"fin":p.team?"pend":""}">${fin?"✓ Final":p.team?`${apr.length} of ${APPROVALS_NEEDED} approvals`:"No suggestion yet"}</span></div>`;
+    if(fin){
+      h+=`<div class="finbox"><small>Final team</small><b>${esc(p.team)}</b>${p.sub?`<span>${esc(p.sub)}</span>`:""}</div>`;
+    }else{
+      h+=`<div class="aq">1 · Tier</div><div class="chips tchips">${tiers.map(t=>`<button class="chip ${dr===t.id?"on":""}" data-act="tTier" data-d="${d}" data-v="${t.id}">${esc(t.name)}</button>`).join("")}</div>`;
+      if(tier)h+=`<div class="aq">2 · Suggested team</div><div class="tgrid">${tier.teams.map(t=>{const on=p.team===t.name;const match=div&&t.div===div;
+        return `<button class="tbtn ${on?"on":""} ${match?"match":""}" data-act="tPick" data-d="${d}" data-tier="${tier.id}" data-v="${esc(t.name)}" data-sub="${esc(t.sub||"")}"><b>${esc(t.name)}</b>${t.sub?`<span>${esc(t.sub)}</span>`:""}${match?`<em>${esc(div)} age</em>`:""}</button>`}).join("")}</div>`;
+      else h+=`<p class="help" style="margin:4px 0 0">Pick a tier to see its teams.</p>`;
+    }
+    if(p.team){
+      h+=`<div class="suggby">Suggested by <b>${esc(p.by||"a coach")}</b>${p.at?` · ${fmtDay(p.at)}`:""}${fin?"":` · <b>${esc(teamLbl(p))}</b>`}</div>
+        <div class="aq">Program director approval <small>· ${APPROVALS_NEEDED} needed</small></div>
+        <div class="apprs">${DIRECTORS.map(x=>{const ok=apr.includes(x.email);return `<div class="appr ${ok?"y":""}"><i>${ok?"✓":"–"}</i><b>${esc(x.name)}</b><span>${ok?fmtDay((p.approvals[x.email]||{}).at):"Pending"}</span></div>`}).join("")}</div>`;
+      if(dir){const mine=apr.includes(me);
+        h+=mine?`<button class="btn ghost" data-act="tUnapprove" data-d="${d}" style="margin-top:10px">Remove my approval</button>`
+               :`<button class="btn" data-act="tApprove" data-d="${d}" style="margin-top:10px">Approve ${esc(p.team)}</button>`;
+      }else h+=`<p class="help" style="margin:8px 0 0">Only Lydia, Alissa or Liv can approve.</p>`;
+    }
+    return h+`</div>`;
+  }).join("")+`</div>`;
+  if(ds.length)out+=`<div class="donebar ${doneOf(a,"teams")?"yes":""}"><span><b>Suggested teams</b>${doneOf(a,"teams")?` · complete`:" · mark complete once suggested"}</span>${doneBtn(a,"teams")}</div>`;
+  out+=`<div class="sect" style="margin:18px 18px 8px">Placement notes</div>`+tNotes(a);
+  return out;
+}
 function tNotes(a){
   const notes=(a.notes||[]).slice().sort((x,y)=>y.at-x.at);
   return `<div class="form"><textarea class="in" id="noteText" placeholder="Add a note about ${esc(a.first||"this athlete")}…" data-keep></textarea>
@@ -997,7 +1115,7 @@ function vCompare(){
   <div class="cmp"><table>
     <tr><th></th>${list.map(a=>`<th><div class="mini ${grad(a)}">${photoHtml(a)}</div>${esc(a.first||"")}<br><span class="sub">${pad3(a.num)}</span></th>`).join("")}</tr>
     <tr><td class="sub">Age · Division</td>${list.map(a=>`<td class="sub">${a.dob?divAge(a.dob)+" · "+esc(divisionOf(a.dob)):"–"}</td>`).join("")}</tr>
-    <tr><td class="sub">Team</td>${list.map(a=>`<td class="sub">${esc(a.team||"–")}</td>`).join("")}</tr>
+    <tr><td class="sub">Team</td>${list.map(a=>`<td class="sub">${esc(teamSummary(a)||"–")}</td>`).join("")}</tr>
     <tr><td class="sub">Trying out for</td>${list.map(a=>`<td class="sub">${esc(TYPE_LABEL[a.tryoutType]||"–")}</td>`).join("")}</tr>
     <tr><td class="sub">Cheer level</td>${list.map(a=>`<td class="sub">${esc(a.cheerLevel||"–")}</td>`).join("")}</tr>
     <tr><td class="sub">Position</td>${list.map(a=>`<td class="sub">${esc((a.cheerPositions||[]).join(", ")||"–")}</td>`).join("")}</tr>
@@ -1027,7 +1145,6 @@ function vSettings(){
     <label for="s-asat">Ages and divisions are worked out as at (age shown is their age on this date)</label><input class="in" id="s-asat" type="date" value="${esc(st.ageAsAt)}" data-keep>
     <label for="s-div">Divisions (name: oldest age)</label><textarea class="in" id="s-div" rows="6" data-keep>${esc(divTxt)}</textarea>
     <div class="help">One per line, youngest first. E.g. "Mini: 9" means age 9 and under (after Tiny).</div>
-    <label for="s-teams">Teams (for placements)</label><textarea class="in" id="s-teams" rows="5" placeholder="One team per line" data-keep>${esc((st.teams||[]).join("\n"))}</textarea>
     <label for="s-skills">Skills checklist</label><textarea class="in" id="s-skills" rows="16" data-keep>${esc(skillsTxt)}</textarea>
     <div class="help">Start a category with #, then one skill per line underneath. Put L1 to L6 in front of a skill (like "L3: Round off BHS tuck") to tag its tumbling level. Renaming a skill clears ticks already given for it.</div>
     <button class="btn" data-act="saveSettings">Save settings</button>
@@ -1093,7 +1210,32 @@ const actions={
   open(el){go("profile",{id:el.dataset.id,tab:S.view==="quick"?"skills":(S.id===el.dataset.id?S.tab:"skills"),lvl:null})},
   tab(el){S.tab=el.dataset.v;render();const t=document.querySelector(".tabs");if(t&&window.scrollY>t.offsetTop)window.scrollTo(0,t.offsetTop-8)},
   contact(){const a=find(S.id);if(!a)return;
-    openModal(`<div class="mhead"><h3>Contact info</h3><button class="icon" data-act="closeModal" aria-label="Close">✕</button></div>${tInfo(a)}`)},
+    openModal(`<div class="mhead"><h3>Contact info</h3><button class="icon" data-act="closeModal" aria-label="Close">✕</button></div>
+      <div class="donebar ${doneOf(a,"contact")?"yes":""}" style="margin:0 0 12px"><span><b>Contact details</b></span>${doneBtn(a,"contact")}</div>${tInfo(a)}`)},
+  doneAsk(el){const a=find(S.id);if(!a)return;const k=el.dataset.k,lbl=(SECTIONS.find(x=>x[0]===k)||[k,k])[1],d=doneOf(a,k);
+    S.doneBack=document.querySelector("#modal.open .mhead h3")&&k==="contact";
+    openModal(`<h3>${esc(lbl)}</h3><p class="sub" style="margin:-4px 0 14px">${d?`Marked complete by ${esc(d.by||"")} on ${fmtDay(d.at)}.`:"Is this section complete?"}</p>
+      <div class="donechoice"><button class="btn okbtn" data-act="doneSet" data-k="${k}" data-v="1">✓ Complete</button><button class="btn nobtn" data-act="doneSet" data-k="${k}" data-v="0">✕ Not complete</button></div>
+      <button class="linkbtn" data-act="doneCancel">Cancel</button>`)},
+  async doneSet(el){const k=el.dataset.k,on=el.dataset.v==="1",back=S.doneBack;closeModal();
+    try{await B.setField(S.id,["done",k],on?{by:coachName(),at:Date.now()}:null);toast(on?"Marked complete ✓":"Marked not complete")}catch(e){toast("Couldn't save: "+e.message)}
+    if(back)setTimeout(()=>actions.contact(),50)},
+  doneCancel(){const back=S.doneBack;closeModal();if(back)actions.contact()},
+  tTier(el){const d=el.dataset.d;S.tierDraft=(S.tierDraft&&S.tierDraft.id===S.id)?S.tierDraft:{id:S.id};S.tierDraft[d]=el.dataset.v;render()},
+  async tPick(el){const a=find(S.id),d=el.dataset.d,p=plc(a,d),name=el.dataset.v;
+    if(p.team===name)return;
+    if(apprList(p).length&&!await ask(`Change to ${name}? This clears the approvals for ${p.team}.`,"Change team"))return;
+    const np={tier:el.dataset.tier,team:name,sub:el.dataset.sub||"",by:coachName(),at:Date.now(),approvals:{}};
+    try{await B.updateAthlete(a.id,{["placement."+d]:np,team:computeTeam(a,{[d]:np})});toast(`Suggested ${name}`)}catch(e){toast("Couldn't save: "+e.message)}},
+  async tApprove(el){const a=find(S.id),d=el.dataset.d,p=plc(a,d),me=myEmail();if(!isDirector()||!p.team)return;
+    if(!await ask(`Approve ${teamLbl(p)} for ${a.first||"this athlete"}?`,"Approve"))return;
+    const rec={name:dirName(me),at:Date.now()},np={...p,approvals:{...(p.approvals||{}),[me]:rec}};
+    try{await B.setField(a.id,["placement",d,"approvals",me],rec);const t=computeTeam(a,{[d]:np});if(t!==(a.team||""))await B.updateAthlete(a.id,{team:t});
+      toast(isFinal(np)?`Final ✓ ${a.first||""} is on ${np.team}`:`Approved (${apprList(np).length} of ${APPROVALS_NEEDED})`)}catch(e){toast("Couldn't save: "+e.message)}},
+  async tUnapprove(el){const a=find(S.id),d=el.dataset.d,p=plc(a,d),me=myEmail();
+    if(!await ask("Remove your approval?","Remove"))return;
+    const ap={...(p.approvals||{})};delete ap[me];const np={...p,approvals:ap};
+    try{await B.setField(a.id,["placement",d,"approvals",me],null);const t=computeTeam(a,{[d]:np});if(t!==(a.team||""))await B.updateAthlete(a.id,{team:t});toast("Approval removed")}catch(e){toast("Couldn't save: "+e.message)}},
   contactEdit(){closeModal();go("edit")},
   asmtOpen(){const a=find(S.id);if(!a)return;
     S.asmt={id:a.id,type:a.tryoutType||null,cheerLevel:a.cheerLevel||null,positions:[...(a.cheerPositions||[])],
@@ -1236,7 +1378,7 @@ const actions={
     try{localStorage.setItem("eodth_coach",v("s-coach").trim())}catch(e){}
     const slow=setTimeout(()=>toast("Still saving… check you have internet"),8000);
     try{
-      await B.saveSettings({season:v("s-season").trim()||"Tryouts",ageAsAt:v("s-asat")||S.settings.ageAsAt||DEFAULT_SETTINGS.ageAsAt,divisions,teams:v("s-teams").split("\n").map(l=>l.trim()).filter(Boolean),skills:skills.filter(c=>c.items.length)});
+      await B.saveSettings({season:v("s-season").trim()||"Tryouts",ageAsAt:v("s-asat")||S.settings.ageAsAt||DEFAULT_SETTINGS.ageAsAt,divisions,skills:skills.filter(c=>c.items.length)});
       clearTimeout(slow);toast("Settings saved");go("home");
     }catch(e){clearTimeout(slow);toast("Couldn't save settings: "+(e.message||e));if(btn){btn.disabled=false;btn.textContent="Save settings"}}
   },
@@ -1280,11 +1422,13 @@ async function uploadVideo(id,file,skill){
 
 function exportCsv(){
   const sk=skillList();
-  const head=["Tryout #","First name","Last name","DOB",`Age in ${ageYear()}`,"Division","Tumbling levels","Status","Suggested team","Parent","Phone","Email","Previous gym","Experience","Medical notes","Trying out for","Cheer level competed","Position","Cheer assessment notes","Cheer skill notes",...sk.map(s=>s.cat+": "+s.name),"Does allstar dance","Dance styles / levels","Dance experience","Dance assessment notes",...DANCE_CATS.flatMap(c=>[`Dance ${c.name}`,`Dance ${c.name} notes`]),"Videos","Notes"];
+  const head=["Tryout #","First name","Last name","DOB",`Age in ${ageYear()}`,"Division","Tumbling levels","Status","Final team","Parent","Phone","Email","Previous gym","Experience","Medical notes","Trying out for","Cheer level competed","Position","Cheer assessment notes","Cheer skill notes",...sk.map(s=>s.cat+": "+s.name),"Does allstar dance","Dance styles / levels","Dance experience","Dance assessment notes",...DANCE_CATS.flatMap(c=>[`Dance ${c.name}`,`Dance ${c.name} notes`]),"Cheer tier","Cheer suggested team","Cheer approvals","Dance tier","Dance suggested team","Dance approvals",...SECTIONS.map(x=>x[1]+" complete"),"Videos","Notes"];
   const rows=S.athletes.slice().sort((a,b)=>(a.num||0)-(b.num||0)).map(a=>[a.num,a.first,a.last,fmtDob(a.dob),a.dob?divAge(a.dob):"",divisionOf(a.dob),levelsTxt(a),STATUS_LABEL[statusOf(a)],a.team,a.parentName,a.parentPhone,a.parentEmail,a.prevGym,a.experience,a.medical,TYPE_LABEL[a.tryoutType]||"",a.cheerLevel||"",(a.cheerPositions||[]).join(", "),a.cheerAssessNotes||"",a.cheerSkillNotes||"",
     ...sk.map(s=>{const v=(a.skills||{})[s.key];return v==null?"":RATING[v].t}),
     a.danceAllstar===true?"Yes":a.danceAllstar===false?"No":"",danceStylesTxt(a),a.danceExperience||"",a.danceAssessNotes||"",
-    ...DANCE_CATS.flatMap(c=>{const x=(a.danceSkills||{})[c.id]||{};return [x.level||"",x.notes||""]}),(a.videos||[]).length,(a.notes||[]).map(n=>`${n.by}: ${n.text}`).join(" | ")]);
+    ...DANCE_CATS.flatMap(c=>{const x=(a.danceSkills||{})[c.id]||{};return [x.level||"",x.notes||""]}),
+    ...["cheer","dance"].flatMap(d=>{const p=plc(a,d),t=(TIERS[d].find(x=>x.id===p.tier)||{}).name||"";return [t,teamLbl(p),apprList(p).map(dirName).join(", ")]}),
+    ...SECTIONS.map(x=>doneOf(a,x[0])?"Yes":"No"),(a.videos||[]).length,(a.notes||[]).map(n=>`${n.by}: ${n.text}`).join(" | ")]);
   const csv=[head,...rows].map(r=>r.map(c=>{const s=String(c??"");return /[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s}).join(",")).join("\n");
   const blob=new Blob(["﻿"+csv],{type:"text/csv"});const url=URL.createObjectURL(blob);
   const l=document.createElement("a");l.href=url;l.download=`EOD-tryouts-${new Date().toISOString().slice(0,10)}.csv`;document.body.appendChild(l);l.click();l.remove();
