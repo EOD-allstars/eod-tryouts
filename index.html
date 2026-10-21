@@ -1,0 +1,911 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d0b14">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="EOD Tryouts">
+<title>EOD Tryout Hub</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ================= EOD COLOURS (edit these to match branding) ================= */
+:root{
+  color-scheme:dark;
+  --bg:#0d0b14; --card:#1a1625; --card2:#231d33; --line:#2e2742;
+  --pink:#ff3d9a; --pink2:#ff7ac0; --gold:#ffc94d; --teal:#3de0c8; --red:#ff8a8a;
+  --txt:#f5f2fa; --mut:#9b93ad;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:var(--txt);font-family:Poppins,system-ui,sans-serif}
+body{min-height:100vh}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+button{background:none;border:0;cursor:pointer}
+#app{max-width:520px;margin:0 auto;min-height:100vh;position:relative;padding-bottom:110px;padding-top:env(safe-area-inset-top)}
+.sparkle{position:absolute;color:var(--gold);opacity:.7;pointer-events:none}
+.top{display:flex;justify-content:space-between;align-items:center;padding:16px 18px 12px;gap:10px}
+.logo{font-weight:800;font-size:20px;letter-spacing:.5px}
+.logo span{color:var(--pink)}
+.sub{color:var(--mut);font-size:12px}
+.icon{min-width:38px;height:38px;border-radius:12px;background:var(--card);display:grid;place-items:center;font-size:16px;border:1px solid var(--line);padding:0 8px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:4px 18px 12px}
+.stat{background:var(--card);border-radius:14px;padding:10px;text-align:center;border:1px solid var(--line)}
+.stat b{display:block;font-size:22px}
+.stat small{font-size:10px;color:var(--mut)}
+.tools{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 18px 12px}
+.tool{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:9px 4px;font-size:12px;font-weight:600;text-align:center}
+.tool.on{border-color:var(--pink);color:var(--pink2)}
+.search{display:block;width:calc(100% - 36px);margin:0 18px 10px;background:var(--card);border-radius:12px;padding:11px 14px;font-size:14px;border:1px solid var(--line);outline:none}
+.search:focus{border-color:var(--pink)}
+.chips{display:flex;gap:6px;padding:0 18px 10px;overflow-x:auto;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{font-size:12px;padding:6px 12px;border-radius:20px;background:var(--card);color:var(--mut);white-space:nowrap;border:1px solid var(--line);flex:none}
+.chip.on{background:var(--pink);color:#fff;border-color:var(--pink)}
+.chip.gold.on{background:var(--gold);color:#3a2a00;border-color:var(--gold)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:4px 18px}
+.tile{background:var(--card);border-radius:18px;padding:10px;border:1px solid var(--line);position:relative;text-align:left;width:100%}
+.tile.sel{border:2px solid var(--pink);box-shadow:0 0 0 3px rgba(255,61,154,.2)}
+.ph{height:128px;border-radius:12px;display:grid;place-items:center;font-size:32px;font-weight:700;color:rgba(255,255,255,.92);position:relative;overflow:hidden}
+.ph img,.av img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.num{position:absolute;top:6px;left:6px;background:rgba(0,0,0,.55);font-size:11px;padding:2px 7px;border-radius:8px;font-weight:700;z-index:2}
+.tile h4{font-size:13px;margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile p{font-size:11px;color:var(--mut)}
+.badge{position:absolute;top:16px;right:16px;font-size:9px;padding:3px 7px;border-radius:8px;font-weight:600;z-index:2}
+.b-assessed{background:var(--teal);color:#063}
+.b-new{background:var(--gold);color:#432}
+.b-placed{background:var(--pink);color:#fff}
+.check{position:absolute;bottom:56px;right:16px;width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.5);border:2px solid #fff;display:grid;place-items:center;font-size:13px;z-index:3}
+.tile.sel .check{background:var(--pink);border-color:var(--pink)}
+.g0{background:linear-gradient(135deg,#ff3d9a,#7b3dff)}.g1{background:linear-gradient(135deg,#ffc94d,#ff6b6b)}
+.g2{background:linear-gradient(135deg,#3de0c8,#3d7bff)}.g3{background:linear-gradient(135deg,#b06bff,#ff7ac0)}
+.g4{background:linear-gradient(135deg,#ff8a3d,#ff3d9a)}.g5{background:linear-gradient(135deg,#3d7bff,#3de0c8)}
+.fab{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));right:max(22px,calc(50% - 238px));width:60px;height:60px;border-radius:20px;background:var(--pink);display:grid;place-items:center;font-size:32px;color:#fff;box-shadow:0 8px 24px rgba(255,61,154,.5);z-index:20}
+.bottombar{position:fixed;left:0;right:0;bottom:0;padding:12px 18px calc(12px + env(safe-area-inset-bottom));background:rgba(13,11,20,.95);border-top:1px solid var(--line);display:flex;gap:10px;justify-content:center;z-index:20}
+.bottombar>*{max-width:240px;flex:1}
+.empty{text-align:center;color:var(--mut);padding:40px 30px;font-size:14px}
+.empty b{display:block;color:var(--txt);font-size:16px;margin-bottom:6px}
+/* profile */
+.hero{position:relative;height:210px;background:linear-gradient(160deg,#ff3d9a 0%,#7b3dff 100%)}
+.hero .back{position:absolute;top:16px;left:18px;background:rgba(0,0,0,.25);border:0}
+.hero .edit{position:absolute;top:16px;right:18px;background:rgba(0,0,0,.25);border:0}
+.av{position:absolute;bottom:-50px;left:50%;transform:translateX(-50%);width:116px;height:116px;border-radius:50%;border:4px solid var(--bg);display:grid;place-items:center;font-size:40px;font-weight:700;overflow:hidden}
+.cam{position:absolute;bottom:-44px;left:calc(50% + 30px);width:36px;height:36px;border-radius:50%;background:var(--pink);display:grid;place-items:center;font-size:15px;border:3px solid var(--bg);z-index:3}
+.pname{text-align:center;margin-top:58px;padding:0 18px}
+.pname h2{font-size:22px}
+.pname p{font-size:12px;color:var(--mut)}
+.tags{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;margin:10px 18px 14px}
+.tag{font-size:11px;padding:5px 10px;border-radius:10px;background:var(--card2);border:1px solid var(--line)}
+.tag.pk{color:var(--pink2)}.tag.gd{color:var(--gold)}.tag.tl{color:var(--teal)}
+.teamsel{background:var(--card2);border:1px solid var(--gold);color:var(--gold);border-radius:10px;font-size:11px;padding:4px 8px;outline:none}
+.tabs{display:flex;margin:0 18px 14px;background:var(--card);border-radius:14px;padding:4px;position:sticky;top:0;z-index:5}
+.tabs button{flex:1;text-align:center;font-size:12px;padding:9px 0;border-radius:10px;color:var(--mut)}
+.tabs .on{background:var(--pink);color:#fff;font-weight:600}
+.cat{background:var(--card);border-radius:16px;padding:12px 14px;margin:0 18px 10px;border:1px solid var(--line)}
+.cat-h{display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:6px}
+.cat-h span{color:var(--mut);font-weight:500;font-size:11px}
+.bar{height:6px;background:var(--card2);border-radius:4px;margin-bottom:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--pink),var(--gold));border-radius:4px;transition:width .3s}
+.sk{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;padding:7px 0;border-top:1px solid var(--line)}
+.seg{display:flex;gap:4px;flex:none}
+.seg button{font-size:10px;font-weight:600;padding:6px 8px;border-radius:8px;background:var(--card2);color:var(--mut)}
+.seg .no.on{background:#3a2a3a;color:var(--red)}.seg .wk.on{background:#4a3a1a;color:var(--gold)}.seg .ys.on{background:#1a3d38;color:var(--teal)}
+.info{margin:0 18px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:4px 14px}
+.info .r{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-top:1px solid var(--line);font-size:13px}
+.info .r:first-child{border-top:0}
+.info .r span{color:var(--mut);flex:none}
+.info .r b{font-weight:500;text-align:right;word-break:break-word}
+.info .r a{color:var(--pink2);text-decoration:none}
+.med{color:var(--gold)!important}
+/* videos */
+.vgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 18px}
+.vid{border-radius:14px;overflow:hidden;background:var(--card);border:1px solid var(--line);text-align:left;width:100%}
+.vth{height:110px;position:relative;display:grid;place-items:center;overflow:hidden}
+.vth video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.play{width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.5);display:grid;place-items:center;font-size:13px;position:relative;z-index:2}
+.dur{position:absolute;bottom:6px;right:6px;font-size:10px;background:rgba(0,0,0,.6);padding:1px 6px;border-radius:6px;z-index:2}
+.vid .m{padding:8px 10px}
+.vid h5{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.vid p{font-size:10px;color:var(--mut)}
+.upload{margin:12px 18px 0;border:2px dashed var(--pink);border-radius:16px;padding:16px;text-align:center;color:var(--pink2);font-size:14px;font-weight:600;width:calc(100% - 36px);display:block}
+.upload small{display:block;color:var(--mut);font-weight:400;font-size:11px;margin-top:3px}
+.upbar{margin:10px 18px 0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:12px}
+.upbar .bar{margin:6px 0 0}
+/* notes */
+.note{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin:0 18px 8px;font-size:13px;position:relative}
+.note small{display:block;color:var(--mut);font-size:10.5px;margin-top:4px}
+.note .x{position:absolute;top:6px;right:8px;color:var(--mut);font-size:14px;padding:4px}
+textarea.in{min-height:80px;resize:vertical}
+/* forms */
+.form{padding:0 18px}
+label{display:block;font-size:11px;color:var(--mut);margin:0 0 5px 2px}
+.in{display:block;width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;margin-bottom:12px;outline:none}
+.in:focus{border-color:var(--pink)}
+select.in{appearance:none;-webkit-appearance:none}
+input[type=date].in{min-height:46px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.auto{background:var(--card2);border:1px solid var(--pink);color:var(--pink2);border-radius:12px;padding:12px 14px;font-size:13px;margin-bottom:12px;font-weight:600;min-height:46px}
+.btn{display:block;width:100%;background:var(--pink);color:#fff;text-align:center;font-weight:700;border-radius:16px;padding:14px;font-size:15px}
+.btn.ghost{background:var(--card);border:1px solid var(--line);color:var(--txt);font-weight:600}
+.btn.danger{background:#3a1f2a;color:var(--red);border:1px solid #5a2a3a;font-weight:600}
+.btn:disabled{opacity:.5}
+.photo-pick{display:flex;gap:10px;margin-bottom:16px;align-items:stretch}
+.pp{flex:1;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 6px;text-align:center;font-size:12px;font-weight:600}
+.pp i{display:block;font-style:normal;font-size:24px;margin-bottom:4px}
+.pp.main{border:2px solid var(--pink);color:var(--pink2)}
+.preview{width:96px;height:96px;border-radius:16px;overflow:hidden;flex:none;position:relative;display:grid;place-items:center;font-size:28px;font-weight:700}
+.preview img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.ttl{font-size:20px;font-weight:700;padding:0 18px 2px}
+.sect{font-size:13px;font-weight:700;color:var(--pink2);margin:18px 0 8px}
+.help{font-size:11px;color:var(--mut);margin:-6px 2px 12px;line-height:1.5}
+/* login */
+.login{display:flex;flex-direction:column;justify-content:center;min-height:92vh;padding:0 30px;position:relative}
+.big-logo{font-size:46px;font-weight:800;text-align:center;line-height:1}
+.big-logo span{color:var(--pink)}
+.hub{text-align:center;color:var(--gold);letter-spacing:6px;font-size:13px;font-weight:600;margin:10px 0 6px}
+.season{text-align:center;color:var(--mut);font-size:12px;margin-bottom:36px}
+.lock{text-align:center;color:var(--mut);font-size:11px;margin-top:18px;line-height:1.6}
+.err{color:var(--red);font-size:12px;margin:-4px 0 12px;text-align:center}
+.demo{background:#2a2410;border:1px solid #5a4a1a;color:var(--gold);font-size:11.5px;border-radius:12px;padding:10px 12px;margin:0 18px 12px;line-height:1.5}
+/* quick assess */
+.qa-h{text-align:center;padding:4px 18px 10px}
+.qa-h small{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:1.5px}
+.qa-h h3{font-size:21px;color:var(--gold);margin-top:2px}
+.prog{margin:0 18px 6px;font-size:11px;color:var(--mut);display:flex;justify-content:space-between}
+.card-big{margin:10px 26px 0;background:var(--card);border-radius:26px;padding:16px;border:1px solid var(--line);text-align:center}
+.card-big .ph{height:min(48vh,300px);font-size:60px;border-radius:18px}
+.card-big h3{font-size:22px;margin-top:12px}
+.card-big p{font-size:12px;color:var(--mut)}
+.cur{font-size:11px;margin-top:6px}
+.btns{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 22px 0}
+.rb{border-radius:18px;padding:16px 4px;text-align:center;font-size:13px;font-weight:700;border:2px solid transparent}
+.rb i{display:block;font-style:normal;font-size:24px;margin-bottom:2px}
+.rb-no{background:#3a2a3a;color:var(--red)}.rb-wk{background:#4a3a1a;color:var(--gold)}.rb-ys{background:#1a3d38;color:var(--teal)}
+.rb.on{border-color:currentColor}
+.qnav{display:flex;justify-content:space-between;margin:14px 26px 0;font-size:13px;color:var(--mut)}
+.qnav button{color:var(--mut);padding:6px 4px}
+.qvid{margin:14px 22px 0;width:calc(100% - 44px);background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center;font-size:13px;color:var(--pink2);font-weight:600}
+.skillpick{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+/* compare */
+.cmp{margin:0 12px;overflow-x:auto}
+.cmp table{width:100%;border-collapse:collapse;font-size:12px}
+.cmp th,.cmp td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:center}
+.cmp td:first-child,.cmp th:first-child{text-align:left;color:var(--txt)}
+.cmp .ch td{color:var(--pink2);font-weight:700;padding-top:14px;text-align:left}
+.cmp .mini{width:46px;height:46px;border-radius:12px;margin:0 auto 4px;position:relative;overflow:hidden;display:grid;place-items:center;font-weight:700;font-size:16px}
+.cmp .mini img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.cmp th{font-size:11px;font-weight:600;vertical-align:bottom}
+.dot-ys{color:var(--teal);font-weight:700}.dot-wk{color:var(--gold);font-weight:700}.dot-no{color:var(--red);font-weight:700}.dot-na{color:#555}
+/* modal + toast */
+#modal{position:fixed;inset:0;z-index:50;display:none}
+#modal.open{display:block}
+.mback{position:absolute;inset:0;background:rgba(0,0,0,.7)}
+.mbox{position:absolute;left:0;right:0;bottom:0;max-width:520px;margin:0 auto;background:var(--bg);border:1px solid var(--line);border-radius:24px 24px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom));max-height:92vh;overflow:auto}
+.mbox h3{font-size:17px;margin-bottom:12px}
+.mbox video{width:100%;max-height:62vh;border-radius:14px;background:#000;display:block;margin-bottom:12px}
+#toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);background:#fff;color:#111;font-size:13px;font-weight:600;padding:10px 16px;border-radius:14px;opacity:0;transition:.25s;z-index:60;max-width:88vw;text-align:center;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.install{display:flex;align-items:center;gap:12px;background:var(--card2);border:1px solid var(--pink);border-radius:14px;padding:10px 12px;margin:0 18px 12px;font-size:12px;line-height:1.45}
+.install img{width:40px;height:40px;border-radius:10px;flex:none}
+.install div{flex:1}
+.install b{display:block;font-size:13px}
+.install .go{background:var(--pink);color:#fff;font-weight:700;border-radius:10px;padding:8px 12px;font-size:12px;flex:none}
+.install .x{color:var(--mut);font-size:18px;padding:2px 4px;flex:none}
+.loading{display:grid;place-items:center;min-height:80vh;color:var(--mut)}
+</style>
+</head>
+<body>
+<div id="app"><div class="loading">Loading…</div></div>
+<div id="modal"></div>
+<div id="toast"></div>
+
+<script>
+/* =====================================================================
+   1. FIREBASE SETUP
+   Paste your Firebase web config below (Firebase console > Project
+   settings > Your apps). Leave apiKey empty to run in DEMO MODE, which
+   keeps everything on this device only.
+   ===================================================================== */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyA6cgGaPcI45pMzGc-ehPBxztHSPhWdZWs",
+  authDomain: "eod-tryouts.firebaseapp.com",
+  projectId: "eod-tryouts",
+  storageBucket: "eod-tryouts.firebasestorage.app",
+  messagingSenderId: "213167019146",
+  appId: "1:213167019146:web:ec8f6e265acf90e1bb0973"
+};
+
+const MAX_VIDEO_SECONDS = 30;      // clips longer than this are rejected
+const MAX_VIDEO_MB = 150;          // safety cap on file size
+const PHOTO_MAX_PX = 900;          // photos are shrunk to this size before upload
+
+/* =====================================================================
+   2. DEFAULT SETTINGS (all editable inside the app under Settings)
+   ===================================================================== */
+const DEFAULT_SETTINGS = {
+  season: "2027 Season",
+  ageAsAt: "2027-12-31",
+  divisions: [
+    {name:"Tiny",max:6},{name:"Mini",max:9},{name:"Youth",max:12},
+    {name:"Junior",max:15},{name:"Senior",max:18},{name:"Open",max:99}
+  ],
+  teams: [],
+  skills: [
+    {cat:"Standing Tumbling", items:["Forward roll","Cartwheel","Back walkover","Standing back handspring","Standing BHS series","Standing back tuck","Standing full"]},
+    {cat:"Running Tumbling", items:["Round off","Round off BHS","Round off BHS series","Round off tuck","Round off BHS layout","Round off BHS full"]},
+    {cat:"Jumps", items:["Toe touch","Pike","Hurdler","Jump sequence x3"]},
+    {cat:"Stunting", items:["Flyer: prep","Flyer: extension","Flyer: lib","Flyer: body positions","Base","Backspot"]},
+    {cat:"Flexibility", items:["Left splits","Right splits","Middle splits","Heel stretch","Bow and arrow","Scorpion"]},
+    {cat:"Performance", items:["Sharp motions","Dance retention","Energy and facials"]}
+  ],
+  counter: 0
+};
+
+const DEMO = !FIREBASE_CONFIG.apiKey;
+const RATING = {0:{t:"No",c:"no",s:"✕"},1:{t:"Working",c:"wk",s:"~"},2:{t:"Has it",c:"ys",s:"✓"}};
+
+/* ================================ STATE ================================ */
+const S = {
+  user:null, athletes:[], settings:clone(DEFAULT_SETTINGS), ready:false,
+  view:"loading", id:null, tab:"info", q:"", div:"All", status:"All",
+  compareMode:false, compareSel:[], qa:null, vfilter:"All",
+  uploads:{}, pendingPhoto:null, loginErr:"", installEvt:null
+};
+const STANDALONE=window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;
+const IOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+function installDismissed(){try{return localStorage.getItem("eodth_install_hide")==="1"}catch(e){return false}}
+function installBanner(){
+  if(STANDALONE||installDismissed())return "";
+  if(S.installEvt)return `<div class="install"><img src="icons/icon-192.png" alt=""><div><b>Install the app</b>Adds EOD Tryouts to your home screen</div><button class="go" data-act="install">Install</button><button class="x" data-act="hideInstall" aria-label="Dismiss">×</button></div>`;
+  if(IOS)return `<div class="install"><img src="icons/icon-192.png" alt=""><div><b>Get the app</b>In Safari tap Share <span style="font-size:14px">⎋</span> then <b style="display:inline">Add to Home Screen</b></div><button class="x" data-act="hideInstall" aria-label="Dismiss">×</button></div>`;
+  return "";
+}
+
+/* =============================== HELPERS =============================== */
+function clone(o){return JSON.parse(JSON.stringify(o))}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function ymd(s){if(!s)return null;const p=String(s).split("-").map(Number);return p.length===3&&!p.some(isNaN)?p:null}
+function ageAt(dob,ref){const d=ymd(dob);if(!d)return null;let a=ref[0]-d[0];if(ref[1]<d[1]||(ref[1]===d[1]&&ref[2]<d[2]))a--;return a}
+function today(){const n=new Date();return [n.getFullYear(),n.getMonth()+1,n.getDate()]}
+function ageNow(dob){return ageAt(dob,today())}
+function divAge(dob){return ageAt(dob,ymd(S.settings.ageAsAt)||today())}
+function divisionOf(dob){const a=divAge(dob);if(a==null)return "";const ds=S.settings.divisions||[];for(const d of ds){if(a<=d.max)return d.name}return ds.length?ds[ds.length-1].name:""}
+function fmtDob(dob){const d=ymd(dob);return d?`${String(d[2]).padStart(2,"0")}/${String(d[1]).padStart(2,"0")}/${d[0]}`:""}
+function fmtWhen(ts){const d=new Date(ts);return d.toLocaleDateString("en-AU",{day:"numeric",month:"short"})+", "+d.toLocaleTimeString("en-AU",{hour:"numeric",minute:"2-digit"})}
+function fmtDay(ts){return new Date(ts).toLocaleDateString("en-AU",{day:"numeric",month:"short"})}
+function initials(a){return ((a.first||"?")[0]+((a.last||"")[0]||"")).toUpperCase()}
+function grad(a){return "g"+((a.num||0)%6)}
+function fullName(a){return `${a.first||""} ${a.last||""}`.trim()||"Unnamed"}
+function pad3(n){return "#"+String(n||0).padStart(3,"0")}
+function skillList(){const out=[];(S.settings.skills||[]).forEach(c=>c.items.forEach(n=>out.push({cat:c.cat,name:n,key:c.cat+"|"+n})));return out}
+function skillName(key){if(!key||key==="general")return "General";const i=key.indexOf("|");return i<0?key:key.slice(i+1)}
+function skillCat(key){if(!key||key==="general")return "General";const i=key.indexOf("|");return i<0?"General":key.slice(0,i)}
+function statusOf(a){if(a.team)return "placed";const s=a.skills||{};return Object.keys(s).length?"assessed":"new"}
+const STATUS_LABEL={new:"To see",assessed:"Assessed",placed:"Placed"};
+function find(id){return S.athletes.find(a=>a.id===id)}
+function coachName(){try{const n=localStorage.getItem("eodth_coach");if(n)return n}catch(e){}return S.user&&S.user.email?S.user.email.split("@")[0]:"Coach"}
+function photoHtml(a){return a.photoURL?`<img src="${esc(a.photoURL)}" alt="">`:esc(initials(a))}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("show"),2600)}
+function openModal(html){const m=document.getElementById("modal");m.innerHTML=`<div class="mback" data-act="closeModal"></div><div class="mbox">${html}</div>`;m.classList.add("open")}
+function closeModal(){const m=document.getElementById("modal");m.querySelectorAll("video").forEach(v=>v.pause());m.classList.remove("open");m.innerHTML=""}
+function ask(msg,ok="Delete",typed){
+  return new Promise(res=>{
+    ask._res=res;
+    openModal(`<h3>${esc(msg)}</h3>${typed?`<label for="askTyped">Type ${typed} to confirm</label><input class="in" id="askTyped" autocomplete="off">`:""}
+      <div class="row" style="margin-top:6px"><button class="btn ghost" data-act="askNo">Cancel</button><button class="btn ${ok==="Delete"||typed?"danger":""}" data-act="askYes" data-typed="${typed||""}">${esc(ok)}</button></div>`);
+  });
+}
+function sparkles(){return `<span class="sparkle" style="top:70px;left:40px;font-size:18px">✦</span><span class="sparkle" style="top:120px;right:44px;font-size:12px">✦</span>`}
+
+function pickFile(accept,capture){
+  return new Promise(res=>{
+    const i=document.createElement("input");i.type="file";i.accept=accept;i.style.display="none";
+    if(capture)i.setAttribute("capture",capture);
+    i.onchange=()=>{res(i.files[0]||null);i.remove()};
+    document.body.appendChild(i);i.click();
+  });
+}
+function loadImg(src){return new Promise((res,rej)=>{const im=new Image();im.onload=()=>res(im);im.onerror=rej;im.src=src})}
+async function compressImage(file){
+  const url=URL.createObjectURL(file);
+  try{
+    const im=await loadImg(url);
+    const sc=Math.min(1,PHOTO_MAX_PX/Math.max(im.width,im.height));
+    const c=document.createElement("canvas");c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);
+    c.getContext("2d").drawImage(im,0,0,c.width,c.height);
+    return await new Promise(r=>c.toBlob(r,"image/jpeg",0.82));
+  }finally{URL.revokeObjectURL(url)}
+}
+function videoDuration(file){
+  return new Promise(res=>{
+    const v=document.createElement("video");v.preload="metadata";v.muted=true;
+    const done=d=>{URL.revokeObjectURL(v.src);res(d)};
+    v.onloadedmetadata=()=>done(v.duration);v.onerror=()=>done(0);
+    setTimeout(()=>done(0),8000);
+    v.src=URL.createObjectURL(file);
+  });
+}
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=()=>rej(new Error("Could not load "+src));document.head.appendChild(s)})}
+
+/* ======================= BACKEND: FIREBASE ======================= */
+function FirebaseBackend(){
+  let fb,db,st,auth,unA,unS;
+  const V="10.12.2",base=`https://www.gstatic.com/firebasejs/${V}/`;
+  return {
+    async init(){
+      for(const f of ["firebase-app-compat.js","firebase-auth-compat.js","firebase-firestore-compat.js","firebase-storage-compat.js"])await loadScript(base+f);
+      fb=window.firebase;fb.initializeApp(FIREBASE_CONFIG);
+      auth=fb.auth();db=fb.firestore();st=fb.storage();
+      try{await db.enablePersistence({synchronizeTabs:true})}catch(e){}
+    },
+    onAuth(cb){auth.onAuthStateChanged(u=>cb(u?{email:u.email,uid:u.uid}:null))},
+    signIn(e,p){return auth.signInWithEmailAndPassword(e,p)},
+    signOut(){return auth.signOut()},
+    listen(onA,onS){
+      unA=db.collection("athletes").onSnapshot(s=>onA(s.docs.map(d=>({id:d.id,...d.data()}))),e=>toast("Sync error: "+e.message));
+      unS=db.doc("config/settings").onSnapshot(d=>onS(d.exists?d.data():null),e=>toast("Sync error: "+e.message));
+    },
+    unlisten(){unA&&unA();unS&&unS()},
+    newId(){return db.collection("athletes").doc().id},
+    async createAthlete(id,data){
+      const sref=db.doc("config/settings"),aref=db.collection("athletes").doc(id);
+      await db.runTransaction(async t=>{
+        const s=await t.get(sref);const n=((s.exists&&s.data().counter)||0)+1;
+        t.set(sref,{counter:n},{merge:true});
+        t.set(aref,{...data,num:n,skills:{},notes:[],videos:[],createdAt:Date.now()});
+      });
+    },
+    updateAthlete(id,patch){return db.collection("athletes").doc(id).update(patch)},
+    setRating(id,key,v){
+      const FP=fb.firestore.FieldPath,FV=fb.firestore.FieldValue;
+      return db.collection("athletes").doc(id).update(new FP("skills",key),v==null?FV.delete():v);
+    },
+    addToList(id,field,item){return db.collection("athletes").doc(id).update({[field]:fb.firestore.FieldValue.arrayUnion(item)})},
+    removeFromList(id,field,item){return db.collection("athletes").doc(id).update({[field]:fb.firestore.FieldValue.arrayRemove(item)})},
+    uploadFile(path,blob,onP){
+      return new Promise((res,rej)=>{
+        const task=st.ref(path).put(blob,{contentType:blob.type||"application/octet-stream"});
+        task.on("state_changed",s=>onP&&onP(s.bytesTransferred/s.totalBytes*100),rej,async()=>{try{res(await task.snapshot.ref.getDownloadURL())}catch(e){rej(e)}});
+      });
+    },
+    async deleteFile(path){if(!path)return;try{await st.ref(path).delete()}catch(e){}},
+    async deleteAthlete(a){
+      for(const v of a.videos||[])await this.deleteFile(v.path);
+      await this.deleteFile(a.photoPath);
+      await db.collection("athletes").doc(a.id).delete();
+    },
+    saveSettings(patch){return db.doc("config/settings").set(patch,{merge:true})}
+  };
+}
+
+/* ======================= BACKEND: DEMO (this device only) ======================= */
+function DemoBackend(){
+  const K="eodth_demo_v1";let data,onA=()=>{},onS=()=>{},authCb=()=>{};
+  const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v);return true}catch(e){return false}}};
+  function seed(){
+    const sk=(o)=>o;
+    const A=[
+      ["Ava","Kennedy","2015-05-12",{"Standing Tumbling|Back walkover":2,"Standing Tumbling|Standing back handspring":2,"Running Tumbling|Round off BHS":2,"Jumps|Toe touch":1}],
+      ["Mia","Thompson","2017-03-14",{}],
+      ["Chloe","Reid","2012-09-02",{"Standing Tumbling|Standing back tuck":2,"Running Tumbling|Round off BHS layout":1,"Stunting|Flyer: lib":2,"Jumps|Toe touch":2}],
+      ["Zara","Lim","2019-11-20",{}],
+      ["Isla","Moreno","2014-08-02",{"Standing Tumbling|Cartwheel":2,"Standing Tumbling|Back walkover":1,"Flexibility|Left splits":2}],
+      ["Ruby","Nguyen","2016-01-30",{"Jumps|Toe touch":0,"Jumps|Pike":1}],
+      ["Harper","Cole","2010-04-18",{"Running Tumbling|Round off BHS full":1,"Stunting|Base":2,"Stunting|Backspot":2}],
+      ["Olivia","Brooks","2013-07-07",{}]
+    ];
+    const now=Date.now();
+    return {settings:{...clone(DEFAULT_SETTINGS),counter:A.length,teams:["Mini Level 2","Youth Level 3","Junior Level 4","Senior Level 5"]},
+      athletes:A.map((r,i)=>({id:"d"+i,num:i+1,first:r[0],last:r[1],dob:r[2],parentName:"",parentPhone:"",parentEmail:"",prevGym:"",experience:"",medical:"",
+        skills:sk(r[3]),notes:i===0?[{text:"Strong tumbler, very coachable. Consider for Youth L3.",by:"Lydia",at:now-3600e3}]:[],videos:[],team:i===2?"Junior Level 4":"",createdAt:now-i*1000}))};
+  }
+  function load(){try{data=JSON.parse(store.get(K))}catch(e){}if(!data||!data.athletes)data=seed();
+    data.athletes.forEach(a=>a.videos=(a.videos||[]).filter(v=>!String(v.url).startsWith("blob:")));}
+  function save(){if(!store.set(K,JSON.stringify(data)))toast("Demo storage is full on this device")}
+  function emit(){onA(clone(data.athletes));onS(clone(data.settings))}
+  function A(id){return data.athletes.find(a=>a.id===id)}
+  const change=()=>{save();setTimeout(emit,0)};
+  return {
+    async init(){load()},
+    onAuth(cb){authCb=cb;cb(store.get("eodth_demo_login")?{email:store.get("eodth_demo_login"),uid:"demo"}:null)},
+    async signIn(e){store.set("eodth_demo_login",e||"demo@eod");authCb({email:e||"demo@eod",uid:"demo"})},
+    async signOut(){try{localStorage.removeItem("eodth_demo_login")}catch(e){}authCb(null)},
+    listen(a,s){onA=a;onS=s;emit()},
+    unlisten(){},
+    newId(){return "d"+Date.now()},
+    async createAthlete(id,d){data.settings.counter=(data.settings.counter||0)+1;data.athletes.push({...d,id,num:data.settings.counter,skills:{},notes:[],videos:[],createdAt:Date.now()});change()},
+    async updateAthlete(id,p){Object.assign(A(id),p);change()},
+    async setRating(id,k,v){const a=A(id);a.skills=a.skills||{};if(v==null)delete a.skills[k];else a.skills[k]=v;change()},
+    async addToList(id,f,item){const a=A(id);(a[f]=a[f]||[]).push(item);change()},
+    async removeFromList(id,f,item){const a=A(id);const j=JSON.stringify(item);a[f]=(a[f]||[]).filter(x=>JSON.stringify(x)!==j);change()},
+    uploadFile(path,blob,onP){
+      return new Promise(res=>{
+        let p=0;const iv=setInterval(()=>{p=Math.min(100,p+25);onP&&onP(p);if(p>=100){clearInterval(iv);
+          if((blob.type||"").startsWith("image/")){const fr=new FileReader();fr.onload=()=>res(fr.result);fr.readAsDataURL(blob)}
+          else res(URL.createObjectURL(blob));}},150);
+      });
+    },
+    async deleteFile(){},
+    async deleteAthlete(a){data.athletes=data.athletes.filter(x=>x.id!==a.id);change()},
+    async saveSettings(p){Object.assign(data.settings,p);change()}
+  };
+}
+
+const B = DEMO ? DemoBackend() : FirebaseBackend();
+
+/* ================================ VIEWS ================================ */
+function vLogin(){
+  return `<div class="login">${sparkles()}
+    <div class="big-logo">EOD<br><span>ALLSTARS</span></div>
+    <div class="hub">TRYOUT HUB</div>
+    <div class="season">${esc(S.settings.season)}</div>
+    <label>Coach email</label><input class="in" id="l-email" type="email" autocomplete="username" data-keep>
+    <label>Password</label><input class="in" id="l-pass" type="password" autocomplete="current-password" data-keep>
+    ${S.loginErr?`<div class="err">${esc(S.loginErr)}</div>`:""}
+    <button class="btn" data-act="login">Log in</button>
+    <div class="lock">🔒 Coaches only. Athlete info is private.${DEMO?`<br><b style="color:var(--gold)">Demo mode:</b> any email and password works.`:""}</div>
+  </div>`;
+}
+
+function filtered(){
+  const q=S.q.trim().toLowerCase();
+  return S.athletes.filter(a=>{
+    if(S.div!=="All"&&divisionOf(a.dob)!==S.div)return false;
+    if(S.status!=="All"&&statusOf(a)!==S.status)return false;
+    if(q){const hay=(fullName(a)+" "+pad3(a.num)+" "+a.num+" "+(a.team||"")).toLowerCase();if(!hay.includes(q))return false}
+    return true;
+  }).sort((a,b)=>(a.num||0)-(b.num||0));
+}
+
+function vHome(){
+  const all=S.athletes,list=filtered();
+  const assessed=all.filter(a=>statusOf(a)!=="new").length;
+  const divs=["All",...(S.settings.divisions||[]).map(d=>d.name)];
+  const sts=[["All","All"],["new","To see"],["assessed","Assessed"],["placed","Placed"]];
+  return `
+  <div class="top"><div><div class="logo">EOD <span>Tryouts</span></div><div class="sub">${esc(S.settings.season)} ✦</div></div>
+    <button class="icon" data-act="go" data-v="settings" aria-label="Settings">⚙️</button></div>
+  ${installBanner()}
+  ${DEMO?`<div class="demo">Demo mode: data stays on this device only. Add your Firebase details to go live.</div>`:""}
+  <div class="stats"><div class="stat"><b>${all.length}</b><small>Athletes</small></div>
+    <div class="stat"><b style="color:var(--teal)">${assessed}</b><small>Assessed</small></div>
+    <div class="stat"><b style="color:var(--gold)">${all.length-assessed}</b><small>To see</small></div></div>
+  <div class="tools">
+    <button class="tool" data-act="qaStart">⚡ Quick assess</button>
+    <button class="tool ${S.compareMode?"on":""}" data-act="toggleCompare">⇄ Compare</button>
+    <button class="tool" data-act="export">⬇ Export</button>
+  </div>
+  <input class="search" id="search" placeholder="🔍  Search name, tryout # or team" value="${esc(S.q)}" data-keep autocomplete="off">
+  <div class="chips">${divs.map(d=>`<button class="chip ${S.div===d?"on":""}" data-act="div" data-v="${esc(d)}">${esc(d)}</button>`).join("")}</div>
+  <div class="chips">${sts.map(([v,t])=>`<button class="chip gold ${S.status===v?"on":""}" data-act="status" data-v="${v}">${t}</button>`).join("")}</div>
+  ${list.length?`<div class="grid">${list.map(tile).join("")}</div>`:
+    `<div class="empty">${all.length?"<b>No matches</b>Try a different filter or search.":"<b>No athletes yet</b>Tap + to add your first tryout athlete."}</div>`}
+  ${S.compareMode?`<div class="bottombar"><button class="btn ghost" data-act="toggleCompare">Cancel</button>
+     <button class="btn" data-act="go" data-v="compare" ${S.compareSel.length<2?"disabled":""}>Compare ${S.compareSel.length||""}</button></div>`
+   :`<button class="fab" data-act="add" aria-label="Add athlete">+</button>`}`;
+}
+function tile(a){
+  const st=statusOf(a),sel=S.compareSel.includes(a.id);
+  return `<button class="tile ${sel?"sel":""}" data-act="${S.compareMode?"cmpSel":"open"}" data-id="${a.id}">
+    <div class="ph ${grad(a)}"><span class="num">${pad3(a.num)}</span>${photoHtml(a)}</div>
+    <span class="badge b-${st}">${STATUS_LABEL[st]}</span>
+    ${S.compareMode?`<span class="check">${sel?"✓":""}</span>`:""}
+    <h4>${esc(fullName(a))}</h4><p>${a.dob?`Age ${ageNow(a.dob)} · ${esc(divisionOf(a.dob))}`:"No DOB"}${a.team?` · ${esc(a.team)}`:""}</p></button>`;
+}
+
+function vProfile(){
+  const a=find(S.id);if(!a)return `<div class="empty"><b>Athlete not found</b><button class="btn ghost" data-act="go" data-v="home">Back</button></div>`;
+  const st=statusOf(a);
+  const teams=S.settings.teams||[];
+  const teamSel=`<select class="teamsel" id="teamSel" data-id="${a.id}"><option value="">★ Suggested team…</option>${teams.map(t=>`<option ${a.team===t?"selected":""}>${esc(t)}</option>`).join("")}${a.team&&!teams.includes(a.team)?`<option selected>${esc(a.team)}</option>`:""}</select>`;
+  const tabs=[["info","Info"],["skills","Skills"],["videos",`Videos${(a.videos||[]).length?" ("+a.videos.length+")":""}`],["notes",`Notes${(a.notes||[]).length?" ("+a.notes.length+")":""}`]];
+  let body="";
+  if(S.tab==="info")body=tInfo(a);else if(S.tab==="skills")body=tSkills(a);else if(S.tab==="videos")body=tVideos(a);else body=tNotes(a);
+  return `
+  <div class="hero">
+    <button class="icon back" data-act="go" data-v="home" aria-label="Back">‹</button>
+    <button class="icon edit" data-act="edit" aria-label="Edit">✎</button>
+    <span class="sparkle" style="top:60px;left:80px;font-size:18px">✦</span><span class="sparkle" style="top:110px;right:90px;font-size:12px">✦</span>
+    <div class="av ${grad(a)}">${photoHtml(a)}</div>
+    <button class="cam" data-act="photo" aria-label="Change photo">📷</button>
+  </div>
+  <div class="pname"><h2>${esc(fullName(a))}</h2>
+    <p>Tryout ${pad3(a.num)}${a.dob?` · DOB ${fmtDob(a.dob)} · Age ${ageNow(a.dob)}`:""}</p></div>
+  <div class="tags">${a.dob?`<span class="tag pk">${esc(divisionOf(a.dob))}</span>`:""}<span class="tag ${st==="placed"?"pk":st==="assessed"?"tl":"gd"}">${STATUS_LABEL[st]}</span>${teamSel}</div>
+  <div class="tabs">${tabs.map(([k,t])=>`<button class="${S.tab===k?"on":""}" data-act="tab" data-v="${k}">${t}</button>`).join("")}</div>
+  ${body}`;
+}
+function tInfo(a){
+  const r=(l,v,cls="")=>`<div class="r"><span>${l}</span><b class="${cls}">${v||"<span style='color:#5d5670'>–</span>"}</b></div>`;
+  const da=divAge(a.dob);
+  return `<div class="info">
+    ${r("Name",esc(fullName(a)))}
+    ${r("Date of birth",a.dob?`${fmtDob(a.dob)}`:"")}
+    ${r("Division",a.dob?`${esc(divisionOf(a.dob))} <span style="color:var(--mut);font-size:11px">(age ${da} at ${fmtDob(S.settings.ageAsAt)})</span>`:"")}
+    ${r("Parent",esc(a.parentName))}
+    ${r("Phone",a.parentPhone?`<a href="tel:${esc(a.parentPhone.replace(/\s/g,""))}">${esc(a.parentPhone)}</a>`:"")}
+    ${r("Email",a.parentEmail?`<a href="mailto:${esc(a.parentEmail)}">${esc(a.parentEmail)}</a>`:"")}
+    ${r("Previous gym",esc(a.prevGym))}
+    ${r("Experience",esc(a.experience))}
+    ${r("Medical notes",esc(a.medical),a.medical?"med":"")}
+  </div>
+  <div class="form" style="margin-top:14px"><button class="btn ghost" data-act="edit">✎ Edit details</button></div>`;
+}
+function tSkills(a){
+  const s=a.skills||{};
+  return (S.settings.skills||[]).map(c=>{
+    const has=c.items.filter(n=>s[c.cat+"|"+n]===2).length;
+    return `<div class="cat"><div class="cat-h">${esc(c.cat)}<span>${has} of ${c.items.length}</span></div>
+      <div class="bar"><i style="width:${c.items.length?has/c.items.length*100:0}%"></i></div>
+      ${c.items.map(n=>{const k=c.cat+"|"+n,v=s[k];
+        return `<div class="sk"><span>${esc(n)}</span><div class="seg">${[0,1,2].map(x=>`<button class="${RATING[x].c} ${v===x?"on":""}" data-act="rate" data-id="${a.id}" data-k="${esc(k)}" data-v="${x}">${RATING[x].t}</button>`).join("")}</div></div>`}).join("")}
+    </div>`}).join("") || `<div class="empty">No skills set up yet. Add them in Settings.</div>`;
+}
+function tVideos(a){
+  const vids=(a.videos||[]).slice().sort((x,y)=>y.at-x.at);
+  const cats=["All",...new Set(vids.map(v=>skillCat(v.skill)))];
+  if(!cats.includes(S.vfilter))S.vfilter="All";
+  const shown=vids.filter(v=>S.vfilter==="All"||skillCat(v.skill)===S.vfilter);
+  const ups=Object.entries(S.uploads).filter(([,u])=>u.athleteId===a.id);
+  return `
+  ${vids.length?`<div class="chips">${cats.map(c=>`<button class="chip ${S.vfilter===c?"on":""}" data-act="vfilter" data-v="${esc(c)}">${esc(c)}${c==="All"?` (${vids.length})`:""}</button>`).join("")}</div>`:""}
+  ${ups.map(([id,u])=>`<div class="upbar" data-up="${id}">Uploading ${esc(u.label)}… <span class="pct">${Math.round(u.pct)}%</span><div class="bar"><i style="width:${u.pct}%"></i></div></div>`).join("")}
+  ${shown.length?`<div class="vgrid" style="margin-top:${ups.length?10:0}px">${shown.map((v,i)=>`
+    <button class="vid" data-act="playVid" data-i="${vids.indexOf(v)}">
+      <div class="vth ${["g0","g2","g1","g3"][i%4]}"><video src="${esc(v.url)}#t=0.1" preload="metadata" muted playsinline></video><div class="play">▶</div>${v.dur?`<span class="dur">0:${String(v.dur).padStart(2,"0")}</span>`:""}</div>
+      <div class="m"><h5>${esc(skillName(v.skill))}</h5><p>${esc(skillCat(v.skill))} · ${fmtDay(v.at)}${v.by?" · "+esc(v.by):""}</p></div>
+    </button>`).join("")}</div>`:(ups.length?"":`<div class="empty" style="padding:24px 30px">No videos yet.</div>`)}
+  <button class="upload" data-act="addVideo">＋ Add video<small>Film now or choose from camera roll · max ${MAX_VIDEO_SECONDS} sec</small></button>`;
+}
+function tNotes(a){
+  const notes=(a.notes||[]).slice().sort((x,y)=>y.at-x.at);
+  return `<div class="form"><textarea class="in" id="noteText" placeholder="Add a note about ${esc(a.first||"this athlete")}…" data-keep></textarea>
+    <button class="btn" data-act="addNote" style="margin-bottom:16px">Add note</button></div>
+    ${notes.map(n=>`<div class="note">${esc(n.text).replace(/\n/g,"<br>")}<small>${esc(n.by||"")} · ${fmtWhen(n.at)}</small>
+      <button class="x" data-act="delNote" data-at="${n.at}" aria-label="Delete note">×</button></div>`).join("")||`<div class="empty" style="padding:20px">No notes yet.</div>`}`;
+}
+
+function vForm(){
+  const isEdit=S.view==="edit",a=isEdit?find(S.id):{};
+  if(isEdit&&!a)return vHome();
+  const pp=S.pendingPhoto;
+  const prev=pp?`<img src="${pp.url}" alt="">`:(a.photoURL?`<img src="${esc(a.photoURL)}" alt="">`:"📷");
+  const f=(id,label,val,type="text",ph="")=>`<label for="f-${id}">${label}</label><input class="in" id="f-${id}" type="${type}" value="${esc(val||"")}" placeholder="${esc(ph)}" data-keep>`;
+  return `
+  <div class="top"><button class="icon" data-act="${isEdit?"open":"go"}" data-v="home" data-id="${S.id||""}" aria-label="Close">✕</button>
+    <div class="sub">${isEdit?`Tryout <b style="color:var(--gold)">${pad3(a.num)}</b>`:`Tryout # <b style="color:var(--gold)">assigned on save</b>`}</div></div>
+  <div class="ttl">${isEdit?"Edit athlete":"New athlete"}</div><div class="sub" style="padding:0 18px;margin-bottom:14px">${isEdit?"Update details":"Takes under a minute ✦"}</div>
+  <div class="form">
+    <div class="photo-pick"><div class="preview ${isEdit?grad(a):"g0"}">${prev}</div>
+      <button class="pp main" data-act="formPhoto" data-v="camera"><i>📷</i>Take photo</button>
+      <button class="pp" data-act="formPhoto" data-v="roll"><i>🖼️</i>Camera roll</button></div>
+    <div class="row"><div>${f("first","First name",a.first)}</div><div>${f("last","Last name",a.last)}</div></div>
+    <div class="row"><div>${f("dob","Date of birth",a.dob,"date")}</div><div><label>Division (auto)</label><div class="auto" id="f-div">${a.dob?`Age ${ageNow(a.dob)} · ${esc(divisionOf(a.dob))}`:"–"}</div></div></div>
+    ${f("parentName","Parent name",a.parentName,"text","e.g. Jess Moreno")}
+    <div class="row"><div>${f("parentPhone","Parent phone",a.parentPhone,"tel","04xx xxx xxx")}</div><div>${f("parentEmail","Parent email",a.parentEmail,"email","Optional")}</div></div>
+    ${f("prevGym","Previous gym",a.prevGym,"text","Optional")}
+    ${f("experience","Experience",a.experience,"text","e.g. 2 years rec, 1 year allstar")}
+    <label for="f-medical">Medical notes</label><textarea class="in" id="f-medical" placeholder="Injuries, conditions, allergies" data-keep>${esc(a.medical||"")}</textarea>
+    <button class="btn" data-act="saveForm" id="saveBtn">${isEdit?"Save changes":"Save athlete"}</button>
+    ${isEdit?`<button class="btn danger" data-act="delAthlete" style="margin-top:22px">Delete athlete</button>`:""}
+  </div>`;
+}
+
+function vQuick(){
+  const qa=S.qa;
+  if(!qa.skill){
+    const divs=["All",...(S.settings.divisions||[]).map(d=>d.name)];
+    return `<div class="top"><button class="icon" data-act="go" data-v="home">✕</button><div class="logo" style="font-size:16px">Quick <span>Assess</span></div><span style="width:38px"></span></div>
+    <div class="form"><div class="sect" style="margin-top:4px">1. Division</div>
+      <div class="skillpick">${divs.map(d=>`<button class="chip ${qa.div===d?"on":""}" data-act="qaDiv" data-v="${esc(d)}">${esc(d)} (${S.athletes.filter(a=>d==="All"||divisionOf(a.dob)===d).length})</button>`).join("")}</div>
+      <div class="sect">2. Skill</div>
+      ${(S.settings.skills||[]).map(c=>`<div class="sub" style="margin:10px 0 6px">${esc(c.cat)}</div><div class="skillpick">${c.items.map(n=>`<button class="chip" data-act="qaSkill" data-v="${esc(c.cat+"|"+n)}">${esc(n)}</button>`).join("")}</div>`).join("")}
+    </div>`;
+  }
+  const list=qa.ids.map(find).filter(Boolean);
+  if(qa.i>=list.length){
+    return `<div class="top"><button class="icon" data-act="go" data-v="home">✕</button><div class="logo" style="font-size:16px">Quick <span>Assess</span></div><span style="width:38px"></span></div>
+    <div class="empty" style="padding-top:80px"><div style="font-size:48px">🎉</div><b>${esc(skillName(qa.skill))} done</b>${list.length} athlete${list.length===1?"":"s"} in ${esc(qa.div==="All"?"all divisions":qa.div)}</div>
+    <div class="form"><button class="btn" data-act="qaNewSkill" style="margin-bottom:10px">Pick another skill</button>
+    <button class="btn ghost" data-act="qaRestart" style="margin-bottom:10px">Go through again</button>
+    <button class="btn ghost" data-act="go" data-v="home">Back to home</button></div>`;
+  }
+  const a=list[qa.i],v=(a.skills||{})[qa.skill];
+  return `<div class="top"><button class="icon" data-act="go" data-v="home">✕</button><div class="logo" style="font-size:16px">Quick <span>Assess</span></div><button class="icon" data-act="qaNewSkill" aria-label="Change skill">⇄</button></div>
+  <div class="qa-h"><small>Now assessing</small><h3>${esc(skillName(qa.skill))}</h3></div>
+  <div class="prog"><span>${esc(qa.div==="All"?"All divisions":qa.div)}</span><span>${qa.i+1} of ${list.length}</span></div>
+  <div class="bar" style="margin:0 18px"><i style="width:${(qa.i+1)/list.length*100}%"></i></div>
+  <div class="card-big"><div class="ph ${grad(a)}"><span class="num" style="font-size:15px;padding:4px 10px">${pad3(a.num)}</span>${photoHtml(a)}</div>
+    <h3>${esc(fullName(a))}</h3><p>${a.dob?`Age ${ageNow(a.dob)} · ${esc(divisionOf(a.dob))}`:""}</p>
+    <div class="cur sub">${v!=null?`Currently: <b class="dot-${RATING[v].c}">${RATING[v].t}</b>`:"Not assessed yet"}</div></div>
+  <div class="btns">${[0,1,2].map(x=>`<button class="rb rb-${RATING[x].c} ${v===x?"on":""}" data-act="qaRate" data-v="${x}"><i>${RATING[x].s}</i>${RATING[x].t}</button>`).join("")}</div>
+  <div class="qnav"><button data-act="qaPrev" ${qa.i===0?"disabled style='opacity:.3'":""}>‹ Back</button><button data-act="open" data-id="${a.id}">Profile</button><button data-act="qaNext">Skip ›</button></div>
+  <button class="qvid" data-act="qaFilm">🎥  Film this attempt</button>`;
+}
+
+function vCompare(){
+  const list=S.compareSel.map(find).filter(Boolean);
+  const cell=(a,k)=>{const v=(a.skills||{})[k];return v==null?`<span class="dot-na">–</span>`:`<span class="dot-${RATING[v].c}">${RATING[v].s}</span>`};
+  return `<div class="top"><button class="icon" data-act="go" data-v="home">‹</button><div class="logo" style="font-size:16px">Compare</div><span style="width:38px"></span></div>
+  <div class="cmp"><table>
+    <tr><th></th>${list.map(a=>`<th><div class="mini ${grad(a)}">${photoHtml(a)}</div>${esc(a.first||"")}<br><span class="sub">${pad3(a.num)}</span></th>`).join("")}</tr>
+    <tr><td class="sub">Age · Division</td>${list.map(a=>`<td class="sub">${a.dob?ageNow(a.dob)+" · "+esc(divisionOf(a.dob)):"–"}</td>`).join("")}</tr>
+    <tr><td class="sub">Team</td>${list.map(a=>`<td class="sub">${esc(a.team||"–")}</td>`).join("")}</tr>
+    ${(S.settings.skills||[]).map(c=>`<tr class="ch"><td colspan="${list.length+1}">${esc(c.cat)}</td></tr>
+      <tr><td class="sub">Has it</td>${list.map(a=>`<td class="sub">${c.items.filter(n=>(a.skills||{})[c.cat+"|"+n]===2).length}/${c.items.length}</td>`).join("")}</tr>
+      ${c.items.map(n=>`<tr><td>${esc(n)}</td>${list.map(a=>`<td>${cell(a,c.cat+"|"+n)}</td>`).join("")}</tr>`).join("")}`).join("")}
+  </table></div>
+  <p class="sub" style="text-align:center;margin-top:14px">✓ Has it · ~ Working · ✕ No · – Not assessed</p>`;
+}
+
+function vSettings(){
+  const st=S.settings;
+  const skillsTxt=(st.skills||[]).map(c=>"# "+c.cat+"\n"+c.items.join("\n")).join("\n\n");
+  const divTxt=(st.divisions||[]).map(d=>`${d.name}: ${d.max}`).join("\n");
+  const vidCount=S.athletes.reduce((n,a)=>n+(a.videos||[]).length,0);
+  return `<div class="top"><button class="icon" data-act="go" data-v="home">‹</button><div class="logo" style="font-size:16px">Settings</div><span style="width:38px"></span></div>
+  <div class="form">
+    <div class="sect">You</div>
+    <label for="s-coach">Your name (shown on notes and videos)</label><input class="in" id="s-coach" value="${esc(coachName())}" data-keep>
+    <div class="sub" style="margin:-4px 2px 12px">Logged in as ${esc(S.user?S.user.email:"")}</div>
+    <div class="sect">Season</div>
+    <label for="s-season">Season name</label><input class="in" id="s-season" value="${esc(st.season)}" data-keep>
+    <label for="s-asat">Age divisions are worked out as at</label><input class="in" id="s-asat" type="date" value="${esc(st.ageAsAt)}" data-keep>
+    <label for="s-div">Divisions (name: oldest age)</label><textarea class="in" id="s-div" rows="6" data-keep>${esc(divTxt)}</textarea>
+    <div class="help">One per line, youngest first. E.g. "Mini: 9" means age 9 and under (after Tiny).</div>
+    <label for="s-teams">Teams (for placements)</label><textarea class="in" id="s-teams" rows="5" placeholder="One team per line" data-keep>${esc((st.teams||[]).join("\n"))}</textarea>
+    <label for="s-skills">Skills checklist</label><textarea class="in" id="s-skills" rows="16" data-keep style="font-size:13px">${esc(skillsTxt)}</textarea>
+    <div class="help">Start a category with #, then one skill per line underneath. Renaming a skill clears ticks already given for it.</div>
+    <button class="btn" data-act="saveSettings">Save settings</button>
+    <div class="sect" style="margin-top:28px">Data</div>
+    <button class="btn ghost" data-act="export" style="margin-bottom:10px">⬇ Export everyone (spreadsheet)</button>
+    <button class="btn danger" data-act="clearVideos" style="margin-bottom:10px">Archive season: delete all ${vidCount} videos</button>
+    <div class="help">Use once placements are final to free up storage. Profiles, skills and notes are kept.</div>
+    <button class="btn ghost" data-act="logout" style="margin-top:10px">Log out</button>
+  </div>`;
+}
+
+/* =============================== RENDER =============================== */
+function render(){
+  const app=document.getElementById("app");
+  const ae=document.activeElement,focusId=ae&&ae.id&&ae.hasAttribute("data-keep")?ae.id:null;
+  let sel=null;try{if(focusId)sel=[ae.selectionStart,ae.selectionEnd]}catch(e){}
+  const keep={};app.querySelectorAll("[data-keep]").forEach(el=>{if(el.id)keep[el.id]=el.value});
+  const sameView=render._last===S.view+"|"+S.id+"|"+S.tab;
+  let html;
+  switch(S.view){
+    case "loading":html=`<div class="loading">Loading…</div>`;break;
+    case "login":html=vLogin();break;
+    case "home":html=vHome();break;
+    case "profile":html=vProfile();break;
+    case "add":case "edit":html=vForm();break;
+    case "quick":html=vQuick();break;
+    case "compare":html=vCompare();break;
+    case "settings":html=vSettings();break;
+    default:html=vHome();
+  }
+  const y=window.scrollY;
+  app.innerHTML=html;
+  if(sameView){
+    for(const [id,v] of Object.entries(keep)){const el=document.getElementById(id);if(el&&id!=="search")el.value=v}
+    window.scrollTo(0,y);
+  }
+  if(focusId){const el=document.getElementById(focusId);if(el){el.focus();try{if(sel)el.setSelectionRange(sel[0],sel[1])}catch(e){}}}
+  render._last=S.view+"|"+S.id+"|"+S.tab;
+}
+function go(view,extra={}){
+  Object.assign(S,{view},extra);
+  if(view!=="add"&&view!=="edit"&&S.pendingPhoto){URL.revokeObjectURL(S.pendingPhoto.url);S.pendingPhoto=null}
+  render();window.scrollTo(0,0);
+}
+
+/* =============================== ACTIONS =============================== */
+const actions={
+  async install(){const ev=S.installEvt;if(!ev)return;ev.prompt();try{await ev.userChoice}catch(e){}S.installEvt=null;render()},
+  hideInstall(){try{localStorage.setItem("eodth_install_hide","1")}catch(e){}render()},
+  closeModal(){closeModal();if(ask._res){ask._res(false);ask._res=null}},
+  askNo(){closeModal();ask._res&&ask._res(false);ask._res=null},
+  askYes(el){const t=el.dataset.typed;if(t&&document.getElementById("askTyped").value.trim().toUpperCase()!==t){toast(`Type ${t} to confirm`);return}
+    closeModal();ask._res&&ask._res(true);ask._res=null},
+  async login(){
+    const e=document.getElementById("l-email").value.trim(),p=document.getElementById("l-pass").value;
+    if(!DEMO&&(!e||!p)){S.loginErr="Enter your email and password";return render()}
+    S.loginErr="";
+    try{await B.signIn(e,p)}catch(err){S.loginErr=/password|user|credential/i.test(err.code||err.message)?"Email or password is incorrect":err.message;render()}
+  },
+  async logout(){if(await ask("Log out?","Log out"))await B.signOut();},
+  go(el){go(el.dataset.v,el.dataset.v==="home"?{compareMode:S.view==="compare"?S.compareMode:false}:{})},
+  open(el){go("profile",{id:el.dataset.id,tab:S.view==="quick"?"skills":(S.id===el.dataset.id?S.tab:"info"),vfilter:"All"})},
+  tab(el){S.tab=el.dataset.v;render()},
+  div(el){S.div=el.dataset.v;render()},
+  status(el){S.status=el.dataset.v;render()},
+  vfilter(el){S.vfilter=el.dataset.v;render()},
+  toggleCompare(){S.compareMode=!S.compareMode;S.compareSel=[];render()},
+  cmpSel(el){const id=el.dataset.id,i=S.compareSel.indexOf(id);if(i>=0)S.compareSel.splice(i,1);else if(S.compareSel.length<3)S.compareSel.push(id);else toast("Compare up to 3 at a time");render()},
+  add(){go("add",{id:null})},
+  edit(){go("edit")},
+  async formPhoto(el){
+    const f=await pickFile("image/*",el.dataset.v==="camera"?"environment":null);if(!f)return;
+    try{const blob=await compressImage(f);if(S.pendingPhoto)URL.revokeObjectURL(S.pendingPhoto.url);S.pendingPhoto={blob,url:URL.createObjectURL(blob)};render()}
+    catch(e){toast("Couldn't read that photo")}
+  },
+  async saveForm(){
+    const g=id=>(document.getElementById("f-"+id).value||"").trim();
+    const d={first:g("first"),last:g("last"),dob:g("dob"),parentName:g("parentName"),parentPhone:g("parentPhone"),parentEmail:g("parentEmail"),prevGym:g("prevGym"),experience:g("experience"),medical:g("medical")};
+    if(!d.first){toast("First name is needed");return}
+    const btn=document.getElementById("saveBtn");btn.disabled=true;btn.textContent="Saving…";
+    try{
+      const id=S.view==="edit"?S.id:B.newId();
+      if(S.pendingPhoto){const path=`athletes/${id}/photo.jpg`;d.photoURL=await B.uploadFile(path,S.pendingPhoto.blob);d.photoPath=path}
+      if(S.view==="edit")await B.updateAthlete(id,d);else await B.createAthlete(id,d);
+      toast(S.view==="edit"?"Saved":"Athlete added ✦");
+      go("profile",{id,tab:S.view==="edit"?S.tab:"info"});
+    }catch(e){toast("Save failed: "+e.message);btn.disabled=false;btn.textContent="Try again"}
+  },
+  async delAthlete(){
+    const a=find(S.id);if(!a)return;
+    if(!await ask(`Delete ${fullName(a)}? This removes their profile, photo and videos for good.`))return;
+    await B.deleteAthlete(a);toast("Deleted");go("home");
+  },
+  async photo(){
+    const a=find(S.id);const f=await pickFile("image/*");if(!f||!a)return;
+    toast("Uploading photo…");
+    try{const blob=await compressImage(f);const path=`athletes/${a.id}/photo.jpg`;const url=await B.uploadFile(path,blob);
+      await B.updateAthlete(a.id,{photoURL:url,photoPath:path});toast("Photo updated")}catch(e){toast("Photo upload failed: "+e.message)}
+  },
+  rate(el){
+    const a=find(el.dataset.id);const k=el.dataset.k,v=+el.dataset.v;
+    const cur=(a.skills||{})[k];B.setRating(a.id,k,cur===v?null:v).catch(e=>toast("Couldn't save: "+e.message));
+  },
+  async addNote(){
+    const t=document.getElementById("noteText"),text=t.value.trim();if(!text)return;
+    t.value="";await B.addToList(S.id,"notes",{text,by:coachName(),at:Date.now()});
+  },
+  async delNote(el){
+    const a=find(S.id);const n=(a.notes||[]).find(x=>String(x.at)===el.dataset.at);
+    if(n&&await ask("Delete this note?"))await B.removeFromList(a.id,"notes",n);
+  },
+  addVideo(){videoModal(S.id,null)},
+  playVid(el){
+    const a=find(S.id);const vids=(a.videos||[]).slice().sort((x,y)=>y.at-x.at);const v=vids[+el.dataset.i];if(!v)return;
+    openModal(`<h3>${esc(skillName(v.skill))} <span class="sub">· ${fmtDay(v.at)}</span></h3>
+      <video src="${esc(v.url)}" controls autoplay playsinline></video>
+      <p class="sub" style="margin-bottom:14px">${esc(skillCat(v.skill))}${v.by?" · added by "+esc(v.by):""}</p>
+      <div class="row"><button class="btn danger" data-act="delVid" data-at="${v.at}">Delete</button><button class="btn ghost" data-act="closeModal">Close</button></div>`);
+  },
+  async delVid(el){
+    const a=find(S.id);const v=(a.videos||[]).find(x=>String(x.at)===el.dataset.at);if(!v)return;
+    closeModal();if(!await ask("Delete this video?"))return;await B.removeFromList(a.id,"videos",v);await B.deleteFile(v.path);toast("Video deleted");
+  },
+  async pickVideo(el){
+    const skill=document.getElementById("vSkill").value,id=el.dataset.id;
+    const f=await pickFile("video/*",el.dataset.v==="camera"?"environment":null);
+    closeModal();if(f)uploadVideo(id,f,skill);
+  },
+  qaStart(){go("quick",{qa:{div:S.div,skill:null,ids:[],i:0}})},
+  qaDiv(el){S.qa.div=el.dataset.v;render()},
+  qaSkill(el){
+    const d=S.qa.div;
+    S.qa.ids=S.athletes.filter(a=>d==="All"||divisionOf(a.dob)===d).sort((x,y)=>(x.num||0)-(y.num||0)).map(a=>a.id);
+    if(!S.qa.ids.length){toast("No athletes in that division");return}
+    S.qa.skill=el.dataset.v;S.qa.i=0;render();window.scrollTo(0,0);
+  },
+  qaNewSkill(){S.qa.skill=null;render()},
+  qaRestart(){S.qa.i=0;render()},
+  qaRate(el){
+    const id=S.qa.ids[S.qa.i];B.setRating(id,S.qa.skill,+el.dataset.v).catch(e=>toast("Couldn't save: "+e.message));
+    S.qa.i++;render();
+  },
+  qaPrev(){if(S.qa.i>0){S.qa.i--;render()}},
+  qaNext(){S.qa.i++;render()},
+  async qaFilm(){
+    const id=S.qa.ids[S.qa.i];const f=await pickFile("video/*","environment");if(f)uploadVideo(id,f,S.qa.skill);
+  },
+  export:exportCsv,
+  async saveSettings(){
+    const v=id=>document.getElementById(id).value;
+    const divisions=v("s-div").split("\n").map(l=>l.trim()).filter(Boolean).map(l=>{const m=l.match(/^(.+?)[\s:]+(\d+)\s*$/);return m?{name:m[1].trim(),max:+m[2]}:null});
+    if(divisions.some(d=>!d)||!divisions.length){toast('Divisions need a name and age on each line, like "Mini: 9"');return}
+    const skills=[];let cur=null;
+    v("s-skills").split("\n").map(l=>l.trim()).filter(Boolean).forEach(l=>{
+      if(l.startsWith("#")){cur={cat:l.replace(/^#+/,"").trim()||"Other",items:[]};skills.push(cur)}
+      else{if(!cur){cur={cat:"Skills",items:[]};skills.push(cur)}if(!cur.items.includes(l))cur.items.push(l)}
+    });
+    try{localStorage.setItem("eodth_coach",v("s-coach").trim())}catch(e){}
+    await B.saveSettings({season:v("s-season").trim()||"Tryouts",ageAsAt:v("s-asat"),divisions,teams:v("s-teams").split("\n").map(l=>l.trim()).filter(Boolean),skills:skills.filter(c=>c.items.length)});
+    toast("Settings saved");go("home");
+  },
+  async clearVideos(){
+    const n=S.athletes.reduce((n,a)=>n+(a.videos||[]).length,0);if(!n){toast("No videos to delete");return}
+    if(!await ask(`Delete all ${n} videos? This can't be undone.`,"Delete all","DELETE"))return;
+    toast("Deleting videos…");
+    for(const a of S.athletes){for(const v of a.videos||[])await B.deleteFile(v.path);if((a.videos||[]).length)await B.updateAthlete(a.id,{videos:[]})}
+    toast("All videos deleted");
+  }
+};
+
+function videoModal(id){
+  const opts=`<option value="general">General / other</option>`+(S.settings.skills||[]).map(c=>`<optgroup label="${esc(c.cat)}">${c.items.map(n=>`<option value="${esc(c.cat+"|"+n)}">${esc(n)}</option>`).join("")}</optgroup>`).join("");
+  openModal(`<h3>Add a video</h3>
+    <label for="vSkill">Which skill is this?</label><select class="in" id="vSkill">${opts}</select>
+    <div class="row" style="margin-top:4px"><button class="btn" data-act="pickVideo" data-v="camera" data-id="${id}">🎥 Film now</button>
+    <button class="btn ghost" data-act="pickVideo" data-v="roll" data-id="${id}">🖼️ Camera roll</button></div>
+    <p class="help" style="margin-top:12px">Clips up to ${MAX_VIDEO_SECONDS} seconds. Trim longer videos in your Photos app first.</p>`);
+}
+
+async function uploadVideo(id,file,skill){
+  const a=find(id);if(!a)return;
+  if(file.size>MAX_VIDEO_MB*1024*1024){toast(`That video is too big (over ${MAX_VIDEO_MB}MB). Trim it first.`);return}
+  const dur=await videoDuration(file);
+  if(dur>MAX_VIDEO_SECONDS+1){toast(`That clip is ${Math.round(dur)} sec. Trim it to ${MAX_VIDEO_SECONDS} sec or less first.`);return}
+  const ts=Date.now(),ext=((file.name||"").split(".").pop()||"mp4").toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,5)||"mp4";
+  const path=`athletes/${id}/videos/${ts}.${ext}`,uid="u"+ts;
+  S.uploads[uid]={athleteId:id,pct:0,label:`${skillName(skill)} for ${a.first||"athlete"}`};
+  toast("Uploading video…");if(S.view==="profile")render();
+  try{
+    const url=await B.uploadFile(path,file,p=>{
+      S.uploads[uid].pct=p;const el=document.querySelector(`[data-up="${uid}"]`);
+      if(el){el.querySelector(".pct").textContent=Math.round(p)+"%";el.querySelector("i").style.width=p+"%"}
+    });
+    await B.addToList(id,"videos",{url,path,skill,at:ts,by:coachName(),dur:Math.round(dur)||0});
+    toast(`Video saved to ${a.first||"profile"} ✦`);
+  }catch(e){toast("Upload failed: "+e.message)}
+  delete S.uploads[uid];if(S.view==="profile")render();
+}
+
+function exportCsv(){
+  const sk=skillList();
+  const head=["Tryout #","First name","Last name","DOB","Age","Division","Status","Suggested team","Parent","Phone","Email","Previous gym","Experience","Medical notes",...sk.map(s=>s.cat+": "+s.name),"Videos","Notes"];
+  const rows=S.athletes.slice().sort((a,b)=>(a.num||0)-(b.num||0)).map(a=>[a.num,a.first,a.last,fmtDob(a.dob),a.dob?ageNow(a.dob):"",divisionOf(a.dob),STATUS_LABEL[statusOf(a)],a.team,a.parentName,a.parentPhone,a.parentEmail,a.prevGym,a.experience,a.medical,
+    ...sk.map(s=>{const v=(a.skills||{})[s.key];return v==null?"":RATING[v].t}),(a.videos||[]).length,(a.notes||[]).map(n=>`${n.by}: ${n.text}`).join(" | ")]);
+  const csv=[head,...rows].map(r=>r.map(c=>{const s=String(c??"");return /[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s}).join(",")).join("\n");
+  const blob=new Blob(["﻿"+csv],{type:"text/csv"});const url=URL.createObjectURL(blob);
+  const l=document.createElement("a");l.href=url;l.download=`EOD-tryouts-${new Date().toISOString().slice(0,10)}.csv`;document.body.appendChild(l);l.click();l.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),2000);toast("Spreadsheet downloaded");
+}
+
+/* ============================ EVENT WIRING ============================ */
+document.addEventListener("click",e=>{
+  const el=e.target.closest("[data-act]");if(!el||el.disabled)return;
+  const fn=actions[el.dataset.act];if(fn){e.preventDefault();fn(el)}
+});
+document.addEventListener("input",e=>{
+  if(e.target.id==="search"){S.q=e.target.value;render()}
+  if(e.target.id==="f-dob"){const d=e.target.value;const el=document.getElementById("f-div");if(el)el.textContent=d?`Age ${ageNow(d)} · ${divisionOf(d)}`:"–"}
+});
+document.addEventListener("change",e=>{
+  if(e.target.id==="teamSel"){B.updateAthlete(e.target.dataset.id,{team:e.target.value}).then(()=>toast(e.target.value?"Team set":"Team cleared"))}
+});
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&S.view==="login"&&e.target.tagName==="INPUT")actions.login()});
+
+/* ============================ INSTALLABLE APP ============================ */
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();S.installEvt=e;if(S.view==="home")render()});
+window.addEventListener("appinstalled",()=>{S.installEvt=null;toast("Installed ✦ Find EOD Tryouts on your home screen");render()});
+if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost")){
+  window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+}
+
+/* ================================ START ================================ */
+const FORM_VIEWS=["add","edit","settings"];
+(async function start(){
+  try{await B.init()}catch(e){document.getElementById("app").innerHTML=`<div class="empty"><b>Couldn't connect</b>${esc(e.message)}</div>`;return}
+  B.onAuth(u=>{
+    S.user=u;
+    if(!u){B.unlisten();S.athletes=[];S.ready=false;go("login");return}
+    S.view="loading";render();
+    B.listen(list=>{
+      S.athletes=list;
+      const first=!S.ready;S.ready=true;
+      if(first){go("home");return}
+      if(!FORM_VIEWS.includes(S.view))render();
+    },st=>{
+      S.settings={...clone(DEFAULT_SETTINGS),...(st||{})};
+      if(S.ready&&!FORM_VIEWS.includes(S.view))render();
+    });
+  });
+})();
+</script>
+</body>
+</html>
