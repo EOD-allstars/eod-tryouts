@@ -673,7 +673,7 @@ function lvlShort(l){return +l===NOEXP?"No exp":+l===NOVICE?"Novice":"L"+l}
 function lvlSkills(l){return +l===NOEXP?NOVICE:+l}
 function tumbleOpts(){return [NOEXP,NOVICE,...levelList().filter(l=>l!==NOVICE&&l!==NOEXP)]}
 function normItem(it){
-  if(it&&typeof it==="object")return {name:String(it.name||"").trim(),level:it.level?+it.level:null};
+  if(it&&typeof it==="object"){if(it.level)return {name:String(it.name||"").trim(),level:+it.level};it=it.name}
   const t=String(it||"").trim();let m=t.match(/^L(\d+)\s*[:\-.]?\s*(.+)$/i);
   if(m)return {name:m[2].trim(),level:+m[1]};
   m=t.match(/^N(?:ovice)?\s*:\s*(.+)$/i);if(m)return {name:m[1].trim(),level:NOVICE};
