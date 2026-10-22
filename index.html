@@ -326,6 +326,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .dseg button{background:rgba(255,255,255,.8);border-radius:10px;padding:11px 4px;font-size:10px;font-weight:800;color:var(--mut);font-family:var(--disp);font-stretch:118%;text-transform:uppercase;letter-spacing:.02em}
 .dseg button.on{background:var(--pink);color:#fff}
 .pinkc .dseg button.on{background:var(--ink);color:var(--pinkbox)}
+.dvrow{display:grid;grid-template-columns:1fr 1fr;gap:8px}.dvrow .dvid{margin-top:10px}
 .dvid{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:10px;background:rgba(255,255,255,.8);border-radius:12px;padding:10px;font-size:12px;font-weight:800;color:var(--pink2)}
 .pinkc .dvid{color:var(--ink)}
 .asum .r{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid rgba(20,18,20,.09);font-size:13px}
@@ -1016,7 +1017,12 @@ function tInfo(a){
   </div>
 `;
 }
+function isPhoto(v){return v&&v.kind==="photo"}
+function isFlex(key){return /flex/i.test(skillCat(key))||/flex/i.test(skillName(key))}
 function vidCard(v,i){
+  if(isPhoto(v))return `<button class="vcard" data-act="playVid" data-at="${v.at}">
+    <div class="vth ${["g0","g2","g1","g3"][i%4]}"><img src="${esc(v.url)}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span class="dur">📷</span></div>
+    <div class="m"><h5>${esc(skillName(v.skill))}</h5><p>${fmtDay(v.at)}${v.by?" · "+esc(v.by):""}</p></div></button>`;
   return `<button class="vcard" data-act="playVid" data-at="${v.at}">
     <div class="vth ${["g0","g2","g1","g3"][i%4]}"><video src="${esc(v.url)}#t=0.1" preload="metadata" muted playsinline></video><div class="play">▶</div>${v.dur?`<span class="dur">0:${String(v.dur).padStart(2,"0")}</span>`:""}</div>
     <div class="m"><h5>${esc(skillName(v.skill))}</h5><p>${fmtDay(v.at)}${v.by?" · "+esc(v.by):""}</p></div></button>`;
@@ -1028,7 +1034,9 @@ function upCards(a,test){
 function vidRow(a,vids,test){
   const ups=upCards(a,test);
   if(!vids.length&&!ups)return "";
-  return `${vids.length?`<div class="vcount">🎥 ${vids.length} video${vids.length===1?"":"s"}${vids.length>1?" · swipe to see more":""}</div>`:""}<div class="vrow">${ups}${vids.map(vidCard).join("")}</div>`;
+  const np=vids.filter(isPhoto).length,nv=vids.length-np;
+  const lbl=[nv?`🎥 ${nv} video${nv===1?"":"s"}`:"",np?`📷 ${np} photo${np===1?"":"s"}`:""].filter(Boolean).join(" · ");
+  return `${vids.length?`<div class="vcount">${lbl}${vids.length>1?" · swipe to see more":""}</div>`:""}<div class="vrow">${ups}${vids.map(vidCard).join("")}</div>`;
 }
 function levelPicker(a){
   const L=levelList(),d=(S.lvl&&S.lvl.id===a.id)?S.lvl:{id:a.id,main:null,sec:null};
@@ -1068,8 +1076,8 @@ function tSkills(a){
         const tag=i.level===+a.tumbleMain?"main":(i.level===+a.tumbleSecond?"secondary":"");
         rows+=`<div class="lvlhead">Level ${i.level} ${tag?`<span>· ${tag}</span>`:""}</div>`;lastLvl=i.level;
       }
-      const v=s[i.key],n=vids.filter(x=>x.skill===i.key).length;
-      rows+=`<div class="sk"><span class="skn">${esc(i.name)}</span><div class="seg">${[0,1,2].map(x=>`<button class="${RATING[x].c} ${v===x?"on":""}" data-act="rate" data-id="${a.id}" data-k="${esc(i.key)}" data-v="${x}">${RATING[x].t}</button>`).join("")}<button class="vb ${n?"has":""}" data-act="skillVid" data-k="${esc(i.key)}" aria-label="Add video of ${esc(i.name)}">🎥${n?`<b>${n}</b>`:""}</button></div></div>`;
+      const v=s[i.key],n=vids.filter(x=>x.skill===i.key&&!isPhoto(x)).length,np=vids.filter(x=>x.skill===i.key&&isPhoto(x)).length;
+      rows+=`<div class="sk"><span class="skn">${esc(i.name)}</span><div class="seg">${[0,1,2].map(x=>`<button class="${RATING[x].c} ${v===x?"on":""}" data-act="rate" data-id="${a.id}" data-k="${esc(i.key)}" data-v="${x}">${RATING[x].t}</button>`).join("")}${isFlex(i.key)?`<button class="vb ${np?"has":""}" data-act="skillPhoto" data-k="${esc(i.key)}" aria-label="Add photo of ${esc(i.name)}">📷${np?`<b>${np}</b>`:""}</button>`:""}<button class="vb ${n?"has":""}" data-act="skillVid" data-k="${esc(i.key)}" aria-label="Add video of ${esc(i.name)}">🎥${n?`<b>${n}</b>`:""}</button></div></div>`;
     });
     return `<div class="cat${pc}"><div class="cat-h">${esc(c.cat)}<span>${has} of ${items.length}</span></div>
       <div class="bar"><i style="width:${items.length?has/items.length*100:0}%"></i></div>
@@ -1107,7 +1115,8 @@ function tDance(a){
     return `<div class="cat${i%2===0?" pinkc":""}"><div class="cat-h">${esc(c.name)}<span>${cur.level?esc(cur.level):"Not rated"}</span></div>
       <div class="dseg">${DANCE_RATE.map(l=>`<button class="${cur.level===l?"on":""}" data-act="drate" data-c="${c.id}" data-v="${l}">${cur.level===l?"✓ ":""}${l}</button>`).join("")}</div>
       <textarea class="in" id="dn-${c.id}" data-keep data-dnote="${c.id}" placeholder="Notes on ${esc(c.name.toLowerCase())}">${esc(cur.notes||"")}</textarea>
-      <button class="dvid" data-act="skillVid" data-k="${esc(key)}">🎥 Add ${esc(c.name.toLowerCase())} video${cv.length?` · ${cv.length} saved`:""}</button>
+      ${c.id==="flex"?`<div class="dvrow"><button class="dvid" data-act="skillPhoto" data-k="${esc(key)}">📷 Add photo${cv.filter(isPhoto).length?` · ${cv.filter(isPhoto).length}`:""}</button><button class="dvid" data-act="skillVid" data-k="${esc(key)}">🎥 Add video${cv.filter(x=>!isPhoto(x)).length?` · ${cv.filter(x=>!isPhoto(x)).length}`:""}</button></div>`
+        :`<button class="dvid" data-act="skillVid" data-k="${esc(key)}">🎥 Add ${esc(c.name.toLowerCase())} video${cv.length?` · ${cv.length} saved`:""}</button>`}
       ${vidRow(a,cv,k=>k===key)}</div>`}).join("")+`</div>
     <p class="help" style="text-align:center;margin:8px 30px 0">Notes save when you tap away from the box.</p>`;
 }
@@ -1451,7 +1460,7 @@ function vSettings(){
   const st=S.settings;
   const skillsTxt=cats().map(c=>"# "+c.cat+"\n"+c.items.map(i=>(i.level?`L${i.level}: `:"")+i.name).join("\n")).join("\n\n");
   const divTxt=(st.divisions||[]).map(d=>`${d.name}: ${d.max}`).join("\n");
-  const vidCount=S.athletes.reduce((n,a)=>n+(a.videos||[]).length,0);
+  const vidCount=S.athletes.reduce((n,a)=>n+(a.videos||[]).filter(v=>!isPhoto(v)).length,0);
   return `<div class="top"><button class="icon" data-act="go" data-v="home">‹</button><div class="logo" style="font-size:16px">Settings</div><span style="width:38px"></span></div>
   <div class="form">
     <div class="sect">You</div>
@@ -1469,7 +1478,7 @@ function vSettings(){
     <button class="btn ghost" data-act="go" data-v="import" style="margin-bottom:10px">⬆ Import athletes from Jotform</button>
     <button class="btn ghost" data-act="go" data-v="print" style="margin-bottom:10px">🖨 Print tryout number list</button>
     ${isAdmin()?`<button class="btn danger" data-act="clearVideos" style="margin-bottom:10px">Archive season: delete all ${vidCount} videos</button>
-    <div class="help">Use once placements are final to free up storage. Profiles, skills and notes are kept.</div>`:""}
+    <div class="help">Use once placements are final to free up storage. Profiles, skills, notes and flexibility photos are kept.</div>`:""}
     <button class="btn ghost" data-act="logout" style="margin-top:10px">Log out</button>
   </div>`;
 }
@@ -1660,6 +1669,7 @@ const actions={
     if(n&&await ask("Delete this note?"))await B.removeFromList(a.id,"notes",n);
   },
   addVideo(){videoModal(S.id,null)},
+  skillPhoto(el){const k=el.dataset.k,id=S.id;pickFile("image/*").then(f=>{if(f)uploadSkillPhoto(id,f,k)})},
   skillVid(el){const k=el.dataset.k,id=S.id;pickFile("video/*").then(f=>{if(f)uploadVideo(id,f,k)})},
   lvlMain(el){const a=find(S.id);S.lvl=(S.lvl&&S.lvl.id===a.id)?S.lvl:{id:a.id,main:null,sec:null};S.lvl.main=+el.dataset.v;if(S.lvl.sec===S.lvl.main)S.lvl.sec=null;render()},
   lvlSec(el){const a=find(S.id);S.lvl=(S.lvl&&S.lvl.id===a.id)?S.lvl:{id:a.id,main:null,sec:null};S.lvl.sec=el.dataset.v?+el.dataset.v:null;render()},
@@ -1670,7 +1680,7 @@ const actions={
   playVid(el){
     const a=find(S.id);const v=(a.videos||[]).find(x=>String(x.at)===el.dataset.at);if(!v)return;
     openModal(`<h3>${esc(skillName(v.skill))} <span class="sub">· ${fmtDay(v.at)}</span></h3>
-      <video src="${esc(v.url)}" controls autoplay playsinline></video>
+      ${isPhoto(v)?`<img src="${esc(v.url)}" alt="" style="width:100%;max-height:66vh;object-fit:contain;border-radius:14px;background:#111;display:block;margin-bottom:12px">`:`<video src="${esc(v.url)}" controls autoplay playsinline></video>`}
       <p class="sub" style="margin-bottom:14px">${esc(skillCat(v.skill))}${v.by?" · added by "+esc(v.by):""}</p>
       <div class="row"><button class="btn danger" data-act="delVid" data-at="${v.at}">Delete</button><button class="btn ghost" data-act="closeModal">Close</button></div>`);
   },
@@ -1765,10 +1775,10 @@ const actions={
     }catch(e){clearTimeout(slow);toast("Couldn't save settings: "+(e.message||e));if(btn){btn.disabled=false;btn.textContent="Save settings"}}
   },
   async clearVideos(){if(!isAdmin())return;
-    const n=S.athletes.reduce((n,a)=>n+(a.videos||[]).length,0);if(!n){toast("No videos to delete");return}
+    const n=S.athletes.reduce((n,a)=>n+(a.videos||[]).filter(v=>!isPhoto(v)).length,0);if(!n){toast("No videos to delete");return}
     if(!await ask(`Delete all ${n} videos? This can't be undone.`,"Delete all","DELETE"))return;
     toast("Deleting videos…");
-    for(const a of S.athletes){for(const v of a.videos||[])await B.deleteFile(v.path);if((a.videos||[]).length)await B.updateAthlete(a.id,{videos:[]})}
+    for(const a of S.athletes){const vs=(a.videos||[]).filter(v=>!isPhoto(v));for(const v of vs)await B.deleteFile(v.path);if(vs.length)await B.updateAthlete(a.id,{videos:(a.videos||[]).filter(isPhoto)})}
     toast("All videos deleted");
   }
 };
@@ -1782,6 +1792,22 @@ function videoModal(id){
     <p class="help" style="margin-top:12px">Clips up to ${MAX_VIDEO_SECONDS} seconds. Trim longer videos in your Photos app first.</p>`);
 }
 
+async function uploadSkillPhoto(id,file,skill){
+  const a=find(id);if(!a)return;const ts=Date.now(),path=`athletes/${id}/photos/${ts}.jpg`,uid="p"+ts;
+  let blob;try{blob=await compressImageMax(file,1600)}catch(e){toast("Couldn't read that photo");return}
+  S.uploads[uid]={athleteId:id,pct:0,skill,label:`${skillName(skill)} photo`};if(S.view==="profile")render();
+  try{const url=await B.uploadFile(path,blob,p=>{S.uploads[uid].pct=p;const el=document.querySelector(`[data-up="${uid}"]`);if(el){el.querySelector(".pct").textContent=Math.round(p)+"%";el.querySelector(".bar i").style.width=p+"%"}});
+    await B.addToList(id,"videos",{url,path,skill,at:ts,by:coachName(),kind:"photo"});toast(`Photo saved to ${a.first||"profile"} ✦`)}
+  catch(e){toast("Upload failed: "+e.message)}
+  delete S.uploads[uid];if(S.view==="profile")render();
+}
+async function compressImageMax(file,max){
+  const url=URL.createObjectURL(file);
+  try{const im=await loadImg(url);const sc=Math.min(1,max/Math.max(im.width,im.height));
+    const c=document.createElement("canvas");c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);
+    c.getContext("2d").drawImage(im,0,0,c.width,c.height);return await new Promise(r=>c.toBlob(r,"image/jpeg",0.85))}
+  finally{URL.revokeObjectURL(url)}
+}
 async function uploadVideo(id,file,skill){
   const a=find(id);if(!a)return;
   if(file.size>MAX_VIDEO_MB*1024*1024){toast(`That clip is over ${MAX_VIDEO_MB}MB, probably filmed in 4K. Trim it, or set the camera to 1080p (Settings > Camera > Record Video).`);return}
