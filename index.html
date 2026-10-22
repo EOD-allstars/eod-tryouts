@@ -277,6 +277,17 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .appr i{font-style:normal;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:900;background:var(--card);color:var(--mut)}
 .appr.y i{background:var(--ok);color:#fff}
 .appr b{font-size:12px}.appr span{font-size:10px;color:var(--mut)}
+.tent{background:rgba(255,255,255,.9);border-radius:14px;padding:12px;margin:8px 0;border:2px solid transparent}
+.tent.fin{border-color:var(--ok)}
+.teh{display:flex;align-items:flex-start;gap:8px}
+.teh>div{flex:1;min-width:0}.teh small{display:block;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--pink2)}
+.teh b{display:block;font-family:var(--disp);font-stretch:118%;text-transform:uppercase;font-weight:900;font-size:14px;line-height:1.2}
+.teh>div>span{font-size:11px;color:var(--mut)}
+.tx{flex:none;width:28px;height:28px;border-radius:8px;background:var(--card);color:var(--mut);font-size:12px}
+.tent .suggby{margin-top:8px;background:var(--card)}
+.tent .apprs{margin-top:8px}.tent .appr{background:var(--card)}
+.btn.tbtnx{margin-top:10px;padding:11px;font-size:11px}
+.tadd{border-top:1px dashed rgba(20,18,20,.15);margin-top:12px}
 .finbox{background:#fff;border-radius:14px;padding:14px;text-align:center;border:2px solid var(--ok)}
 .finbox small{display:block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--ok)}
 .finbox b{display:block;font-family:var(--disp);font-stretch:125%;text-transform:uppercase;font-weight:900;font-size:18px;margin:2px 0}
@@ -562,20 +573,8 @@ const DEFAULT_SETTINGS = {
   ],
   teams: [],
   skills: [
-    {cat:"Standing Tumbling", items:[
-      {name:"Forward roll",level:1},{name:"Backward roll",level:1},{name:"Cartwheel",level:1},{name:"Bridge kickover",level:1},{name:"Back walkover",level:1},{name:"Front walkover",level:1},
-      {name:"Standing back handspring",level:2},{name:"Standing BHS series",level:2},{name:"Walkover BHS",level:2},
-      {name:"Standing back tuck",level:3},{name:"Standing BHS tuck",level:3},
-      {name:"Jump to back tuck",level:4},{name:"Standing BHS layout",level:4},
-      {name:"Standing full",level:5},{name:"Standing BHS full",level:5},
-      {name:"Standing BHS double full",level:6}]},
-    {cat:"Running Tumbling", items:[
-      {name:"Round off",level:1},{name:"Round off rebound",level:1},
-      {name:"Round off BHS",level:2},{name:"Round off BHS series",level:2},{name:"Front walkover round off BHS",level:2},
-      {name:"Round off tuck",level:3},{name:"Round off BHS tuck",level:3},{name:"Aerial",level:3},
-      {name:"Round off BHS layout",level:4},{name:"Round off BHS step-out",level:4},{name:"Round off BHS whip",level:4},
-      {name:"Round off BHS full",level:5},{name:"Whip through to full",level:5},
-      {name:"Round off BHS double full",level:6},{name:"Whip through to double full",level:6}]},
+    {cat:"Standing Tumbling", items:[{name:"Forward roll",level:0.5},{name:"Backward roll",level:0.5},{name:"Handstand",level:0.5},{name:"Handstand to bridge",level:0.5},{name:"Bridge to stand",level:0.5},{name:"Bridge kickover",level:0.5},{name:"Bridge",level:0.5},{name:"FWO",level:1},{name:"BWO",level:1},{name:"BWO switch",level:1},{name:"Valdez",level:1},{name:"Multiple BWO",level:1},{name:"Specialty skills eg. Healy turn",level:1},{name:"Standing BHS",level:2},{name:"Standing BHS stepout",level:2},{name:"BWO BHS",level:2},{name:"Multiple standing BHS",level:3},{name:"Connections: jump to BHS",level:3},{name:"Standing BHS through to tuck",level:4},{name:"Standing tuck",level:4},{name:"Standing BHS through to layout",level:5},{name:"Jump to tuck",level:5}]},
+    {cat:"Running Tumbling", items:[{name:"Cartwheel",level:0.5},{name:"RO",level:0.5},{name:"RO (L1)",level:1},{name:"Cartwheel BWO",level:1},{name:"FWO cartwheel",level:1},{name:"RO BHS",level:2},{name:"FWO BHS",level:2},{name:"Flyspring",level:2},{name:"Flyspring RO BHS",level:2},{name:"RO BHS back tuck",level:3},{name:"Front tuck (punch front)",level:3},{name:"Aerial",level:3},{name:"Specialty through to tuck",level:3},{name:"RO BHS layout",level:4},{name:"Front tuck stepout through to layout",level:4},{name:"Whip through to tuck",level:4},{name:"RO BHS full",level:5},{name:"Front tuck stepout through to full",level:5},{name:"Whip through to layout",level:5},{name:"Other specialty through to full eg. Arabian",level:5}]},
     {cat:"Jumps", items:["Toe touch","Pike","Hurdler","Jump sequence x3"]},
     {cat:"Stunting", items:["Flyer: prep","Flyer: extension","Flyer: lib","Flyer: body positions","Base","Backspot"]},
     {cat:"Flexibility", items:["Left splits","Right splits","Middle splits","Heel stretch","Bow and arrow","Scorpion"]},
@@ -668,17 +667,24 @@ function initials(a){return ((a.first||"?")[0]+((a.last||"")[0]||"")).toUpperCas
 function grad(a){return "g"+((a.num||0)%6)}
 function fullName(a){return `${a.first||""} ${a.last||""}`.trim()||"Unnamed"}
 function pad3(n){return "#"+String(n||0).padStart(3,"0")}
+const NOVICE=0.5,NOEXP=0.25;
+function lvlName(l){return +l===NOEXP?"No experience":+l===NOVICE?"Novice":"Level "+l}
+function lvlShort(l){return +l===NOEXP?"No exp":+l===NOVICE?"Novice":"L"+l}
+function lvlSkills(l){return +l===NOEXP?NOVICE:+l}
+function tumbleOpts(){return [NOEXP,NOVICE,...levelList().filter(l=>l!==NOVICE&&l!==NOEXP)]}
 function normItem(it){
   if(it&&typeof it==="object")return {name:String(it.name||"").trim(),level:it.level?+it.level:null};
-  const t=String(it||"").trim(),m=t.match(/^L(\d+)\s*[:\-.]?\s*(.+)$/i);
-  return m?{name:m[2].trim(),level:+m[1]}:{name:t,level:null};
+  const t=String(it||"").trim();let m=t.match(/^L(\d+)\s*[:\-.]?\s*(.+)$/i);
+  if(m)return {name:m[2].trim(),level:+m[1]};
+  m=t.match(/^N(?:ovice)?\s*:\s*(.+)$/i);if(m)return {name:m[1].trim(),level:NOVICE};
+  return {name:t,level:null};
 }
 function cats(){return (S.settings.skills||[]).map(c=>({cat:c.cat,items:(c.items||[]).map(normItem).filter(i=>i.name).map(i=>({...i,key:c.cat+"|"+i.name}))}))}
 function skillList(){const out=[];cats().forEach(c=>c.items.forEach(i=>out.push({cat:c.cat,name:i.name,level:i.level,key:i.key})));return out}
 function levelList(){const l=[...new Set(skillList().map(i=>i.level).filter(Boolean))].sort((a,b)=>a-b);return l.length?l:[1,2,3,4,5,6]}
 function hasLevels(a){return a.tumbleMain!=null&&a.tumbleMain!==""}
-function canSee(a,item){if(!item.level)return true;if(!hasLevels(a)||+a.tumbleMain===0)return true;return item.level===+a.tumbleMain||item.level===+a.tumbleSecond}
-function levelsTxt(a){if(!hasLevels(a))return "";if(+a.tumbleMain===0)return "All levels";return "L"+a.tumbleMain+(a.tumbleSecond?" + L"+a.tumbleSecond:"")}
+function canSee(a,item){if(!item.level)return true;if(!hasLevels(a)||+a.tumbleMain===0)return true;return item.level===lvlSkills(a.tumbleMain)||item.level===lvlSkills(a.tumbleSecond)}
+function levelsTxt(a){if(!hasLevels(a))return "";if(+a.tumbleMain===0)return "All levels";return lvlShort(a.tumbleMain)+(a.tumbleSecond?" + "+lvlShort(a.tumbleSecond):"")}
 function ageTxt(dob){return dob?`Age ${divAge(dob)}`:""}
 function skillName(key){if(!key||key==="general")return "General";const i=key.indexOf("|");return i<0?key:key.slice(i+1)}
 function skillCat(key){if(!key||key==="general")return "General";const i=key.indexOf("|");return i<0?"General":key.slice(0,i)}
@@ -695,9 +701,13 @@ function discsOf(a){return a.tryoutType==="both"?["cheer","dance"]:a.tryoutType?
 function plc(a,d){return ((a.placement||{})[d])||{}}
 function apprList(p){return Object.keys(p.approvals||{}).filter(e=>DIRECTORS.some(d=>d.email===e))}
 function isFinal(p){return !!p.team&&apprList(p).length>=APPROVALS_NEEDED}
+function tkey(n){return String(n).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")}
+function plist(a,d){const p=plc(a,d);if(p.teams)return Object.entries(p.teams).map(([k,v])=>({...v,key:k})).filter(x=>x&&x.team).sort((x,y)=>(x.at||0)-(y.at||0));if(p.team)return [{...p,key:tkey(p.team),legacy:true}];return []}
+function discFinal(a,d){const l=plist(a,d);return l.length>0&&l.every(isFinal)}
+function findEntry(a,d,k){return plist(a,d).find(e=>e.key===k)}
 function teamLbl(p){return p.team?p.team+(p.sub?` · ${p.sub}`:""):""}
-function computeTeam(a,over={}){return discsOf(a).map(d=>{const p=over[d]||plc(a,d);return isFinal(p)?teamLbl(p):""}).filter(Boolean).join(" / ")}
-function approvedAll(a){const ds=discsOf(a);return ds.length>0&&ds.every(d=>isFinal(plc(a,d)))}
+function computeTeam(a,over={}){return discsOf(a).flatMap(d=>(over[d]||plist(a,d)).filter(isFinal).map(teamLbl)).join(" / ")}
+function approvedAll(a){const ds=discsOf(a);return ds.length>0&&ds.every(d=>discFinal(a,d))}
 function doneOf(a,k){return ((a.done||{})[k])||null}
 function doneBtn(a,k,cls=""){const d=doneOf(a,k);return d?`<button class="donebtn yes ${cls}" data-act="doneAsk" data-k="${k}">✓ Complete</button>`:`<button class="donebtn ${cls}" data-act="doneAsk" data-k="${k}">Mark as complete</button>`}
 const CONFIRM_TXT={
@@ -717,7 +727,7 @@ function confirmComplete(a,k,back){
 }
 function doneFoot(a,k){const d=doneOf(a,k);
   return d?`<div class="cfoot yes"><span>✓ Marked complete by <b>${esc(d.by||"")}</b> · ${fmtDay(d.at)}</span><button class="linkbtn" data-act="undoneAsk" data-k="${k}">Mark as not complete</button></div>`:""}
-function teamSummary(a){const ds=discsOf(a);if(!ds.length)return "";return ds.map(d=>{const p=plc(a,d);return p.team?(isFinal(p)?"✓ ":"")+teamLbl(p):""}).filter(Boolean).join(" / ")}
+function teamSummary(a){const ds=discsOf(a);if(!ds.length)return "";return ds.flatMap(d=>plist(a,d).map(e=>(isFinal(e)?"✓ ":"")+teamLbl(e))).join(" / ")}
 function checklist(a){const items=[["Contact",!!doneOf(a,"contact")],["Experience",!!doneOf(a,"experience")],["Assessment",!!doneOf(a,"assessment")],["Suggested team",!!doneOf(a,"teams")],["Approved",approvedAll(a)]];
   return `<ul class="chk">${items.map(([l,ok])=>`<li class="${ok?"y":"n"}"><i>${ok?"✓":"✕"}</i>${l}</li>`).join("")}</ul>`}
 function danceStylesTxt(a){return Object.entries(a.danceStyles||{}).map(([st,l])=>st+(l?` · ${l}`:"")).join(", ")}
@@ -1007,7 +1017,7 @@ function tInfo(a){
     ${r("Date of birth",a.dob?`${fmtDob(a.dob)}`:"")}
     ${r(`Age in ${ageYear()}`,a.dob?String(da):"")}
     ${a.dob?discsFor(a).map(d=>r(`${d==="cheer"?"Cheer":"Dance"} age groups`,esc(eligDetail(d,divAge(a.dob))||"None"))).join(""):r("Age groups","")}
-    ${r("Tumbling levels",hasLevels(a)?esc(+a.tumbleMain===0?"All levels":`Level ${a.tumbleMain} main${a.tumbleSecond?`, Level ${a.tumbleSecond} secondary`:""}`):"")}
+    ${r("Tumbling levels",hasLevels(a)?esc(+a.tumbleMain===0?"All levels":`${lvlName(a.tumbleMain)} main${a.tumbleSecond?`, ${lvlName(a.tumbleSecond)} secondary`:""}`):"")}
     ${r("Parent",esc(a.parentName))}
     ${r("Phone",a.parentPhone?`<a href="tel:${esc(a.parentPhone.replace(/\s/g,""))}">${esc(a.parentPhone)}</a>`:"")}
     ${r("Email",a.parentEmail?`<a href="mailto:${esc(a.parentEmail)}">${esc(a.parentEmail)}</a>`:"")}
@@ -1039,15 +1049,15 @@ function vidRow(a,vids,test){
   return `${vids.length?`<div class="vcount">${lbl}${vids.length>1?" · swipe to see more":""}</div>`:""}<div class="vrow">${ups}${vids.map(vidCard).join("")}</div>`;
 }
 function levelPicker(a){
-  const L=levelList(),d=(S.lvl&&S.lvl.id===a.id)?S.lvl:{id:a.id,main:null,sec:null};
+  const L=tumbleOpts(),d=(S.lvl&&S.lvl.id===a.id)?S.lvl:{id:a.id,main:null,sec:null};
   const changing=hasLevels(a);
   return `<div class="lvlcard"><h4>Which tumbling levels are you assessing?</h4>
     <div class="sub">Only those levels' tumbling skills will show for ${esc(a.first||"this athlete")}.</div>
     <div class="sect" style="margin:12px 0 0;color:var(--txt)">Main level <span class="sub" style="font-weight:400">· has most of these skills</span></div>
-    <div class="chips">${L.map(l=>`<button class="chip ${d.main===l?"on":""}" data-act="lvlMain" data-v="${l}">Level ${l}</button>`).join("")}</div>
+    <div class="chips">${L.map(l=>`<button class="chip ${d.main===l?"on":""}" data-act="lvlMain" data-v="${l}">${lvlName(l)}</button>`).join("")}</div>
     <div class="sect" style="margin:0;color:var(--txt)">Secondary level <span class="sub" style="font-weight:400">· extra skills (optional)</span></div>
-    <div class="chips">${[null,...L.filter(l=>l!==d.main)].map(l=>`<button class="chip gold ${d.sec===l?"on":""}" data-act="lvlSec" data-v="${l??""}">${l?"Level "+l:"None"}</button>`).join("")}</div>
-    <button class="btn" data-act="lvlSave" ${d.main?"":"disabled"}>${d.main?`Assess Level ${d.main}${d.sec?" + "+d.sec:""}`:"Pick a main level"}</button>
+    <div class="chips">${[null,...L.filter(l=>l!==d.main)].map(l=>`<button class="chip gold ${d.sec===l?"on":""}" data-act="lvlSec" data-v="${l??""}">${l?lvlName(l):"None"}</button>`).join("")}</div>
+    <button class="btn" data-act="lvlSave" ${d.main?"":"disabled"}>${d.main?`Assess ${lvlName(d.main)}${d.sec?" + "+lvlName(d.sec):""}`:"Pick a main level"}</button>
     <button class="linkbtn" data-act="lvlAll">Show all levels instead</button>
     ${changing?`<button class="linkbtn" data-act="lvlCancel" style="margin-top:0">Cancel</button>`:""}
   </div>`;
@@ -1062,7 +1072,7 @@ function tSkills(a){
   const catNames=cs.map(c=>c.cat);
   let out=`<div class="notecard"><div class="cat-h">Cheer notes<span>saves when you tap away</span></div>
     <textarea class="in" id="n-cheer" data-keep data-save="cheerSkillNotes" placeholder="General notes on ${esc(a.first||"this athlete")}'s cheer skills">${esc(a.cheerSkillNotes||"")}</textarea></div>`;
-  if(anyLev)out+=picking?levelPicker(a):`<div class="lvlbar"><span>Tumbling: <b>${esc(+a.tumbleMain===0?"All levels":`Level ${a.tumbleMain}`)}</b>${a.tumbleSecond?` + <b>Level ${a.tumbleSecond}</b>`:""}</span><button data-act="lvlChange">Change</button></div>`;
+  if(anyLev)out+=picking?levelPicker(a):`<div class="lvlbar"><span>Tumbling: <b>${esc(+a.tumbleMain===0?"All levels":lvlName(a.tumbleMain))}</b>${a.tumbleSecond?` + <b>${lvlName(a.tumbleSecond)}</b>`:""}</span><button data-act="lvlChange">Change</button></div>`;
   out+=`<div class="skillcols">`;
   let ci=0;
   out+=cs.map(c=>{const pc=(ci++%2===0)?" pinkc":"";
@@ -1073,8 +1083,8 @@ function tSkills(a){
     let lastLvl=null,rows="";
     items.forEach(i=>{
       if(i.level&&i.level!==lastLvl){
-        const tag=i.level===+a.tumbleMain?"main":(i.level===+a.tumbleSecond?"secondary":"");
-        rows+=`<div class="lvlhead">Level ${i.level} ${tag?`<span>· ${tag}</span>`:""}</div>`;lastLvl=i.level;
+        const tag=i.level===lvlSkills(a.tumbleMain)?"main":(i.level===lvlSkills(a.tumbleSecond)?"secondary":"");
+        rows+=`<div class="lvlhead">${lvlName(i.level)} ${tag?`<span>· ${tag}</span>`:""}</div>`;lastLvl=i.level;
       }
       const v=s[i.key],n=vids.filter(x=>x.skill===i.key&&!isPhoto(x)).length,np=vids.filter(x=>x.skill===i.key&&isPhoto(x)).length;
       rows+=`<div class="sk"><span class="skn">${esc(i.name)}</span><div class="seg">${[0,1,2].map(x=>`<button class="${RATING[x].c} ${v===x?"on":""}" data-act="rate" data-id="${a.id}" data-k="${esc(i.key)}" data-v="${x}">${RATING[x].t}</button>`).join("")}${isFlex(i.key)?`<button class="vb ${np?"has":""}" data-act="skillPhoto" data-k="${esc(i.key)}" aria-label="Add photo of ${esc(i.name)}">📷${np?`<b>${np}</b>`:""}</button>`:""}<button class="vb ${n?"has":""}" data-act="skillVid" data-k="${esc(i.key)}" aria-label="Add video of ${esc(i.name)}">🎥${n?`<b>${n}</b>`:""}</button></div></div>`;
@@ -1121,7 +1131,7 @@ function tDance(a){
     <p class="help" style="text-align:center;margin:8px 30px 0">Notes save when you tap away from the box.</p>`;
 }
 function asmtHtml(){
-  const d=S.asmt,t=d.type,ch=t==="cheer"||t==="both",da=t==="dance"||t==="both",L=levelList();
+  const d=S.asmt,t=d.type,ch=t==="cheer"||t==="both",da=t==="dance"||t==="both",L=tumbleOpts();
   const chip=(act,v,on,lbl)=>`<button class="chip ${on?"on":""}" data-act="${act}" data-v="${esc(v)}">${esc(lbl??v)}</button>`;
   let h=`<div class="mhead"><h3>Skill assessment</h3><button class="icon" data-act="asmtCancel" aria-label="Close">✕</button></div>
     <div class="aq" style="margin-top:0">Trying out for</div>
@@ -1129,10 +1139,10 @@ function asmtHtml(){
   if(!t)return h+`<p class="help" style="text-align:center;margin:0">Pick one to continue.</p>`;
   if(t==="both")h+=`<p class="help" style="margin:-4px 2px 12px">Fill in either section first. Both save together.</p>`;
   if(ch)h+=`<div class="asec pinkc"><h4>Cheer</h4>
-    <div class="aq">Current level competed</div><div class="chips">${CHEER_LEVELS.map(l=>chip("asCL",l,d.cheerLevel===l)).join("")}</div>
+    <div class="aq">Current level competed <small>· pick all that apply</small></div><div class="chips">${CHEER_LEVELS.map(l=>chip("asCL",l,(d.cheerLevels||[]).includes(l))).join("")}</div>
     <div class="aq">Current position <small>· pick all that apply</small></div><div class="chips">${POSITIONS.map(p=>chip("asPos",p,(d.positions||[]).includes(p))).join("")}</div>
-    <div class="aq">Tumbling level · main</div><div class="chips">${chip("asTM","0",d.tumbleMain===0,"All levels")}${L.map(l=>chip("asTM",String(l),d.tumbleMain===l,"Level "+l)).join("")}</div>
-    ${d.tumbleMain?`<div class="aq">Tumbling level · secondary <small>· optional</small></div><div class="chips">${chip("asTS","",!d.tumbleSecond,"None")}${L.filter(l=>l!==d.tumbleMain).map(l=>chip("asTS",String(l),d.tumbleSecond===l,"Level "+l)).join("")}</div>`:""}
+    <div class="aq">Tumbling level · main</div><div class="chips">${chip("asTM","0",d.tumbleMain===0,"All levels")}${L.map(l=>chip("asTM",String(l),d.tumbleMain===l,lvlName(l))).join("")}</div>
+    ${d.tumbleMain?`<div class="aq">Tumbling level · secondary <small>· optional</small></div><div class="chips">${chip("asTS","",!d.tumbleSecond,"None")}${L.filter(l=>l!==d.tumbleMain).map(l=>chip("asTS",String(l),d.tumbleSecond===l,lvlName(l))).join("")}</div>`:""}
     <div class="aq">Additional notes</div><textarea class="in" id="as-cn" placeholder="Anything else about their cheer background">${esc(d.cheerNotes||"")}</textarea></div>`;
   if(da)h+=`<div class="asec"><h4>Dance</h4>
     <div class="aq">Do they currently do allstar dance?</div><div class="chips">${chip("asDA","yes",d.danceAllstar===true,"Yes")}${chip("asDA","no",d.danceAllstar===false,"No")}</div>
@@ -1158,36 +1168,36 @@ function tTeams(a){
   let out="";
   if(!ds.length)out+=`<div class="lvlcard" style="text-align:center"><h4>Assessment needed first</h4><div class="sub" style="margin-bottom:12px">Choose cheer, dance or both in the athlete assessment to see team options.</div><button class="btn" data-act="asmtOpen">Start assessment</button></div>`;
   const me=myEmail(),dir=isDirector();
-  out+=`<div class="skillcols tcols">`+ds.map((d,i)=>{
-    const p=plc(a,d),apr=apprList(p),fin=isFinal(p),tiers=TIERS[d];
-    const dr=(S.tierDraft&&S.tierDraft.id===a.id&&S.tierDraft[d])||p.tier||null;
+  out+=`<div class="skillcols tcols">`+ds.map(d=>{
+    const list=plist(a,d),fin=discFinal(a,d),nf=list.filter(isFinal).length,tiers=TIERS[d],names=list.map(e=>e.team);
+    const dr=(S.tierDraft&&S.tierDraft.id===a.id&&S.tierDraft[d])||(list.length?list[list.length-1].tier:null);
     const tier=tiers.find(t=>t.id===dr);
-    let h=`<div class="cat tcard ${d==="cheer"?"pinkc":""}"><div class="cat-h">${d==="cheer"?"Cheer team":"Dance team"}<span class="tstat ${fin?"fin":p.team?"pend":""}">${fin?"✓ Final":p.team?`${apr.length} of ${APPROVALS_NEEDED} approvals`:"No suggestion yet"}</span></div>`;
-    if(fin){
-      h+=`<div class="finbox"><small>Final team</small><b>${esc(p.team)}</b>${p.sub?`<span>${esc(p.sub)}</span>`:""}</div>`;
-    }else{
-      h+=`<div class="aq">1 · Tier</div><div class="chips tchips">${tiers.map(t=>{const n=t.teams.filter(x=>teamOk(a,d,x)).length;return `<button class="chip ${dr===t.id?"on":""} ${n?"":"dim"}" data-act="tTier" data-d="${d}" data-v="${t.id}">${esc(t.name)}${a.dob?` (${n})`:""}</button>`}).join("")}</div>`;
-      if(tier){const el=tier.teams.filter(t=>teamOk(a,d,t)||p.team===t.name);
-        h+=`<div class="aq">2 · Suggested team <small>· ${a.dob?`teams ${esc(a.first||"they")} ${a.first?"is":"are"} age-eligible for`:"add a DOB to filter by age"}</small></div>`;
-        h+=el.length?`<div class="tgrid">${el.map(t=>{const on=p.team===t.name,bad=!teamOk(a,d,t);
-          return `<button class="tbtn ${on?"on":""}" data-act="tPick" data-d="${d}" data-tier="${tier.id}" data-v="${esc(t.name)}" data-sub="${esc(t.sub||"")}"><b>${esc(t.name)}</b>${t.sub?`<span>${esc(t.sub)}</span>`:""}${bad?`<em>Not age-eligible</em>`:""}</button>`}).join("")}</div>`
-          :`<p class="help" style="margin:2px 0 0">No ${esc(tier.name)} teams for ${esc(a.first||"this athlete")}'s age (${divAge(a.dob)} in ${ageYear()}). Try another tier.</p>`;}
-      else h+=`<p class="help" style="margin:4px 0 0">Pick a tier to see its teams.</p>`;
-    }
-    if(p.team){
-      h+=`<div class="suggby">Suggested by <b>${esc(p.by||"a coach")}</b>${p.at?` · ${fmtDay(p.at)}`:""}${fin?"":` · <b>${esc(teamLbl(p))}</b>`}</div>
-        <div class="aq">Program director approval <small>· ${APPROVALS_NEEDED} needed</small></div>
-        <div class="apprs">${DIRECTORS.map(x=>{const ok=apr.includes(x.email);return `<div class="appr ${ok?"y":""}"><i>${ok?"✓":"–"}</i><b>${esc(x.name)}</b><span>${ok?fmtDay((p.approvals[x.email]||{}).at):"Pending"}</span></div>`}).join("")}</div>`;
-      if(dir){const mine=apr.includes(me);
-        h+=mine?`<button class="btn ghost" data-act="tUnapprove" data-d="${d}" style="margin-top:10px">Remove my approval</button>`
-               :`<button class="btn" data-act="tApprove" data-d="${d}" style="margin-top:10px">Approve ${esc(p.team)}</button>`;
-      }else h+=`<p class="help" style="margin:8px 0 0">Only ${dirList()} can approve.</p>`;
-    }
+    let h=`<div class="cat tcard ${d==="cheer"?"pinkc":""}"><div class="cat-h">${d==="cheer"?"Cheer teams":"Dance teams"}<span class="tstat ${fin?"fin":list.length?"pend":""}">${fin?`✓ Final${list.length>1?` (${list.length})`:""}`:list.length?`${nf} of ${list.length} approved`:"No suggestion yet"}</span></div>`;
+    h+=list.map((e,i)=>{const apr=apprList(e),f=isFinal(e),mine=apr.includes(me);
+      return `<div class="tent ${f?"fin":""}"><div class="teh"><div><small>${list.length>1?(i===0?"Main team":"Extra team"):"Suggested team"}</small><b>${esc(e.team)}</b>${e.sub?`<span>${esc(e.sub)}</span>`:""}</div>
+        <span class="tstat ${f?"fin":"pend"}">${f?"✓ Final":`${apr.length} of ${APPROVALS_NEEDED}`}</span><button class="tx" data-act="tRemove" data-d="${d}" data-k="${e.key}" aria-label="Remove ${esc(e.team)}">✕</button></div>
+        <div class="suggby">Suggested by <b>${esc(e.by||"a coach")}</b>${e.at?` · ${fmtDay(e.at)}`:""}</div>
+        <div class="apprs">${DIRECTORS.map(x=>{const ok=apr.includes(x.email);return `<div class="appr ${ok?"y":""}"><i>${ok?"✓":"–"}</i><b>${esc(x.name)}</b><span>${ok?fmtDay((e.approvals[x.email]||{}).at):"Pending"}</span></div>`}).join("")}</div>
+        ${dir?(mine?`<button class="btn ghost tbtnx" data-act="tUnapprove" data-d="${d}" data-k="${e.key}">Remove my approval</button>`:`<button class="btn tbtnx" data-act="tApprove" data-d="${d}" data-k="${e.key}">Approve ${esc(e.team)}</button>`):""}
+      </div>`}).join("");
+    h+=`<div class="tadd"><div class="aq" style="margin-top:${list.length?14:4}px">${list.length?"Add another team":"Suggest a team"} <small>· 1. pick a tier</small></div>
+      <div class="chips tchips">${tiers.map(t=>{const n=t.teams.filter(x=>teamOk(a,d,x)).length;return `<button class="chip ${dr===t.id?"on":""} ${n?"":"dim"}" data-act="tTier" data-d="${d}" data-v="${t.id}">${esc(t.name)}${a.dob?` (${n})`:""}</button>`}).join("")}</div>`;
+    if(tier){const el=tier.teams.filter(t=>teamOk(a,d,t)||names.includes(t.name));
+      h+=`<div class="aq">2. tap a team to add it <small>· ${a.dob?`only teams ${esc(a.first||"they")} ${a.first?"is":"are"} age-eligible for`:"add a DOB to filter by age"}</small></div>`;
+      h+=el.length?`<div class="tgrid">${el.map(t=>{const on=names.includes(t.name),bad=!teamOk(a,d,t);
+        return `<button class="tbtn ${on?"on":""}" data-act="tPick" data-d="${d}" data-tier="${tier.id}" data-v="${esc(t.name)}" data-sub="${esc(t.sub||"")}"><b>${on?"✓ ":""}${esc(t.name)}</b>${t.sub?`<span>${esc(t.sub)}</span>`:""}${bad?`<em>Not age-eligible</em>`:""}</button>`}).join("")}</div>`
+        :`<p class="help" style="margin:2px 0 0">No ${esc(tier.name)} teams for ${esc(a.first||"this athlete")}'s age (${divAge(a.dob)} in ${ageYear()}). Try another tier.</p>`;}
+    h+=`</div>`;
+    if(!dir&&list.length)h+=`<p class="help" style="margin:8px 0 0">Only ${dirList()} can approve.</p>`;
     return h+`</div>`;
   }).join("")+`</div>`;
   if(ds.length)out+=`<div class="donebar ${doneOf(a,"teams")?"yes":""}"><span><b>Suggested teams</b>${doneOf(a,"teams")?` · complete`:" · mark complete once suggested"}</span>${doneBtn(a,"teams")}</div>`;
   out+=`<div class="sect" style="margin:18px 18px 8px">Placement notes</div>`+tNotes(a);
   return out;
+}
+async function savePlist(a,d,list,extra={}){
+  const teams={};list.forEach(e=>{const {key,legacy,...r}=e;teams[key]=r});
+  return B.updateAthlete(a.id,{["placement."+d]:{teams},team:computeTeam(a,{[d]:list}),...extra});
 }
 function tNotes(a){
   const notes=(a.notes||[]).slice().sort((x,y)=>y.at-x.at);
@@ -1213,8 +1223,8 @@ function vForm(){
       <button class="pp" data-act="formPhoto" data-v="roll"><i>🖼️</i>Camera roll</button></div>
     <div class="row"><div>${f("first","First name",a.first)}</div><div>${f("last","Last name",a.last)}</div></div>
     <div class="row"><div>${f("dob","Date of birth",a.dob,"date")}</div><div><label>Division (auto)</label><div class="auto" id="f-div">${a.dob?`${ageTxt(a.dob)} · ${esc(groupsMainAge(divAge(a.dob),["cheer","dance"]).join(" / "))}`:"–"}</div></div></div>
-    <div class="row"><div><label for="f-lvlMain">Main tumbling level</label><select class="in" id="f-lvlMain" data-keep><option value="">Set later</option><option value="0" ${a.tumbleMain===0?"selected":""}>All levels</option>${levelList().map(l=>`<option value="${l}" ${+a.tumbleMain===l&&a.tumbleMain!==0?"selected":""}>Level ${l}</option>`).join("")}</select></div>
-      <div><label for="f-lvlSec">Secondary level</label><select class="in" id="f-lvlSec" data-keep><option value="">None</option>${levelList().map(l=>`<option value="${l}" ${+a.tumbleSecond===l?"selected":""}>Level ${l}</option>`).join("")}</select></div></div>
+    <div class="row"><div><label for="f-lvlMain">Main tumbling level</label><select class="in" id="f-lvlMain" data-keep><option value="">Set later</option><option value="0" ${a.tumbleMain===0?"selected":""}>All levels</option>${tumbleOpts().map(l=>`<option value="${l}" ${+a.tumbleMain===l&&a.tumbleMain!==0?"selected":""}>${lvlName(l)}</option>`).join("")}</select></div>
+      <div><label for="f-lvlSec">Secondary level</label><select class="in" id="f-lvlSec" data-keep><option value="">None</option>${tumbleOpts().map(l=>`<option value="${l}" ${+a.tumbleSecond===l?"selected":""}>${lvlName(l)}</option>`).join("")}</select></div></div>
     ${f("parentName","Parent name",a.parentName,"text","e.g. Jess Moreno")}
     <div class="row"><div>${f("parentPhone","Parent phone",a.parentPhone,"tel","04xx xxx xxx")}</div><div>${f("parentEmail","Parent email",a.parentEmail,"email","Optional")}</div></div>
     ${f("prevGym","Previous gym",a.prevGym,"text","Optional")}
@@ -1239,7 +1249,7 @@ function vQuick(){
       <div class="sect">2. ${dance?"Dance category":"Skill"}</div>
       ${dance?`<div class="skillpick">${DANCE_CATS.map(c=>`<button class="chip" data-act="qaDanceCat" data-v="${c.id}">${esc(c.name)}</button>`).join("")}</div>
         <p class="help" style="margin-top:14px">Shows athletes trying out for dance or cheer &amp; dance.</p>`
-      :`${cats().map(c=>{const groups=[...new Set(c.items.map(i=>i.level||0))];return groups.map(g=>`<div class="sub" style="margin:10px 0 6px">${esc(c.cat)}${g?` · <b style="color:var(--pink2)">Level ${g}</b>`:""}</div><div class="skillpick">${c.items.filter(i=>(i.level||0)===g).map(i=>`<button class="chip" data-act="qaSkill" data-v="${esc(i.key)}">${esc(i.name)}</button>`).join("")}</div>`).join("")}).join("")}
+      :`${cats().map(c=>{const groups=[...new Set(c.items.map(i=>i.level||0))];return groups.map(g=>`<div class="sub" style="margin:10px 0 6px">${esc(c.cat)}${g?` · <b style="color:var(--pink2)">${lvlName(g)}</b>`:""}</div><div class="skillpick">${c.items.filter(i=>(i.level||0)===g).map(i=>`<button class="chip" data-act="qaSkill" data-v="${esc(i.key)}">${esc(i.name)}</button>`).join("")}</div>`).join("")}).join("")}
       <p class="help" style="margin-top:14px">Tumbling skills only show athletes being assessed at that level (plus anyone whose levels aren't set yet).</p>`}
     </div>`;
   }
@@ -1272,17 +1282,17 @@ function vQuick(){
 
 /* ---------- shared bits ---------- */
 function thumb(a,sz=40){return `<span class="thumb ${grad(a)}" style="width:${sz}px;height:${Math.round(sz*1.25)}px">${a.photoURL?`<img src="${esc(a.photoURL)}" alt="">`:esc(initials(a))}</span>`}
-function pendingFor(email){const out=[];S.athletes.forEach(a=>discsOf(a).forEach(d=>{const p=plc(a,d);if(p.team&&!isFinal(p)&&!apprList(p).includes(email))out.push({a,d,p})}));return out}
+function pendingFor(email){const out=[];S.athletes.forEach(a=>discsOf(a).forEach(d=>plist(a,d).forEach(p=>{if(!isFinal(p)&&!apprList(p).includes(email))out.push({a,d,p})})));return out}
 function hubCount(){return isDirector()?pendingFor(myEmail()).length:0}
 
 /* ---------- Teams board ---------- */
 function vBoard(){
   const rows={};
-  S.athletes.forEach(a=>discsOf(a).forEach(d=>{const p=plc(a,d);if(!p.team)return;(rows[d+"|"+p.team]=rows[d+"|"+p.team]||[]).push({a,p,fin:isFinal(p)})}));
+  S.athletes.forEach(a=>discsOf(a).forEach(d=>plist(a,d).forEach(p=>{(rows[d+"|"+p.team]=rows[d+"|"+p.team]||[]).push({a,p,fin:isFinal(p)})})));
   const posCount=list=>{const c={Flyer:0,"Main base":0,"Secondary base":0,"Back spot":0};list.forEach(x=>(x.a.cheerPositions||[]).forEach(q=>{if(q in c)c[q]++}));return c};
   let empties=0;
   const sec=d=>{
-    const unsug=S.athletes.filter(a=>discsOf(a).includes(d)&&!plc(a,d).team);
+    const unsug=S.athletes.filter(a=>discsOf(a).includes(d)&&!plist(a,d).length);
     let h=`<div class="bsec"><h3 class="bsh">${d==="cheer"?"Cheer":"Dance"} teams</h3>`;
     TIERS[d].forEach(t=>{
       const teams=t.teams.map(tm=>({tm,list:(rows[d+"|"+tm.name]||[]).sort((x,y)=>(y.fin-x.fin)||(x.a.first||"").localeCompare(y.a.first||""))}));
@@ -1313,13 +1323,13 @@ function vHub(){
   const COL={assess:"var(--bad)",suggest:"#f08a24",approve:"#f5b041",complete:"var(--ok)"};
   const total=all.length||1;
   const mine=pendingFor(me);
-  const pend=[];all.forEach(a=>discsOf(a).forEach(d=>{const p=plc(a,d);if(p.team&&!isFinal(p))pend.push({a,d,p})}));
+  const pend=[];all.forEach(a=>discsOf(a).forEach(d=>plist(a,d).forEach(p=>{if(!isFinal(p))pend.push({a,d,p})})));
   const waiting=[];const finals=[];
-  all.forEach(a=>discsOf(a).forEach(d=>{const p=plc(a,d);if(!p.team)return;const ap=apprList(p);
+  all.forEach(a=>discsOf(a).forEach(d=>plist(a,d).forEach(p=>{const ap=apprList(p);
     if(isFinal(p))finals.push({a,d,p,at:Math.max(...ap.map(e=>(p.approvals[e]||{}).at||0))});
-    else if(ap.includes(me))waiting.push({a,d,p})}));
+    else if(ap.includes(me))waiting.push({a,d,p})})));
   finals.sort((x,y)=>y.at-x.at);
-  const ready=[];all.forEach(a=>{if(!doneOf(a,"assessment"))return;discsOf(a).forEach(d=>{if(!plc(a,d).team)ready.push({a,d})})});
+  const ready=[];all.forEach(a=>{if(!doneOf(a,"assessment"))return;discsOf(a).forEach(d=>{if(!plist(a,d).length)ready.push({a,d})})});
   const card=(x,btn)=>`<div class="hcard">${thumb(x.a,46)}<div class="hc"><b>${esc(fullName(x.a))}</b><small>${x.a.dob?`Age ${divAge(x.a.dob)} · ${esc(divLabel(x.a))}`:"No DOB"}</small>
       <div class="hteam"><span class="hd2 ${x.d}">${x.d==="cheer"?"Cheer":"Dance"}</span><b>${esc(teamLbl(x.p))}</b></div>
       <small>Suggested by ${esc(x.p.by||"a coach")} · ${apprList(x.p).length?`approved by ${apprList(x.p).map(dirName).join(", ")}`:"no approvals yet"}</small></div>
@@ -1330,7 +1340,7 @@ function vHub(){
       <div class="pipe">${STATUS_ORDER.map(k=>`<i style="width:${cnt(k)/total*100}%;background:${COL[k]}"></i>`).join("")}</div>
       <div class="pipel">${STATUS_ORDER.map(k=>`<button data-act="hubFilter" data-v="${k}"><b style="color:${COL[k]}">${cnt(k)}</b>${STATUS_SHORT[k]}</button>`).join("")}</div></div>
     ${isDirector()?`<div class="hsec"><h3>Needs your approval <span>${mine.length}</span></h3>
-      ${mine.length?mine.map(x=>card(x,`<button class="btn okbtn" data-act="hubApprove" data-id="${x.a.id}" data-d="${x.d}">✓ Approve</button>`)).join(""):`<p class="hnone">You're all caught up ✦</p>`}</div>
+      ${mine.length?mine.map(x=>card(x,`<button class="btn okbtn" data-act="hubApprove" data-id="${x.a.id}" data-d="${x.d}" data-k="${x.p.key}">✓ Approve</button>`)).join(""):`<p class="hnone">You're all caught up ✦</p>`}</div>
     <div class="hsec"><h3>Waiting on a second approval <span>${waiting.length}</span></h3>
       ${waiting.length?waiting.map(x=>card(x,"")).join(""):`<p class="hnone">Nothing waiting.</p>`}</div>`
     :`<div class="hsec"><h3>Waiting on director approval <span>${pend.length}</span></h3>
@@ -1451,14 +1461,14 @@ function vCompare(){
       ${DANCE_CATS.map(c=>`<tr><td>${esc(c.name)}</td>${list.map(a=>`<td class="sub">${esc(((a.danceSkills||{})[c.id]||{}).level||"–")}</td>`).join("")}</tr>`).join("")}`:""}
     ${cats().map(c=>{const items=c.items.filter(i=>list.some(a=>canSee(a,i)));if(!items.length)return "";return `<tr class="ch"><td colspan="${list.length+1}">${esc(c.cat)}</td></tr>
       <tr><td class="sub">Has it</td>${list.map(a=>{const vis=items.filter(i=>canSee(a,i));return `<td class="sub">${vis.filter(i=>(a.skills||{})[i.key]===2).length}/${vis.length}</td>`}).join("")}</tr>
-      ${items.map(i=>`<tr><td>${i.level?`<span class="sub">L${i.level}</span> `:""}${esc(i.name)}</td>${list.map(a=>`<td>${canSee(a,i)?cell(a,i.key):'<span class="dot-na"> </span>'}</td>`).join("")}</tr>`).join("")}`}).join("")}
+      ${items.map(i=>`<tr><td>${i.level?`<span class="sub">${lvlShort(i.level)}</span> `:""}${esc(i.name)}</td>${list.map(a=>`<td>${canSee(a,i)?cell(a,i.key):'<span class="dot-na"> </span>'}</td>`).join("")}</tr>`).join("")}`}).join("")}
   </table></div>
   <p class="sub" style="text-align:center;margin-top:14px">✓ Has it · ~ Working · ✕ No · – Not assessed</p>`;
 }
 
 function vSettings(){
   const st=S.settings;
-  const skillsTxt=cats().map(c=>"# "+c.cat+"\n"+c.items.map(i=>(i.level?`L${i.level}: `:"")+i.name).join("\n")).join("\n\n");
+  const skillsTxt=cats().map(c=>"# "+c.cat+"\n"+c.items.map(i=>(i.level?(i.level===NOVICE?"N: ":`L${i.level}: `):"")+i.name).join("\n")).join("\n\n");
   const divTxt=(st.divisions||[]).map(d=>`${d.name}: ${d.max}`).join("\n");
   const vidCount=S.athletes.reduce((n,a)=>n+(a.videos||[]).filter(v=>!isPhoto(v)).length,0);
   return `<div class="top"><button class="icon" data-act="go" data-v="home">‹</button><div class="logo" style="font-size:16px">Settings</div><span style="width:38px"></span></div>
@@ -1471,7 +1481,7 @@ function vSettings(){
     <label for="s-asat">Ages and divisions are worked out as at (age shown is their age on this date)</label><input class="in" id="s-asat" type="date" value="${esc(st.ageAsAt)}" data-keep>
     <div class="help">Age groups follow the AASCF cheer and dance age grids for ${esc(String(ageYear()))}, so athletes can be eligible for more than one.</div>
     <label for="s-skills">Skills checklist</label><textarea class="in" id="s-skills" rows="16" data-keep>${esc(skillsTxt)}</textarea>
-    <div class="help">Start a category with #, then one skill per line underneath. Put L1 to L6 in front of a skill (like "L3: Round off BHS tuck") to tag its tumbling level. Renaming a skill clears ticks already given for it.</div>
+    <div class="help">Start a category with #, then one skill per line underneath. Put N: (Novice) or L1 to L6 in front of a skill (like "L3: RO BHS back tuck") to tag its tumbling level. Renaming a skill clears ticks already given for it.</div>
     <button class="btn" data-act="saveSettings">Save settings</button>
     <div class="sect" style="margin-top:28px">Data</div>
     <button class="btn ghost" data-act="export" style="margin-bottom:10px">⬇ Export everyone (spreadsheet)</button>
@@ -1565,32 +1575,38 @@ const actions={
     if(back)setTimeout(()=>actions.contact(),50)},
   doneCancel(){const back=S.doneBack;closeModal();if(back)actions.contact()},
   tTier(el){const d=el.dataset.d;S.tierDraft=(S.tierDraft&&S.tierDraft.id===S.id)?S.tierDraft:{id:S.id};S.tierDraft[d]=el.dataset.v;render()},
-  async tPick(el){const a=find(S.id),d=el.dataset.d,p=plc(a,d),name=el.dataset.v;
-    if(p.team===name)return;
-    if(apprList(p).length&&!await ask(`Change to ${name}? This clears the approvals for ${p.team}.`,"Change team"))return;
-    const np={tier:el.dataset.tier,team:name,sub:el.dataset.sub||"",by:coachName(),at:Date.now(),approvals:{}};
-    const all=discsOf(a).every(x=>x===d||plc(a,x).team);
-    const patch={["placement."+d]:np,team:computeTeam(a,{[d]:np})};
-    if(all&&!doneOf(a,"teams"))patch["done.teams"]={by:coachName(),at:Date.now(),auto:true};
-    try{await B.updateAthlete(a.id,patch);toast(patch["done.teams"]?`Suggested ${name} · Suggested teams ticked off ✓`:`Suggested ${name}`)}catch(e){toast("Couldn't save: "+e.message)}},
-  async tApprove(el){const a=find(S.id),d=el.dataset.d,p=plc(a,d),me=myEmail();if(!isDirector()||!p.team)return;
-    if(!await ask(`Approve ${teamLbl(p)} for ${a.first||"this athlete"}?`,"Approve"))return;
-    const rec={name:dirName(me),at:Date.now()},np={...p,approvals:{...(p.approvals||{}),[me]:rec}};
-    try{await B.setField(a.id,["placement",d,"approvals",me],rec);const t=computeTeam(a,{[d]:np});if(t!==(a.team||""))await B.updateAthlete(a.id,{team:t});
-      toast(isFinal(np)?`Final ✓ ${a.first||""} is on ${np.team}`:`Approved (${apprList(np).length} of ${APPROVALS_NEEDED})`)}catch(e){toast("Couldn't save: "+e.message)}},
-  async tUnapprove(el){const a=find(S.id),d=el.dataset.d,p=plc(a,d),me=myEmail();
-    if(!await ask("Remove your approval?","Remove"))return;
-    const ap={...(p.approvals||{})};delete ap[me];const np={...p,approvals:ap};
-    try{await B.setField(a.id,["placement",d,"approvals",me],null);const t=computeTeam(a,{[d]:np});if(t!==(a.team||""))await B.updateAthlete(a.id,{team:t});toast("Approval removed")}catch(e){toast("Couldn't save: "+e.message)}},
+  async tPick(el){const a=find(S.id),d=el.dataset.d,name=el.dataset.v,list=plist(a,d),k=tkey(name);
+    if(list.some(e=>e.key===k)){actions.tRemove({dataset:{d,k}});return}
+    const ne={key:k,tier:el.dataset.tier,team:name,sub:el.dataset.sub||"",by:coachName(),at:Date.now(),approvals:{}};
+    const nl=[...list,ne],extra={};
+    if(discsOf(a).every(x=>x===d||plist(a,x).length)&&!doneOf(a,"teams"))extra["done.teams"]={by:coachName(),at:Date.now(),auto:true};
+    try{await savePlist(a,d,nl,extra);toast(extra["done.teams"]?`Suggested ${name} · Suggested teams ticked off ✓`:list.length?`Added ${name} as an extra team`:`Suggested ${name}`)}catch(e){toast("Couldn't save: "+e.message)}},
+  async tRemove(el){const a=find(S.id),d=el.dataset.d,k=el.dataset.k,list=plist(a,d),e=list.find(x=>x.key===k);if(!e)return;
+    const n=apprList(e).length;
+    if(!await ask(n?`Remove ${e.team}? It has ${n} approval${n===1?"":"s"}, which will be lost.`:`Remove ${e.team} from ${a.first||"this athlete"}'s suggested teams?`,"Remove"))return;
+    try{await savePlist(a,d,list.filter(x=>x.key!==k));toast(`${e.team} removed`)}catch(er){toast("Couldn't save: "+er.message)}},
+  async tApprove(el){const a=find(S.id),d=el.dataset.d,k=el.dataset.k,me=myEmail();const list=plist(a,d),e=list.find(x=>x.key===k);if(!isDirector()||!e)return;
+    if(!await ask(`Approve ${teamLbl(e)} for ${a.first||"this athlete"}?`,"Approve"))return;
+    const rec={name:dirName(me),at:Date.now()},ne={...e,approvals:{...(e.approvals||{}),[me]:rec}},nl=list.map(x=>x.key===k?ne:x);
+    try{if(plc(a,d).teams){await B.setField(a.id,["placement",d,"teams",k,"approvals",me],rec);const t=computeTeam(a,{[d]:nl});if(t!==(a.team||""))await B.updateAthlete(a.id,{team:t})}
+      else await savePlist(a,d,nl);
+      toast(isFinal(ne)?`Final ✓ ${a.first||""} is on ${ne.team}`:`Approved ${ne.team} (${apprList(ne).length} of ${APPROVALS_NEEDED})`)}catch(er){toast("Couldn't save: "+er.message)}},
+  async tUnapprove(el){const a=find(S.id),d=el.dataset.d,k=el.dataset.k,me=myEmail();const list=plist(a,d),e=list.find(x=>x.key===k);if(!e)return;
+    if(!await ask(`Remove your approval for ${e.team}?`,"Remove"))return;
+    const ap={...(e.approvals||{})};delete ap[me];const nl=list.map(x=>x.key===k?{...e,approvals:ap}:x);
+    try{if(plc(a,d).teams){await B.setField(a.id,["placement",d,"teams",k,"approvals",me],null);const t=computeTeam(a,{[d]:nl});if(t!==(a.team||""))await B.updateAthlete(a.id,{team:t})}
+      else await savePlist(a,d,nl);toast("Approval removed")}catch(er){toast("Couldn't save: "+er.message)}},
   contactEdit(){closeModal();go("edit")},
   asmtOpen(){const a=find(S.id);if(!a)return;
-    S.asmt={id:a.id,type:a.tryoutType||null,cheerLevel:a.cheerLevel||null,positions:[...(a.cheerPositions||[])],
+    S.asmt={id:a.id,type:a.tryoutType||null,cheerLevels:a.cheerLevels?[...a.cheerLevels]:(a.cheerLevel?String(a.cheerLevel).split(/,\s*/):[]),positions:[...(a.cheerPositions||[])],
       tumbleMain:a.tumbleMain==null||a.tumbleMain===""?null:+a.tumbleMain,tumbleSecond:a.tumbleSecond?+a.tumbleSecond:null,cheerNotes:a.cheerAssessNotes||"",
       danceAllstar:a.danceAllstar==null?null:a.danceAllstar,styles:{...(a.danceStyles||{})},danceExp:a.danceExperience||null,danceNotes:a.danceAssessNotes||""};
     asmtRender()},
   asmtCancel(){S.asmt=null;closeModal()},
   asType(el){S.asmt.type=el.dataset.v;asmtRender()},
-  asCL(el){const v=el.dataset.v;S.asmt.cheerLevel=S.asmt.cheerLevel===v?null:v;asmtRender()},
+  asCL(el){const v=el.dataset.v;let l=S.asmt.cheerLevels||[];
+    if(l.includes(v))l=l.filter(x=>x!==v);else l=v==="No experience"?["No experience"]:[...l.filter(x=>x!=="No experience"),v];
+    S.asmt.cheerLevels=CHEER_LEVELS.filter(x=>l.includes(x));asmtRender()},
   asPos(el){const v=el.dataset.v;let p=S.asmt.positions||[];
     if(p.includes(v))p=p.filter(x=>x!==v);else p=v==="N/A"?["N/A"]:[...p.filter(x=>x!=="N/A"),v];
     S.asmt.positions=p;asmtRender()},
@@ -1606,7 +1622,7 @@ const actions={
     let markDone=false;
     if(el&&el.dataset.done){const r=await confirmComplete(find(d.id),"experience",true);if(r==="back"){asmtRender();return}markDone=r==="yes";}
     const p={tryoutType:d.type};
-    if(d.type!=="dance")Object.assign(p,{cheerLevel:d.cheerLevel||null,cheerPositions:d.positions||[],tumbleMain:d.tumbleMain==null?null:d.tumbleMain,tumbleSecond:d.tumbleMain?d.tumbleSecond||null:null,cheerAssessNotes:(d.cheerNotes||"").trim()});
+    if(d.type!=="dance")Object.assign(p,{cheerLevels:d.cheerLevels||[],cheerLevel:(d.cheerLevels||[]).join(", ")||null,cheerPositions:d.positions||[],tumbleMain:d.tumbleMain==null?null:d.tumbleMain,tumbleSecond:d.tumbleMain?d.tumbleSecond||null:null,cheerAssessNotes:(d.cheerNotes||"").trim()});
     if(d.type!=="cheer")Object.assign(p,{danceAllstar:d.danceAllstar,danceStyles:d.danceAllstar===true?d.styles||{}:{},danceExperience:d.danceAllstar===false?d.danceExp||null:null,danceAssessNotes:(d.danceNotes||"").trim()});
     if(markDone)p["done.experience"]={by:coachName(),at:Date.now()};
     const btn=document.querySelector('[data-act="asmtSave"]');if(btn){btn.disabled=true;btn.textContent="Saving…"}
@@ -1673,7 +1689,7 @@ const actions={
   skillVid(el){const k=el.dataset.k,id=S.id;pickFile("video/*").then(f=>{if(f)uploadVideo(id,f,k)})},
   lvlMain(el){const a=find(S.id);S.lvl=(S.lvl&&S.lvl.id===a.id)?S.lvl:{id:a.id,main:null,sec:null};S.lvl.main=+el.dataset.v;if(S.lvl.sec===S.lvl.main)S.lvl.sec=null;render()},
   lvlSec(el){const a=find(S.id);S.lvl=(S.lvl&&S.lvl.id===a.id)?S.lvl:{id:a.id,main:null,sec:null};S.lvl.sec=el.dataset.v?+el.dataset.v:null;render()},
-  async lvlSave(){const d=S.lvl;if(!d||!d.main)return;S.lvl=null;await B.updateAthlete(d.id,{tumbleMain:d.main,tumbleSecond:d.sec||null});toast(`Assessing Level ${d.main}${d.sec?" + "+d.sec:""}`)},
+  async lvlSave(){const d=S.lvl;if(!d||!d.main)return;S.lvl=null;await B.updateAthlete(d.id,{tumbleMain:d.main,tumbleSecond:d.sec||null});toast(`Assessing ${lvlName(d.main)}${d.sec?" + "+lvlName(d.sec):""}`)},
   async lvlAll(){const id=S.id;S.lvl=null;await B.updateAthlete(id,{tumbleMain:0,tumbleSecond:null})},
   lvlChange(){const a=find(S.id);S.lvl={id:a.id,main:+a.tumbleMain||null,sec:a.tumbleSecond?+a.tumbleSecond:null};render();window.scrollTo(0,document.querySelector(".tabs").offsetTop)},
   lvlCancel(){S.lvl=null;render()},
@@ -1728,7 +1744,7 @@ const actions={
     try{await B.resetPassword(e);toast(DEMO?"Demo mode: no email sent":`Password reset email sent to ${e}. Check junk mail too.`)}catch(er){toast(/user-not-found/.test(er.code||"")?"That email isn't set up yet. Ask Lydia to add you.":"Couldn't send: "+er.message)}},
   openTeams(el){go("profile",{id:el.dataset.id,tab:"teams",lvl:null})},
   hubFilter(el){go("home",{status:el.dataset.v,div:"All",q:""})},
-  async hubApprove(el){const a=find(el.dataset.id);if(!a)return;S.id=a.id;await actions.tApprove({dataset:{d:el.dataset.d}});S.id=null;render()},
+  async hubApprove(el){const a=find(el.dataset.id);if(!a)return;S.id=a.id;await actions.tApprove({dataset:{d:el.dataset.d,k:el.dataset.k}});S.id=null;render()},
   printMode(el){S.printMode=el.dataset.v;render()},
   doPrint(){
     if(!(window.jspdf&&window.jspdf.jsPDF)){toast("Printing is still loading, try again in a second");return}
@@ -1830,12 +1846,12 @@ async function uploadVideo(id,file,skill){
 
 function exportCsv(){
   const sk=skillList();
-  const head=["Tryout #","First name","Last name","DOB",`Age in ${ageYear()}`,"Eligible age groups","Tumbling levels","Status","Final team","Parent","Phone","Email","Previous gym","Experience","Medical notes","Trying out for","Cheer level competed","Position","Cheer assessment notes","Cheer skill notes",...sk.map(s=>s.cat+": "+s.name),"Does allstar dance","Dance styles / levels","Dance experience","Dance assessment notes",...DANCE_CATS.flatMap(c=>[`Dance ${c.name}`,`Dance ${c.name} notes`]),"Cheer tier","Cheer suggested team","Cheer approvals","Dance tier","Dance suggested team","Dance approvals",...SECTIONS.map(x=>x[1]+" complete"),"Videos","Notes"];
+  const head=["Tryout #","First name","Last name","DOB",`Age in ${ageYear()}`,"Eligible age groups","Tumbling levels","Status","Final team","Parent","Phone","Email","Previous gym","Experience","Medical notes","Trying out for","Cheer level competed","Position","Cheer assessment notes","Cheer skill notes",...sk.map(s=>s.cat+": "+s.name),"Does allstar dance","Dance styles / levels","Dance experience","Dance assessment notes",...DANCE_CATS.flatMap(c=>[`Dance ${c.name}`,`Dance ${c.name} notes`]),"Cheer tier","Cheer suggested teams","Cheer approvals","Dance tier","Dance suggested teams","Dance approvals",...SECTIONS.map(x=>x[1]+" complete"),"Videos","Notes"];
   const rows=S.athletes.slice().sort((a,b)=>(a.num||0)-(b.num||0)).map(a=>[a.num,a.first,a.last,fmtDob(a.dob),a.dob?divAge(a.dob):"",divLabel(a),levelsTxt(a),STATUS_LABEL[statusOf(a)],a.team,a.parentName,a.parentPhone,a.parentEmail,a.prevGym,a.experience,a.medical,TYPE_LABEL[a.tryoutType]||"",a.cheerLevel||"",(a.cheerPositions||[]).join(", "),a.cheerAssessNotes||"",a.cheerSkillNotes||"",
     ...sk.map(s=>{const v=(a.skills||{})[s.key];return v==null?"":RATING[v].t}),
     a.danceAllstar===true?"Yes":a.danceAllstar===false?"No":"",danceStylesTxt(a),a.danceExperience||"",a.danceAssessNotes||"",
     ...DANCE_CATS.flatMap(c=>{const x=(a.danceSkills||{})[c.id]||{};return [x.level||"",x.notes||""]}),
-    ...["cheer","dance"].flatMap(d=>{const p=plc(a,d),t=(TIERS[d].find(x=>x.id===p.tier)||{}).name||"";return [t,teamLbl(p),apprList(p).map(dirName).join(", ")]}),
+    ...["cheer","dance"].flatMap(d=>{const l=plist(a,d);return [[...new Set(l.map(p=>(TIERS[d].find(x=>x.id===p.tier)||{}).name||""))].join(", "),l.map(p=>(isFinal(p)?"✓ ":"")+teamLbl(p)).join(" / "),l.map(p=>`${p.team}: ${apprList(p).map(dirName).join(", ")||"none"}`).join("; ")]}),
     ...SECTIONS.map(x=>doneOf(a,x[0])?"Yes":"No"),(a.videos||[]).length,(a.notes||[]).map(n=>`${n.by}: ${n.text}`).join(" | ")]);
   const csv=[head,...rows].map(r=>r.map(c=>{const s=String(c??"");return /[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s}).join(",")).join("\n");
   const blob=new Blob(["﻿"+csv],{type:"text/csv"});const url=URL.createObjectURL(blob);
