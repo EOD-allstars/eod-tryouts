@@ -524,6 +524,88 @@ input[type=date].in{min-height:46px;min-width:0;-webkit-appearance:none;appearan
 .fchips .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 .ftier{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--pink2);margin:4px 2px 6px}
 
+/* ticks, tech scores, rings, class assess */
+.tkb{width:34px;height:30px;border-radius:9px!important;background:#fff!important;border:2px solid var(--line)!important;color:transparent!important;font-size:15px!important;font-weight:900!important;padding:0!important}
+.tkb.on{background:var(--ok)!important;border-color:var(--ok)!important;color:#fff!important}
+.scb{min-width:48px;height:30px;border-radius:9px!important;background:#fff!important;color:var(--mut)!important;font-size:11px!important;font-weight:800!important;padding:0 6px!important}
+.scb.has{font-family:var(--num);font-weight:400!important;font-size:15px!important;color:#fff!important}
+.t-d.has,.csc.t-d,.scb.t-d{background:#e0675c!important}.t-s.has,.csc.t-s,.scb.t-s{background:#f08a24!important}.t-e.has,.csc.t-e,.scb.t-e{background:var(--ok)!important}
+.csk .seg{align-items:center;gap:5px}
+.pgcard{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:14px;margin:0 18px 12px;box-shadow:var(--shadow)}
+.pgrow{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid #f0ecef}
+.pgrow:nth-child(2){border-top:0}
+.pgrow.off{opacity:.38}
+.pgn{width:72px;flex:none;font-family:var(--disp);font-stretch:118%;text-transform:uppercase;font-weight:900;font-size:12px;line-height:1.1}
+.pgn small{display:block;font-family:var(--body);font-stretch:100%;text-transform:none;font-size:10px;font-weight:600;color:var(--mut);margin-top:2px}
+.pgpair{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:8px;min-width:0}
+.pgr{display:flex;align-items:center;gap:8px;background:#faf8fa;border-radius:14px;padding:6px 8px;min-width:0}
+.pgr svg{width:50px;height:50px;flex:none}
+.pgr b{display:block;font-family:var(--num);font-weight:400;font-size:19px;line-height:1}
+.pgr span{font-size:10px;color:var(--mut);font-weight:700;white-space:nowrap}
+.mrings{display:flex;flex-wrap:wrap;gap:8px;margin-top:7px}
+.mrings span{display:flex;flex-direction:column;align-items:center;font-size:9px;font-weight:800;color:var(--mut)}
+.mrings i{display:flex;gap:2px}.mrings svg{width:24px;height:24px}
+.vcard .vsc{position:absolute;top:6px;left:6px;font-family:var(--num);font-size:14px;color:#fff;padding:1px 7px;border-radius:8px;z-index:2}
+.vcvid{max-height:34vh!important}
+.tkline{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;background:var(--okbg);color:var(--ok);border-radius:12px;padding:10px 12px;margin-bottom:12px}
+.vcscore{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:10px}
+.vcl{font-size:12px;font-weight:800}
+.vcscore b{font-family:var(--num);font-weight:400;font-size:46px;line-height:1;color:var(--pink)}
+.vcscore b small{font-size:20px;color:var(--mut)}
+.vclbl{font-size:12.5px;font-weight:800;padding:6px 11px;border-radius:999px;background:var(--card);color:var(--mut)}
+.vclbl.t-d{background:#fbe5e5;color:#9c2b2b}.vclbl.t-s{background:#fff1e0;color:#a35400}.vclbl.t-e{background:var(--okbg);color:var(--ok)}
+.vcguide{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
+.vcguide div{border-radius:12px;padding:8px 4px;text-align:center;font-size:11px;font-weight:700;line-height:1.25}
+.vcguide b{display:block;font-family:var(--num);font-weight:400;font-size:16px}
+.vcguide .t-d{background:#fbe5e5;color:#9c2b2b}.vcguide .t-s{background:#fff1e0;color:#a35400}.vcguide .t-e{background:var(--okbg);color:var(--ok)}
+.vcrange{-webkit-appearance:none;appearance:none;width:100%;height:16px;border-radius:999px;background:linear-gradient(90deg,#e8796f,#f5b041 50%,#2fb36a);outline:none;margin:14px 0 6px}
+.vcrange::-webkit-slider-thumb{-webkit-appearance:none;width:36px;height:36px;border-radius:50%;background:#fff;border:4px solid var(--ink);box-shadow:0 3px 10px rgba(0,0,0,.25)}
+.vcrange::-moz-range-thumb{width:30px;height:30px;border-radius:50%;background:#fff;border:4px solid var(--ink)}
+.vcrange.unset::-webkit-slider-thumb{border-color:#bbb}
+.vcticks{display:flex;justify-content:space-between;font-size:11px;color:var(--mut);font-weight:700;padding:0 8px;margin-bottom:14px}
+.vcbtns{display:grid;grid-template-columns:1fr 1.6fr;gap:8px}
+.calist-h{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);font-weight:700;margin:2px 2px 6px}
+.calist-h button{color:var(--pink2);font-weight:800;font-size:12px}
+.calist{background:#fff;border:1px solid var(--line);border-radius:16px;padding:2px 12px;max-height:46vh;overflow:auto;margin-bottom:6px}
+.capr{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:8px 0;border-top:1px solid #f0ecef}
+.capr:first-child{border-top:0}
+.cbx{width:26px;height:26px;border-radius:8px;border:2px solid var(--line);display:grid;place-items:center;font-style:normal;color:#fff;font-weight:900;flex:none}
+.cbx.on{background:var(--pink);border-color:var(--pink)}
+.catop{display:flex;align-items:center;gap:10px;padding:14px 14px 10px}
+.catt{min-width:0;flex:1}.catt h2{font-family:var(--disp);font-stretch:125%;text-transform:uppercase;font-weight:900;font-size:16px;line-height:1.1}.catt small{font-size:11px;color:var(--mut)}
+.casearch{margin:0!important;width:auto!important;flex:0 1 220px;min-width:120px;padding:9px 12px!important}
+.cawrap{margin:0 10px;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:auto;max-height:calc(100dvh - 150px);-webkit-overflow-scrolling:touch}
+.catab{border-collapse:separate;border-spacing:0;font-size:13px}
+.catab th,.catab td{border-bottom:1px solid #eee7ec;border-right:1px solid #f3eef2}
+.catab thead th{position:sticky;background:var(--pinkbox);z-index:3}
+.catab thead tr:first-child th{top:0;height:28px}
+.catab thead tr:nth-child(2) th{top:28px}
+.catab th.grp{background:var(--ink);color:var(--pinkbox);font-family:var(--disp);font-stretch:118%;text-transform:uppercase;font-weight:900;font-size:9.5px;letter-spacing:.03em;padding:6px;white-space:nowrap;text-align:left}
+.catab th.sk2{font-family:var(--disp);font-stretch:110%;text-transform:uppercase;font-weight:900;font-size:9.5px;padding:7px 5px;min-width:96px;max-width:110px;line-height:1.15;vertical-align:bottom;height:56px}
+.catab th.nm{left:0;z-index:5;text-align:left;padding:0 10px;font-family:var(--disp);font-stretch:118%;text-transform:uppercase;font-weight:900;font-size:10px}
+.catab td.nm{position:sticky;left:0;background:#fff;z-index:2;box-shadow:2px 0 4px rgba(0,0,0,.05)}
+.catab td.nm button{display:flex;align-items:center;gap:8px;padding:6px 8px;text-align:left;width:100%;min-width:150px;max-width:190px}
+.catab td.nm b{display:block;font-size:13px;line-height:1.15}.catab td.nm small{font-size:10.5px;color:var(--mut)}
+.catab td.c{padding:4px}
+.cc{display:grid;grid-template-columns:1fr 1fr;gap:4px;width:92px;margin:auto;background:var(--bg);border-radius:12px;padding:5px}
+.cc.y{background:var(--okbg)}
+.ctk{height:32px;border-radius:9px;background:#fff;border:2px solid var(--line);color:#fff;font-weight:900;font-size:16px}
+.cc.y .ctk{background:var(--ok);border-color:var(--ok)}
+.ccam{height:32px;border-radius:9px;background:#fff;border:1px solid var(--line);font-size:13px;position:relative}
+.ccam.has{border:2px solid var(--pink)}.ccam b{position:absolute;top:-6px;right:-6px;background:var(--pink);color:#fff;font-size:9px;border-radius:7px;padding:1px 4px}
+.ccam em{font-style:normal;font-size:10px;font-weight:800;color:var(--pink2)}
+.csc{grid-column:1/-1;height:24px;border-radius:8px;background:rgba(255,255,255,.8);font-size:10.5px;font-weight:800;color:var(--mut)}
+.csc.has{font-family:var(--num);font-weight:400;font-size:14px;color:#fff}
+.cafoot td{background:#faf8fa;font-size:11px;color:var(--mut);text-align:center;padding:6px;font-weight:700}
+.cafoot td.nm{text-align:left;padding-left:12px;background:#faf8fa}
+@media (max-width:699px){
+  .catop{flex-wrap:wrap}.casearch{flex:1 1 100%!important;order:3}
+  .catab td.nm button{min-width:112px;max-width:132px;gap:6px;padding:6px}
+  .catab td.nm .thumb{width:26px!important;height:32px!important}
+  .catab td.nm b{font-size:12px}
+  .cawrap{max-height:calc(100dvh - 170px)}
+}
+
 /* ======================= iPad and larger screens ======================= */
 @media (min-width:700px){
   #app{max-width:1100px;padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}
@@ -612,6 +694,11 @@ input[type=date].in{min-height:46px;min-width:0;-webkit-appearance:none;appearan
   .repwrap{max-width:820px;margin:0 auto;padding:0 24px}
   .rmini{grid-template-columns:repeat(4,1fr)}
   .stats.five .stat b{font-size:46px}.stats.five .stat small{font-size:10px}
+}
+@media (min-width:700px){
+  .pgcard{margin:0 24px 16px}.pgpair{max-width:520px}
+  .cawrap{margin:0 18px}.catop{padding:18px 22px 12px}.catt h2{font-size:19px}
+  .cc{width:104px}.catab th.sk2{min-width:110px}
 }
 @media (min-width:1000px){
   .skillcols{columns:3}
@@ -1134,7 +1221,7 @@ function vidCard(v,i){
     <div class="vth ${["g0","g2","g1","g3"][i%4]}"><img src="${esc(v.url)}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span class="dur">📷</span></div>
     <div class="m"><h5>${esc(skillName(v.skill))}</h5><p>${fmtDay(v.at)}${v.by?" · "+esc(v.by):""}</p></div></button>`;
   return `<button class="vcard" data-act="playVid" data-at="${v.at}">
-    <div class="vth ${["g0","g2","g1","g3"][i%4]}"><video src="${esc(v.url)}#t=0.1" preload="metadata" muted playsinline></video><div class="play">▶</div>${v.dur?`<span class="dur">0:${String(v.dur).padStart(2,"0")}</span>`:""}</div>
+    <div class="vth ${["g0","g2","g1","g3"][i%4]}"><video src="${esc(v.url)}#t=0.1" preload="metadata" muted playsinline></video><div class="play">▶</div>${v.tech!=null?`<span class="vsc t-${techCls(v.tech)} has">${(+v.tech).toFixed(1)}</span>`:""}${v.dur?`<span class="dur">0:${String(v.dur).padStart(2,"0")}</span>`:""}</div>
     <div class="m"><h5>${esc(skillName(v.skill))}</h5><p>${fmtDay(v.at)}${v.by?" · "+esc(v.by):""}</p></div></button>`;
 }
 function upCards(a,test){
@@ -1428,7 +1515,7 @@ function vCurHome(){
   ${modeSwitch()}
   ${DEMO?`<div class="demo">Demo mode: data stays on this device only.</div>`:""}
   <div class="stats five">${CUR_ORDER.map(k=>`<button class="stat ${S.cstatus===k?"on":""}" data-act="cstatus" data-v="${S.cstatus===k?"All":k}"><b style="color:${COL[k]}">${cnt(k)}</b><small>${CUR_SHORT[k]}</small></button>`).join("")}</div>
-  <div class="tools cur ${isAdmin()?"":"one"}"><button class="tool" data-act="go" data-v="board">▦ Teams board</button>${isAdmin()?`<button class="tool" data-act="impCur">⬆ Import roster</button>`:""}</div>
+  <div class="tools ${isAdmin()?"":"cur"}"><button class="tool on" data-act="classGo">⚡ Class assess</button><button class="tool" data-act="go" data-v="board">▦ Teams board</button>${isAdmin()?`<button class="tool" data-act="impCur">⬆ Import roster</button>`:""}</div>
   <input class="search" id="csearch" placeholder="🔍  Name, team or parent" value="${esc(S.cq)}" data-keep autocomplete="off">
   <div class="chips">${[["All","All"],["flyer","Flyers"],["base","Bases"]].map(([v,t])=>`<button class="chip gold ${S.cpos===v?"on":""}" data-act="cpos" data-v="${v}">${t}</button>`).join("")}<span style="width:8px;flex:none"></span>${CUR_ORDER.map(k=>`<button class="chip st-${k} ${S.cstatus===k?"on":""}" data-act="cstatus" data-v="${S.cstatus===k?"All":k}">${CUR_SHORT[k]}</button>`).join("")}</div>
   ${body||`<div class="empty">${all.length?"<b>No matches</b>Try a different filter or search.":"<b>No current athletes yet</b>Tap + to add one"+(isAdmin()?", or import your roster.":".")}</div>`}
@@ -1440,7 +1527,7 @@ function crow(a){const st=curStatus(a);
     <div class="cinfo"><h4>${esc(fullName(a))}</h4>
       <p>${a.dob?`<b>${divAge(a.dob)}</b> in ${ageYear()} · ${esc(divLabel(a))}`:"No DOB"}</p>
       <p>${(a.curTeams||[]).length?a.curTeams.map(t=>`<b>${esc(t.team)}</b>${t.sub?` · ${esc(t.sub)}`:""}`).join("<br>"):"No current team set"}</p>
-      <div class="ctags">${a.pos?`<span class="ctag ${a.pos}">${posName(a)}</span>`:""}${curLevels(a).length?`<span class="ctag">Tumbling ${esc(curLevelsTxt(a))}</span>`:""}${a.team?`<span class="ctag fin">★ ${esc(a.team)}</span>`:""}</div>
+      <div class="ctags">${a.pos?`<span class="ctag ${a.pos}">${posName(a)}</span>`:""}${curLevels(a).length?`<span class="ctag">Tumbling ${esc(curLevelsTxt(a))}</span>`:""}${a.team?`<span class="ctag fin">★ ${esc(a.team)}</span>`:""}</div>${miniRings(a)}
     </div></button>`}
 
 function vCurProfile(a){
@@ -1453,7 +1540,7 @@ function vCurProfile(a){
   const nr=reportsOf(a).length;
   return `
   <div class="hero">
-    <button class="icon back" data-act="go" data-v="home" aria-label="Back">‹</button>
+    <button class="icon back" data-act="go" data-v="${S.fromClass?"class":"home"}" aria-label="Back">‹</button>
     <button class="icon edit" data-act="edit" aria-label="Edit details">✎</button>
     <span class="hy hy1" aria-hidden="true">${String(ageYear()).slice(0,2)}</span><span class="hy hy2" aria-hidden="true">${String(ageYear()).slice(2)}</span>
     <img class="hlogo" src="icons/logo.webp" alt="">
@@ -1469,28 +1556,6 @@ function vCurProfile(a){
   </div>
   <div class="tabs">${tabs.map(([k,t])=>`<button class="${S.tab===k?"on":""}" data-act="tab" data-v="${k}">${t}</button>`).join("")}</div>
   ${body}`;
-}
-function skRow(key,name,v,vids,photo){const n=vids.filter(x=>x.skill===key&&!isPhoto(x)).length,np=vids.filter(x=>x.skill===key&&isPhoto(x)).length,k=esc(key);
-  return `<div class="sk csk"><span class="skn">${esc(name)}</span><div class="seg">${stars(v,"cStar",`data-k="${k}"`)}${photo?`<button class="vb ${np?"has":""}" data-act="skillPhoto" data-k="${k}" aria-label="Add photo of ${esc(name)}">📷${np?`<b>${np}</b>`:""}</button>`:""}<button class="vb ${n?"has":""}" data-act="skillVid" data-k="${k}" aria-label="Add video of ${esc(name)}">🎥${n?`<b>${n}</b>`:""}</button></div></div>`}
-function tCurAssess(a){
-  const lv=curLevels(a),st=a.stars||{},vids=(a.videos||[]).slice().sort((x,y)=>y.at-x.at);
-  let out=assessBar(a)+`<div class="cat clv"><div class="cat-h">Tumbling levels<span>tick all that apply</span></div>
-    <div class="lvgrid">${CUR_LEVELS.map(l=>{const on=lv.includes(l);return `<button class="cb ${on?"on":""}" data-act="cLvl" data-v="${l}"><i>${on?"✓":""}</i>${lvlName(l)}</button>`}).join("")}</div>
-    <button class="flyt" data-act="cFly"><span>Assess as a flyer<small>${a.flyerAssess?"Body positions are showing below":"Adds body positions to rate"}</small></span><i class="sw ${a.flyerAssess?"":"off"}"></i></button></div><div class="skillcols">`;
-  const tc=cats().filter(c=>c.items.some(i=>i.level));
-  if(!lv.length)out+=`<div class="cat"><div class="cat-h">Tumbling skills</div><p class="help" style="margin:0">Tick a level above and its skills will show here.</p></div>`;
-  else tc.forEach((c,ci)=>{
-    const items=c.items.filter(i=>i.level&&lv.includes(i.level)).sort((x,y)=>x.level-y.level);if(!items.length)return;
-    const rated=items.filter(i=>st[i.key]).length;let rows="",last=null;
-    items.forEach(i=>{if(i.level!==last){rows+=`<div class="lvlhead">${lvlName(i.level)}</div>`;last=i.level}rows+=skRow(i.key,i.name,st[i.key],vids,false)});
-    out+=`<div class="cat${ci%2?" pinkc":""}"><div class="cat-h">${esc(c.cat)}<span>${rated} of ${items.length} rated</span></div><div class="bar"><i style="width:${rated/items.length*100}%"></i></div>${rows}${vidRow(a,vids.filter(v=>skillCat(v.skill)===c.cat),k=>skillCat(k)===c.cat)}</div>`});
-  if(a.flyerAssess){const fl=flyerList(),rated=fl.filter(n=>st["Flyer|"+n]).length,fv=vids.filter(v=>v.skill===FLY_VIDS);
-    out+=`<div class="cat pinkc"><div class="cat-h">Flyer body positions<span>${rated} of ${fl.length} rated</span></div><div class="bar"><i style="width:${fl.length?rated/fl.length*100:0}%"></i></div>
-      ${fl.map(n=>skRow("Flyer|"+n,n,st["Flyer|"+n],vids,true)).join("")}${vidRow(a,vids.filter(v=>skillCat(v.skill)==="Flyer"),k=>skillCat(k)==="Flyer")}</div>
-    <div class="cat"><div class="cat-h">Stunting / flying videos<span>${fv.length?fv.length+" saved":""}</span></div><div class="sub">Extra clips of full stunt sequences, pyramids or baskets.</div>
-      ${vidRow(a,fv,k=>k===FLY_VIDS)}
-      <button class="upload" data-act="skillVid" data-k="${esc(FLY_VIDS)}" style="width:100%;margin:12px 0 0">＋ Add stunting / flying video<small>Max ${MAX_VIDEO_SECONDS} sec</small></button></div>`}
-  return out+`</div><p class="help" style="text-align:center;margin:8px 30px 0">Tap a star to rate. Tap the same star again to clear it.</p>`;
 }
 function tCurReport(a){
   const reps=reportsOf(a),me=myEmail(),mine=(a.reports||{})[me]||{},mr=mine.r||{},others=reps.filter(r=>r.key!==me),ov=overallAvg(a);
@@ -1563,6 +1628,136 @@ function impTeams(v){const known=TIERS.cheer.flatMap(t=>t.teams),out=[];
     const hit=known.filter(k=>new RegExp("\\b"+k.name.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\b","i").test(part)).sort((x,y)=>y.name.length-x.name.length)[0];
     const t=hit?{team:hit.name,sub:hit.sub||""}:{team:part,sub:""};if(!out.some(o=>o.team===t.team))out.push(t)});
   return out}
+
+/* ---------- ticks + tech scores (current athletes) ---------- */
+const TECH_GUIDE=[[1,"Developing","d"],[3,"Some technical errors","s"],[5,"Excellent","e"]];
+function techLabel(v){return v==null?"":v<2?"Developing":v<4?"Some technical errors":"Excellent"}
+function techCls(v){return v==null?"":v<2?"d":v<4?"s":"e"}
+function tickOf(a,k){return !!(a.ticks||{})[k]}
+function techOf(a,k){const t=(a.tech||{})[k];if(t!=null)return +t;const s=(a.stars||{})[k];return s?+s:null}
+function itemLevel(k){const i=skillList().find(x=>x.key===k);return i?i.level:null}
+function levelPatch(a,k){const l=itemLevel(k),cur=curLevels(a);return l&&!cur.includes(l)?{levels:[...cur,l].sort((x,y)=>x-y)}:null}
+async function setTick(a,k,on){const lp=on?levelPatch(a,k):null;
+  try{await B.setField(a.id,["ticks",k],on?true:null);if(lp)await B.updateAthlete(a.id,lp)}catch(e){toast("Couldn't save: "+e.message)}}
+async function setTech(a,k,v){const lp=levelPatch(a,k);
+  try{await B.setField(a.id,["tech",k],v==null?null:Math.round(v*10)/10);if(v==null&&(a.stars||{})[k])await B.setField(a.id,["stars",k],null);if(lp)await B.updateAthlete(a.id,lp)}catch(e){toast("Couldn't save: "+e.message)}}
+function levelItems(l,catNames){return cats().filter(c=>!catNames||catNames.includes(c.cat)).flatMap(c=>c.items.filter(i=>i.level===l))}
+function levelProg(a,l){const it=levelItems(l),ts=it.map(i=>techOf(a,i.key)).filter(v=>v!=null);
+  return {total:it.length,ticked:it.filter(i=>tickOf(a,i.key)).length,scored:ts.length,tech:ts.length?ts.reduce((x,y)=>x+y,0)/ts.length:null}}
+function flyProg(a){const fl=flyerList(),ts=fl.map(n=>techOf(a,"Flyer|"+n)).filter(v=>v!=null);
+  return {total:fl.length,ticked:fl.filter(n=>tickOf(a,"Flyer|"+n)).length,scored:ts.length,tech:ts.length?ts.reduce((x,y)=>x+y,0)/ts.length:null}}
+function ringSvg(frac,col,bg){const C=2*Math.PI*40;frac=Math.max(0,Math.min(1,frac||0));
+  return `<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" fill="none" stroke="${bg}" stroke-width="13"/>${frac>0?`<circle cx="50" cy="50" r="40" fill="none" stroke="${col}" stroke-width="13" stroke-linecap="round" stroke-dasharray="${C*frac} ${C}" transform="rotate(-90 50 50)"/>`:""}</svg>`}
+function progCard(a){
+  const rows=CUR_LEVELS.map(l=>({n:lvlName(l),p:levelProg(a,l)})).filter(x=>x.p.total);
+  if(a.flyerAssess||flyProg(a).ticked||flyProg(a).scored)rows.push({n:"Flyer",p:flyProg(a)});
+  return `<div class="pgcard"><div class="cat-h">Progress<span>skills ticked · tech average</span></div>${rows.map(({n,p})=>{const st=p.ticked||p.scored;
+    return `<div class="pgrow ${st?"":"off"}"><div class="pgn">${esc(n)}${st?"":"<small>Not started</small>"}</div><div class="pgpair">
+      <div class="pgr">${ringSvg(p.ticked/p.total,"#d6409a","#f6dcec")}<div><b>${p.ticked}/${p.total}</b><span>Skills</span></div></div>
+      <div class="pgr">${ringSvg((p.tech||0)/5,"#141214","#e6e2e5")}<div><b>${p.tech!=null?p.tech.toFixed(1):"–"}</b><span>Tech${p.scored?` · ${p.scored} scored`:""}</span></div></div></div></div>`}).join("")}</div>`}
+function miniRings(a){
+  const rows=CUR_LEVELS.map(l=>({n:lvlShort(l),p:levelProg(a,l)})).filter(x=>x.p.total&&(x.p.ticked||x.p.scored));
+  const fp=flyProg(a);if(fp.ticked||fp.scored)rows.push({n:"Fly",p:fp});
+  if(!rows.length)return "";
+  return `<div class="mrings">${rows.map(({n,p})=>`<span><i>${ringSvg(p.ticked/p.total,"#d6409a","#f6dcec")}${ringSvg((p.tech||0)/5,"#141214","#e6e2e5")}</i>${esc(n)}</span>`).join("")}</div>`}
+function skRow2(a,key,name,vids,photo){const n=vids.filter(x=>x.skill===key&&!isPhoto(x)).length,np=vids.filter(x=>x.skill===key&&isPhoto(x)).length,k=esc(key),tk=tickOf(a,key),t=techOf(a,key);
+  return `<div class="sk csk"><span class="skn">${esc(name)}</span><div class="seg">
+    <button class="tkb ${tk?"on":""}" data-act="cTick" data-k="${k}" aria-label="${tk?"Untick":"Tick"} ${esc(name)}">✓</button>
+    <button class="scb ${t!=null?"has t-"+techCls(t):""}" data-act="cScore" data-k="${k}" aria-label="Tech score for ${esc(name)}">${t!=null?t.toFixed(1):"Score"}</button>
+    ${photo?`<button class="vb ${np?"has":""}" data-act="skillPhoto" data-k="${k}" aria-label="Add photo of ${esc(name)}">📷${np?`<b>${np}</b>`:""}</button>`:""}
+    <button class="vb ${n?"has":""}" data-act="cFilm" data-id="${a.id}" data-k="${k}" aria-label="Add video of ${esc(name)}">🎥${n?`<b>${n}</b>`:""}</button></div></div>`}
+function tCurAssess(a){
+  const lv=curLevels(a),vids=(a.videos||[]).slice().sort((x,y)=>y.at-x.at);
+  let out=assessBar(a)+progCard(a)+`<div class="cat clv"><div class="cat-h">Tumbling levels<span>tick all that apply</span></div>
+    <div class="lvgrid">${CUR_LEVELS.map(l=>{const on=lv.includes(l);return `<button class="cb ${on?"on":""}" data-act="cLvl" data-v="${l}"><i>${on?"✓":""}</i>${lvlName(l)}</button>`}).join("")}</div>
+    <button class="flyt" data-act="cFly"><span>Assess as a flyer<small>${a.flyerAssess?"Body positions are showing below":"Adds body positions to assess"}</small></span><i class="sw ${a.flyerAssess?"":"off"}"></i></button></div><div class="skillcols">`;
+  const tc=cats().filter(c=>c.items.some(i=>i.level));
+  if(!lv.length)out+=`<div class="cat"><div class="cat-h">Tumbling skills</div><p class="help" style="margin:0">Tick a level above and its skills will show here.</p></div>`;
+  else tc.forEach((c,ci)=>{
+    const items=c.items.filter(i=>i.level&&lv.includes(i.level)).sort((x,y)=>x.level-y.level);if(!items.length)return;
+    const done=items.filter(i=>tickOf(a,i.key)).length;let rows="",last=null;
+    items.forEach(i=>{if(i.level!==last){rows+=`<div class="lvlhead">${lvlName(i.level)}</div>`;last=i.level}rows+=skRow2(a,i.key,i.name,vids,false)});
+    out+=`<div class="cat${ci%2?" pinkc":""}"><div class="cat-h">${esc(c.cat)}<span>${done} of ${items.length} ticked</span></div><div class="bar"><i style="width:${done/items.length*100}%"></i></div>${rows}${vidRow(a,vids.filter(v=>skillCat(v.skill)===c.cat),k=>skillCat(k)===c.cat)}</div>`});
+  if(a.flyerAssess){const fl=flyerList(),done=fl.filter(n=>tickOf(a,"Flyer|"+n)).length,fv=vids.filter(v=>v.skill===FLY_VIDS);
+    out+=`<div class="cat pinkc"><div class="cat-h">Flyer body positions<span>${done} of ${fl.length} ticked</span></div><div class="bar"><i style="width:${fl.length?done/fl.length*100:0}%"></i></div>
+      ${fl.map(n=>skRow2(a,"Flyer|"+n,n,vids,true)).join("")}${vidRow(a,vids.filter(v=>skillCat(v.skill)==="Flyer"),k=>skillCat(k)==="Flyer")}</div>
+    <div class="cat"><div class="cat-h">Stunting / flying videos<span>${fv.length?fv.length+" saved":""}</span></div><div class="sub">Extra clips of full stunt sequences, pyramids or baskets.</div>
+      ${vidRow(a,fv,k=>k===FLY_VIDS)}
+      <button class="upload" data-act="skillVid" data-k="${esc(FLY_VIDS)}" style="width:100%;margin:12px 0 0">＋ Add stunting / flying video<small>Max ${MAX_VIDEO_SECONDS} sec</small></button></div>`}
+  return out+`</div><p class="help" style="text-align:center;margin:8px 30px 0">✓ ticks a skill. Score gives a tech score out of 5. 🎥 films it and lets you score straight after.</p>`;
+}
+
+/* ---------- tech score sheet (after filming, or score only) ---------- */
+function vcHtml(){const v=S.vc,a=find(v.id),t=v.scored?v.tech:null;
+  return `<div class="mhead"><div><h3 style="margin:0">${v.file?"Save video?":"Tech score"}</h3><div class="sub">${esc(a?fullName(a):"")} · ${esc(skillName(v.key))}</div></div><button class="icon" data-act="vcCancel" aria-label="Close">✕</button></div>
+    ${v.file?`<video src="${v.url}" controls playsinline muted class="vcvid"></video><div class="tkline">✓ ${esc(skillName(v.key))} will be ticked as "has it"</div>`:""}
+    <div class="vcscore"><div><div class="vcl">Technique score</div><b id="vc-val">${t!=null?t.toFixed(1):"–"}<small> / 5</small></b></div><span id="vc-lbl" class="vclbl t-${techCls(t)}">${t!=null?techLabel(t):"Slide to score"}</span></div>
+    <div class="vcguide">${TECH_GUIDE.map(([n,l,c])=>`<div class="t-${c}"><b>${n}</b>${l}</div>`).join("")}</div>
+    <input type="range" id="vc-range" class="vcrange ${v.scored?"":"unset"}" min="0" max="5" step="0.1" value="${t!=null?t:2.5}" aria-label="Technique score out of 5">
+    <div class="vcticks"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+    ${v.file?`<div class="vcbtns"><button class="btn ghost" data-act="vcRetake">Retake</button><button class="btn" data-act="vcSave" id="vc-save">${v.scored?"Save video + score":"Save video"}</button></div>`
+      :`<div class="vcbtns"><button class="btn ghost" data-act="${v.had?"vcClear":"vcCancel"}">${v.had?"Clear score":"Cancel"}</button><button class="btn" data-act="vcSave" id="vc-save">Save score</button></div>`}`}
+function vcOpen(){openModal(vcHtml(),{sticky:true})}
+async function vcCheckFile(f){
+  if(f.size>MAX_VIDEO_MB*1024*1024){toast(`That clip is over ${MAX_VIDEO_MB}MB, probably filmed in 4K. Trim it, or set the camera to 1080p.`);return false}
+  const dur=await videoDuration(f);if(dur>MAX_VIDEO_SECONDS+1){toast(`That clip is ${Math.round(dur)} sec. Trim it to ${MAX_VIDEO_SECONDS} sec or less first.`);return false}
+  return true}
+async function filmFor(id,key){const f=await pickFile("video/*");if(!f||!await vcCheckFile(f))return;
+  const a=find(id),t=a?techOf(a,key):null;
+  if(S.vc&&S.vc.url)URL.revokeObjectURL(S.vc.url);
+  S.vc={id,key,file:f,url:URL.createObjectURL(f),tech:t,scored:false};vcOpen()}
+
+/* ---------- class assess ---------- */
+function caState(){if(!S.ca){let saved=null;try{saved=JSON.parse(localStorage.getItem("eodth_ca")||"null")}catch(e){}
+  S.ca=Object.assign({tier:"",team:"",q:"",ids:[],levels:[],cats:null,fly:false,gq:"",started:false},saved||{});}
+  return S.ca}
+function caSave(){try{const {gq,...c}=S.ca;localStorage.setItem("eodth_ca",JSON.stringify(c))}catch(e){}}
+function caPool(){const c=caState(),q=c.q.trim().toLowerCase();
+  return S.current.filter(a=>(!c.tier||a.tier===c.tier)&&(!c.team||(a.curTeams||[]).some(t=>t.team===c.team))&&(!q||fullName(a).toLowerCase().includes(q)))
+    .sort((x,y)=>(x.first||"").localeCompare(y.first||""))}
+function caTCats(){return cats().filter(c=>c.items.some(i=>i.level)).map(c=>c.cat)}
+function caCols(){const c=caState(),cs=c.cats||caTCats(),out=[];
+  c.levels.slice().sort((x,y)=>x-y).forEach(l=>cats().filter(k=>cs.includes(k.cat)).forEach(k=>{const it=k.items.filter(i=>i.level===l);if(it.length)out.push({h:`${k.cat} · ${lvlName(l)}`,items:it.map(i=>({key:i.key,name:i.name}))})}));
+  if(c.fly)out.push({h:"Flyer body positions",items:flyerList().map(n=>({key:"Flyer|"+n,name:n}))});
+  return out}
+function vClassSetup(){
+  const c=caState(),pool=caPool(),sel=c.ids.filter(id=>S.current.some(a=>a.id===id));
+  const teams=[...new Set(S.current.filter(a=>!c.tier||a.tier===c.tier).flatMap(a=>(a.curTeams||[]).map(t=>t.team)))].sort();
+  const cs=c.cats||caTCats(),nCols=caCols().reduce((n,g)=>n+g.items.length,0);
+  return `<div class="top"><button class="icon" data-act="go" data-v="home" aria-label="Close">✕</button><div class="logo" style="font-size:16px">Class <span>assess</span></div><span style="width:40px"></span></div>
+  <div class="form">
+    <div class="sect" style="margin-top:4px">1. Who's in the class?</div>
+    <div class="chips fchips">${[["","All current"],...CUR_TIERS.map(t=>[t.id,t.name])].map(([v,l])=>`<button class="chip ${c.tier===v?"on":""}" data-act="caTier" data-v="${v}">${esc(l)}</button>`).join("")}</div>
+    ${teams.length?`<div class="chips fchips">${teams.map(t=>`<button class="chip ${c.team===t?"on":""}" data-act="caTeam" data-v="${esc(t)}">${esc(t)}</button>`).join("")}</div>`:""}
+    <input class="in" id="ca-q" placeholder="🔍  Search athlete names" value="${esc(c.q)}" data-keep autocomplete="off" style="margin-bottom:8px">
+    <div class="calist-h"><span>${sel.length} selected</span><span><button data-act="caAll">Select all shown</button> · <button data-act="caNone">Clear</button></span></div>
+    <div class="calist">${pool.map(a=>{const on=sel.includes(a.id);return `<button class="capr" data-act="caPick" data-id="${a.id}">${thumb(a,34)}<span class="bn"><b>${esc(fullName(a))}</b><small>${a.dob?divAge(a.dob)+" · ":""}${esc(curTeamsTxt(a,", ")||curTierName(a.tier)||"")}</small></span><i class="cbx ${on?"on":""}">${on?"✓":""}</i></button>`}).join("")||`<p class="help" style="margin:10px 0;text-align:center">No athletes match.</p>`}</div>
+    <div class="sect">2. What are you assessing?</div>
+    <div class="chips fchips">${CUR_LEVELS.map(l=>`<button class="chip ${c.levels.includes(l)?"on":""}" data-act="caLvl" data-v="${l}">${lvlName(l)}</button>`).join("")}<button class="chip ${c.fly?"on":""}" data-act="caFly">Flyer positions</button></div>
+    ${c.levels.length?`<div class="chips fchips">${caTCats().map(k=>`<button class="chip ${cs.includes(k)?"on":""}" data-act="caCat" data-v="${esc(k)}">${esc(k)}</button>`).join("")}</div>`:""}
+    <button class="btn" data-act="caStart" ${sel.length&&nCols?"":"disabled"} style="margin-top:8px">${sel.length&&nCols?`Start · ${sel.length} athlete${sel.length===1?"":"s"} · ${nCols} skill${nCols===1?"":"s"}`:"Pick athletes and a level"}</button>
+  </div>`}
+function vClass(){
+  const c=caState();if(!c.started)return vClassSetup();
+  const cols=caCols(),gq=c.gq.trim().toLowerCase();
+  const list=c.ids.map(id=>S.current.find(a=>a.id===id)).filter(Boolean);
+  const rows=list.filter(a=>!gq||fullName(a).toLowerCase().includes(gq));
+  const items=cols.flatMap(g=>g.items);
+  const title=[...c.levels.slice().sort((x,y)=>x-y).map(lvlName),...(c.fly?["Flyer"]:[])].join(" + ");
+  const upl=(id,k)=>Object.values(S.uploads).find(u=>u.athleteId===id&&u.skill===k);
+  const cell=(a,i)=>{const tk=tickOf(a,i.key),t=techOf(a,i.key),nv=(a.videos||[]).filter(v=>v.skill===i.key&&!isPhoto(v)).length,u=upl(a.id,i.key),k=esc(i.key);
+    return `<td class="c"><div class="cc ${tk?"y":""}"><button class="ctk" data-act="caTick" data-id="${a.id}" data-k="${k}" aria-label="Tick ${esc(i.name)} for ${esc(a.first||"")}">${tk?"✓":""}</button><button class="ccam ${nv?"has":""}" data-act="cFilm" data-id="${a.id}" data-k="${k}" aria-label="Film ${esc(i.name)}">${u?`<em>${Math.round(u.pct)}%</em>`:"🎥"}${nv&&!u?`<b>${nv}</b>`:""}</button>
+      <button class="csc ${t!=null?"has t-"+techCls(t):""}" data-act="caScore" data-id="${a.id}" data-k="${k}">${t!=null?t.toFixed(1):"score"}</button></div></td>`};
+  return `<div class="catop"><button class="icon" data-act="caBack" aria-label="Back">‹</button><div class="catt"><h2>${esc(title||"Class")}</h2><small>${list.length} athlete${list.length===1?"":"s"} · saves as you go</small></div>
+    <input class="search casearch" id="ca-gq" placeholder="🔍  Find athlete" value="${esc(c.gq)}" data-keep autocomplete="off"></div>
+  <div class="cawrap"><table class="catab">
+    <thead><tr><th class="nm" rowspan="2">Athlete</th>${cols.map(g=>`<th class="grp" colspan="${g.items.length}">${esc(g.h)}</th>`).join("")}</tr>
+      <tr>${items.map(i=>`<th class="sk2">${esc(i.name)}</th>`).join("")}</tr></thead>
+    <tbody>${rows.map(a=>{const n=items.filter(i=>tickOf(a,i.key)).length;
+      return `<tr><td class="nm"><button data-act="caOpen" data-id="${a.id}">${thumb(a,34)}<span><b>${esc(fullName(a))}</b><small>${n} of ${items.length}</small></span></button></td>${items.map(i=>cell(a,i)).join("")}</tr>`}).join("")||`<tr><td class="nm" style="padding:16px">No match</td></tr>`}
+    <tr class="cafoot"><td class="nm">Class</td>${items.map(i=>`<td>${list.filter(a=>tickOf(a,i.key)).length}/${list.length}</td>`).join("")}</tr></tbody>
+  </table></div>
+  <p class="help" style="text-align:center;margin:10px 20px 0">Tap the box to tick. 🎥 films it and lets you score. Tap score to give a tech score without filming. Tap a name for their profile.</p>`}
 
 /* ---------- shared bits ---------- */
 function thumb(a,sz=40){return `<span class="thumb ${grad(a)}" style="width:${sz}px;height:${Math.round(sz*1.25)}px">${a.photoURL?`<img src="${esc(a.photoURL)}" alt="">`:esc(initials(a))}</span>`}
@@ -1807,6 +2002,7 @@ function render(){
     case "compare":html=vCompare();break;
     case "settings":html=vSettings();break;
     case "board":html=vBoard();break;
+    case "class":html=vClass();break;
     case "hub":html=isAdmin()?vHub():vHome();break;
     case "import":html=vImport();break;
     case "print":html=vPrint();break;
@@ -1874,8 +2070,32 @@ const actions={
       if(isEdit)await B.updateAthlete(id,d);else await B.createCurrent(id,d);
       S.cf=null;toast(isEdit?"Saved":"Athlete added ✦");go("profile",{id,tab:isEdit?S.tab:"cassess"})}
     catch(e){toast("Save failed: "+e.message);if(btn){btn.disabled=false;btn.textContent="Try again"}}},
+  cTick(el){const a=find(S.id);if(a)setTick(a,el.dataset.k,!tickOf(a,el.dataset.k))},
+  caTick(el){const a=find(el.dataset.id);if(a)setTick(a,el.dataset.k,!tickOf(a,el.dataset.k))},
+  cScore(el){actions.caScore({dataset:{id:S.id,k:el.dataset.k}})},
+  caScore(el){const a=find(el.dataset.id);if(!a)return;const t=techOf(a,el.dataset.k);S.vc={id:a.id,key:el.dataset.k,file:null,tech:t,scored:t!=null,had:t!=null};vcOpen()},
+  cFilm(el){filmFor(el.dataset.id||S.id,el.dataset.k)},
+  async vcRetake(){const f=await pickFile("video/*");if(!f||!await vcCheckFile(f))return;if(S.vc.url)URL.revokeObjectURL(S.vc.url);S.vc.file=f;S.vc.url=URL.createObjectURL(f);vcOpen()},
+  vcCancel(){if(S.vc&&S.vc.url)URL.revokeObjectURL(S.vc.url);S.vc=null;closeModal()},
+  async vcClear(){const v=S.vc,a=find(v.id);S.vc=null;closeModal();if(a){await setTech(a,v.key,null);toast("Score cleared")}},
+  async vcSave(){const v=S.vc;if(!v)return;const a=find(v.id);S.vc=null;closeModal();if(!a)return;
+    if(v.scored)await setTech(a,v.key,v.tech);
+    if(v.file){if(!tickOf(a,v.key))await setTick(find(v.id),v.key,true);if(v.url)URL.revokeObjectURL(v.url);uploadVideo(v.id,v.file,v.key,v.scored?{tech:Math.round(v.tech*10)/10}:{})}
+    else toast(v.scored?`Scored ${v.tech.toFixed(1)} · ${techLabel(v.tech)}`:"No score given")},
+  classGo(){caState();go("class")},
+  caTier(el){const c=caState();c.tier=el.dataset.v;c.team="";caSave();render()},
+  caTeam(el){const c=caState();c.team=c.team===el.dataset.v?"":el.dataset.v;caSave();render()},
+  caPick(el){const c=caState(),id=el.dataset.id;c.ids=c.ids.includes(id)?c.ids.filter(x=>x!==id):[...c.ids,id];caSave();render()},
+  caAll(){const c=caState();c.ids=[...new Set([...c.ids,...caPool().map(a=>a.id)])];caSave();render()},
+  caNone(){const c=caState();c.ids=[];caSave();render()},
+  caLvl(el){const c=caState(),v=+el.dataset.v;c.levels=c.levels.includes(v)?c.levels.filter(x=>x!==v):[...c.levels,v];caSave();render()},
+  caFly(){const c=caState();c.fly=!c.fly;caSave();render()},
+  caCat(el){const c=caState(),k=el.dataset.v,cs=c.cats||caTCats();c.cats=cs.includes(k)?cs.filter(x=>x!==k):[...cs,k];if(!c.cats.length)c.cats=null;caSave();render()},
+  caStart(){const c=caState();c.ids=c.ids.filter(id=>S.current.some(a=>a.id===id));c.started=true;c.gq="";caSave();render();window.scrollTo(0,0)},
+  caBack(){const c=caState();c.started=false;caSave();render()},
+  caOpen(el){go("profile",{id:el.dataset.id,tab:"cassess",lvl:null,fromClass:true})},
   impCur(){S.imp=null;S.impCur=true;go("import")},
-  go(el){const v=el.dataset.v;if(v==="import")S.impCur=false;go(v,{compareMode:v==="compare"||(v==="home"&&S.view==="compare")?S.compareMode:false})},
+  go(el){const v=el.dataset.v;if(v==="import")S.impCur=false;if(v==="home"||v==="class")S.fromClass=false;go(v,{compareMode:v==="compare"||(v==="home"&&S.view==="compare")?S.compareMode:false})},
   open(el){go("profile",{id:el.dataset.id,tab:S.view==="quick"?"skills":(S.id===el.dataset.id?S.tab:"skills"),lvl:null})},
   tab(el){S.tab=el.dataset.v;render();const t=document.querySelector(".tabs");if(t&&window.scrollY>t.offsetTop)window.scrollTo(0,t.offsetTop-8)},
   contact(){const a=find(S.id);if(!a)return;
@@ -2152,7 +2372,7 @@ async function compressImageMax(file,max){
     c.getContext("2d").drawImage(im,0,0,c.width,c.height);return await new Promise(r=>c.toBlob(r,"image/jpeg",0.85))}
   finally{URL.revokeObjectURL(url)}
 }
-async function uploadVideo(id,file,skill){
+async function uploadVideo(id,file,skill,extra={}){
   const a=find(id);if(!a)return;
   if(file.size>MAX_VIDEO_MB*1024*1024){toast(`That clip is over ${MAX_VIDEO_MB}MB, probably filmed in 4K. Trim it, or set the camera to 1080p (Settings > Camera > Record Video).`);return}
   const dur=await videoDuration(file);
@@ -2160,16 +2380,17 @@ async function uploadVideo(id,file,skill){
   const ts=Date.now(),ext=((file.name||"").split(".").pop()||"mp4").toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,5)||"mp4";
   const path=`athletes/${id}/videos/${ts}.${ext}`,uid="u"+ts;
   S.uploads[uid]={athleteId:id,pct:0,skill,label:`${skillName(skill)} for ${a.first||"athlete"}`};
-  toast("Uploading video…");if(S.view==="profile")render();
+  toast("Uploading video…");if(S.view==="profile"||S.view==="class")render();
   try{
     const url=await B.uploadFile(path,file,p=>{
       S.uploads[uid].pct=p;const el=document.querySelector(`[data-up="${uid}"]`);
       if(el){el.querySelector(".pct").textContent=Math.round(p)+"%";el.querySelector(".bar i").style.width=p+"%"}
+      if(S.view==="class"&&!(uploadVideo._t>Date.now()-600)){uploadVideo._t=Date.now();render()}
     });
-    await B.addToList(id,"videos",{url,path,skill,at:ts,by:coachName(),dur:Math.round(dur)||0});
+    await B.addToList(id,"videos",{url,path,skill,at:ts,by:coachName(),dur:Math.round(dur)||0,...extra});
     toast(`Video saved to ${a.first||"profile"} ✦`);
   }catch(e){toast("Upload failed: "+e.message)}
-  delete S.uploads[uid];if(S.view==="profile")render();
+  delete S.uploads[uid];if(S.view==="profile"||S.view==="class")render();
 }
 
 function exportCsv(){
@@ -2196,6 +2417,11 @@ document.addEventListener("click",e=>{
 document.addEventListener("input",e=>{
   if(e.target.id==="search"){S.q=e.target.value;render()}
   if(e.target.id==="csearch"){S.cq=e.target.value;render()}
+  if(e.target.id==="ca-q"){caState().q=e.target.value;caSave();render()}
+  if(e.target.id==="ca-gq"){caState().gq=e.target.value;render()}
+  if(e.target.id==="vc-range"&&S.vc){const v=+e.target.value;S.vc.tech=v;S.vc.scored=true;e.target.classList.remove("unset");
+    const val=document.getElementById("vc-val"),lb=document.getElementById("vc-lbl"),sv=document.getElementById("vc-save");
+    if(val)val.innerHTML=v.toFixed(1)+"<small> / 5</small>";if(lb){lb.textContent=techLabel(v);lb.className="vclbl t-"+techCls(v)}if(sv&&S.vc.file)sv.textContent="Save video + score"}
   if(e.target.id==="f-dob"){const d=e.target.value;const el=document.getElementById("f-div");if(el)el.textContent=d?`${ageTxt(d)} · ${groupsMainAge(divAge(d),document.getElementById("saveBtn")&&document.getElementById("saveBtn").dataset.act==="saveCur"?["cheer"]:["cheer","dance"]).join(" / ")}`:"–"}
 });
 document.addEventListener("change",e=>{
