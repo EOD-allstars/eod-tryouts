@@ -617,6 +617,28 @@ input[type=date].in{min-height:46px;min-width:0;-webkit-appearance:none;appearan
 .bgrid{grid-template-columns:minmax(0,1fr)}.bteam{min-width:0;overflow:hidden}
 .outb{display:inline-block;font-size:10px;font-weight:800;background:var(--badbg);color:var(--bad);border-radius:7px;padding:2px 7px;margin-top:3px}
 .bcnt .outc{background:var(--badbg);color:var(--bad)}
+.tltop{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.tsbtn{width:auto!important;flex:none;padding:11px 14px!important;font-size:11px!important}
+.tlwrap{overflow-x:auto;margin:0 -18px 14px;padding:0 18px 6px;-webkit-overflow-scrolling:touch}
+.tlcols{display:flex;gap:10px;align-items:flex-start}
+.tlcol{flex:0 0 200px;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.tlh{background:var(--ink);color:#fff;padding:8px 10px}.tlh small{display:block;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--pinkbox)}
+.tlh b{display:block;font-family:var(--disp);font-stretch:118%;text-transform:uppercase;font-weight:900;font-size:13px;line-height:1.15}
+.tlh span{font-size:10.5px;opacity:.8}
+.tln{display:flex;align-items:center;gap:5px;width:100%;text-align:left;font-size:13px;padding:5px 9px;border-top:1px solid #f0ecef;min-height:29px}
+.tln span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tln.fly{background:#dff5e6}
+.tln i{font-style:normal;font-size:9.5px;font-weight:800;border-radius:6px;padding:1px 5px;flex:none}
+.tln i.ok{background:var(--ok);color:#fff}.tln i.pd{background:#fff1e0;color:#b45d00}.tln i.nw{background:var(--pinkpale);color:var(--pink2)}
+.tsbar{padding:0 14px}
+.tstab tr.flyrow td{background:#eefaf2}.tstab tr.flyrow td.nm{background:#e2f6e9}
+.tsc{display:flex;align-items:center;justify-content:center;gap:3px;min-width:84px}
+.tsv{font-size:12px;background:#fff;border:1.5px solid var(--pink);border-radius:7px;padding:1px 5px;font-weight:800;color:var(--pink2)}
+.tsum{font-weight:800;font-size:12px;white-space:nowrap;padding:0 8px!important}
+.possel{font-size:13px;font-weight:700;border:1.5px solid var(--line);border-radius:9px;padding:6px 8px;background:#fff;max-width:128px}
+.possel.fly{background:#dff5e6;border-color:#9fd9b3;color:#14713c}
+@media (max-width:699px){.possel{font-size:16px}.tlcol{flex-basis:170px}}
+@media (min-width:700px){.tlwrap{margin:0 0 14px;padding:0 0 6px}.tlcol{flex-basis:210px}}
 .bchips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
 .bchips .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 .staybtn{flex:none;font-size:12px;font-weight:800;color:var(--ok);background:var(--okbg);border:1.5px solid #b8e3c9;border-radius:10px;padding:8px 9px;white-space:nowrap}
@@ -1223,7 +1245,7 @@ function vProfile(){
   if(S.tab==="skills")body=assessBar(a)+tSkills(a);else if(S.tab==="dance")body=assessBar(a)+tDance(a);else body=tTeams(a);
   return `
   <div class="hero">
-    <button class="icon back" data-act="go" data-v="${S.fromClass?"class":"home"}" aria-label="Back">‹</button>
+    <button class="icon back" data-act="go" data-v="${S.backTo||(S.fromClass?"class":"home")}" aria-label="Back">‹</button>
     <button class="icon edit" data-act="edit" aria-label="Edit details">✎</button>
     <span class="hy hy1" aria-hidden="true">${String(ageYear()).slice(0,2)}</span><span class="hy hy2" aria-hidden="true">${String(ageYear()).slice(2)}</span>
     <img class="hlogo" src="icons/logo.webp" alt="">
@@ -1592,7 +1614,7 @@ function vCurProfile(a){
   const nr=reportsOf(a).length;
   return `
   <div class="hero">
-    <button class="icon back" data-act="go" data-v="${S.fromClass?"class":"home"}" aria-label="Back">‹</button>
+    <button class="icon back" data-act="go" data-v="${S.backTo||(S.fromClass?"class":"home")}" aria-label="Back">‹</button>
     <button class="icon edit" data-act="edit" aria-label="Edit details">✎</button>
     <span class="hy hy1" aria-hidden="true">${String(ageYear()).slice(0,2)}</span><span class="hy hy2" aria-hidden="true">${String(ageYear()).slice(2)}</span>
     <img class="hlogo" src="icons/logo.webp" alt="">
@@ -2010,7 +2032,10 @@ async function addSuggestion(a,d,tierId,name){const list=plist(a,d),k=tkey(name)
   const tm=((TIERS[d].find(t=>t.id===tierId)||{teams:[]}).teams.find(x=>x.name===name))||{};
   const ne={key:k,tier:tierId,team:name,sub:tm.sub||"",by:coachName(),at:Date.now(),approvals:{}},extra={};
   if(discsOf(a).every(x=>x===d||plist(a,x).length)&&!doneOf(a,"teams"))extra["done.teams"]={by:coachName(),at:Date.now(),auto:true};
-  try{await savePlist(a,d,[...list,ne],extra);toast(`Suggested ${name} for ${a.first||"athlete"}`)}catch(e){toast("Couldn't save: "+e.message)}}
+  try{const P=plc(a,d);
+    if(P.team&&!P.teams)await savePlist(a,d,[...list,ne],extra);
+    else{const {key,...rec}=ne;await B.setField(a.id,["placement",d,"teams",k],rec);if(extra["done.teams"])await B.setField(a.id,["done","teams"],extra["done.teams"])}
+    toast(`Suggested ${name} for ${a.first||"athlete"}`)}catch(e){toast("Couldn't save: "+e.message)}}
 function sugChips(a){const l=plist(a,"cheer");return l.length?`<span class="sgc">${l.map(e=>`<i class="${isFinal(e)?"ok":""}">${isFinal(e)?"✓ ":""}${esc(e.team)}</i>`).join("")}</span>`:""}
 function bMatch(a){const q=(S.bq||"").trim().toLowerCase().replace(/^#/,"");return !q||(fullName(a)+" "+aCode(a)+" "+(a.num||"")).toLowerCase().includes(q)}
 function vBoard(){
@@ -2022,36 +2047,69 @@ function vBoard(){
     <div class="tabs btabs">${tabs.map(([k,t])=>`<button class="${tab===k?"on":""}" data-act="btab" data-v="${k}">${t}</button>`).join("")}</div>
     <input class="search bsearch" id="bsearch" placeholder="🔍  Search athlete name or code" value="${esc(S.bq||"")}" data-keep autocomplete="off">
     ${body}</div>`}
+const POS_ORDER=["Flyer","Back spot","Main base","Secondary base","Base"];
+function primaryPos(a){const l=posList(a);for(const p of POS_ORDER)if(l.includes(p))return p;return ""}
+function posRank(a){const p=primaryPos(a);const i=POS_ORDER.indexOf(p);return i<0?9:i}
+function posSort(x,y){return posRank(x.a)-posRank(y.a)||(x.a.last||"").localeCompare(y.a.last||"")||(x.a.first||"").localeCompare(y.a.first||"")}
+async function setPrimaryPos(a,v){
+  if(isCur(a)){const old=(a.positions&&a.positions.length)?a.positions:[];const n=v?[v,...old.filter(x=>x!==v&&x!=="Base")]:[];
+    try{await B.updateAthlete(a.id,{positions:n,pos:n.includes("Flyer")?"flyer":n.length?"base":"",...(n.includes("Flyer")?{flyerAssess:true}:{})});toast(v?`${a.first||""}: ${v}`:"Position cleared")}catch(e){toast("Couldn't save: "+e.message)}}
+  else{const old=(a.cheerPositions||[]).filter(x=>x!=="N/A");const n=v?[v,...old.filter(x=>x!==v)]:[];
+    try{await B.updateAthlete(a.id,{cheerPositions:n});toast(v?`${a.first||""}: ${v}`:"Position cleared")}catch(e){toast("Couldn't save: "+e.message)}}}
+function posSelect(a){const p=primaryPos(a);
+  return `<select class="possel ${p==="Flyer"?"fly":""}" data-pos="${a.id}" aria-label="Position for ${esc(a.first||"")}"><option value="">Position…</option>${CUR_POS.map(x=>`<option value="${x}" ${p===x?"selected":""}>${x}</option>`).join("")}${p==="Base"?`<option value="Base" selected>Base (pick one)</option>`:""}</select>`}
+function teamLevel(name){const ti=teamInfo(name);if(!ti)return null;const s=(ti.sub||"")+" "+name;if(/novice/i.test(s))return NOVICE;const m=s.match(/(\d)/);return m?+m[1]:null}
+function placedTeams(src,d){const rows={};src.forEach(a=>discsOf(a).forEach(dd=>{if(dd!==d)return;plist(a,d).forEach(p=>{(rows[p.team]=rows[p.team]||[]).push({a,p,fin:isFinal(p)})})}));return rows}
 function boardPlace(src,tab){
-  const rows={};
-  src.filter(bMatch).forEach(a=>discsOf(a).forEach(d=>plist(a,d).forEach(p=>{(rows[d+"|"+p.team]=rows[d+"|"+p.team]||[]).push({a,p,fin:isFinal(p)})})));
-  const posOf=posList;
-  const posCount=list=>{const c={Flyer:0,"Main base":0,"Secondary base":0,"Back spot":0};list.forEach(x=>posOf(x.a).forEach(q=>{q=q==="Base"?"Main base":q;if(q in c)c[q]++}));return c};
-  const tag=a=>isCur(a)?'<span class="curtag">Current</span>':"";
+  const tagNew=tab!=="new";
   const sec=d=>{
+    const rows=placedTeams(src.filter(bMatch),d),known=TIERS[d].flatMap(t=>t.teams.map(x=>({...x,tier:t.name})));
+    const cols=[...known.filter(t=>rows[t.name]||(S.boardEmpty&&!S.bq)),...Object.keys(rows).filter(n=>!known.some(k=>k.name===n)).map(n=>({name:n,sub:"",tier:"Other"}))];
     const unsug=src.filter(a=>bMatch(a)&&discsOf(a).includes(d)&&!plist(a,d).length);
-    let h=`<div class="bsec"><h3 class="bsh">${d==="cheer"?"Cheer":"Dance"} teams</h3>`;
-    TIERS[d].forEach(t=>{
-      const teams=t.teams.map(tm=>({tm,list:(rows[d+"|"+tm.name]||[]).sort((x,y)=>(y.fin-x.fin)||(x.a.first||"").localeCompare(y.a.first||""))}));
-      const shown=teams.filter(x=>x.list.length||(S.boardEmpty&&!S.bq));
-      if(!shown.length)return;
-      h+=`<div class="btier">${esc(t.name)}</div><div class="bgrid">`+shown.map(({tm,list})=>{
-        const f=list.filter(x=>x.fin).length,pc=d==="cheer"?posCount(list):null;
-        return `<div class="bteam ${list.length?"":"empty"}"><div class="bth"><div><b>${esc(tm.name)}</b>${tm.sub?`<span>${esc(tm.sub)}</span>`:""}</div><em>${list.length}</em></div>
-          <div class="bcnt"><span class="ok">✓ ${f} final</span><span class="pd">${list.length-f} pending</span></div>
-          ${pc&&list.length?`<div class="bpos">${pc.Flyer} flyer${pc.Flyer===1?"":"s"} · ${pc["Main base"]+pc["Secondary base"]} base${pc["Main base"]+pc["Secondary base"]===1?"":"s"} · ${pc["Back spot"]} back spot${pc["Back spot"]===1?"":"s"}</div>`:""}
-          ${list.map(x=>`<button class="brow" data-act="openTeams" data-id="${x.a.id}">${thumb(x.a,30)}<span class="bn"><b>${esc(fullName(x.a))}${tag(x.a)}</b><small>${x.a.dob?"Age "+divAge(x.a.dob):""}${d==="cheer"&&posOf(x.a).length?" · "+esc(posOf(x.a).join(", ")):""}</small></span><i class="${x.fin?"ok":"pd"}">${x.fin?"✓":apprList(x.p).length+"/"+APPROVALS_NEEDED}</i></button>`).join("")||`<p class="help" style="margin:4px 0 0">No athletes yet</p>`}
-        </div>`}).join("")+`</div>`;
-    });
-    const knownT=TIERS[d].flatMap(t=>t.teams.map(x=>x.name)),odd=Object.keys(rows).filter(k=>k.startsWith(d+"|")&&!knownT.includes(k.slice(d.length+1)));
-    if(odd.length)h+=`<div class="btier">Other teams</div><div class="bgrid">`+odd.map(k=>{const list=rows[k];return `<div class="bteam"><div class="bth"><div><b>${esc(k.slice(d.length+1))}</b><span>Not in your team list</span></div><em>${list.length}</em></div>${list.map(x=>`<button class="brow" data-act="openTeams" data-id="${x.a.id}">${thumb(x.a,30)}<span class="bn"><b>${esc(fullName(x.a))}${tag(x.a)}</b></span><i class="${x.fin?"ok":"pd"}">${x.fin?"✓":apprList(x.p).length+"/"+APPROVALS_NEEDED}</i></button>`).join("")}</div>`}).join("")+`</div>`;
-    if(unsug.length)h+=`<div class="btier">Not suggested yet (${unsug.length})</div><div class="bunsug">${unsug.map(a=>`<div class="browx"><button class="brow" data-act="openTeams" data-id="${a.id}">${thumb(a,30)}<span class="bn"><b>${esc(fullName(a))}${tag(a)}</b><small>${a.dob?"Age "+divAge(a.dob)+" · "+esc(divLabel(a)):""}</small></span>${d==="cheer"&&isDirector()?"":`<i class="no">!</i>`}</button>${d==="cheer"?sugSelect(a):""}</div>`).join("")}</div>`;
-    return h+`</div>`;
-  };
-  const any=Object.keys(rows).length||src.some(a=>bMatch(a)&&discsOf(a).length);
-  return `${tab==="new"?`<p class="help" style="margin:0 0 10px">Tryout athletes only.</p>`:`<p class="help" style="margin:0 0 10px">Every suggested and final 2027 placement. Tap an athlete to open their team selection.</p>`}
+    let h=`<h3 class="bsh">${d==="cheer"?"Cheer":"Dance"} teams</h3>`;
+    if(!cols.length&&!unsug.length)return "";
+    h+=`<div class="tlwrap"><div class="tlcols">`+cols.map(t=>{const list=(rows[t.name]||[]).sort(posSort),f=list.filter(x=>x.fin).length,fly=list.filter(x=>primaryPos(x.a)==="Flyer").length;
+      return `<div class="tlcol"><div class="tlh"><small>${esc(t.tier)}</small><b>${esc(t.name)}</b><span>${list.length} · ${d==="cheer"?`${fly} flyer${fly===1?"":"s"} · `:""}${f} final</span></div>
+        ${list.map(x=>`<button class="tln ${d==="cheer"&&primaryPos(x.a)==="Flyer"?"fly":""} ${x.fin?"fin":""}" data-act="openTeams" data-id="${x.a.id}"><span>${esc(fullName(x.a))}</span>${tagNew&&!isCur(x.a)?`<i class="nw">new</i>`:""}${x.fin?`<i class="ok">✓</i>`:""}</button>`).join("")||`<p class="help" style="margin:6px 8px">No athletes</p>`}
+      </div>`}).join("")+`</div></div>`;
+    if(unsug.length)h+=`<div class="btier">Not suggested yet (${unsug.length})</div><div class="bunsug">${unsug.map(a=>`<div class="browx"><button class="brow" data-act="openTeams" data-id="${a.id}">${thumb(a,30)}<span class="bn"><b>${esc(fullName(a))}${isCur(a)?'<span class="curtag">Current</span>':""}</b><small>${a.dob?"Age "+divAge(a.dob)+" · "+esc(divLabel(a)):""}</small></span>${d==="cheer"&&isDirector()?"":`<i class="no">!</i>`}</button>${d==="cheer"?sugSelect(a):""}</div>`).join("")}</div>`;
+    return h};
+  const body=sec("cheer")+(tab==="new"||src.some(a=>discsOf(a).includes("dance"))?sec("dance"):"");
+  return `<div class="tltop"><p class="help" style="margin:0">${tab==="new"?"Tryout athletes only. ":""}Suggested and final 2027 teams (✓ = final). Flyers are green and listed first, then back spots, main bases and secondary bases. Tap a name to open their team selection.</p>
+      <button class="btn tsbtn" data-act="tsGo">📊 Team stats</button></div>
     ${S.bq?"":`<label class="tgl"><input type="checkbox" id="boardEmpty" ${S.boardEmpty?"checked":""}> Show teams with no athletes</label>`}
-    ${any?sec("cheer")+(tab==="new"||src.some(a=>discsOf(a).includes("dance"))?sec("dance"):""):`<div class="empty"><b>${S.bq?"No matches":"No placements yet"}</b>${S.bq?"Try a different name.":"Suggest teams from an athlete's Team selection tab."}</div>`}`}
+    ${body.trim()?body:`<div class="empty"><b>${S.bq?"No matches":"No placements yet"}</b>${S.bq?"Try a different name.":"Suggest teams from the Current teams tab or an athlete's Team selection."}</div>`}`}
+
+/* ---------- Team stats ---------- */
+function vTeamStats(){
+  const rows=placedTeams(allAth(),"cheer"),names=TIERS.cheer.flatMap(t=>t.teams.map(x=>x.name)).filter(n=>rows[n]).concat(Object.keys(rows).filter(n=>!TIERS.cheer.some(t=>t.teams.some(x=>x.name===n))));
+  if(!S.tsTeam||!names.includes(S.tsTeam))S.tsTeam=names[0]||"";
+  const tn=S.tsTeam,list=(rows[tn]||[]).sort(posSort);
+  if(S.tsFor!==tn){S.tsFor=tn;const l=teamLevel(tn);S.tsLvl=l!=null?String(l):"fly"}
+  const lv=S.tsLvl,cols=lv==="fly"?[{h:"Flyer body positions",items:flyerList().map(n=>({key:"Flyer|"+n,name:n}))}]
+    :cats().map(k=>({h:k.cat,items:k.items.filter(i=>i.level===+lv).map(i=>({key:i.key,name:i.name}))})).filter(g=>g.items.length);
+  const items=cols.flatMap(g=>g.items);
+  const ath=list.map(x=>x.a);
+  const cell=(a,i)=>{const tk=tickOf(a,i.key),t=techOf(a,i.key),vs=(a.videos||[]).filter(v=>v.skill===i.key);
+    return `<td class="c"><div class="tsc ${tk?"y":""}">${tk?`<span class="cmy">✓</span>`:`<span class="cmn">–</span>`}${t!=null?`<span class="cms t-${techCls(t)}">${t.toFixed(1)}</span>`:""}${vs.length?`<button class="tsv" data-act="tsVid" data-id="${a.id}" data-k="${esc(i.key)}">🎥${vs.length>1?vs.length:""}</button>`:""}</div></td>`};
+  const sum=a=>{const n=items.filter(i=>tickOf(a,i.key)).length,ts=items.map(i=>techOf(a,i.key)).filter(v=>v!=null);return `${n}/${items.length}${ts.length?` · ${(ts.reduce((x,y)=>x+y,0)/ts.length).toFixed(1)}`:""}`};
+  return `<div class="catop"><button class="icon" data-act="tsBack" aria-label="Back">‹</button><div class="catt"><h2>Team stats</h2><small>${esc(tn||"No teams yet")}${list.length?` · ${list.length} athletes`:""}</small></div></div>
+  <div class="tsbar">
+    <div class="bchips">${names.map(n=>`<button class="chip ${n===tn?"on":""}" data-act="tsTeam" data-v="${esc(n)}">${esc(n)} <small>${rows[n].length}</small></button>`).join("")||`<p class="help">No 2027 placements yet.</p>`}</div>
+    <div class="bchips">${CUR_LEVELS.map(l=>`<button class="chip gold ${lv===String(l)?"on":""}" data-act="tsLvl" data-v="${l}">${lvlName(l)}</button>`).join("")}<button class="chip gold ${lv==="fly"?"on":""}" data-act="tsLvl" data-v="fly">Flyer positions</button></div>
+  </div>
+  ${tn&&items.length?`<div class="cawrap"><table class="catab tstab">
+    <thead><tr><th class="nm" rowspan="2">Athlete</th><th class="grp" rowspan="2" style="min-width:132px">Position</th>${cols.map(g=>`<th class="grp" colspan="${g.items.length}">${esc(g.h)}</th>`).join("")}<th class="grp" rowspan="2">Total</th></tr>
+      <tr>${items.map(i=>`<th class="sk2">${esc(i.name)}</th>`).join("")}</tr></thead>
+    <tbody>${ath.map(a=>`<tr class="${primaryPos(a)==="Flyer"?"flyrow":""}"><td class="nm"><button data-act="tsOpen" data-id="${a.id}">${thumb(a,30)}<span><b>${esc(fullName(a))}</b><small>${esc(aCode(a))}${isCur(a)?"":" · new"}</small></span></button></td>
+      <td class="c">${posSelect(a)}</td>${items.map(i=>cell(a,i)).join("")}<td class="c tsum">${sum(a)}</td></tr>`).join("")}
+    <tr class="cafoot"><td class="nm">Team</td><td></td>${items.map(i=>`<td>${ath.filter(a=>tickOf(a,i.key)).length}/${ath.length}</td>`).join("")}<td></td></tr></tbody>
+  </table></div>
+  <p class="help" style="text-align:center;margin:10px 20px 0">Pick a team and level above. Change positions with the dropdown. Tap 🎥 to watch a clip, or a name for their profile.</p>`
+  :`<div class="empty"><b>${tn?"No skills at this level":"No placements yet"}</b>${tn?"Pick another level.":"Suggest teams first."}</div>`}`}
+function tsVidHtml(a,k){const vs=(a.videos||[]).filter(v=>v.skill===k).sort((x,y)=>y.at-x.at);
+  return `<div class="mhead"><h3 style="margin:0">${esc(fullName(a))} · ${esc(skillName(k))}</h3><button class="icon" data-act="closeModal" aria-label="Close">✕</button></div><div class="vrow" style="margin:0">${vs.map(vidCard).join("")}</div>`}
+
 function boardCurrent(){
   const known=TIERS.cheer.flatMap(t=>t.teams.map(x=>x.name));
   const groups=CUR_TIERS.map(ct=>({name:ct.name,teams:curTierTeams(ct.id).map(x=>x.name)}));
@@ -2270,6 +2328,7 @@ function render(){
     case "board":html=vBoard();break;
     case "class":html=vClass();break;
     case "rollover":html=vRollover();break;
+    case "tstats":html=vTeamStats();break;
     case "hub":html=isAdmin()?vHub():vHome();break;
     case "import":html=vImport();break;
     case "print":html=vPrint();break;
@@ -2368,6 +2427,12 @@ const actions={
   gaAddDone(){closeModal();render()},
   caSessAdd(el){actions.caSess(el);setTimeout(()=>actions.gaAdd(),50)},
   btab(el){S.btab=el.dataset.v;render()},
+  tsGo(){go("tstats")},
+  tsBack(){go("board")},
+  tsTeam(el){S.tsTeam=el.dataset.v;render()},
+  tsLvl(el){S.tsLvl=el.dataset.v;render()},
+  tsOpen(el){const a=find(el.dataset.id);go("profile",{id:el.dataset.id,tab:isCur(a)?"cassess":"skills",lvl:null,backTo:"tstats"})},
+  tsVid(el){const a=find(el.dataset.id);if(!a)return;S.id=a.id;const vs=(a.videos||[]).filter(v=>v.skill===el.dataset.k);if(vs.length===1)actions.playVid({dataset:{at:String(vs[0].at)}});else openModal(tsVidHtml(a,el.dataset.k))},
   bTeam(el){S.bteam=el.dataset.v;render()},
   async bStay(el){const a=find(el.dataset.id),tn=el.dataset.t,ti=teamInfo(tn);if(!a||!ti)return;el.disabled=true;await addSuggestion(a,"cheer",ti.tier,tn)},
   async bStayAll(el){const tn=el.dataset.t,ti=teamInfo(tn),mx=teamMax(tn);if(!ti)return;
@@ -2398,7 +2463,7 @@ const actions={
   caBack(){const c=caState();c.started=false;caSave();render()},
   caOpen(el){go("profile",{id:el.dataset.id,tab:isCur(find(el.dataset.id))?"cassess":"skills",lvl:null,fromClass:true})},
   impCur(){S.imp=null;S.impCur=true;go("import")},
-  go(el){const v=el.dataset.v;if(v==="import")S.impCur=false;if(v==="home"||v==="class")S.fromClass=false;go(v,{compareMode:v==="compare"||(v==="home"&&S.view==="compare")?S.compareMode:false})},
+  go(el){const v=el.dataset.v;if(v==="import")S.impCur=false;if(v==="home"||v==="class"||v==="tstats"||v==="board"){S.fromClass=false;S.backTo=null}go(v,{compareMode:v==="compare"||(v==="home"&&S.view==="compare")?S.compareMode:false})},
   open(el){go("profile",{id:el.dataset.id,tab:S.view==="quick"?"skills":(S.id===el.dataset.id?S.tab:"skills"),lvl:null})},
   tab(el){S.tab=el.dataset.v;render();const t=document.querySelector(".tabs");if(t&&window.scrollY>t.offsetTop)window.scrollTo(0,t.offsetTop-8)},
   contact(){const a=find(S.id);if(!a)return;
@@ -2595,7 +2660,7 @@ const actions={
   async rollRun(){if(!isDirector())return;if(!await ask("Roll over to the new season? This moves athletes with a final 2027 team. It can't be undone.","Roll over","ROLLOVER"))return;runRollover()},
   async forgot(){const e=(document.getElementById("l-email").value||"").trim();if(!e){toast("Type your email above first, then tap Forgot password");return}
     try{await B.resetPassword(e);toast(DEMO?"Demo mode: no email sent":`Password reset email sent to ${e}. Check junk mail too.`)}catch(er){toast(/user-not-found/.test(er.code||"")?"That email isn't set up yet. Ask Lydia to add you.":"Couldn't send: "+er.message)}},
-  openTeams(el){go("profile",{id:el.dataset.id,tab:"teams",lvl:null})},
+  openTeams(el){go("profile",{id:el.dataset.id,tab:"teams",lvl:null,backTo:S.view==="board"?"board":null})},
   hubFilter(el){S.mode="tryouts";go("home",{status:el.dataset.v,div:"All",q:""})},
   hubFilterCur(el){S.mode="current";go("home",{cstatus:el.dataset.v,cpos:"All",cq:""})},
   async hubApprove(el){const a=find(el.dataset.id);if(!a)return;S.id=a.id;await actions.tApprove({dataset:{d:el.dataset.d,k:el.dataset.k}});S.id=null;render()},
@@ -2745,6 +2810,7 @@ document.addEventListener("change",e=>{
   if(t.dataset&&t.dataset.save&&S.id){B.updateAthlete(S.id,{[t.dataset.save]:t.value.trim()}).then(()=>toast("Notes saved")).catch(er=>toast("Couldn't save: "+er.message))}
   if(t.dataset&&t.dataset.dnote&&S.id){B.setField(S.id,["danceSkills",t.dataset.dnote,"notes"],t.value.trim()||null).then(()=>toast("Notes saved")).catch(er=>toast("Couldn't save: "+er.message))}
   if(t.dataset&&t.dataset.repcm&&S.id){const a=find(S.id);if(a){const cur=(a.reports||{})[myEmail()]||{};saveReport(a,{...cur,r:cur.r||{},comment:t.value.trim()}).then(()=>toast("Comment saved"))}}
+  if(t.dataset&&t.dataset.pos){const a=find(t.dataset.pos);if(a)setPrimaryPos(a,t.value);return}
   if(t.dataset&&t.dataset.sug&&t.value){const a=find(t.dataset.sug),[tier,...nm]=t.value.split("|");t.disabled=true;if(a)addSuggestion(a,"cheer",tier,nm.join("|"));return}
   if(e.target.id==="teamSel"){B.updateAthlete(e.target.dataset.id,{team:e.target.value}).then(()=>toast(e.target.value?"Team set":"Team cleared"))}
 });
