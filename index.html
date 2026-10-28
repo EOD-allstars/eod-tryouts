@@ -602,6 +602,42 @@ input[type=date].in{min-height:46px;min-width:0;-webkit-appearance:none;appearan
 .csc.has{font-family:var(--num);font-weight:400;font-size:14px;color:#fff}
 .cafoot td{background:#faf8fa;font-size:11px;color:var(--mut);text-align:center;padding:6px;font-weight:700}
 .cafoot td.nm{text-align:left;padding-left:12px;background:#faf8fa}
+.caadd{width:auto!important;padding:9px 12px!important;font-size:11px!important;flex:none}
+.cdn{height:32px;border-radius:9px;background:#fff;border:2px solid var(--line);font-size:11px;font-weight:900;color:var(--mut)}
+.cdn.on{background:var(--pink);border-color:var(--pink);color:#fff}
+.csc.dnl{display:grid;place-items:center;font-size:9.5px}
+.sessadd{flex:none;font-size:11px;font-weight:800;color:var(--pink2);background:var(--pinkpale);border-radius:9px;padding:7px 9px}
+.btabs{margin:0 0 10px!important;position:static!important}
+.bsearch{width:100%!important;margin:0 0 12px!important}
+.browx{display:flex;align-items:center;gap:8px;border-top:1px solid #f0ecef}
+.browx:first-child{border-top:0}.browx .brow{border-top:0;flex:1;min-width:0}
+.browx.old .bn>b{color:#9c1c1c}
+.bteam .browx:first-of-type{border-top:1px solid #f0ecef}
+.sugsel{flex:none;width:112px;max-width:38%;font-size:16px;font-weight:700;border:1.5px solid var(--pinkbox);border-radius:10px;background:var(--pinkpale);color:var(--pink2);padding:6px 6px;-webkit-appearance:none;appearance:none;text-overflow:ellipsis}
+.bgrid{grid-template-columns:minmax(0,1fr)}.bteam{min-width:0;overflow:hidden}
+.outb{display:inline-block;font-size:10px;font-weight:800;background:var(--badbg);color:var(--bad);border-radius:7px;padding:2px 7px;margin-top:3px}
+.bcnt .outc{background:var(--badbg);color:var(--bad)}
+.sgc{display:flex;flex-wrap:wrap;gap:3px;margin-top:3px}.sgc i{font-style:normal;font-size:10px;font-weight:800;background:#fff4d6;color:#8a5a00;border-radius:7px;padding:2px 6px}.sgc i.ok{background:var(--ok);color:#fff}
+.ctag.out{background:var(--badbg);color:var(--bad)}
+.kv.out{background:var(--badbg)}.kv.out span,.kv.out b{color:var(--bad)}
+.crow{position:relative}.crow.sel{border:2px solid var(--pink);box-shadow:0 0 0 3px rgba(214,64,154,.18)}.crow.sel .check{background:var(--pink);border-color:var(--pink);color:#fff}
+.pipel.five{grid-template-columns:repeat(5,1fr)}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px}
+.rbox{background:var(--card);border-radius:14px;padding:10px;font-size:12px;color:var(--mut);line-height:1.3}.rbox b{display:block;font-family:var(--num);font-weight:400;font-size:32px;color:var(--ink)}
+.rbox.ok{background:var(--okbg)}.rbox.ok b{color:var(--ok)}
+.rdet{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:8px;font-size:13px}.rdet summary{font-weight:800;cursor:pointer}.rdet ul{margin:8px 0 0 18px;line-height:1.6}
+.cmp2 table td{vertical-align:middle}.cmp2 td:first-child{font-size:12px;max-width:140px}
+.cmph{display:block;margin:0 auto;font-weight:700;font-size:12px}
+.cmp2 .mini{position:relative;overflow:visible}.cmp2 .mini i{position:absolute;top:-7px;left:50%;transform:translateX(-50%);font-style:normal;font-size:9px;background:var(--ink);color:#fff;border-radius:6px;padding:1px 5px;font-weight:800;white-space:nowrap;z-index:2}
+.cmp2 .tag{font-size:9.5px;padding:2px 7px;border-radius:999px;background:var(--pinkpale);color:var(--pink2);border:0}.cmp2 .tag.cur{background:var(--ink);color:#fff}.cmp2 .tag.out{background:var(--badbg);color:var(--bad)}
+.csec td{background:var(--ink)!important;color:var(--pinkbox)!important;font-family:var(--disp);font-stretch:118%;text-transform:uppercase;font-weight:900;font-size:10px!important;letter-spacing:.04em;text-align:left!important;padding:6px 8px!important}
+.clv td{background:var(--pinkpale);font-weight:800}.clv b{font-family:var(--num);font-weight:400;font-size:14px}
+.clv td.best{box-shadow:inset 0 0 0 2px var(--pink);border-radius:8px}
+.cmt{display:inline-flex;align-items:center;gap:3px}.cmy{width:20px;height:20px;border-radius:6px;background:var(--ok);color:#fff;display:inline-grid;place-items:center;font-size:12px;font-weight:900}
+.cms{font-family:var(--num);font-size:12px;color:#fff;border-radius:6px;padding:1px 5px}.cms.t-d{background:#e0675c}.cms.t-s{background:#f08a24}.cms.t-e{background:var(--ok)}
+.cmn{color:#c8c2c7;font-weight:900}
+.brand>div{min-width:0}.brand .logo,.brand .sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:430px){.hubbtn .hl{display:none}}
 @media (max-width:699px){
   .catop{flex-wrap:wrap}.casearch{flex:1 1 100%!important;order:3}
   .catab td.nm button{min-width:112px;max-width:132px;gap:6px;padding:6px}
@@ -1004,6 +1040,7 @@ function FirebaseBackend(){
       });
     },
     async deleteFile(path){if(!path)return;try{await st.ref(path).delete()}catch(e){}},
+    deleteDoc(id){return ref(id).delete()},
     async deleteAthlete(a){
       for(const v of a.videos||[])await this.deleteFile(v.path);
       await this.deleteFile(a.photoPath);
@@ -1072,6 +1109,7 @@ function DemoBackend(){
       });
     },
     async deleteFile(){},
+    async deleteDoc(id){data.athletes=data.athletes.filter(x=>x.id!==id);data.current=data.current.filter(x=>x.id!==id);change()},
     async deleteAthlete(a){data.athletes=data.athletes.filter(x=>x.id!==a.id);data.current=data.current.filter(x=>x.id!==a.id);change()},
     async saveSettings(p){Object.assign(data.settings,p);change()},
     async setSetting(path,v){let o=data.settings;for(let i=0;i<path.length-1;i++){o[path[i]]=o[path[i]]&&typeof o[path[i]]==="object"?o[path[i]]:{};o=o[path[i]]}if(v==null)delete o[path[path.length-1]];else o[path[path.length-1]]=v;change()}
@@ -1106,7 +1144,7 @@ function filtered(){
   return S.athletes.filter(a=>{
     if(S.div!=="All"&&!groupsOf(a).includes(S.div))return false;
     if(S.status!=="All"&&statusOf(a)!==S.status)return false;
-    if(q){const hay=(fullName(a)+" "+pad3(a.num)+" "+a.num+" "+(a.team||"")+" "+(a.parentName||"")+" "+(a.parentEmail||"")+" "+(a.parentPhone||"").replace(/\s/g,"")).toLowerCase();if(!hay.includes(q.replace(/^0(?=\d{3})/,"0")))return false}
+    if(q){const hay=(fullName(a)+" "+pad3(a.num)+" "+a.num+" "+curCode(a)+" "+(a.team||"")+" "+(a.parentName||"")+" "+(a.parentEmail||"")+" "+(a.parentPhone||"").replace(/\s/g,"")).toLowerCase();if(!hay.includes(q.replace(/^0(?=\d{3})/,"0")))return false}
     return true;
   }).sort(sorter(S.sort));
 }
@@ -1120,17 +1158,12 @@ function vHome(){
   const COL={assess:"var(--bad)",suggest:"#f08a24",approve:"#f08a24",complete:"var(--ok)"};
   return `
   <div class="top"><div class="brand"><img src="icons/logo.webp" alt="EOD Allstars"><div><div class="logo"><span>Tryouts</span></div><div class="sub">${esc(S.settings.season)} · ${all.length} athlete${all.length===1?"":"s"}</div></div></div>
-    <span class="topbtns">${isAdmin()?`<button class="hubbtn" data-act="go" data-v="hub">★ Directors hub${hubCount()?`<i>${hubCount()}</i>`:""}</button>`:""}<button class="icon" data-act="go" data-v="settings" aria-label="Settings">⚙️</button></span></div>
+    <span class="topbtns">${isAdmin()?`<button class="hubbtn" data-act="go" data-v="hub">★ <span class="hl">Directors </span>hub${hubCount()?`<i>${hubCount()}</i>`:""}</button>`:""}<button class="icon" data-act="go" data-v="settings" aria-label="Settings">⚙️</button></span></div>
   ${modeSwitch()}
   ${installBanner()}
   ${DEMO?`<div class="demo">Demo mode: data stays on this device only. Add your Firebase details to go live.</div>`:""}
   <div class="stats four">${STATUS_ORDER.map(k=>`<button class="stat ${S.status===k?"on":""}" data-act="status" data-v="${S.status===k?"All":k}"><b style="color:${COL[k]}">${cnt(k)}</b><small>${STATUS_SHORT[k]}</small></button>`).join("")}</div>
-  <div class="tools four">
-    <button class="tool" data-act="qaStart">⚡ Quick assess</button>
-    <button class="tool" data-act="go" data-v="board">▦ Teams</button>
-    <button class="tool ${S.compareMode?"on":""}" data-act="toggleCompare">⇄ Compare</button>
-    <button class="tool" data-act="export">⬇ Export</button>
-  </div>
+  ${homeTools("tryout")}
   <div class="searchrow"><input class="search" id="search" placeholder="🔍  Name, parent, tryout # or team" value="${esc(S.q)}" data-keep autocomplete="off">
     <select class="sortsel" id="sortSel" aria-label="Sort">${[["num","Tryout #"],["first","First name"],["last","Last name"],["age","Age"],["status","Status"]].map(([v,l])=>`<option value="${v}" ${S.sort===v?"selected":""}>↕ ${l}</option>`).join("")}</select></div>
   <div class="chips">${divs.map(d=>`<button class="chip ${S.div===d?"on":""}" data-act="div" data-v="${esc(d)}">${esc(d)}</button>`).join("")}</div>
@@ -1185,12 +1218,12 @@ function vProfile(){
   if(S.tab==="skills")body=assessBar(a)+tSkills(a);else if(S.tab==="dance")body=assessBar(a)+tDance(a);else body=tTeams(a);
   return `
   <div class="hero">
-    <button class="icon back" data-act="go" data-v="home" aria-label="Back">‹</button>
+    <button class="icon back" data-act="go" data-v="${S.fromClass?"class":"home"}" aria-label="Back">‹</button>
     <button class="icon edit" data-act="edit" aria-label="Edit details">✎</button>
     <span class="hy hy1" aria-hidden="true">${String(ageYear()).slice(0,2)}</span><span class="hy hy2" aria-hidden="true">${String(ageYear()).slice(2)}</span>
     <img class="hlogo" src="icons/logo.webp" alt="">
   </div>
-  <div class="namebar"><div class="nm"><h2>${esc(fullName(a))}</h2><p>Tryout ${pad3(a.num)}</p>
+  <div class="namebar"><div class="nm"><h2>${esc(fullName(a))}</h2><p>Tryout ${pad3(a.num)}${a.cnum?" · Code "+curCode(a):""}</p>
     <div class="tags">${groupsMain(a).map(g=>`<span class="tag pk">${esc(g)}</span>`).join("")}${a.tryoutType?`<span class="tag">${esc(TYPE_LABEL[a.tryoutType])}</span>`:""}<span class="tag st-${st}">${STATUS_LABEL[st]}</span></div></div>
     ${teamSel}</div>
   <div class="profcols">
@@ -1208,6 +1241,7 @@ function tInfo(a){
   return `<div class="info">
     ${r("Name",esc(fullName(a)))}
     ${r("Date of birth",a.dob?`${fmtDob(a.dob)}`:"")}
+    ${r("Athlete code",esc(curCode(a)))}${r("Placement code",esc(a.pcode||""))}
     ${r(`Age in ${ageYear()}`,a.dob?String(da):"")}
     ${a.dob?discsFor(a).map(d=>r(`${d==="cheer"?"Cheer":"Dance"} age groups`,esc(eligDetail(d,divAge(a.dob))||"None"))).join(""):r("Age groups","")}
     ${r("Tumbling levels",hasLevels(a)?esc(+a.tumbleMain===0?"All levels":`${lvlName(a.tumbleMain)} main${a.tumbleSecond?`, ${lvlName(a.tumbleSecond)} secondary`:""}`):"")}
@@ -1272,15 +1306,14 @@ function tSkills(a){
     const catVids=vids.filter(v=>skillCat(v.skill)===c.cat);
     if(leveled(c)&&!hasLevels(a))return `<div class="cat locked${pc}"><div class="cat-h">${esc(c.cat)}<span>Pick levels above</span></div>${vidRow(a,catVids,k=>skillCat(k)===c.cat)}</div>`;
     const items=c.items.filter(i=>canSee(a,i)).sort((x,y)=>(x.level||0)-(y.level||0));
-    const has=items.filter(i=>s[i.key]===2).length;
+    const has=items.filter(i=>tickOf(a,i.key)).length;
     let lastLvl=null,rows="";
     items.forEach(i=>{
       if(i.level&&i.level!==lastLvl){
         const tag=i.level===lvlSkills(a.tumbleMain)?"main":(i.level===lvlSkills(a.tumbleSecond)?"secondary":"");
         rows+=`<div class="lvlhead">${lvlName(i.level)} ${tag?`<span>· ${tag}</span>`:""}</div>`;lastLvl=i.level;
       }
-      const v=s[i.key],n=vids.filter(x=>x.skill===i.key&&!isPhoto(x)).length,np=vids.filter(x=>x.skill===i.key&&isPhoto(x)).length;
-      rows+=`<div class="sk"><span class="skn">${esc(i.name)}</span><div class="seg">${[0,1,2].map(x=>`<button class="${RATING[x].c} ${v===x?"on":""}" data-act="rate" data-id="${a.id}" data-k="${esc(i.key)}" data-v="${x}">${RATING[x].t}</button>`).join("")}${isFlex(i.key)?`<button class="vb ${np?"has":""}" data-act="skillPhoto" data-k="${esc(i.key)}" aria-label="Add photo of ${esc(i.name)}">📷${np?`<b>${np}</b>`:""}</button>`:""}<button class="vb ${n?"has":""}" data-act="skillVid" data-k="${esc(i.key)}" aria-label="Add video of ${esc(i.name)}">🎥${n?`<b>${n}</b>`:""}</button></div></div>`;
+      rows+=skRow2(a,i.key,i.name,vids,isFlex(i.key));
     });
     return `<div class="cat${pc}"><div class="cat-h">${esc(c.cat)}<span>${has} of ${items.length}</span></div>
       <div class="bar"><i style="width:${items.length?has/items.length*100:0}%"></i></div>
@@ -1291,7 +1324,7 @@ function tSkills(a){
     <div class="sub">Clips that aren't for one skill, like a full run-through.</div>
     ${vidRow(a,other,k=>!catNames.includes(skillCat(k))&&skillCat(k)!=="Dance")}
     <button class="upload" data-act="skillVid" data-k="general" style="width:100%;margin:12px 0 0">＋ Add other video<small>Max ${MAX_VIDEO_SECONDS} sec</small></button></div></div>
-    <p class="help" style="text-align:center;margin:8px 30px 0">Tap 🎥 on any skill to film it or pick a clip. It's saved to that skill automatically.</p>`;
+    <p class="help" style="text-align:center;margin:8px 30px 0">✓ ticks a skill. Score gives a tech score out of 5. 🎥 films it and lets you score straight after.</p>`;
   return out;
 }
 function tAssess(a){
@@ -1489,7 +1522,6 @@ function curTierName(id){return (CUR_TIERS.find(t=>t.id===id)||{}).name||""}
 function curTierTeams(id){const c=CUR_TIERS.find(t=>t.id===id);return c?((TIERS.cheer.find(x=>x.id===c.t)||{}).teams||[]):[]}
 function tierOfTeam(name){const c=CUR_TIERS.find(t=>curTierTeams(t.id).some(x=>x.name===name));return c?c.id:""}
 function curTeamsTxt(a,sep=" / "){return (a.curTeams||[]).map(t=>t.team+(t.sub?` · ${t.sub}`:"")).join(sep)}
-function posName(a){return a.pos==="flyer"?"Flyer":a.pos==="base"?"Base":""}
 function curLevels(a){return (a.levels||[]).map(Number).sort((x,y)=>x-y)}
 function curLevelsTxt(a){return curLevels(a).map(lvlShort).join(" + ")}
 function reportsOf(a){return Object.entries(a.reports||{}).map(([k,v])=>({key:k,...(v||{})})).filter(r=>r.r&&Object.values(r.r).some(x=>+x>0)).sort((x,y)=>(y.at||0)-(x.at||0))}
@@ -1499,13 +1531,16 @@ function overallAvg(a){return avgOf(reportsOf(a).flatMap(r=>Object.values(r.r||{
 function curStatus(a){if(!reportsOf(a).length)return "report";if(!doneOf(a,"assessment"))return "assess";if(!doneOf(a,"teams"))return "suggest";if(!approvedAll(a))return "approve";return "complete"}
 function stars(v,act,attrs){v=+v||0;return `<span class="stars">${[1,2,3,4,5].map(i=>`<button class="${i<=v?"f":""}" data-act="${act}" ${attrs} data-v="${i}" aria-label="${i} star${i>1?"s":""}">★</button>`).join("")}</span>`}
 function starsRO(v){v=Math.round(+v||0);return `<span class="stars ro">${[1,2,3,4,5].map(i=>`<i class="${i<=v?"f":""}">★</i>`).join("")}</span>`}
+function homeTools(m){const t=[[`data-act="classGo" data-v="${m}"`,"⚡ Group assessments","on"],[`data-act="go" data-v="board"`,"▦ Teams board",""],[`data-act="toggleCompare"`,"⇄ Compare",S.compareMode?"on":""],[`data-act="export"`,"⬇ Export",""]];
+  if(isAdmin())t.push([m==="current"?`data-act="impCur"`:`data-act="go" data-v="import"`,"⬆ Import",""]);
+  return `<div class="tools" style="grid-template-columns:repeat(${t.length},1fr)">${t.map(([a,l,c])=>`<button class="tool ${c}" ${a}>${l}</button>`).join("")}</div>`}
 function modeSwitch(){return `<div class="modesw"><button class="${S.mode!=="current"?"on":""}" data-act="mode" data-v="tryouts">Tryouts</button><button class="${S.mode==="current"?"on":""}" data-act="mode" data-v="current">Current athletes</button></div>`}
 
 function curFiltered(){const q=S.cq.trim().toLowerCase();
   return S.current.filter(a=>{
     if(S.cstatus!=="All"&&curStatus(a)!==S.cstatus)return false;
-    if(S.cpos!=="All"&&a.pos!==S.cpos)return false;
-    if(q){const hay=(fullName(a)+" "+curTeamsTxt(a)+" "+(a.team||"")+" "+(a.parentName||"")+" "+(a.parentEmail||"")).toLowerCase();if(!hay.includes(q))return false}
+    if(S.cpos==="flyer"&&!isFlyer(a))return false;if(S.cpos==="base"&&!isBase(a))return false;
+    if(q){const hay=(fullName(a)+" "+curCode(a)+" "+(a.cnum||"")+" "+curTeamsTxt(a)+" "+(a.team||"")+" "+(a.parentName||"")+" "+(a.parentEmail||"")).toLowerCase();if(!hay.includes(q.replace(/^#/,"")))return false}
     return true}).sort((x,y)=>(x.first||"").localeCompare(y.first||"")||(x.last||"").localeCompare(y.last||""))}
 function vCurHome(){
   const all=S.current,list=curFiltered();
@@ -1517,23 +1552,29 @@ function vCurHome(){
     body+=`<div class="tierh"><h3>${esc(g.name)}</h3><span>${l.length} athlete${l.length===1?"":"s"}</span></div><div class="crows">${l.map(crow).join("")}</div>`});
   return `
   <div class="top"><div class="brand"><img src="icons/logo.webp" alt="EOD Allstars"><div><div class="logo"><span>Current</span></div><div class="sub">${esc(S.settings.season)} · ${all.length} athlete${all.length===1?"":"s"}</div></div></div>
-    <span class="topbtns">${isAdmin()?`<button class="hubbtn" data-act="go" data-v="hub">★ Directors hub${hubCount()?`<i>${hubCount()}</i>`:""}</button>`:""}<button class="icon" data-act="go" data-v="settings" aria-label="Settings">⚙️</button></span></div>
+    <span class="topbtns">${isAdmin()?`<button class="hubbtn" data-act="go" data-v="hub">★ <span class="hl">Directors </span>hub${hubCount()?`<i>${hubCount()}</i>`:""}</button>`:""}<button class="icon" data-act="go" data-v="settings" aria-label="Settings">⚙️</button></span></div>
   ${modeSwitch()}
   ${DEMO?`<div class="demo">Demo mode: data stays on this device only.</div>`:""}
   <div class="stats five">${CUR_ORDER.map(k=>`<button class="stat ${S.cstatus===k?"on":""}" data-act="cstatus" data-v="${S.cstatus===k?"All":k}"><b style="color:${COL[k]}">${cnt(k)}</b><small>${CUR_SHORT[k]}</small></button>`).join("")}</div>
-  <div class="tools ${isAdmin()?"":"cur"}"><button class="tool on" data-act="classGo">⚡ Class assess</button><button class="tool" data-act="go" data-v="board">▦ Teams board</button>${isAdmin()?`<button class="tool" data-act="impCur">⬆ Import roster</button>`:""}</div>
-  <input class="search" id="csearch" placeholder="🔍  Name, team or parent" value="${esc(S.cq)}" data-keep autocomplete="off">
+  ${homeTools("current")}
+  <input class="search" id="csearch" placeholder="🔍  Name, code, team or parent" value="${esc(S.cq)}" data-keep autocomplete="off">
   <div class="chips">${[["All","All"],["flyer","Flyers"],["base","Bases"]].map(([v,t])=>`<button class="chip gold ${S.cpos===v?"on":""}" data-act="cpos" data-v="${v}">${t}</button>`).join("")}<span style="width:8px;flex:none"></span>${CUR_ORDER.map(k=>`<button class="chip st-${k} ${S.cstatus===k?"on":""}" data-act="cstatus" data-v="${S.cstatus===k?"All":k}">${CUR_SHORT[k]}</button>`).join("")}</div>
   ${body||`<div class="empty">${all.length?"<b>No matches</b>Try a different filter or search.":"<b>No current athletes yet</b>Tap + to add one"+(isAdmin()?", or import your roster.":".")}</div>`}
-  <button class="fab" data-act="add" aria-label="Add current athlete">+</button>`;
+  ${S.compareMode?`<div class="bottombar"><button class="btn ghost" data-act="toggleCompare">Cancel</button><button class="btn" data-act="go" data-v="compare" ${S.compareSel.length<2?"disabled":""}>Compare ${S.compareSel.length||""}</button></div>`:`<button class="fab" data-act="add" aria-label="Add current athlete">+</button>`}`;
 }
+function curCode(a){return a&&a.cnum?"C"+String(a.cnum).padStart(3,"0"):""}
+function nextCnum(){return allAth().reduce((m,a)=>Math.max(m,+a.cnum||0),0)+1}
+function fixCnums(){if(S.cnumFix||!isAdmin()||!S.ready)return;const all=allAth(),miss=all.filter(a=>!a.cnum||!a.pcode);if(!miss.length)return;S.cnumFix=true;
+  let n=nextCnum();miss.sort((x,y)=>isCur(y)-isCur(x)||(x.last||"").localeCompare(y.last||"")||(x.first||"").localeCompare(y.first||""))
+    .forEach(a=>{const p={};if(!a.cnum)p.cnum=n++;if(!a.pcode)p.pcode=genPcode();B.updateAthlete(a.id,p).catch(()=>{})});setTimeout(()=>{S.cnumFix=false},15000)}
 function crow(a){const st=curStatus(a);
-  return `<button class="crow" data-act="open" data-id="${a.id}">
-    <div class="cph ${grad(a)}">${photoHtml(a)}<span class="badge b-${st}">${CUR_SHORT[st]}</span></div>
+  const sel=S.compareMode&&S.compareSel.includes(a.id);
+  return `<button class="crow ${sel?"sel":""}" data-act="${S.compareMode?"cmpSel":"open"}" data-id="${a.id}">${S.compareMode?`<span class="check" style="top:12px;bottom:auto;right:14px">${sel?"✓":""}</span>`:""}
+    <div class="cph ${grad(a)}">${a.cnum?`<span class="num">${curCode(a)}</span>`:""}${photoHtml(a)}<span class="badge b-${st}">${CUR_SHORT[st]}</span></div>
     <div class="cinfo"><h4>${esc(fullName(a))}</h4>
       <p>${a.dob?`<b>${divAge(a.dob)}</b> in ${ageYear()} · ${esc(divLabel(a))}`:"No DOB"}</p>
       <p>${(a.curTeams||[]).length?a.curTeams.map(t=>`<b>${esc(t.team)}</b>${t.sub?` · ${esc(t.sub)}`:""}`).join("<br>"):"No current team set"}</p>
-      <div class="ctags">${a.pos?`<span class="ctag ${a.pos}">${posName(a)}</span>`:""}${curLevels(a).length?`<span class="ctag">Tumbling ${esc(curLevelsTxt(a))}</span>`:""}${a.team?`<span class="ctag fin">★ ${esc(a.team)}</span>`:""}</div>${miniRings(a)}
+      <div class="ctags">${posName(a)?`<span class="ctag ${isFlyer(a)?"flyer":"base"}">${esc(posName(a))}</span>`:""}${agesOut(a).map(t=>`<span class="ctag out">Ages out of ${esc(t)}</span>`).join("")}${curLevels(a).length?`<span class="ctag">Tumbling ${esc(curLevelsTxt(a))}</span>`:""}${a.team?`<span class="ctag fin">★ ${esc(a.team)}</span>`:""}</div>${miniRings(a)}
     </div></button>`}
 
 function vCurProfile(a){
@@ -1551,14 +1592,14 @@ function vCurProfile(a){
     <span class="hy hy1" aria-hidden="true">${String(ageYear()).slice(0,2)}</span><span class="hy hy2" aria-hidden="true">${String(ageYear()).slice(2)}</span>
     <img class="hlogo" src="icons/logo.webp" alt="">
   </div>
-  <div class="namebar"><div class="nm"><h2>${esc(fullName(a))}</h2><p>Current athlete${a.tier?" · "+esc(curTierName(a.tier)):""}</p>
+  <div class="namebar"><div class="nm"><h2>${esc(fullName(a))}</h2><p>Current athlete${a.cnum?" "+curCode(a):""}${a.tier?" · "+esc(curTierName(a.tier)):""}</p>
     <div class="tags">${groupsMain(a).map(g=>`<span class="tag pk">${esc(g)}</span>`).join("")}<span class="tag st-${st}">${CUR_STATUS[st]}</span></div></div>
     ${ts?`<button class="teamchip ${approvedAll(a)?"fin":""}" data-act="tab" data-v="cteams">${esc(ts)}</button>`:`<button class="teamchip ghost" data-act="tab" data-v="cteams">★ Pick team</button>`}</div>
   <div class="profcols cur">
-    <div class="pcol"><div class="pphoto sq ${grad(a)}">${a.photoURL?`<img src="${esc(a.photoURL)}" alt="">`:`<span class="ini">${esc(initials(a))}</span>`}
+    <div class="pcol"><div class="pphoto sq ${grad(a)}">${a.cnum?`<span class="num">${curCode(a)}</span>`:""}${a.photoURL?`<img src="${esc(a.photoURL)}" alt="">`:`<span class="ini">${esc(initials(a))}</span>`}
       <button class="pcam" data-act="photo" aria-label="Change photo">📷</button></div>
       <button class="btn ghost cbtn" data-act="cContact">☎ Contact info</button></div>
-    <div class="ccard"><h4>Current</h4>${r(`Age in ${ageYear()}`,a.dob?String(divAge(a.dob)):"")}${r("Age groups",divLabel(a))}${r((a.curTeams||[]).length>1?"Teams":"Team",curTeamsTxt(a,", "))}${r("Position",posName(a))}${r("Tumbling",curLevelsTxt(a))}${r("Coach rating",nr?`${overallAvg(a).toFixed(1)} ★ (${nr})`:"")}</div>
+    <div class="ccard"><h4>Current</h4>${r(`Age in ${ageYear()}`,a.dob?String(divAge(a.dob)):"")}${r("Age groups",divLabel(a))}${r((a.curTeams||[]).length>1?"Teams":"Team",curTeamsTxt(a,", "))}${r("Position",posName(a))}${agesOut(a).length?`<div class="kv out"><span>Ages out</span><b>${esc(agesOut(a).join(", "))} → ${divFor(divAge(a.dob))}</b></div>`:""}${r("Tumbling",curLevelsTxt(a))}${r("Coach rating",nr?`${overallAvg(a).toFixed(1)} ★ (${nr})`:"")}</div>
   </div>
   <div class="tabs">${tabs.map(([k,t])=>`<button class="${S.tab===k?"on":""}" data-act="tab" data-v="${k}">${t}</button>`).join("")}</div>
   ${body}`;
@@ -1584,7 +1625,7 @@ function tCurReport(a){
 function curContactHtml(a){
   const r=(l,v,cls="")=>`<div class="r"><span>${l}</span><b class="${cls}">${v||"<span style='color:#5d5670'>–</span>"}</b></div>`;
   return `<div class="mhead"><h3>Contact info</h3><button class="icon" data-act="closeModal" aria-label="Close">✕</button></div><div class="info">
-    ${r("Name",esc(fullName(a)))}${r("Date of birth",a.dob?fmtDob(a.dob):"")}${r(`Age in ${ageYear()}`,a.dob?String(divAge(a.dob)):"")}
+    ${r("Athlete code",esc(curCode(a)))}${r("Placement code",esc(a.pcode||""))}${r("Name",esc(fullName(a)))}${r("Date of birth",a.dob?fmtDob(a.dob):"")}${r(`Age in ${ageYear()}`,a.dob?String(divAge(a.dob)):"")}
     ${r("Cheer age groups",a.dob?esc(eligDetail("cheer",divAge(a.dob))||"None"):"")}
     ${r("Parent",esc(a.parentName))}
     ${r("Phone",a.parentPhone?`<a href="tel:${esc(a.parentPhone.replace(/\s/g,""))}">${esc(a.parentPhone)}</a>`:"")}
@@ -1595,7 +1636,7 @@ function curContactHtml(a){
 function vCurForm(){
   const isEdit=S.view==="edit",a=isEdit?find(S.id):{};
   if(isEdit&&!a)return vCurHome();
-  if(!S.cf||S.cf.id!==(S.id||"new"))S.cf={id:S.id||"new",tier:a.tier||"",teams:clone(a.curTeams||[]),pos:a.pos||""};
+  if(!S.cf||S.cf.id!==(S.id||"new"))S.cf={id:S.id||"new",tier:a.tier||"",teams:clone(a.curTeams||[]),positions:(a.positions&&a.positions.length)?[...a.positions]:(a.pos==="flyer"?["Flyer"]:[])};
   const d=S.cf,pp=S.pendingPhoto,dobNow=(document.getElementById("f-dob")||{}).value||a.dob||"";
   const prev=pp?`<img src="${pp.url}" alt="">`:(a.photoURL?`<img src="${esc(a.photoURL)}" alt="">`:"📷");
   const f=(id,label,val,type="text",ph="")=>`<label for="f-${id}">${label}</label><input class="in" id="f-${id}" type="${type}" value="${esc(val||"")}" placeholder="${esc(ph)}" data-keep>`;
@@ -1616,7 +1657,7 @@ function vCurForm(){
     ${order.map(t=>`<div class="ftier">${esc(t.name)}</div><div class="chips fchips">${curTierTeams(t.id).map(x=>{const on=d.teams.some(y=>y.team===x.name);return `<button class="chip ${on?"on":""}" data-act="cfTeam" data-v="${esc(x.name)}" data-sub="${esc(x.sub||"")}">${on?"✓ ":""}${esc(x.name)}${x.sub?` · ${esc(x.sub)}`:""}</button>`}).join("")}</div>`).join("")}
     ${extra.length?`<div class="ftier">Other</div><div class="chips fchips">${extra.map(x=>`<button class="chip on" data-act="cfTeam" data-v="${esc(x.team)}">✓ ${esc(x.team)} ✕</button>`).join("")}</div>`:""}
     <div class="row" style="grid-template-columns:1fr auto;align-items:start"><div><input class="in" id="f-otherTeam" placeholder="Team not listed? Type it here" data-keep></div><button class="btn ghost" data-act="cfTeamAdd" style="padding:13px 14px">Add</button></div>
-    <label>Position</label><div class="chips fchips">${[["base","Base (back, main or secondary)"],["flyer","Flyer"]].map(([v,l])=>`<button class="chip ${d.pos===v?"on":""}" data-act="cfPos" data-v="${v}">${l}</button>`).join("")}</div>
+    <label>Position <span style="font-weight:500">· tap all that apply</span></label><div class="chips fchips">${CUR_POS.map(p=>`<button class="chip ${d.positions.includes(p)?"on":""}" data-act="cfPos" data-v="${p}">${p}</button>`).join("")}</div>${a.pos==="base"&&!(a.positions||[]).length?`<p class="help" style="margin-top:-6px">Was set as "Base". Pick which base positions.</p>`:""}
     ${f("parentName","Parent name",a.parentName,"text","Optional")}
     <div class="row"><div>${f("parentPhone","Parent phone",a.parentPhone,"tel","Optional")}</div><div>${f("parentEmail","Parent email",a.parentEmail,"email","Optional")}</div></div>
     <label for="f-medical">Medical notes</label><textarea class="in" id="f-medical" placeholder="Injuries, conditions, allergies" data-keep>${esc(a.medical||"")}</textarea>
@@ -1628,7 +1669,7 @@ async function saveReport(a,rep){try{await B.setField(a.id,["reports",myEmail()]
 /* import helpers for a current roster */
 const IMP_FIELDS_CUR=[["first","First name"],["last","Last name"],["full","Full name (if first/last are in one column)"],["dob","Date of birth"],["tier","Tier (Cheerstarz / Novice / Premier)"],["team","Current team (or Team 1)"],["team2","Team 2"],["team3","Team 3"],["pos","Position (base / flyer)"],["parentName","Parent name"],["parentPhone","Parent phone"],["parentEmail","Parent email"],["medical","Medical notes"]];
 function impTier(v){const t=String(v||"").toLowerCase();return /star|sport/.test(t)?"cheerstarz":/novice/.test(t)?"novice":/prem|elite|allstar/.test(t)?"premier":""}
-function impPos(v){const t=String(v||"").toLowerCase();return /fly/.test(t)?"flyer":/base|back|spot/.test(t)?"base":""}
+function impPos(v){const t=String(v||"").toLowerCase(),p=[];if(/fly/.test(t))p.push("Flyer");if(/main/.test(t))p.push("Main base");if(/second/.test(t))p.push("Secondary base");if(/back|spot/.test(t))p.push("Back spot");return p}
 const TEAM_ALIAS={"lady diamonds":"LD","baby boss girls":"Baby Boss","miss purrfect":"Miss Purrrfect","miss purfect":"Miss Purrrfect"};
 function impTeams(v){const known=TIERS.cheer.flatMap(t=>t.teams),out=[];
   v=String(v||"").split(/[,;\/\n&+]| and /i).map(x=>{const t=x.trim(),a=TEAM_ALIAS[t.toLowerCase()];return a||t}).join(",");
@@ -1641,12 +1682,12 @@ function impTeams(v){const known=TIERS.cheer.flatMap(t=>t.teams),out=[];
 const TECH_GUIDE=[[1,"Developing","d"],[3,"Some technical errors","s"],[5,"Excellent","e"]];
 function techLabel(v){return v==null?"":v<2?"Developing":v<4?"Some technical errors":"Excellent"}
 function techCls(v){return v==null?"":v<2?"d":v<4?"s":"e"}
-function tickOf(a,k){return !!(a.ticks||{})[k]}
+function tickOf(a,k){return !!(a.ticks||{})[k]||(!isCur(a)&&(a.skills||{})[k]===2)}
 function techOf(a,k){const t=(a.tech||{})[k];if(t!=null)return +t;const s=(a.stars||{})[k];return s?+s:null}
 function itemLevel(k){const i=skillList().find(x=>x.key===k);return i?i.level:null}
-function levelPatch(a,k){const l=itemLevel(k),cur=curLevels(a);return l&&!cur.includes(l)?{levels:[...cur,l].sort((x,y)=>x-y)}:null}
+function levelPatch(a,k){if(!isCur(a))return null;const l=itemLevel(k),cur=curLevels(a);return l&&!cur.includes(l)?{levels:[...cur,l].sort((x,y)=>x-y)}:null}
 async function setTick(a,k,on){const lp=on?levelPatch(a,k):null;
-  try{await B.setField(a.id,["ticks",k],on?true:null);if(lp)await B.updateAthlete(a.id,lp)}catch(e){toast("Couldn't save: "+e.message)}}
+  try{await B.setField(a.id,["ticks",k],on?true:null);if(!isCur(a)&&(on||(a.skills||{})[k]!=null))await B.setRating(a.id,k,on?2:null);if(lp)await B.updateAthlete(a.id,lp)}catch(e){toast("Couldn't save: "+e.message)}}
 async function setTech(a,k,v){const lp=levelPatch(a,k);
   try{await B.setField(a.id,["tech",k],v==null?null:Math.round(v*10)/10);if(v==null&&(a.stars||{})[k])await B.setField(a.id,["stars",k],null);if(lp)await B.updateAthlete(a.id,lp)}catch(e){toast("Couldn't save: "+e.message)}}
 function levelItems(l,catNames){return cats().filter(c=>!catNames||catNames.includes(c.cat)).flatMap(c=>c.items.filter(i=>i.level===l))}
@@ -1716,65 +1757,223 @@ async function filmFor(id,key){const f=await pickFile("video/*");if(!f||!await v
   S.vc={id,key,file:f,url:URL.createObjectURL(f),tech:t,scored:false};vcOpen()}
 
 /* ---------- class assess ---------- */
-function caState(){if(!S.ca){let saved=null;try{saved=JSON.parse(localStorage.getItem("eodth_ca")||"null")}catch(e){}
-  S.ca=Object.assign({tier:"",team:"",q:"",ids:[],levels:[],cats:null,fly:false,gq:"",started:false,sid:null,name:""},saved||{});}
-  return S.ca}
-function sessList(){return Object.entries(S.settings.sessions||{}).map(([id,s])=>({id,...s})).sort((a,b)=>(b.at||0)-(a.at||0))}
-function sessWhat(s){return [...(s.levels||[]).slice().sort((x,y)=>x-y).map(lvlShort),...(s.fly?["Flyer"]:[])].join(" + ")||"No levels"}
-function caDefaultName(){const c=caState();const who=c.team||curTierName(c.tier)||"Class";return `${who} · ${sessWhat(c)} · ${fmtDay(Date.now())}`}
-function caSave(){try{const {gq,...c}=S.ca;localStorage.setItem("eodth_ca",JSON.stringify(c))}catch(e){}}
-function caPool(){const c=caState(),q=c.q.trim().toLowerCase();
-  return S.current.filter(a=>(!c.tier||a.tier===c.tier)&&(!c.team||(a.curTeams||[]).some(t=>t.team===c.team))&&(!q||fullName(a).toLowerCase().includes(q)))
-    .sort((x,y)=>(x.first||"").localeCompare(y.first||""))}
+const GA_BLANK={tier:"",team:"",div:"All",type:"cheer",q:"",ids:[],levels:[],cats:null,other:[],fly:false,dance:false,gq:"",started:false,sid:null,name:""};
+function gaMode(){return S.gaMode==="tryout"?"tryout":"current"}
+function caState(){const m=gaMode();S.cas=S.cas||{};
+  if(!S.cas[m]){let saved=null;try{saved=JSON.parse(localStorage.getItem("eodth_ca_"+m)||"null")}catch(e){}
+    S.cas[m]=Object.assign({},clone(GA_BLANK),{mode:m},saved||{})}
+  S.ca=S.cas[m];return S.ca}
+function caSave(){try{const {gq,...c}=caState();localStorage.setItem("eodth_ca_"+gaMode(),JSON.stringify(c))}catch(e){}}
+function gaSrc(){return gaMode()==="tryout"?S.athletes:S.current}
+function aCode(a){return isCur(a)?curCode(a):(a.num?pad3(a.num):"")}
+function gaSub(a){return isCur(a)?(curTeamsTxt(a,", ")||curTierName(a.tier)||""):[divLabel(a),TYPE_LABEL[a.tryoutType]||""].filter(Boolean).join(" · ")}
+function sessList(){const m=gaMode();return Object.entries(S.settings.sessions||{}).map(([id,s])=>({id,...s})).filter(s=>(s.mode||"current")===m).sort((a,b)=>(b.at||0)-(a.at||0))}
+function sessWhat(s){return [...(s.levels||[]).slice().sort((x,y)=>x-y).map(lvlShort),...(s.other||[]),...(s.fly?["Flyer"]:[]),...(s.dance?["Dance"]:[])].join(" + ")||"Nothing picked"}
+function caDefaultName(){const c=caState();const who=gaMode()==="tryout"?(c.div==="All"?"Tryouts":c.div+" tryouts"):(c.team||curTierName(c.tier)||"Class");return `${who} · ${sessWhat(c)} · ${fmtDay(Date.now())}`}
+function gaMatch(a,q){q=q.trim().toLowerCase().replace(/^#/,"");return !q||(fullName(a)+" "+aCode(a)+" "+(a.num||"")).toLowerCase().includes(q)}
+function caPool(){const c=caState();
+  const base=gaMode()==="tryout"?S.athletes.filter(a=>(c.div==="All"||groupsOf(a).includes(c.div))&&(c.type==="dance"?isDance(a):a.tryoutType!=="dance"))
+    :S.current.filter(a=>(!c.tier||a.tier===c.tier)&&(!c.team||(a.curTeams||[]).some(t=>t.team===c.team)));
+  return base.filter(a=>gaMatch(a,c.q)).sort((x,y)=>gaMode()==="tryout"?(x.num||0)-(y.num||0):(x.first||"").localeCompare(y.first||""))}
 function caTCats(){return cats().filter(c=>c.items.some(i=>i.level)).map(c=>c.cat)}
+function caOCats(){return cats().filter(c=>c.items.length&&!c.items.some(i=>i.level)).map(c=>c.cat)}
 function caCols(){const c=caState(),cs=c.cats||caTCats(),out=[];
   c.levels.slice().sort((x,y)=>x-y).forEach(l=>cats().filter(k=>cs.includes(k.cat)).forEach(k=>{const it=k.items.filter(i=>i.level===l);if(it.length)out.push({h:`${k.cat} · ${lvlName(l)}`,items:it.map(i=>({key:i.key,name:i.name}))})}));
+  (c.other||[]).forEach(n=>{const k=cats().find(x=>x.cat===n);if(k&&k.items.length)out.push({h:n,items:k.items.map(i=>({key:i.key,name:i.name}))})});
   if(c.fly)out.push({h:"Flyer body positions",items:flyerList().map(n=>({key:"Flyer|"+n,name:n}))});
+  if(c.dance)out.push({h:"Dance",items:DANCE_CATS.map(d=>({key:"Dance|"+d.name,name:d.name,dance:d.id}))});
   return out}
+function sessRows(){const c=caState(),sess=sessList();if(!sess.length)return "";
+  return `<div class="sect" style="margin-top:4px">Saved sessions</div><div class="calist sesslist">${sess.map(s=>`<div class="sessrow ${s.id===c.sid?"on":""}"><button class="sessopen" data-act="caSess" data-v="${s.id}"><b>${esc(s.name||"Untitled session")}</b><small>${(s.ids||[]).length} athlete${(s.ids||[]).length===1?"":"s"} · ${esc(sessWhat(s))} · ${esc(s.by||"")} ${s.at?fmtDay(s.at):""}</small></button><button class="sessadd" data-act="caSessAdd" data-v="${s.id}">＋ Athletes</button><button class="tx" data-act="caDelSess" data-v="${s.id}" aria-label="Delete session">✕</button></div>`).join("")}</div>
+    ${c.sid?`<button class="linkbtn" data-act="caNew" style="margin:2px 0 6px">＋ Start a new session instead</button>`:""}`}
 function vClassSetup(){
-  const c=caState(),pool=caPool(),sel=c.ids.filter(id=>S.current.some(a=>a.id===id));
-  const teams=[...new Set(S.current.filter(a=>!c.tier||a.tier===c.tier).flatMap(a=>(a.curTeams||[]).map(t=>t.team)))].sort();
+  const c=caState(),tr=gaMode()==="tryout",pool=caPool(),src=gaSrc(),sel=c.ids.filter(id=>src.some(a=>a.id===id));
+  const teams=tr?[]:[...new Set(S.current.filter(a=>!c.tier||a.tier===c.tier).flatMap(a=>(a.curTeams||[]).map(t=>t.team)))].sort();
   const cs=c.cats||caTCats(),nCols=caCols().reduce((n,g)=>n+g.items.length,0);
-  const sess=sessList(),cur=c.sid&&(S.settings.sessions||{})[c.sid];
-  return `<div class="top"><button class="icon" data-act="go" data-v="home" aria-label="Close">✕</button><div class="logo" style="font-size:16px">Class <span>assess</span></div><span style="width:40px"></span></div>
+  const cur=c.sid&&(S.settings.sessions||{})[c.sid];
+  return `<div class="top"><button class="icon" data-act="go" data-v="home" aria-label="Close">✕</button><div class="logo" style="font-size:16px">Group <span>assessments</span></div><span style="width:40px"></span></div>
   <div class="form">
-    ${sess.length?`<div class="sect" style="margin-top:4px">Saved sessions</div><div class="calist sesslist">${sess.map(s=>`<div class="sessrow ${s.id===c.sid?"on":""}"><button class="sessopen" data-act="caSess" data-v="${s.id}"><b>${esc(s.name||"Untitled session")}</b><small>${(s.ids||[]).length} athlete${(s.ids||[]).length===1?"":"s"} · ${esc(sessWhat(s))} · ${esc(s.by||"")} ${s.at?fmtDay(s.at):""}</small></button><button class="tx" data-act="caDelSess" data-v="${s.id}" aria-label="Delete session">✕</button></div>`).join("")}</div>
-      ${c.sid?`<button class="linkbtn" data-act="caNew" style="margin:2px 0 6px">＋ Start a new session instead</button>`:""}`:""}
-    <div class="sect" style="${sess.length?"":"margin-top:4px"}">${cur?"Editing: "+esc(cur.name):"New session"}</div>
+    <div class="sub" style="margin:-4px 2px 10px">${tr?"Tryout athletes":"Current athletes"}</div>
+    ${sessRows()}
+    <div class="sect" style="${sessList().length?"":"margin-top:4px"}">${cur?"Editing: "+esc(cur.name):"New session"}</div>
     <label for="ca-name">Session name</label><input class="in" id="ca-name" placeholder="${esc(caDefaultName())}" value="${esc(c.name)}" data-keep autocomplete="off">
-    <div class="sect" style="margin-top:4px">1. Who's in the class?</div>
-    <div class="chips fchips">${[["","All current"],...CUR_TIERS.map(t=>[t.id,t.name])].map(([v,l])=>`<button class="chip ${c.tier===v?"on":""}" data-act="caTier" data-v="${v}">${esc(l)}</button>`).join("")}</div>
-    ${teams.length?`<div class="chips fchips">${teams.map(t=>`<button class="chip ${c.team===t?"on":""}" data-act="caTeam" data-v="${esc(t)}">${esc(t)}</button>`).join("")}</div>`:""}
-    <input class="in" id="ca-q" placeholder="🔍  Search athlete names" value="${esc(c.q)}" data-keep autocomplete="off" style="margin-bottom:8px">
+    <div class="sect" style="margin-top:4px">1. Who's in the group?</div>
+    ${tr?`<div class="chips fchips">${["All",...AGE_GROUPS].map(d=>`<button class="chip ${c.div===d?"on":""}" data-act="caDiv" data-v="${d}">${d==="All"?"All ages":d}</button>`).join("")}</div>
+      <div class="chips fchips">${[["cheer","Cheer"],["dance","Dance"]].map(([v,l])=>`<button class="chip ${c.type===v?"on":""}" data-act="caType" data-v="${v}">${l}</button>`).join("")}</div>`
+    :`<div class="chips fchips">${[["","All current"],...CUR_TIERS.map(t=>[t.id,t.name])].map(([v,l])=>`<button class="chip ${c.tier===v?"on":""}" data-act="caTier" data-v="${v}">${esc(l)}</button>`).join("")}</div>
+      ${teams.length?`<div class="chips fchips">${teams.map(t=>`<button class="chip ${c.team===t?"on":""}" data-act="caTeam" data-v="${esc(t)}">${esc(t)}</button>`).join("")}</div>`:""}`}
+    <input class="in" id="ca-q" placeholder="🔍  Search athlete names${tr?" or tryout #":" or codes"}" value="${esc(c.q)}" data-keep autocomplete="off" style="margin-bottom:8px">
     <div class="calist-h"><span>${sel.length} selected</span><span><button data-act="caAll">Select all shown</button> · <button data-act="caNone">Clear</button></span></div>
-    <div class="calist">${pool.map(a=>{const on=sel.includes(a.id);return `<button class="capr" data-act="caPick" data-id="${a.id}">${thumb(a,34)}<span class="bn"><b>${esc(fullName(a))}</b><small>${a.dob?divAge(a.dob)+" · ":""}${esc(curTeamsTxt(a,", ")||curTierName(a.tier)||"")}</small></span><i class="cbx ${on?"on":""}">${on?"✓":""}</i></button>`}).join("")||`<p class="help" style="margin:10px 0;text-align:center">No athletes match.</p>`}</div>
+    <div class="calist">${pool.map(a=>{const on=sel.includes(a.id);return `<button class="capr" data-act="caPick" data-id="${a.id}">${thumb(a,34)}<span class="bn"><b>${esc(fullName(a))}</b><small>${aCode(a)?aCode(a)+" · ":""}${a.dob?divAge(a.dob)+" · ":""}${esc(gaSub(a))}</small></span><i class="cbx ${on?"on":""}">${on?"✓":""}</i></button>`}).join("")||`<p class="help" style="margin:10px 0;text-align:center">No athletes match.</p>`}</div>
     <div class="sect">2. What are you assessing?</div>
-    <div class="chips fchips">${CUR_LEVELS.map(l=>`<button class="chip ${c.levels.includes(l)?"on":""}" data-act="caLvl" data-v="${l}">${lvlName(l)}</button>`).join("")}<button class="chip ${c.fly?"on":""}" data-act="caFly">Flyer positions</button></div>
+    <div class="ftier">Tumbling levels</div>
+    <div class="chips fchips">${CUR_LEVELS.map(l=>`<button class="chip ${c.levels.includes(l)?"on":""}" data-act="caLvl" data-v="${l}">${lvlName(l)}</button>`).join("")}</div>
     ${c.levels.length?`<div class="chips fchips">${caTCats().map(k=>`<button class="chip ${cs.includes(k)?"on":""}" data-act="caCat" data-v="${esc(k)}">${esc(k)}</button>`).join("")}</div>`:""}
-    <button class="btn" data-act="caStart" ${sel.length&&nCols?"":"disabled"} style="margin-top:8px">${sel.length&&nCols?`${cur?"Save &amp; open":"Save &amp; start"} · ${sel.length} athlete${sel.length===1?"":"s"} · ${nCols} skill${nCols===1?"":"s"}`:"Pick athletes and a level"}</button>
+    <div class="ftier">Other skills</div>
+    <div class="chips fchips">${caOCats().map(k=>`<button class="chip ${(c.other||[]).includes(k)?"on":""}" data-act="caOther" data-v="${esc(k)}">${esc(k)}</button>`).join("")}<button class="chip ${c.fly?"on":""}" data-act="caFly">Flyer positions</button>${tr?`<button class="chip ${c.dance?"on":""}" data-act="caDance2">Dance</button>`:""}</div>
+    <button class="btn" data-act="caStart" ${sel.length&&nCols?"":"disabled"} style="margin-top:8px">${sel.length&&nCols?`${cur?"Save &amp; open":"Save &amp; start"} · ${sel.length} athlete${sel.length===1?"":"s"} · ${nCols} skill${nCols===1?"":"s"}`:"Pick athletes and what you're assessing"}</button>
     <p class="help" style="margin-top:10px">Sessions are saved for every coach, so anyone can reopen them later.</p>
   </div>`}
 function vClass(){
   const c=caState();if(!c.started)return vClassSetup();
-  const cols=caCols(),gq=c.gq.trim().toLowerCase();
-  const list=c.ids.map(id=>S.current.find(a=>a.id===id)).filter(Boolean);
-  const rows=list.filter(a=>!gq||fullName(a).toLowerCase().includes(gq));
-  const items=cols.flatMap(g=>g.items);
-  const title=[...c.levels.slice().sort((x,y)=>x-y).map(lvlName),...(c.fly?["Flyer"]:[])].join(" + ");
+  const src=gaSrc(),cols=caCols(),gq=c.gq;
+  const list=c.ids.map(id=>src.find(a=>a.id===id)).filter(Boolean);
+  const rows=list.filter(a=>gaMatch(a,gq));
+  const items=cols.flatMap(g=>g.items),tk_items=items.filter(i=>!i.dance);
+  const title=sessWhat(c);
   const upl=(id,k)=>Object.values(S.uploads).find(u=>u.athleteId===id&&u.skill===k);
-  const cell=(a,i)=>{const tk=tickOf(a,i.key),t=techOf(a,i.key),nv=(a.videos||[]).filter(v=>v.skill===i.key&&!isPhoto(v)).length,u=upl(a.id,i.key),k=esc(i.key);
-    return `<td class="c"><div class="cc ${tk?"y":""}"><button class="ctk" data-act="caTick" data-id="${a.id}" data-k="${k}" aria-label="Tick ${esc(i.name)} for ${esc(a.first||"")}">${tk?"✓":""}</button><button class="ccam ${nv?"has":""}" data-act="cFilm" data-id="${a.id}" data-k="${k}" aria-label="Film ${esc(i.name)}">${u?`<em>${Math.round(u.pct)}%</em>`:"🎥"}${nv&&!u?`<b>${nv}</b>`:""}</button>
+  const cam=(a,i)=>{const nv=(a.videos||[]).filter(v=>v.skill===i.key&&!isPhoto(v)).length,u=upl(a.id,i.key);return `<button class="ccam ${nv?"has":""}" data-act="${i.dance?"skillVid2":"cFilm"}" data-id="${a.id}" data-k="${esc(i.key)}" aria-label="Film ${esc(i.name)}">${u?`<em>${Math.round(u.pct)}%</em>`:"🎥"}${nv&&!u?`<b>${nv}</b>`:""}</button>`};
+  const cell=(a,i)=>{
+    if(i.dance){const lv=(((a.danceSkills||{})[i.dance])||{}).level;
+      return `<td class="c"><div class="cc ${lv?"y":""}"><button class="cdn ${lv?"on":""}" data-act="caDance" data-id="${a.id}" data-c="${i.dance}">${lv?esc(lv.slice(0,3)):"–"}</button>${cam(a,i)}<span class="csc dnl">${lv?esc(lv):"tap to rate"}</span></div></td>`}
+    const tk=tickOf(a,i.key),t=techOf(a,i.key),k=esc(i.key);
+    return `<td class="c"><div class="cc ${tk?"y":""}"><button class="ctk" data-act="caTick" data-id="${a.id}" data-k="${k}" aria-label="Tick ${esc(i.name)} for ${esc(a.first||"")}">${tk?"✓":""}</button>${cam(a,i)}
       <button class="csc ${t!=null?"has t-"+techCls(t):""}" data-act="caScore" data-id="${a.id}" data-k="${k}">${t!=null?t.toFixed(1):"score"}</button></div></td>`};
-  return `<div class="catop"><button class="icon" data-act="caBack" aria-label="Back">‹</button><div class="catt"><h2>${esc(c.name||title||"Class")}</h2><small>${c.name?esc(title)+" · ":""}${list.length} athlete${list.length===1?"":"s"} · saves as you go</small></div>
+  const foot=i=>i.dance?list.filter(a=>(((a.danceSkills||{})[i.dance])||{}).level).length+"/"+list.length:list.filter(a=>tickOf(a,i.key)).length+"/"+list.length;
+  return `<div class="catop"><button class="icon" data-act="caBack" aria-label="Back">‹</button><div class="catt"><h2>${esc(c.name||title||"Group")}</h2><small>${c.name?esc(title)+" · ":""}${list.length} athlete${list.length===1?"":"s"} · saves as you go</small></div>
+    <button class="btn ghost caadd" data-act="gaAdd">＋ Athletes</button>
     <input class="search casearch" id="ca-gq" placeholder="🔍  Find athlete" value="${esc(c.gq)}" data-keep autocomplete="off"></div>
   <div class="cawrap"><table class="catab">
     <thead><tr><th class="nm" rowspan="2">Athlete</th>${cols.map(g=>`<th class="grp" colspan="${g.items.length}">${esc(g.h)}</th>`).join("")}</tr>
       <tr>${items.map(i=>`<th class="sk2">${esc(i.name)}</th>`).join("")}</tr></thead>
-    <tbody>${rows.map(a=>{const n=items.filter(i=>tickOf(a,i.key)).length;
-      return `<tr><td class="nm"><button data-act="caOpen" data-id="${a.id}">${thumb(a,34)}<span><b>${esc(fullName(a))}</b><small>${n} of ${items.length}</small></span></button></td>${items.map(i=>cell(a,i)).join("")}</tr>`}).join("")||`<tr><td class="nm" style="padding:16px">No match</td></tr>`}
-    <tr class="cafoot"><td class="nm">Class</td>${items.map(i=>`<td>${list.filter(a=>tickOf(a,i.key)).length}/${list.length}</td>`).join("")}</tr></tbody>
+    <tbody>${rows.map(a=>{const n=tk_items.filter(i=>tickOf(a,i.key)).length;
+      return `<tr><td class="nm"><button data-act="caOpen" data-id="${a.id}">${thumb(a,34)}<span><b>${esc(fullName(a))}</b><small>${aCode(a)?aCode(a)+" · ":""}${tk_items.length?`${n} of ${tk_items.length}`:""}</small></span></button></td>${items.map(i=>cell(a,i)).join("")}</tr>`}).join("")||`<tr><td class="nm" style="padding:16px">No match</td></tr>`}
+    <tr class="cafoot"><td class="nm">Group</td>${items.map(i=>`<td>${foot(i)}</td>`).join("")}</tr></tbody>
   </table></div>
-  <p class="help" style="text-align:center;margin:10px 20px 0">Tap the box to tick. 🎥 films it and lets you score. Tap score to give a tech score without filming. Tap a name for their profile.</p>`}
+  <p class="help" style="text-align:center;margin:10px 20px 0">Tap the box to tick. 🎥 films it and lets you score. Tap score to give a tech score without filming.${cols.some(g=>g.items.some(i=>i.dance))?" Dance boxes cycle Beginner, Intermediate, Advanced.":""} Tap a name for their profile.</p>`}
+function gaAddHtml(){const c=caState(),src=gaSrc(),q=S.gaAddQ||"";
+  const avail=src.filter(a=>!c.ids.includes(a.id)&&gaMatch(a,q)).sort((x,y)=>(x.first||"").localeCompare(y.first||"")).slice(0,80);
+  return `<div class="mhead"><h3 style="margin:0">Add athletes</h3><button class="icon" data-act="gaAddDone" aria-label="Close">✕</button></div>
+    <div class="sub" style="margin:-6px 0 10px">${esc(c.name||"This session")} · ${c.ids.length} in it now</div>
+    <input class="in" id="ga-addq" placeholder="🔍  Search ${gaMode()==="tryout"?"tryout athletes":"current athletes"}" value="${esc(q)}" autocomplete="off">
+    <div class="calist" style="max-height:52vh">${avail.map(a=>`<button class="capr" data-act="gaAddOne" data-id="${a.id}">${thumb(a,34)}<span class="bn"><b>${esc(fullName(a))}</b><small>${aCode(a)?aCode(a)+" · ":""}${a.dob?divAge(a.dob)+" · ":""}${esc(gaSub(a))}</small></span><i class="cbx">＋</i></button>`).join("")||`<p class="help" style="margin:10px 0;text-align:center">${q?"No one else matches.":"Everyone is already in this session."}</p>`}</div>
+    <button class="btn" data-act="gaAddDone" style="margin-top:12px">Done</button>`}
+function gaAddOpen(){openModal(gaAddHtml());setTimeout(()=>{const i=document.getElementById("ga-addq");if(i)i.focus()},60)}
+async function gaPersist(){const c=caState();if(!c.sid)return;try{await B.setSetting(["sessions",c.sid,"ids"],c.ids)}catch(e){toast("Couldn't save the session: "+e.message)}}
+
+/* ---------- positions (current athletes) ---------- */
+const CUR_POS=["Flyer","Main base","Secondary base","Back spot"];
+function posList(a){if(!a)return [];if(isCur(a)){if(a.positions&&a.positions.length)return a.positions;return a.pos==="flyer"?["Flyer"]:a.pos==="base"?["Base"]:[]}return (a.cheerPositions||[]).filter(p=>p!=="N/A")}
+function posName(a){return posList(a).join(", ")}
+function isFlyer(a){return posList(a).includes("Flyer")}
+function isBase(a){return posList(a).some(p=>p!=="Flyer")}
+
+/* ---------- codes ---------- */
+const PC_CH="ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+function genPcode(){const used=new Set(allAth().map(a=>a.pcode).filter(Boolean));genPcode._u=genPcode._u||new Set();let s;
+  do{s="EOD-"+Array.from({length:4},()=>PC_CH[Math.floor(Math.random()*PC_CH.length)]).join("")}while(used.has(s)||genPcode._u.has(s));genPcode._u.add(s);return s}
+
+/* ---------- teams (editable in Settings) ---------- */
+const CHEER_TIER_META=[{id:"sport",name:"Cheerstarz"},{id:"novice",name:"Novice"},{id:"elite",name:"Premier"}];
+const DEFAULT_CHEER_TEAMS={sport:[["Sparkle","","Tiny"],["Lil Leopards","","Youth"],["Savage Katz","","Junior"]],
+  novice:[["Baby Boss","Tiny Novice","Tiny"],["Cheetahs","Mini Novice","Mini"]],
+  elite:[["Tiny Diamonds","Tiny 1","Tiny"],["IBK","Mini 1","Mini"],["Lady Lynx","Youth 1","Youth"],["Pink Kitties","Youth 2","Youth"],["Miss Purrrfect","","Senior"],["Pink Assassins","Senior 2","Senior"],["Claw Katz","Senior 3","Senior"],["LD","Senior 4","Senior"],["Pink Panthers","Senior 5","Senior"],["Open team","Open","Open"]]};
+function teamRule(tier,div){const d=String(div||"").toLowerCase();if(!d)return "any";return tier==="elite"?d:d+"N"}
+function buildCheerTiers(src){return CHEER_TIER_META.map(m=>({id:m.id,name:m.name,teams:((src&&src[m.id])||[]).map(t=>Array.isArray(t)?{name:t[0],sub:t[1]||"",div:t[2]||""}:t).filter(t=>t&&t.name).map(t=>({name:t.name,sub:t.sub||"",div:t.div||"",rule:teamRule(m.id,t.div)}))}))}
+function applyTeams(){const st=S.settings&&S.settings.cheerTeams;TIERS.cheer=buildCheerTiers(st&&typeof st==="object"?st:DEFAULT_CHEER_TEAMS)}
+function teamsText(){return TIERS.cheer.map(t=>"# "+t.name+"\n"+t.teams.map(x=>[x.name,x.sub,x.div].filter((v,i)=>i===0||v).join(" | ")).join("\n")).join("\n\n")}
+function parseTeamsText(txt){const out={sport:[],novice:[],elite:[]};let cur=null,bad=[];
+  txt.split("\n").map(l=>l.trim()).filter(Boolean).forEach(l=>{
+    if(l.startsWith("#")){const n=l.replace(/^#+/,"").trim().toLowerCase();cur=/star|sport/.test(n)?"sport":/novice/.test(n)?"novice":/prem|elite/.test(n)?"elite":null;if(!cur)bad.push(l);return}
+    if(!cur){bad.push(l);return}
+    const p=l.split("|").map(x=>x.trim());const name=p[0];if(!name)return;
+    let div=AGE_GROUPS.find(g=>p.length>1&&g.toLowerCase()===p[p.length-1].toLowerCase())||"";
+    let sub=p.length>2?p[1]:(div?"":(p[1]||""));
+    if(!div){const txt2=(sub||"").toLowerCase();div=AGE_GROUPS.find(g=>txt2.includes(g.toLowerCase()))||""}
+    if(!out[cur].some(x=>x[0]===name))out[cur].push([name,sub,div])});
+  return {teams:out,bad}}
+
+/* ---------- compare ---------- */
+function vCompare(){
+  const list=S.compareSel.map(find).filter(Boolean);
+  if(list.length<2)return `<div class="top"><button class="icon" data-act="go" data-v="home">‹</button><div class="logo" style="font-size:16px">Compare</div><span style="width:38px"></span></div><div class="empty"><b>Pick 2 or 3 athletes</b>Tap Compare on the home screen, then choose athletes.</div>`;
+  const n=list.length;
+  const tick=(a,k)=>{const tk=tickOf(a,k),t=techOf(a,k);if(!tk&&t==null)return `<span class="cmn">–</span>`;return `<span class="cmt">${tk?`<span class="cmy">✓</span>`:""}${t!=null?`<span class="cms t-${techCls(t)}">${t.toFixed(1)}</span>`:""}</span>`};
+  const prog=(a,items)=>{const done=items.filter(i=>tickOf(a,i.key)).length,ts=items.map(i=>techOf(a,i.key)).filter(v=>v!=null);return {done,tech:ts.length?ts.reduce((x,y)=>x+y,0)/ts.length:null,any:done||ts.length}};
+  const sections=[];
+  CUR_LEVELS.forEach(l=>{const items=levelItems(l);if(items.length)sections.push({h:lvlName(l)+" tumbling",items})});
+  cats().filter(c=>c.items.length&&!c.items.some(i=>i.level)).forEach(c=>sections.push({h:c.cat,items:c.items}));
+  sections.push({h:"Flyer body positions",items:flyerList().map(x=>({key:"Flyer|"+x,name:x}))});
+  const row=(lbl,cells,cls="")=>`<tr class="${cls}"><td>${lbl}</td>${cells.map(c=>`<td>${c}</td>`).join("")}</tr>`;
+  let body="";
+  body+=row(`<span class="sub">Age ${ageYear()}</span>`,list.map(a=>a.dob?String(divAge(a.dob)):"–"));
+  body+=row(`<span class="sub">2026 team</span>`,list.map(a=>isCur(a)?(esc(curTeamsTxt(a,", "))||"–")+(agesOut(a).length?`<br><span class="tag out">Ages out</span>`:""):`<span class="sub">${esc(a.prevGym||"New athlete")}</span>`));
+  body+=row(`<span class="sub">Position</span>`,list.map(a=>esc(posName(a))||"–"));
+  body+=row(`<span class="sub">Tumbling</span>`,list.map(a=>esc(isCur(a)?curLevelsTxt(a):levelsTxt(a))||"–"));
+  body+=row(`<span class="sub">Suggested 2027</span>`,list.map(a=>esc(teamSummary(a))||"–"));
+  body+=row(`<span class="sub">Coach rating</span>`,list.map(a=>isCur(a)?(reportsOf(a).length?overallAvg(a).toFixed(1)+" ★":"–"):`<span class="sub">n/a</span>`));
+  sections.forEach(s=>{const ps=list.map(a=>prog(a,s.items));if(!ps.some(p=>p.any))return;
+    const score=p=>p.done*10+(p.tech||0),best=Math.max(...ps.map(score));
+    body+=`<tr class="csec"><td colspan="${n+1}">${esc(s.h)}</td></tr>`;
+    body+=`<tr class="clv"><td>Skills · Tech avg</td>${ps.map(p=>`<td class="${p.any&&score(p)===best&&ps.filter(q=>score(q)===best).length<n?"best":""}">${p.any?`<b>${p.done}/${s.items.length}</b>${p.tech!=null?` · ${p.tech.toFixed(1)}`:""}`:`<span class="sub">not assessed</span>`}</td>`).join("")}</tr>`;
+    s.items.forEach(i=>{body+=row(esc(i.name),list.map(a=>tick(a,i.key)))})});
+  return `<div class="top"><button class="icon" data-act="go" data-v="home">‹</button><div class="logo" style="font-size:16px">Compare</div><span style="width:38px"></span></div>
+  <div class="cmp cmp2"><table>
+    <tr><th></th>${list.map(a=>`<th><button class="cmph" data-act="open" data-id="${a.id}"><span class="mini ${grad(a)}">${photoHtml(a)}${aCode(a)?`<i>${esc(aCode(a))}</i>`:""}</span>${esc(a.first||"")}<br><span class="tag ${isCur(a)?"cur":""}">${isCur(a)?"Current":"Tryout"}</span></button></th>`).join("")}</tr>
+    ${body}</table></div>
+  <p class="sub" style="text-align:center;margin:12px 20px 0;line-height:1.5">✓ has it · coloured number = tech score · – not ticked<br>Pink outline = strongest in that section · tap a name to open their profile</p>`;
+}
+
+/* ---------- exports ---------- */
+function csvDownload(name,head,rows){const csv=[head,...rows].map(r=>r.map(c=>{const s=String(c??"");return /[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s}).join(",")).join("\n");
+  const blob=new Blob(["﻿"+csv],{type:"text/csv"});const url=URL.createObjectURL(blob);const l=document.createElement("a");l.href=url;l.download=name;document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);toast("Spreadsheet downloaded")}
+function exportCur(){
+  const sk=skillList().filter(s=>s.level),fl=flyerList();
+  const head=["Athlete code","Placement code","First name","Last name","DOB",`Age in ${ageYear()}`,"Eligible age groups","Tier","2026 team 1","2026 team 2","2026 team 3","Ages out of","Position","Tumbling levels","Status","Suggested 2027 teams","Final 2027 teams","Approvals","Coach rating","Ready to move up","Parent","Phone","Email","Medical notes",
+    ...REPORT_AREAS.map(r=>"Coach avg: "+r[1]),...sk.map(s=>`${s.cat}: ${s.name}`),...fl.map(x=>"Flyer: "+x),"Videos","Notes"];
+  const val=(a,k)=>{const tk=tickOf(a,k),t=techOf(a,k);return (tk?"Has it":"")+(t!=null?(tk?" · ":"")+"Tech "+t.toFixed(1):"")};
+  const rows=S.current.slice().sort((a,b)=>(a.cnum||9999)-(b.cnum||9999)).map(a=>{const ct=(a.curTeams||[]).map(t=>t.team),pl=plist(a,"cheer"),reps=reportsOf(a);
+    return [curCode(a),a.pcode||"",a.first,a.last,fmtDob(a.dob),a.dob?divAge(a.dob):"",divLabel(a),curTierName(a.tier),ct[0]||"",ct[1]||"",ct[2]||"",agesOut(a).join(", "),posName(a),curLevelsTxt(a),CUR_STATUS[curStatus(a)],
+      pl.map(teamLbl).join(" / "),pl.filter(isFinal).map(teamLbl).join(" / "),pl.map(p=>`${p.team}: ${apprList(p).map(dirName).join(", ")||"none"}`).join("; "),reps.length?overallAvg(a).toFixed(1):"",
+      MOVE_OPTS.map(([v,l])=>[l,reps.filter(r=>r.move===v).length]).filter(x=>x[1]).map(x=>x[0]+" "+x[1]).join(", "),a.parentName,a.parentPhone,a.parentEmail,a.medical,
+      ...REPORT_AREAS.map(([k])=>{const v=areaAvg(a,k);return v?v.toFixed(1):""}),...sk.map(s=>val(a,s.key)),...fl.map(x=>val(a,"Flyer|"+x)),(a.videos||[]).length,(a.notes||[]).map(n=>`${n.by}: ${n.text}`).join(" | ")]});
+  csvDownload(`EOD-current-athletes-${new Date().toISOString().slice(0,10)}.csv`,head,rows)}
+
+/* ---------- season rollover ---------- */
+function rollPlan(){
+  const fin=a=>plist(a,"cheer").filter(isFinal);
+  const tierOf=teams=>["elite","novice","sport"].map(id=>({id,cur:{elite:"premier",novice:"novice",sport:"cheerstarz"}[id]})).find(x=>teams.some(t=>(TIERS.cheer.find(y=>y.id===x.id)||{teams:[]}).teams.some(z=>z.name===t.team)));
+  const curMove=S.current.filter(a=>fin(a).length),curStay=S.current.filter(a=>!fin(a).length);
+  const tryMove=S.athletes.filter(a=>fin(a).length),tryStay=S.athletes.filter(a=>!fin(a).length);
+  return {fin,tierOf,curMove,curStay,tryMove,tryStay}}
+function vRollover(){
+  if(!isDirector())return vHome();
+  const p=rollPlan(),R=S.roll;
+  const li=arr=>arr.slice(0,60).map(a=>`<li>${esc(fullName(a))}${p.fin(a).length?` → <b>${esc(p.fin(a).map(teamLbl).join(" / "))}</b>`:""}</li>`).join("")+(arr.length>60?`<li>…and ${arr.length-60} more</li>`:"");
+  return `<div class="top"><button class="icon" data-act="go" data-v="hub">‹</button><div class="logo" style="font-size:16px">Season <span>rollover</span></div><span style="width:38px"></span></div>
+  <div class="form">
+    ${R&&R.busy?`<div class="empty" style="padding-top:40px"><b>Rolling over…</b>${R.done} of ${R.total}<div class="bar" style="margin:14px 30px"><i style="width:${R.total?R.done/R.total*100:0}%"></i></div>Keep the app open.</div>`:`
+    <div class="lvlcard" style="margin:0 0 14px"><h4>What this does</h4><ol class="steps">
+      <li>Current athletes with a <b>final</b> 2027 team get that as their new current team. Their old teams are kept as "previous teams".</li>
+      <li>Tryout athletes with a <b>final</b> team move into Current athletes, keeping their code, placement code, photo, skills and videos.</li>
+      <li>Placements, approvals, checklists and coach reports are cleared for everyone moved, ready for next season. Ticks, tech scores and videos stay.</li>
+      <li>Anyone without a final team is left exactly as they are.</li></ol>
+      <p class="help" style="margin:8px 0 0">Export both lists first so you have a copy of this season.</p></div>
+    <div class="rgrid"><div class="rbox ok"><b>${p.curMove.length}</b>current athletes get new teams</div><div class="rbox ok"><b>${p.tryMove.length}</b>tryout athletes move to Current</div><div class="rbox"><b>${p.curStay.length}</b>current athletes not final yet</div><div class="rbox"><b>${p.tryStay.length}</b>tryout athletes not final yet</div></div>
+    <div class="row" style="margin:6px 0 14px"><button class="btn ghost" data-act="exportCurBtn">⬇ Export current</button><button class="btn ghost" data-act="exportTryBtn">⬇ Export tryouts</button></div>
+    ${p.curMove.length||p.tryMove.length?`<details class="rdet"><summary>Who's moving (${p.curMove.length+p.tryMove.length})</summary><ul>${li([...p.curMove,...p.tryMove])}</ul></details>`:""}
+    ${p.curStay.length+p.tryStay.length?`<details class="rdet"><summary>Not final yet (${p.curStay.length+p.tryStay.length})</summary><ul>${li([...p.curStay,...p.tryStay])}</ul></details>`:""}
+    <button class="btn" data-act="rollRun" ${p.curMove.length||p.tryMove.length?"":"disabled"} style="margin-top:14px">Roll over ${p.curMove.length+p.tryMove.length} athlete${p.curMove.length+p.tryMove.length===1?"":"s"}</button>
+    <p class="help" style="margin-top:10px">Only directors can do this. You'll be asked to type ROLLOVER to confirm.</p>`}
+  </div>`}
+async function runRollover(){
+  const p=rollPlan(),list=[...p.curMove,...p.tryMove];S.roll={busy:true,done:0,total:list.length};render();let fail=0;
+  for(const a of list){
+    try{const fin=p.fin(a),teams=fin.map(e=>({team:e.team,sub:e.sub||""})),t=p.tierOf(teams),tier=t?t.cur:(a.tier||"");
+      if(isCur(a)){await B.updateAthlete(a.id,{curTeams:teams,tier,prevTeams:a.curTeams||[],placement:{},team:"",done:{},reports:{},rolledAt:Date.now()})}
+      else{const id=B.newCurId();
+        const keep=["first","last","dob","parentName","parentPhone","parentEmail","medical","photoURL","photoPath","cnum","pcode","prevGym","experience"];
+        const d={tryoutType:"cheer",curTeams:teams,tier,positions:(a.cheerPositions||[]).filter(x=>CUR_POS.includes(x)),fromTryout:a.num||null,rolledAt:Date.now()};
+        keep.forEach(k=>{if(a[k]!=null&&a[k]!=="")d[k]=a[k]});
+        d.pos=d.positions.includes("Flyer")?"flyer":d.positions.length?"base":"";d.flyerAssess=d.positions.includes("Flyer");
+        const lv=[a.tumbleMain,a.tumbleSecond].map(x=>x==null||x===""?null:lvlSkills(+x)).filter(x=>x&&x>0);d.levels=[...new Set(lv)];
+        await B.createCurrent(id,d);
+        const ticks={...(a.ticks||{})};Object.entries(a.skills||{}).forEach(([k,v])=>{if(v===2)ticks[k]=true});
+        await B.updateAthlete(id,{videos:a.videos||[],notes:a.notes||[],ticks,tech:a.tech||{}});
+        await B.deleteDoc(a.id)}}
+    catch(e){fail++}
+    S.roll.done++;if(S.view==="rollover")render()}
+  S.roll=null;toast(fail?`Rolled over ${list.length-fail}. ${fail} failed, try again.`:`Rollover done ✦ ${list.length} athletes updated`);S.mode="current";try{localStorage.setItem("eodth_mode","current")}catch(e){}go("home")}
 
 /* ---------- shared bits ---------- */
 function thumb(a,sz=40){return `<span class="thumb ${grad(a)}" style="width:${sz}px;height:${Math.round(sz*1.25)}px">${a.photoURL?`<img src="${esc(a.photoURL)}" alt="">`:esc(initials(a))}</span>`}
@@ -1782,35 +1981,79 @@ function pendingFor(email){const out=[];allAth().forEach(a=>discsOf(a).forEach(d
 function hubCount(){return isDirector()?pendingFor(myEmail()).length:0}
 
 /* ---------- Teams board ---------- */
+const DIVMAX={Tiny:6,Mini:9,Youth:12,Junior:15,Senior:18,Open:99};
+function teamInfo(name){for(const t of TIERS.cheer){const x=t.teams.find(y=>y.name===name);if(x)return {...x,tier:t.id}}return null}
+function teamMax(name){const x=teamInfo(name);return x&&x.div&&DIVMAX[x.div]!=null?DIVMAX[x.div]:null}
+function divFor(age){return AGE_GROUPS.find(g=>age<=DIVMAX[g])||"Open"}
+function agesOut(a){if(!a||!a.dob)return [];const age=divAge(a.dob);return (a.curTeams||[]).filter(t=>{const m=teamMax(t.team);return m!=null&&age>m}).map(t=>t.team)}
+function sugSelect(a){if(!isDirector()||!discsOf(a).includes("cheer"))return "";const cur=plist(a,"cheer").map(e=>e.team);
+  return `<select class="sugsel" data-sug="${a.id}" aria-label="Suggest a 2027 team for ${esc(a.first||"")}"><option value="">＋ Suggest</option>${TIERS.cheer.map(t=>{const ts=t.teams.filter(x=>!a.dob||teamOk(a,"cheer",x)||cur.includes(x.name));return ts.length?`<optgroup label="${esc(t.name)}">${ts.map(x=>`<option value="${t.id}|${esc(x.name)}" ${cur.includes(x.name)?"disabled":""}>${cur.includes(x.name)?"✓ ":""}${esc(x.name)}${x.sub?` · ${esc(x.sub)}`:""}</option>`).join("")}</optgroup>`:""}).join("")}</select>`}
+async function addSuggestion(a,d,tierId,name){const list=plist(a,d),k=tkey(name);if(list.some(e=>e.key===k))return;
+  const tm=((TIERS[d].find(t=>t.id===tierId)||{teams:[]}).teams.find(x=>x.name===name))||{};
+  const ne={key:k,tier:tierId,team:name,sub:tm.sub||"",by:coachName(),at:Date.now(),approvals:{}},extra={};
+  if(discsOf(a).every(x=>x===d||plist(a,x).length)&&!doneOf(a,"teams"))extra["done.teams"]={by:coachName(),at:Date.now(),auto:true};
+  try{await savePlist(a,d,[...list,ne],extra);toast(`Suggested ${name} for ${a.first||"athlete"}`)}catch(e){toast("Couldn't save: "+e.message)}}
+function sugChips(a){const l=plist(a,"cheer");return l.length?`<span class="sgc">${l.map(e=>`<i class="${isFinal(e)?"ok":""}">${isFinal(e)?"✓ ":""}${esc(e.team)}</i>`).join("")}</span>`:""}
+function bMatch(a){const q=(S.bq||"").trim().toLowerCase().replace(/^#/,"");return !q||(fullName(a)+" "+aCode(a)+" "+(a.num||"")).toLowerCase().includes(q)}
 function vBoard(){
+  const tab=S.btab||"all";
+  const tabs=[["all","2027 placements"],["current","Current teams"],["new","New athletes"]];
+  const body=tab==="current"?boardCurrent():boardPlace(tab==="new"?S.athletes:allAth(),tab);
+  return `<div class="top"><button class="icon" data-act="go" data-v="home">‹</button><div class="logo" style="font-size:16px">Teams <span>board</span></div><span style="width:38px"></span></div>
+  <div class="boardwrap">
+    <div class="tabs btabs">${tabs.map(([k,t])=>`<button class="${tab===k?"on":""}" data-act="btab" data-v="${k}">${t}</button>`).join("")}</div>
+    <input class="search bsearch" id="bsearch" placeholder="🔍  Search athlete name or code" value="${esc(S.bq||"")}" data-keep autocomplete="off">
+    ${body}</div>`}
+function boardPlace(src,tab){
   const rows={};
-  allAth().forEach(a=>discsOf(a).forEach(d=>plist(a,d).forEach(p=>{(rows[d+"|"+p.team]=rows[d+"|"+p.team]||[]).push({a,p,fin:isFinal(p)})})));
-  const posCount=list=>{const c={Flyer:0,"Main base":0,"Secondary base":0,"Back spot":0};list.forEach(x=>{if(isCur(x.a)){if(x.a.pos==="flyer")c.Flyer++;else if(x.a.pos==="base")c["Main base"]++;return}(x.a.cheerPositions||[]).forEach(q=>{if(q in c)c[q]++})});return c};
-  let empties=0;
+  src.filter(bMatch).forEach(a=>discsOf(a).forEach(d=>plist(a,d).forEach(p=>{(rows[d+"|"+p.team]=rows[d+"|"+p.team]||[]).push({a,p,fin:isFinal(p)})})));
+  const posOf=posList;
+  const posCount=list=>{const c={Flyer:0,"Main base":0,"Secondary base":0,"Back spot":0};list.forEach(x=>posOf(x.a).forEach(q=>{q=q==="Base"?"Main base":q;if(q in c)c[q]++}));return c};
+  const tag=a=>isCur(a)?'<span class="curtag">Current</span>':"";
   const sec=d=>{
-    const unsug=allAth().filter(a=>discsOf(a).includes(d)&&!plist(a,d).length);
+    const unsug=src.filter(a=>bMatch(a)&&discsOf(a).includes(d)&&!plist(a,d).length);
     let h=`<div class="bsec"><h3 class="bsh">${d==="cheer"?"Cheer":"Dance"} teams</h3>`;
     TIERS[d].forEach(t=>{
       const teams=t.teams.map(tm=>({tm,list:(rows[d+"|"+tm.name]||[]).sort((x,y)=>(y.fin-x.fin)||(x.a.first||"").localeCompare(y.a.first||""))}));
-      const shown=teams.filter(x=>x.list.length||S.boardEmpty);empties+=teams.length-teams.filter(x=>x.list.length).length;
+      const shown=teams.filter(x=>x.list.length||(S.boardEmpty&&!S.bq));
       if(!shown.length)return;
       h+=`<div class="btier">${esc(t.name)}</div><div class="bgrid">`+shown.map(({tm,list})=>{
         const f=list.filter(x=>x.fin).length,pc=d==="cheer"?posCount(list):null;
         return `<div class="bteam ${list.length?"":"empty"}"><div class="bth"><div><b>${esc(tm.name)}</b>${tm.sub?`<span>${esc(tm.sub)}</span>`:""}</div><em>${list.length}</em></div>
           <div class="bcnt"><span class="ok">✓ ${f} final</span><span class="pd">${list.length-f} pending</span></div>
           ${pc&&list.length?`<div class="bpos">${pc.Flyer} flyer${pc.Flyer===1?"":"s"} · ${pc["Main base"]+pc["Secondary base"]} base${pc["Main base"]+pc["Secondary base"]===1?"":"s"} · ${pc["Back spot"]} back spot${pc["Back spot"]===1?"":"s"}</div>`:""}
-          ${list.map(x=>`<button class="brow" data-act="openTeams" data-id="${x.a.id}">${thumb(x.a,30)}<span class="bn"><b>${esc(fullName(x.a))}${isCur(x.a)?'<span class="curtag">Current</span>':""}</b><small>${x.a.dob?"Age "+divAge(x.a.dob):""}${d==="cheer"&&isCur(x.a)&&x.a.pos?" · "+posName(x.a):""}${d==="cheer"&&(x.a.cheerPositions||[]).length?" · "+esc(x.a.cheerPositions.join(", ")):""}</small></span><i class="${x.fin?"ok":"pd"}">${x.fin?"✓":apprList(x.p).length+"/"+APPROVALS_NEEDED}</i></button>`).join("")||`<p class="help" style="margin:4px 0 0">No athletes yet</p>`}
+          ${list.map(x=>`<button class="brow" data-act="openTeams" data-id="${x.a.id}">${thumb(x.a,30)}<span class="bn"><b>${esc(fullName(x.a))}${tag(x.a)}</b><small>${x.a.dob?"Age "+divAge(x.a.dob):""}${d==="cheer"&&posOf(x.a).length?" · "+esc(posOf(x.a).join(", ")):""}</small></span><i class="${x.fin?"ok":"pd"}">${x.fin?"✓":apprList(x.p).length+"/"+APPROVALS_NEEDED}</i></button>`).join("")||`<p class="help" style="margin:4px 0 0">No athletes yet</p>`}
         </div>`}).join("")+`</div>`;
     });
-    if(unsug.length)h+=`<div class="btier">Not suggested yet (${unsug.length})</div><div class="bunsug">${unsug.map(a=>`<button class="brow" data-act="openTeams" data-id="${a.id}">${thumb(a,30)}<span class="bn"><b>${esc(fullName(a))}${isCur(a)?'<span class="curtag">Current</span>':""}</b><small>${a.dob?"Age "+divAge(a.dob)+" · "+esc(divLabel(a)):""}</small></span><i class="no">!</i></button>`).join("")}</div>`;
+    const knownT=TIERS[d].flatMap(t=>t.teams.map(x=>x.name)),odd=Object.keys(rows).filter(k=>k.startsWith(d+"|")&&!knownT.includes(k.slice(d.length+1)));
+    if(odd.length)h+=`<div class="btier">Other teams</div><div class="bgrid">`+odd.map(k=>{const list=rows[k];return `<div class="bteam"><div class="bth"><div><b>${esc(k.slice(d.length+1))}</b><span>Not in your team list</span></div><em>${list.length}</em></div>${list.map(x=>`<button class="brow" data-act="openTeams" data-id="${x.a.id}">${thumb(x.a,30)}<span class="bn"><b>${esc(fullName(x.a))}${tag(x.a)}</b></span><i class="${x.fin?"ok":"pd"}">${x.fin?"✓":apprList(x.p).length+"/"+APPROVALS_NEEDED}</i></button>`).join("")}</div>`}).join("")+`</div>`;
+    if(unsug.length)h+=`<div class="btier">Not suggested yet (${unsug.length})</div><div class="bunsug">${unsug.map(a=>`<div class="browx"><button class="brow" data-act="openTeams" data-id="${a.id}">${thumb(a,30)}<span class="bn"><b>${esc(fullName(a))}${tag(a)}</b><small>${a.dob?"Age "+divAge(a.dob)+" · "+esc(divLabel(a)):""}</small></span>${d==="cheer"&&isDirector()?"":`<i class="no">!</i>`}</button>${d==="cheer"?sugSelect(a):""}</div>`).join("")}</div>`;
     return h+`</div>`;
   };
-  const body=sec("cheer")+sec("dance");
-  return `<div class="top"><button class="icon" data-act="go" data-v="home">‹</button><div class="logo" style="font-size:16px">Teams <span>board</span></div><span style="width:38px"></span></div>
-  <div class="boardwrap"><p class="help" style="margin:0 0 12px">Every suggested and final placement. Tap an athlete to open their team selection.</p>
-  <label class="tgl"><input type="checkbox" id="boardEmpty" ${S.boardEmpty?"checked":""}> Show teams with no athletes</label>
-  ${Object.keys(rows).length||allAth().some(a=>discsOf(a).length)?body:`<div class="empty"><b>No placements yet</b>Suggest teams from an athlete's Team selection tab.</div>`}</div>`;
-}
+  const any=Object.keys(rows).length||src.some(a=>bMatch(a)&&discsOf(a).length);
+  return `${tab==="new"?`<p class="help" style="margin:0 0 10px">Tryout athletes only.</p>`:`<p class="help" style="margin:0 0 10px">Every suggested and final 2027 placement. Tap an athlete to open their team selection.</p>`}
+    ${S.bq?"":`<label class="tgl"><input type="checkbox" id="boardEmpty" ${S.boardEmpty?"checked":""}> Show teams with no athletes</label>`}
+    ${any?sec("cheer")+(tab==="new"||src.some(a=>discsOf(a).includes("dance"))?sec("dance"):""):`<div class="empty"><b>${S.bq?"No matches":"No placements yet"}</b>${S.bq?"Try a different name.":"Suggest teams from an athlete's Team selection tab."}</div>`}`}
+function boardCurrent(){
+  const known=TIERS.cheer.flatMap(t=>t.teams.map(x=>x.name));
+  const groups=CUR_TIERS.map(ct=>({name:ct.name,teams:curTierTeams(ct.id).map(x=>x.name)}));
+  const extra=[...new Set(S.current.flatMap(a=>(a.curTeams||[]).map(t=>t.team)).filter(n=>!known.includes(n)))].sort();
+  if(extra.length)groups.push({name:"Other teams",teams:extra});
+  const totalOut=S.current.filter(a=>agesOut(a).length).length;
+  let h=`<p class="help" style="margin:0 0 10px">Your 2026 teams. <b style="color:var(--bad)">Red</b> means the athlete is too old for that team's age group in 2027 (ages are on 31 Dec 2027).${totalOut?` ${totalOut} athlete${totalOut===1?"":"s"} age out.`:""}${isDirector()?" Use the dropdown to suggest a 2027 team.":""}</p>`;
+  let shownAny=false;
+  groups.forEach(g=>{
+    const cards=g.teams.map(tn=>{
+      const mem=S.current.filter(a=>(a.curTeams||[]).some(t=>t.team===tn)&&bMatch(a)).sort((x,y)=>(x.last||"").localeCompare(y.last||"")||(x.first||"").localeCompare(y.first||""));
+      if(!mem.length)return "";
+      const ti=teamInfo(tn),mx=teamMax(tn),out=mem.filter(a=>a.dob&&mx!=null&&divAge(a.dob)>mx);
+      return `<div class="bteam"><div class="bth"><div><b>${esc(tn)}</b><span>${ti?esc([ti.sub,ti.div].filter(Boolean).filter((v,i,arr)=>arr.indexOf(v)===i).join(" · ")):""}${mx!=null&&mx<99?` · max age ${mx}`:""}</span></div><em>${mem.length}</em></div>
+        ${out.length?`<div class="bcnt"><span class="outc">${out.length} age${out.length===1?"s":""} out</span></div>`:""}
+        ${mem.map(a=>{const age=a.dob?divAge(a.dob):null,old=age!=null&&mx!=null&&age>mx;
+          return `<div class="browx ${old?"old":""}"><button class="brow" data-act="openTeams" data-id="${a.id}">${thumb(a,30)}<span class="bn"><b>${esc(fullName(a))}</b><small>${curCode(a)?curCode(a)+" · ":""}${age!=null?`${age} in ${ageYear()}`:"No DOB"}${posName(a)?" · "+esc(posName(a)):""}</small>${old?`<span class="outb">Ages out → ${divFor(age)}</span>`:""}${sugChips(a)}</span></button>${sugSelect(a)}</div>`}).join("")}</div>`}).join("");
+    if(cards.trim()){shownAny=true;h+=`<div class="btier">${esc(g.name)}</div><div class="bgrid">${cards}</div>`}
+  });
+  return shownAny?h:h+`<div class="empty"><b>${S.bq?"No matches":"No current athletes yet"}</b>${S.bq?"Try a different name.":"Import your roster from Current athletes."}</div>`}
 
 /* ---------- Directors hub ---------- */
 function vHub(){
@@ -1832,6 +2075,9 @@ function vHub(){
       <div class="hbtns">${btn}<button class="btn ghost" data-act="openTeams" data-id="${x.a.id}">View</button></div></div>`;
   return `<div class="top"><button class="icon" data-act="go" data-v="home">‹</button><div class="logo" style="font-size:16px">Directors <span>hub</span></div><span style="width:38px"></span></div>
   <div class="hubwrap">
+    <div class="hsec"><h3>Current athletes progress</h3>
+      <div class="pipe">${CUR_ORDER.map(k=>`<i style="width:${S.current.filter(a=>curStatus(a)===k).length/(S.current.length||1)*100}%;background:${{report:"var(--bad)",assess:"#e0675c",suggest:"#f08a24",approve:"#f5b041",complete:"var(--ok)"}[k]}"></i>`).join("")}</div>
+      <div class="pipel five">${CUR_ORDER.map(k=>`<button data-act="hubFilterCur" data-v="${k}"><b style="color:${{report:"var(--bad)",assess:"#e0675c",suggest:"#f08a24",approve:"#f5b041",complete:"var(--ok)"}[k]}">${S.current.filter(a=>curStatus(a)===k).length}</b>${CUR_SHORT[k]}</button>`).join("")}</div></div>
     <div class="hsec"><h3>Tryout progress</h3>
       <div class="pipe">${STATUS_ORDER.map(k=>`<i style="width:${cnt(k)/total*100}%;background:${COL[k]}"></i>`).join("")}</div>
       <div class="pipel">${STATUS_ORDER.map(k=>`<button data-act="hubFilter" data-v="${k}"><b style="color:${COL[k]}">${cnt(k)}</b>${STATUS_SHORT[k]}</button>`).join("")}</div></div>
@@ -1848,7 +2094,8 @@ function vHub(){
       ${finals.length?`<div class="bunsug">${finals.slice(0,12).map(x=>`<button class="brow" data-act="openTeams" data-id="${x.a.id}">${thumb(x.a,30)}<span class="bn"><b>${esc(fullName(x.a))}</b><small>${esc(teamLbl(x.p))} · ${fmtDay(x.at)}</small></span><i class="ok">✓</i></button>`).join("")}</div>`:`<p class="hnone">No final placements yet.</p>`}</div>
     <div class="hsec"><h3>Tools</h3><div class="htools">
       <button class="tool" data-act="go" data-v="board">▦ Teams board</button><button class="tool" data-act="go" data-v="import">⬆ Import athletes</button>
-      <button class="tool" data-act="go" data-v="print">🖨 Print list</button><button class="tool" data-act="export">⬇ Export</button></div></div>
+      <button class="tool" data-act="go" data-v="print">🖨 Print list</button><button class="tool" data-act="exportTryBtn">⬇ Export tryouts</button>
+      <button class="tool" data-act="exportCurBtn">⬇ Export current</button>${isDirector()?`<button class="tool" data-act="rollGo">🔁 Season rollover</button>`:""}</div></div>
   </div>`;
 }
 
@@ -1914,7 +2161,7 @@ function impRows(){const I=S.imp;if(!I)return [];const col=k=>I.map[k]===""||I.m
   return I.rows.map(r=>{let first=g(r,"first"),last=g(r,"last");if(!first&&g(r,"full")){const p=g(r,"full").split(/\s+/);first=p.shift()||"";last=p.join(" ")}
     const dob=impDate(I.raw?(r[col("dob")]):g(r,"dob"),I.fmt);
     let o;
-    if(I.cur){o={first,last,dob,parentName:g(r,"parentName"),parentPhone:g(r,"parentPhone"),parentEmail:g(r,"parentEmail"),medical:g(r,"medical"),curTeams:impTeams([g(r,"team"),g(r,"team2"),g(r,"team3")].filter(Boolean).join(",")),pos:impPos(g(r,"pos")),tryoutType:"cheer"};
+    if(I.cur){o={first,last,dob,parentName:g(r,"parentName"),parentPhone:g(r,"parentPhone"),parentEmail:g(r,"parentEmail"),medical:g(r,"medical"),curTeams:impTeams([g(r,"team"),g(r,"team2"),g(r,"team3")].filter(Boolean).join(",")),positions:impPos(g(r,"pos")),tryoutType:"cheer"};o.pos=o.positions.includes("Flyer")?"flyer":(o.positions.length||/base/i.test(g(r,"pos")))?"base":"";o.flyerAssess=o.positions.includes("Flyer");
       o.tier=impTier(g(r,"tier"))||(["premier","novice","cheerstarz"].find(t=>o.curTeams.some(x=>tierOfTeam(x.team)===t))||"")}
     else{o={first,last,dob,parentName:g(r,"parentName"),parentPhone:g(r,"parentPhone"),parentEmail:g(r,"parentEmail"),prevGym:g(r,"prevGym"),experience:g(r,"experience"),medical:g(r,"medical")};
       const ty=impType(g(r,"type"));if(ty)o.tryoutType=ty;}
@@ -1950,28 +2197,6 @@ function vImport(){
     <button class="linkbtn" data-act="impReset">Choose a different file</button></div>`;
 }
 
-function vCompare(){
-  const list=S.compareSel.map(find).filter(Boolean);
-  const cell=(a,k)=>{const v=(a.skills||{})[k];return v==null?`<span class="dot-na">–</span>`:`<span class="dot-${RATING[v].c}">${RATING[v].s}</span>`};
-  return `<div class="top"><button class="icon" data-act="go" data-v="home">‹</button><div class="logo" style="font-size:16px">Compare</div><span style="width:38px"></span></div>
-  <div class="cmp"><table>
-    <tr><th></th>${list.map(a=>`<th><div class="mini ${grad(a)}">${photoHtml(a)}</div>${esc(a.first||"")}<br><span class="sub">${pad3(a.num)}</span></th>`).join("")}</tr>
-    <tr><td class="sub">Age · Division</td>${list.map(a=>`<td class="sub">${a.dob?divAge(a.dob)+" · "+esc(divLabel(a)):"–"}</td>`).join("")}</tr>
-    <tr><td class="sub">Team</td>${list.map(a=>`<td class="sub">${esc(teamSummary(a)||"–")}</td>`).join("")}</tr>
-    <tr><td class="sub">Trying out for</td>${list.map(a=>`<td class="sub">${esc(TYPE_LABEL[a.tryoutType]||"–")}</td>`).join("")}</tr>
-    <tr><td class="sub">Cheer level</td>${list.map(a=>`<td class="sub">${esc(a.cheerLevel||"–")}</td>`).join("")}</tr>
-    <tr><td class="sub">Position</td>${list.map(a=>`<td class="sub">${esc((a.cheerPositions||[]).join(", ")||"–")}</td>`).join("")}</tr>
-    <tr><td class="sub">Tumbling</td>${list.map(a=>`<td class="sub">${esc(levelsTxt(a)||"–")}</td>`).join("")}</tr>
-    ${list.some(isDance)?`<tr class="ch"><td colspan="${list.length+1}">Dance</td></tr>
-      <tr><td class="sub">Background</td>${list.map(a=>`<td class="sub">${esc(a.danceAllstar===true?danceStylesTxt(a)||"Allstar":a.danceAllstar===false?a.danceExperience||"No allstar":"–")}</td>`).join("")}</tr>
-      ${DANCE_CATS.map(c=>`<tr><td>${esc(c.name)}</td>${list.map(a=>`<td class="sub">${esc(((a.danceSkills||{})[c.id]||{}).level||"–")}</td>`).join("")}</tr>`).join("")}`:""}
-    ${cats().map(c=>{const items=c.items.filter(i=>list.some(a=>canSee(a,i)));if(!items.length)return "";return `<tr class="ch"><td colspan="${list.length+1}">${esc(c.cat)}</td></tr>
-      <tr><td class="sub">Has it</td>${list.map(a=>{const vis=items.filter(i=>canSee(a,i));return `<td class="sub">${vis.filter(i=>(a.skills||{})[i.key]===2).length}/${vis.length}</td>`}).join("")}</tr>
-      ${items.map(i=>`<tr><td>${i.level?`<span class="sub">${lvlShort(i.level)}</span> `:""}${esc(i.name)}</td>${list.map(a=>`<td>${canSee(a,i)?cell(a,i.key):'<span class="dot-na"> </span>'}</td>`).join("")}</tr>`).join("")}`}).join("")}
-  </table></div>
-  <p class="sub" style="text-align:center;margin-top:14px">✓ Has it · ~ Working · ✕ No · – Not assessed</p>`;
-}
-
 function vSettings(){
   const st=S.settings;
   const skillsTxt=cats().map(c=>"# "+c.cat+"\n"+c.items.map(i=>(i.level?(i.level===NOVICE?"N: ":`L${i.level}: `):"")+i.name).join("\n")).join("\n\n");
@@ -1986,6 +2211,8 @@ function vSettings(){
     <label for="s-season">Season name</label><input class="in" id="s-season" value="${esc(st.season)}" data-keep>
     <label for="s-asat">Ages and divisions are worked out as at (age shown is their age on this date)</label><input class="in" id="s-asat" type="date" value="${esc(st.ageAsAt)}" data-keep>
     <div class="help">Age groups follow the AASCF cheer and dance age grids for ${esc(String(ageYear()))}, so athletes can be eligible for more than one.</div>
+    <label for="s-teams">Cheer teams</label><textarea class="in" id="s-teams" rows="16" data-keep>${esc(teamsText())}</textarea>
+    <div class="help">Teams go under # Cheerstarz, # Novice or # Premier. One team per line: Name | Level | Age group, for example "Lady Lynx | Youth 1 | Youth". The age group (Tiny, Mini, Youth, Junior, Senior or Open) sets who is eligible and the ages-out flags. Renaming a team doesn't rename it on athletes already on it.</div>
     <label for="s-skills">Skills checklist</label><textarea class="in" id="s-skills" rows="16" data-keep>${esc(skillsTxt)}</textarea>
     <div class="help">Start a category with #, then one skill per line underneath. Put N: (Novice) or L1 to L6 in front of a skill (like "L3: RO BHS back tuck") to tag its tumbling level. Renaming a skill clears ticks already given for it.</div>
     <label for="s-flyer">Flyer body positions (current athletes)</label><textarea class="in" id="s-flyer" rows="8" data-keep>${esc(flyerList().join("\n"))}</textarea>
@@ -2020,6 +2247,7 @@ function render(){
     case "settings":html=vSettings();break;
     case "board":html=vBoard();break;
     case "class":html=vClass();break;
+    case "rollover":html=vRollover();break;
     case "hub":html=isAdmin()?vHub():vHome();break;
     case "import":html=vImport();break;
     case "print":html=vPrint();break;
@@ -2076,15 +2304,16 @@ const actions={
   cfTeam(el){const n=el.dataset.v,t=S.cf.teams,i=t.findIndex(x=>x.team===n);
     if(i>=0)t.splice(i,1);else{t.push({team:n,sub:el.dataset.sub||""});if(!S.cf.tier)S.cf.tier=tierOfTeam(n)}render()},
   cfTeamAdd(){const i=document.getElementById("f-otherTeam"),v=(i.value||"").trim();if(!v)return;if(!S.cf.teams.some(x=>x.team===v))S.cf.teams.push({team:v,sub:""});i.value="";render()},
-  cfPos(el){S.cf.pos=S.cf.pos===el.dataset.v?"":el.dataset.v;render()},
+  cfPos(el){const v=el.dataset.v,p=S.cf.positions;S.cf.positions=p.includes(v)?p.filter(x=>x!==v):CUR_POS.filter(x=>p.includes(x)||x===v);render()},
   async saveCur(){
     const g=id=>(document.getElementById("f-"+id).value||"").trim();
-    const d={first:g("first"),last:g("last"),dob:g("dob"),parentName:g("parentName"),parentPhone:g("parentPhone"),parentEmail:g("parentEmail"),medical:g("medical"),tier:S.cf.tier||"",curTeams:S.cf.teams||[],pos:S.cf.pos||"",tryoutType:"cheer"};
+    const d={first:g("first"),last:g("last"),dob:g("dob"),parentName:g("parentName"),parentPhone:g("parentPhone"),parentEmail:g("parentEmail"),medical:g("medical"),tier:S.cf.tier||"",curTeams:S.cf.teams||[],positions:S.cf.positions||[],tryoutType:"cheer"};
+    if(d.positions.length)d.pos=d.positions.includes("Flyer")?"flyer":"base";else if(S.view==="add")d.pos="";
     if(!d.first){toast("First name is needed");return}
     const btn=document.getElementById("saveBtn");if(btn){btn.disabled=true;btn.textContent="Saving…"}
     try{const isEdit=S.view==="edit",id=isEdit?S.id:B.newCurId();
       if(S.pendingPhoto){const path=`athletes/${id}/photo.jpg`;d.photoURL=await B.uploadFile(path,S.pendingPhoto.blob);d.photoPath=path}
-      if(isEdit)await B.updateAthlete(id,d);else await B.createCurrent(id,d);
+      if(isEdit)await B.updateAthlete(id,d);else{d.cnum=nextCnum();d.pcode=genPcode();d.flyerAssess=d.positions.includes("Flyer");await B.createCurrent(id,d)}
       S.cf=null;toast(isEdit?"Saved":"Athlete added ✦");go("profile",{id,tab:isEdit?S.tab:"cassess"})}
     catch(e){toast("Save failed: "+e.message);if(btn){btn.disabled=false;btn.textContent="Try again"}}},
   cTick(el){const a=find(S.id);if(a)setTick(a,el.dataset.k,!tickOf(a,el.dataset.k))},
@@ -2099,7 +2328,21 @@ const actions={
     if(v.scored)await setTech(a,v.key,v.tech);
     if(v.file){if(!tickOf(a,v.key))await setTick(find(v.id),v.key,true);if(v.url)URL.revokeObjectURL(v.url);uploadVideo(v.id,v.file,v.key,v.scored?{tech:Math.round(v.tech*10)/10}:{})}
     else toast(v.scored?`Scored ${v.tech.toFixed(1)} · ${techLabel(v.tech)}`:"No score given")},
-  classGo(){caState();go("class")},
+  classGo(el){S.gaMode=(el&&el.dataset.v)==="tryout"?"tryout":"current";caState();go("class")},
+  caDiv(el){const c=caState();c.div=el.dataset.v;caSave();render()},
+  caType(el){const c=caState();c.type=el.dataset.v;caSave();render()},
+  caOther(el){const c=caState(),k=el.dataset.v,o=c.other||[];c.other=o.includes(k)?o.filter(x=>x!==k):[...o,k];caSave();render()},
+  caDance2(){const c=caState();c.dance=!c.dance;caSave();render()},
+  caDance(el){const a=find(el.dataset.id);if(!a)return;const cur=(((a.danceSkills||{})[el.dataset.c])||{}).level,i=DANCE_RATE.indexOf(cur),nx=i<0?DANCE_RATE[0]:(DANCE_RATE[i+1]||null);
+    B.setField(a.id,["danceSkills",el.dataset.c,"level"],nx).catch(e=>toast("Couldn't save: "+e.message))},
+  skillVid2(el){const id=el.dataset.id,k=el.dataset.k;pickFile("video/*").then(f=>{if(f)uploadVideo(id,f,k)})},
+  gaAdd(){S.gaAddQ="";gaAddOpen()},
+  async gaAddOne(el){const c=caState(),id=el.dataset.id;if(!c.ids.includes(id))c.ids=[...c.ids,id];caSave();
+    const q=document.getElementById("ga-addq");S.gaAddQ=q?q.value:"";openModal(gaAddHtml());const q2=document.getElementById("ga-addq");if(q2){q2.focus();q2.setSelectionRange(q2.value.length,q2.value.length)}
+    await gaPersist()},
+  gaAddDone(){closeModal();render()},
+  caSessAdd(el){actions.caSess(el);setTimeout(()=>{S.gaAddQ="";gaAddOpen()},50)},
+  btab(el){S.btab=el.dataset.v;render()},
   caTier(el){const c=caState();c.tier=el.dataset.v;c.team="";caSave();render()},
   caTeam(el){const c=caState();c.team=c.team===el.dataset.v?"":el.dataset.v;caSave();render()},
   caPick(el){const c=caState(),id=el.dataset.id;c.ids=c.ids.includes(id)?c.ids.filter(x=>x!==id):[...c.ids,id];caSave();render()},
@@ -2108,20 +2351,21 @@ const actions={
   caLvl(el){const c=caState(),v=+el.dataset.v;c.levels=c.levels.includes(v)?c.levels.filter(x=>x!==v):[...c.levels,v];caSave();render()},
   caFly(){const c=caState();c.fly=!c.fly;caSave();render()},
   caCat(el){const c=caState(),k=el.dataset.v,cs=c.cats||caTCats();c.cats=cs.includes(k)?cs.filter(x=>x!==k):[...cs,k];if(!c.cats.length)c.cats=null;caSave();render()},
-  async caStart(){const c=caState();c.ids=c.ids.filter(id=>S.current.some(a=>a.id===id));
+  async caStart(){const c=caState(),src=gaSrc();c.ids=c.ids.filter(id=>src.some(a=>a.id===id));
     const ni=document.getElementById("ca-name");if(ni)c.name=ni.value.trim();if(!c.name)c.name=caDefaultName();
     const sid=c.sid||("s"+Date.now()),old=(S.settings.sessions||{})[sid]||{};
-    const rec={name:c.name,ids:c.ids,levels:c.levels,cats:c.cats||null,fly:!!c.fly,tier:c.tier||"",team:c.team||"",by:coachName(),at:Date.now(),created:old.created||Date.now(),createdBy:old.createdBy||coachName()};
+    const rec={mode:gaMode(),name:c.name,ids:c.ids,levels:c.levels,cats:c.cats||null,other:c.other||[],fly:!!c.fly,dance:!!c.dance,tier:c.tier||"",team:c.team||"",div:c.div||"All",type:c.type||"cheer",by:coachName(),at:Date.now(),created:old.created||Date.now(),createdBy:old.createdBy||coachName()};
     c.sid=sid;c.started=true;c.gq="";caSave();render();window.scrollTo(0,0);
     try{await B.setSetting(["sessions",sid],rec);toast(old.name?"Session saved":"Session saved · find it under Saved sessions")}catch(e){toast("Couldn't save the session: "+e.message)}},
   caSess(el){const s=(S.settings.sessions||{})[el.dataset.v];if(!s)return;
-    S.ca={tier:s.tier||"",team:s.team||"",q:"",ids:[...(s.ids||[])],levels:[...(s.levels||[])],cats:s.cats||null,fly:!!s.fly,gq:"",started:true,sid:el.dataset.v,name:s.name||""};caSave();render();window.scrollTo(0,0)},
-  caNew(){const ni=document.getElementById("ca-name");if(ni)ni.value="";S.ca={tier:"",team:"",q:"",ids:[],levels:[],cats:null,fly:false,gq:"",started:false,sid:null,name:""};caSave();render()},
+    S.gaMode=s.mode==="tryout"?"tryout":"current";S.cas=S.cas||{};
+    S.cas[S.gaMode]=S.ca=Object.assign({},clone(GA_BLANK),{mode:S.gaMode,tier:s.tier||"",team:s.team||"",div:s.div||"All",type:s.type||"cheer",ids:[...(s.ids||[])],levels:[...(s.levels||[])],cats:s.cats||null,other:[...(s.other||[])],fly:!!s.fly,dance:!!s.dance,started:true,sid:el.dataset.v,name:s.name||""});caSave();render();window.scrollTo(0,0)},
+  caNew(){const ni=document.getElementById("ca-name");if(ni)ni.value="";S.cas=S.cas||{};S.cas[gaMode()]=S.ca=Object.assign({},clone(GA_BLANK),{mode:gaMode()});caSave();render()},
   async caDelSess(el){const id=el.dataset.v,s=(S.settings.sessions||{})[id];if(!s)return;
     if(!await ask(`Delete the session "${s.name||"Untitled"}"? The ticks, scores and videos stay on each athlete.`))return;
-    try{await B.setSetting(["sessions",id],null);if(S.ca&&S.ca.sid===id){S.ca.sid=null;S.ca.name="";caSave();const ni=document.getElementById("ca-name");if(ni)ni.value="";render()}toast("Session deleted")}catch(e){toast("Couldn't delete: "+e.message)}},
+    try{await B.setSetting(["sessions",id],null);const cs0=caState();if(cs0.sid===id){cs0.sid=null;S.ca.name="";caSave();const ni=document.getElementById("ca-name");if(ni)ni.value="";render()}toast("Session deleted")}catch(e){toast("Couldn't delete: "+e.message)}},
   caBack(){const c=caState();c.started=false;caSave();render()},
-  caOpen(el){go("profile",{id:el.dataset.id,tab:"cassess",lvl:null,fromClass:true})},
+  caOpen(el){go("profile",{id:el.dataset.id,tab:isCur(find(el.dataset.id))?"cassess":"skills",lvl:null,fromClass:true})},
   impCur(){S.imp=null;S.impCur=true;go("import")},
   go(el){const v=el.dataset.v;if(v==="import")S.impCur=false;if(v==="home"||v==="class")S.fromClass=false;go(v,{compareMode:v==="compare"||(v==="home"&&S.view==="compare")?S.compareMode:false})},
   open(el){go("profile",{id:el.dataset.id,tab:S.view==="quick"?"skills":(S.id===el.dataset.id?S.tab:"skills"),lvl:null})},
@@ -2229,7 +2473,7 @@ const actions={
     try{
       const id=S.view==="edit"?S.id:B.newId();
       if(S.pendingPhoto){const path=`athletes/${id}/photo.jpg`;d.photoURL=await B.uploadFile(path,S.pendingPhoto.blob);d.photoPath=path}
-      if(S.view==="edit")await B.updateAthlete(id,d);else{const dc=d["done.contact"];delete d["done.contact"];if(dc)d.done={contact:dc};await B.createAthlete(id,d);}
+      if(S.view==="edit")await B.updateAthlete(id,d);else{const dc=d["done.contact"];delete d["done.contact"];if(dc)d.done={contact:dc};d.cnum=nextCnum();d.pcode=genPcode();await B.createAthlete(id,d);}
       toast((d["done.contact"]||(d.done&&d.done.contact))?"Saved and marked complete ✓":S.view==="edit"?"Saved":"Athlete added ✦");
       const wasNew=S.view!=="edit";
       go("profile",{id,tab:wasNew?"skills":S.tab});
@@ -2314,11 +2558,15 @@ const actions={
   async qaFilm(){
     const id=S.qa.ids[S.qa.i];const f=await pickFile("video/*","environment");if(f)uploadVideo(id,f,S.qa.mode==="dance"?"Dance|"+(DANCE_CATS.find(c=>c.id===S.qa.dcat)||{}).name:S.qa.skill);
   },
-  export:exportCsv,
+  export(){if(S.mode==="current"&&S.view!=="hub")exportCur();else exportCsv()},
+  exportCurBtn(){exportCur()},exportTryBtn(){exportCsv()},
+  rollGo(){go("rollover")},
+  async rollRun(){if(!isDirector())return;if(!await ask("Roll over to the new season? This moves athletes with a final 2027 team. It can't be undone.","Roll over","ROLLOVER"))return;runRollover()},
   async forgot(){const e=(document.getElementById("l-email").value||"").trim();if(!e){toast("Type your email above first, then tap Forgot password");return}
     try{await B.resetPassword(e);toast(DEMO?"Demo mode: no email sent":`Password reset email sent to ${e}. Check junk mail too.`)}catch(er){toast(/user-not-found/.test(er.code||"")?"That email isn't set up yet. Ask Lydia to add you.":"Couldn't send: "+er.message)}},
   openTeams(el){go("profile",{id:el.dataset.id,tab:"teams",lvl:null})},
-  hubFilter(el){go("home",{status:el.dataset.v,div:"All",q:""})},
+  hubFilter(el){S.mode="tryouts";go("home",{status:el.dataset.v,div:"All",q:""})},
+  hubFilterCur(el){S.mode="current";go("home",{cstatus:el.dataset.v,cpos:"All",cq:""})},
   async hubApprove(el){const a=find(el.dataset.id);if(!a)return;S.id=a.id;await actions.tApprove({dataset:{d:el.dataset.d,k:el.dataset.k}});S.id=null;render()},
   printMode(el){S.printMode=el.dataset.v;render()},
   doPrint(){
@@ -2347,7 +2595,8 @@ const actions={
   async impRun(){const I=S.imp,list=impRows().filter(r=>!r._dup);if(!list.length)return;
     if(!await ask(`Add ${list.length} athlete${list.length===1?"":"s"} to the app?`,"Import"))return;
     I.busy=true;I.total=list.length;I.done=0;render();let fail=0;
-    for(const r of list){const d={...r};delete d._dup;delete d._badDob;try{if(I.cur)await B.createCurrent(B.newCurId(),d);else await B.createAthlete(B.newId(),d)}catch(e){fail++}I.done++;const el=document.querySelector(".empty");if(el)render()}
+    let cn=nextCnum();
+    for(const r of list){const d={...r};delete d._dup;delete d._badDob;d.cnum=cn++;d.pcode=genPcode();try{if(I.cur){await B.createCurrent(B.newCurId(),d)}else await B.createAthlete(B.newId(),d)}catch(e){fail++}I.done++;const el=document.querySelector(".empty");if(el)render()}
     const wasCur=I.cur;S.imp=null;S.impCur=false;toast(fail?`Imported ${list.length-fail}. ${fail} failed, try again.`:`Imported ${list.length} athletes ✦`);
     if(wasCur){S.mode="current";try{localStorage.setItem("eodth_mode","current")}catch(e){}go("home",{cstatus:"All",cpos:"All",cq:""})}else go("home",{status:"All",div:"All",q:"",sort:"num"})},
   async saveSettings(){
@@ -2360,9 +2609,10 @@ const actions={
       else{if(!cur){cur={cat:"Skills",items:[]};skills.push(cur)}const it=normItem(l);if(it.name&&!cur.items.some(x=>x.name===it.name))cur.items.push(it.level?{name:it.name,level:it.level}:{name:it.name,level:null})}
     });
     try{localStorage.setItem("eodth_coach",v("s-coach").trim())}catch(e){}
+    const tparse=parseTeamsText(v("s-teams"));if(tparse.bad.length){toast("Check the team list: each team needs to sit under # Cheerstarz, # Novice or # Premier");if(btn){btn.disabled=false;btn.textContent="Save settings"}return}
     const slow=setTimeout(()=>toast("Still saving… check you have internet"),8000);
     try{
-      await B.saveSettings({season:v("s-season").trim()||"Tryouts",ageAsAt:v("s-asat")||S.settings.ageAsAt||DEFAULT_SETTINGS.ageAsAt,divisions,skills:skills.filter(c=>c.items.length),flyerPositions:[...new Set(v("s-flyer").split("\n").map(x=>x.trim()).filter(Boolean))]});
+      await B.saveSettings({season:v("s-season").trim()||"Tryouts",ageAsAt:v("s-asat")||S.settings.ageAsAt||DEFAULT_SETTINGS.ageAsAt,divisions,skills:skills.filter(c=>c.items.length),cheerTeams:tparse.teams,flyerPositions:[...new Set(v("s-flyer").split("\n").map(x=>x.trim()).filter(Boolean))]});
       clearTimeout(slow);toast("Settings saved");go("home");
     }catch(e){clearTimeout(slow);toast("Couldn't save settings: "+(e.message||e));if(btn){btn.disabled=false;btn.textContent="Save settings"}}
   },
@@ -2423,9 +2673,9 @@ async function uploadVideo(id,file,skill,extra={}){
 
 function exportCsv(){
   const sk=skillList();
-  const head=["Tryout #","First name","Last name","DOB",`Age in ${ageYear()}`,"Eligible age groups","Tumbling levels","Status","Final team","Parent","Phone","Email","Previous gym","Experience","Medical notes","Trying out for","Cheer level competed","Position","Cheer assessment notes","Cheer skill notes",...sk.map(s=>s.cat+": "+s.name),"Does allstar dance","Dance styles / levels","Dance experience","Dance assessment notes",...DANCE_CATS.flatMap(c=>[`Dance ${c.name}`,`Dance ${c.name} notes`]),"Cheer tier","Cheer suggested teams","Cheer approvals","Dance tier","Dance suggested teams","Dance approvals",...SECTIONS.map(x=>x[1]+" complete"),"Videos","Notes"];
-  const rows=S.athletes.slice().sort((a,b)=>(a.num||0)-(b.num||0)).map(a=>[a.num,a.first,a.last,fmtDob(a.dob),a.dob?divAge(a.dob):"",divLabel(a),levelsTxt(a),STATUS_LABEL[statusOf(a)],a.team,a.parentName,a.parentPhone,a.parentEmail,a.prevGym,a.experience,a.medical,TYPE_LABEL[a.tryoutType]||"",a.cheerLevel||"",(a.cheerPositions||[]).join(", "),a.cheerAssessNotes||"",a.cheerSkillNotes||"",
-    ...sk.map(s=>{const v=(a.skills||{})[s.key];return v==null?"":RATING[v].t}),
+  const head=["Tryout #","Athlete code","Placement code","First name","Last name","DOB",`Age in ${ageYear()}`,"Eligible age groups","Tumbling levels","Status","Final team","Parent","Phone","Email","Previous gym","Experience","Medical notes","Trying out for","Cheer level competed","Position","Cheer assessment notes","Cheer skill notes",...sk.map(s=>s.cat+": "+s.name),"Does allstar dance","Dance styles / levels","Dance experience","Dance assessment notes",...DANCE_CATS.flatMap(c=>[`Dance ${c.name}`,`Dance ${c.name} notes`]),"Cheer tier","Cheer suggested teams","Cheer approvals","Dance tier","Dance suggested teams","Dance approvals",...SECTIONS.map(x=>x[1]+" complete"),"Videos","Notes"];
+  const rows=S.athletes.slice().sort((a,b)=>(a.num||0)-(b.num||0)).map(a=>[a.num,curCode(a),a.pcode||"",a.first,a.last,fmtDob(a.dob),a.dob?divAge(a.dob):"",divLabel(a),levelsTxt(a),STATUS_LABEL[statusOf(a)],a.team,a.parentName,a.parentPhone,a.parentEmail,a.prevGym,a.experience,a.medical,TYPE_LABEL[a.tryoutType]||"",a.cheerLevel||"",(a.cheerPositions||[]).join(", "),a.cheerAssessNotes||"",a.cheerSkillNotes||"",
+    ...sk.map(s=>{const tk=tickOf(a,s.key),t=techOf(a,s.key);return (tk?"Has it":"")+(t!=null?(tk?" · ":"")+"Tech "+t.toFixed(1):"")}),
     a.danceAllstar===true?"Yes":a.danceAllstar===false?"No":"",danceStylesTxt(a),a.danceExperience||"",a.danceAssessNotes||"",
     ...DANCE_CATS.flatMap(c=>{const x=(a.danceSkills||{})[c.id]||{};return [x.level||"",x.notes||""]}),
     ...["cheer","dance"].flatMap(d=>{const l=plist(a,d);return [[...new Set(l.map(p=>(TIERS[d].find(x=>x.id===p.tier)||{}).name||""))].join(", "),l.map(p=>(isFinal(p)?"✓ ":"")+teamLbl(p)).join(" / "),l.map(p=>`${p.team}: ${apprList(p).map(dirName).join(", ")||"none"}`).join("; ")]}),
@@ -2447,6 +2697,8 @@ document.addEventListener("input",e=>{
   if(e.target.id==="csearch"){S.cq=e.target.value;render()}
   if(e.target.id==="ca-q"){caState().q=e.target.value;caSave();render()}
   if(e.target.id==="ca-name"){caState().name=e.target.value;caSave()}
+  if(e.target.id==="ga-addq"){S.gaAddQ=e.target.value;const pos=e.target.selectionStart;openModal(gaAddHtml());const q=document.getElementById("ga-addq");if(q){q.focus();try{q.setSelectionRange(pos,pos)}catch(er){}}}
+  if(e.target.id==="bsearch"){S.bq=e.target.value;render()}
   if(e.target.id==="ca-gq"){caState().gq=e.target.value;render()}
   if(e.target.id==="vc-range"&&S.vc){const v=+e.target.value;S.vc.tech=v;S.vc.scored=true;e.target.classList.remove("unset");
     const val=document.getElementById("vc-val"),lb=document.getElementById("vc-lbl"),sv=document.getElementById("vc-save");
@@ -2462,6 +2714,7 @@ document.addEventListener("change",e=>{
   if(t.dataset&&t.dataset.save&&S.id){B.updateAthlete(S.id,{[t.dataset.save]:t.value.trim()}).then(()=>toast("Notes saved")).catch(er=>toast("Couldn't save: "+er.message))}
   if(t.dataset&&t.dataset.dnote&&S.id){B.setField(S.id,["danceSkills",t.dataset.dnote,"notes"],t.value.trim()||null).then(()=>toast("Notes saved")).catch(er=>toast("Couldn't save: "+er.message))}
   if(t.dataset&&t.dataset.repcm&&S.id){const a=find(S.id);if(a){const cur=(a.reports||{})[myEmail()]||{};saveReport(a,{...cur,r:cur.r||{},comment:t.value.trim()}).then(()=>toast("Comment saved"))}}
+  if(t.dataset&&t.dataset.sug&&t.value){const a=find(t.dataset.sug),[tier,...nm]=t.value.split("|");t.disabled=true;if(a)addSuggestion(a,"cheer",tier,nm.join("|"));return}
   if(e.target.id==="teamSel"){B.updateAthlete(e.target.dataset.id,{team:e.target.value}).then(()=>toast(e.target.value?"Team set":"Team cleared"))}
 });
 document.addEventListener("keydown",e=>{if(e.key==="Enter"&&S.view==="login"&&e.target.tagName==="INPUT")actions.login()});
@@ -2475,6 +2728,7 @@ if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostnam
 
 /* ================================ START ================================ */
 const FORM_VIEWS=["add","edit","settings"];
+applyTeams();
 (async function start(){
   try{await B.init()}catch(e){document.getElementById("app").innerHTML=`<div class="empty"><b>Couldn't connect</b>${esc(e.message)}</div>`;return}
   B.onAuth(u=>{
@@ -2482,15 +2736,15 @@ const FORM_VIEWS=["add","edit","settings"];
     if(!u){B.unlisten();S.athletes=[];S.current=[];S.ready=false;go("login");return}
     S.view="loading";render();
     B.listen(list=>{
-      S.athletes=list;
+      S.athletes=list;setTimeout(fixCnums,800);
       const first=!S.ready;S.ready=true;
       if(first){go("home");return}
       if(!FORM_VIEWS.includes(S.view))render();
     },st=>{
-      S.settings={...clone(DEFAULT_SETTINGS),...(st||{})};
+      S.settings={...clone(DEFAULT_SETTINGS),...(st||{})};applyTeams();
       if(S.ready&&!FORM_VIEWS.includes(S.view))render();
     },cur=>{
-      S.current=cur;
+      S.current=cur;fixCnums();
       if(S.ready&&!FORM_VIEWS.includes(S.view))render();
     });
   });
