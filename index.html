@@ -613,10 +613,15 @@ input[type=date].in{min-height:46px;min-width:0;-webkit-appearance:none;appearan
 .browx:first-child{border-top:0}.browx .brow{border-top:0;flex:1;min-width:0}
 .browx.old .bn>b{color:#9c1c1c}
 .bteam .browx:first-of-type{border-top:1px solid #f0ecef}
-.sugsel{flex:none;width:112px;max-width:38%;font-size:16px;font-weight:700;border:1.5px solid var(--pinkbox);border-radius:10px;background:var(--pinkpale);color:var(--pink2);padding:6px 6px;-webkit-appearance:none;appearance:none;text-overflow:ellipsis}
+.sugsel{flex:none;width:104px;max-width:34%;font-size:16px;font-weight:700;border:1.5px solid var(--pinkbox);border-radius:10px;background:var(--pinkpale);color:var(--pink2);padding:6px 6px;-webkit-appearance:none;appearance:none;text-overflow:ellipsis}
 .bgrid{grid-template-columns:minmax(0,1fr)}.bteam{min-width:0;overflow:hidden}
 .outb{display:inline-block;font-size:10px;font-weight:800;background:var(--badbg);color:var(--bad);border-radius:7px;padding:2px 7px;margin-top:3px}
 .bcnt .outc{background:var(--badbg);color:var(--bad)}
+.bchips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+.bchips .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.staybtn{flex:none;font-size:12px;font-weight:800;color:var(--ok);background:var(--okbg);border:1.5px solid #b8e3c9;border-radius:10px;padding:8px 9px;white-space:nowrap}
+.staydone{flex:none;font-size:11px;font-weight:800;color:#fff;background:var(--ok);border-radius:10px;padding:8px 9px;white-space:nowrap}
+.stayall{font-size:10.5px;font-weight:800;border-radius:8px;padding:3px 8px;background:var(--okbg);color:var(--ok);border:1px solid #b8e3c9}
 .sgc{display:flex;flex-wrap:wrap;gap:3px;margin-top:3px}.sgc i{font-style:normal;font-size:10px;font-weight:800;background:#fff4d6;color:#8a5a00;border-radius:7px;padding:2px 6px}.sgc i.ok{background:var(--ok);color:#fff}
 .ctag.out{background:var(--badbg);color:var(--bad)}
 .kv.out{background:var(--badbg)}.kv.out span,.kv.out b{color:var(--bad)}
@@ -1773,7 +1778,7 @@ function caDefaultName(){const c=caState();const who=gaMode()==="tryout"?(c.div=
 function gaMatch(a,q){q=q.trim().toLowerCase().replace(/^#/,"");return !q||(fullName(a)+" "+aCode(a)+" "+(a.num||"")).toLowerCase().includes(q)}
 function caPool(){const c=caState();
   const base=gaMode()==="tryout"?S.athletes.filter(a=>(c.div==="All"||groupsOf(a).includes(c.div))&&(c.type==="dance"?isDance(a):a.tryoutType!=="dance"))
-    :S.current.filter(a=>(!c.tier||a.tier===c.tier)&&(!c.team||(a.curTeams||[]).some(t=>t.team===c.team)));
+    :S.current.filter(a=>c.team?(a.curTeams||[]).some(t=>t.team===c.team):(!c.tier||a.tier===c.tier||(a.curTeams||[]).some(t=>tierTeamNames(c.tier).includes(t.team))));
   return base.filter(a=>gaMatch(a,c.q)).sort((x,y)=>gaMode()==="tryout"?(x.num||0)-(y.num||0):(x.first||"").localeCompare(y.first||""))}
 function caTCats(){return cats().filter(c=>c.items.some(i=>i.level)).map(c=>c.cat)}
 function caOCats(){return cats().filter(c=>c.items.length&&!c.items.some(i=>i.level)).map(c=>c.cat)}
@@ -1788,7 +1793,7 @@ function sessRows(){const c=caState(),sess=sessList();if(!sess.length)return "";
     ${c.sid?`<button class="linkbtn" data-act="caNew" style="margin:2px 0 6px">＋ Start a new session instead</button>`:""}`}
 function vClassSetup(){
   const c=caState(),tr=gaMode()==="tryout",pool=caPool(),src=gaSrc(),sel=c.ids.filter(id=>src.some(a=>a.id===id));
-  const teams=tr?[]:[...new Set(S.current.filter(a=>!c.tier||a.tier===c.tier).flatMap(a=>(a.curTeams||[]).map(t=>t.team)))].sort();
+  const teams=tr?[]:teamsFor(c.tier);
   const cs=c.cats||caTCats(),nCols=caCols().reduce((n,g)=>n+g.items.length,0);
   const cur=c.sid&&(S.settings.sessions||{})[c.sid];
   return `<div class="top"><button class="icon" data-act="go" data-v="home" aria-label="Close">✕</button><div class="logo" style="font-size:16px">Group <span>assessments</span></div><span style="width:40px"></span></div>
@@ -1841,12 +1846,25 @@ function vClass(){
     <tr class="cafoot"><td class="nm">Group</td>${items.map(i=>`<td>${foot(i)}</td>`).join("")}</tr></tbody>
   </table></div>
   <p class="help" style="text-align:center;margin:10px 20px 0">Tap the box to tick. 🎥 films it and lets you score. Tap score to give a tech score without filming.${cols.some(g=>g.items.some(i=>i.dance))?" Dance boxes cycle Beginner, Intermediate, Advanced.":""} Tap a name for their profile.</p>`}
-function gaAddHtml(){const c=caState(),src=gaSrc(),q=S.gaAddQ||"";
-  const avail=src.filter(a=>!c.ids.includes(a.id)&&gaMatch(a,q)).sort((x,y)=>(x.first||"").localeCompare(y.first||"")).slice(0,80);
+function tierTeamNames(tier){return curTierTeams(tier).map(x=>x.name)}
+function teamsFor(tier){const has=new Set(S.current.flatMap(a=>(a.curTeams||[]).map(t=>t.team)));
+  if(tier)return tierTeamNames(tier).filter(n=>has.has(n));
+  const known=TIERS.cheer.flatMap(t=>t.teams.map(x=>x.name));return [...known.filter(n=>has.has(n)),...[...has].filter(n=>!known.includes(n)).sort()]}
+function gaAddPool(){const c=caState(),q=S.gaAddQ||"",tr=gaMode()==="tryout";
+  return gaSrc().filter(a=>!c.ids.includes(a.id)&&gaMatch(a,q)&&(tr?(!S.gaAddDiv||groupsOf(a).includes(S.gaAddDiv)):(S.gaAddTeam?(a.curTeams||[]).some(t=>t.team===S.gaAddTeam):(!S.gaAddTier||a.tier===S.gaAddTier||(a.curTeams||[]).some(t=>tierTeamNames(S.gaAddTier).includes(t.team))))))
+    .sort((x,y)=>(x.first||"").localeCompare(y.first||""))}
+function gaAddHtml(){const c=caState(),q=S.gaAddQ||"",tr=gaMode()==="tryout";
+  const pool=gaAddPool(),avail=pool.slice(0,120);
+  const teams=tr?[]:teamsFor(S.gaAddTier);
+  const filt=tr?`<div class="chips fchips">${["",...AGE_GROUPS].map(d=>`<button class="chip ${(S.gaAddDiv||"")===d?"on":""}" data-act="gaAddF" data-k="div" data-v="${d}">${d||"All ages"}</button>`).join("")}</div>`
+    :`<div class="chips fchips">${[["","All"],...CUR_TIERS.map(t=>[t.id,t.name])].map(([v,l])=>`<button class="chip ${(S.gaAddTier||"")===v?"on":""}" data-act="gaAddF" data-k="tier" data-v="${v}">${esc(l)}</button>`).join("")}</div>
+      ${teams.length?`<div class="chips fchips">${teams.map(t=>`<button class="chip ${S.gaAddTeam===t?"on":""}" data-act="gaAddF" data-k="team" data-v="${esc(t)}">${esc(t)}</button>`).join("")}</div>`:""}`;
   return `<div class="mhead"><h3 style="margin:0">Add athletes</h3><button class="icon" data-act="gaAddDone" aria-label="Close">✕</button></div>
     <div class="sub" style="margin:-6px 0 10px">${esc(c.name||"This session")} · ${c.ids.length} in it now</div>
-    <input class="in" id="ga-addq" placeholder="🔍  Search ${gaMode()==="tryout"?"tryout athletes":"current athletes"}" value="${esc(q)}" autocomplete="off">
-    <div class="calist" style="max-height:52vh">${avail.map(a=>`<button class="capr" data-act="gaAddOne" data-id="${a.id}">${thumb(a,34)}<span class="bn"><b>${esc(fullName(a))}</b><small>${aCode(a)?aCode(a)+" · ":""}${a.dob?divAge(a.dob)+" · ":""}${esc(gaSub(a))}</small></span><i class="cbx">＋</i></button>`).join("")||`<p class="help" style="margin:10px 0;text-align:center">${q?"No one else matches.":"Everyone is already in this session."}</p>`}</div>
+    ${filt}
+    <input class="in" id="ga-addq" placeholder="🔍  Search ${gaMode()==="tryout"?"tryout athletes":"current athletes"}" value="${esc(q)}" autocomplete="off" style="margin-bottom:8px">
+    ${pool.length?`<button class="btn ghost" data-act="gaAddAll" style="margin-bottom:8px;padding:11px">＋ Add all shown (${pool.length})</button>`:""}
+    <div class="calist" style="max-height:44vh">${avail.map(a=>`<button class="capr" data-act="gaAddOne" data-id="${a.id}">${thumb(a,34)}<span class="bn"><b>${esc(fullName(a))}</b><small>${aCode(a)?aCode(a)+" · ":""}${a.dob?divAge(a.dob)+" · ":""}${esc(gaSub(a))}</small></span><i class="cbx">＋</i></button>`).join("")||`<p class="help" style="margin:10px 0;text-align:center">${q?"No one else matches.":"Everyone is already in this session."}</p>`}</div>
     <button class="btn" data-act="gaAddDone" style="margin-top:12px">Done</button>`}
 function gaAddOpen(){openModal(gaAddHtml());setTimeout(()=>{const i=document.getElementById("ga-addq");if(i)i.focus()},60)}
 async function gaPersist(){const c=caState();if(!c.sid)return;try{await B.setSetting(["sessions",c.sid,"ids"],c.ids)}catch(e){toast("Couldn't save the session: "+e.message)}}
@@ -2040,17 +2058,21 @@ function boardCurrent(){
   const extra=[...new Set(S.current.flatMap(a=>(a.curTeams||[]).map(t=>t.team)).filter(n=>!known.includes(n)))].sort();
   if(extra.length)groups.push({name:"Other teams",teams:extra});
   const totalOut=S.current.filter(a=>agesOut(a).length).length;
+  const allTeams=groups.flatMap(g=>g.teams.filter(tn=>S.current.some(a=>(a.curTeams||[]).some(t=>t.team===tn))));
+  if(S.bteam&&!allTeams.includes(S.bteam))S.bteam="";
   let h=`<p class="help" style="margin:0 0 10px">Your 2026 teams. <b style="color:var(--bad)">Red</b> means the athlete is too old for that team's age group in 2027 (ages are on 31 Dec 2027).${totalOut?` ${totalOut} athlete${totalOut===1?"":"s"} age out.`:""}${isDirector()?" Use the dropdown to suggest a 2027 team.":""}</p>`;
+  h+=`<div class="bchips">${["",...allTeams].map(tn=>`<button class="chip ${(S.bteam||"")===tn?"on":""}" data-act="bTeam" data-v="${esc(tn)}">${tn?esc(tn):"All teams"}</button>`).join("")}</div>`;
   let shownAny=false;
   groups.forEach(g=>{
-    const cards=g.teams.map(tn=>{
+    const cards=g.teams.filter(tn=>!S.bteam||tn===S.bteam).map(tn=>{
       const mem=S.current.filter(a=>(a.curTeams||[]).some(t=>t.team===tn)&&bMatch(a)).sort((x,y)=>(x.last||"").localeCompare(y.last||"")||(x.first||"").localeCompare(y.first||""));
       if(!mem.length)return "";
       const ti=teamInfo(tn),mx=teamMax(tn),out=mem.filter(a=>a.dob&&mx!=null&&divAge(a.dob)>mx);
+      const canStay=a=>ti&&!(a.dob&&mx!=null&&divAge(a.dob)>mx)&&!plist(a,"cheer").some(e=>e.team===tn),nStay=isDirector()?mem.filter(canStay).length:0;
       return `<div class="bteam"><div class="bth"><div><b>${esc(tn)}</b><span>${ti?esc([ti.sub,ti.div].filter(Boolean).filter((v,i,arr)=>arr.indexOf(v)===i).join(" · ")):""}${mx!=null&&mx<99?` · max age ${mx}`:""}</span></div><em>${mem.length}</em></div>
-        ${out.length?`<div class="bcnt"><span class="outc">${out.length} age${out.length===1?"s":""} out</span></div>`:""}
+        ${out.length||nStay?`<div class="bcnt">${out.length?`<span class="outc">${out.length} age${out.length===1?"s":""} out</span>`:""}${nStay?`<button class="stayall" data-act="bStayAll" data-t="${esc(tn)}">↺ All stay (${nStay})</button>`:""}</div>`:""}
         ${mem.map(a=>{const age=a.dob?divAge(a.dob):null,old=age!=null&&mx!=null&&age>mx;
-          return `<div class="browx ${old?"old":""}"><button class="brow" data-act="openTeams" data-id="${a.id}">${thumb(a,30)}<span class="bn"><b>${esc(fullName(a))}</b><small>${curCode(a)?curCode(a)+" · ":""}${age!=null?`${age} in ${ageYear()}`:"No DOB"}${posName(a)?" · "+esc(posName(a)):""}</small>${old?`<span class="outb">Ages out → ${divFor(age)}</span>`:""}${sugChips(a)}</span></button>${sugSelect(a)}</div>`}).join("")}</div>`}).join("");
+          return `<div class="browx ${old?"old":""}"><button class="brow" data-act="openTeams" data-id="${a.id}">${thumb(a,30)}<span class="bn"><b>${esc(fullName(a))}</b><small>${curCode(a)?curCode(a)+" · ":""}${age!=null?`${age} in ${ageYear()}`:"No DOB"}${posName(a)?" · "+esc(posName(a)):""}</small>${old?`<span class="outb">Ages out → ${divFor(age)}</span>`:""}${sugChips(a)}</span></button>${isDirector()&&ti&&!old?(plist(a,"cheer").some(e=>e.team===tn)?`<span class="staydone">✓ Staying</span>`:`<button class="staybtn" data-act="bStay" data-id="${a.id}" data-t="${esc(tn)}">↺ Stay</button>`):""}${sugSelect(a)}</div>`}).join("")}</div>`}).join("");
     if(cards.trim()){shownAny=true;h+=`<div class="btier">${esc(g.name)}</div><div class="bgrid">${cards}</div>`}
   });
   return shownAny?h:h+`<div class="empty"><b>${S.bq?"No matches":"No current athletes yet"}</b>${S.bq?"Try a different name.":"Import your roster from Current athletes."}</div>`}
@@ -2336,13 +2358,22 @@ const actions={
   caDance(el){const a=find(el.dataset.id);if(!a)return;const cur=(((a.danceSkills||{})[el.dataset.c])||{}).level,i=DANCE_RATE.indexOf(cur),nx=i<0?DANCE_RATE[0]:(DANCE_RATE[i+1]||null);
     B.setField(a.id,["danceSkills",el.dataset.c,"level"],nx).catch(e=>toast("Couldn't save: "+e.message))},
   skillVid2(el){const id=el.dataset.id,k=el.dataset.k;pickFile("video/*").then(f=>{if(f)uploadVideo(id,f,k)})},
-  gaAdd(){S.gaAddQ="";gaAddOpen()},
+  gaAdd(){S.gaAddQ="";S.gaAddTier="";S.gaAddTeam="";S.gaAddDiv="";gaAddOpen()},
+  gaAddF(el){const k=el.dataset.k,v=el.dataset.v,q=document.getElementById("ga-addq");S.gaAddQ=q?q.value:"";
+    if(k==="tier"){S.gaAddTier=v;S.gaAddTeam=""}else if(k==="team")S.gaAddTeam=S.gaAddTeam===v?"":v;else S.gaAddDiv=v;openModal(gaAddHtml())},
+  async gaAddAll(){const c=caState(),pool=gaAddPool();if(!pool.length)return;c.ids=[...new Set([...c.ids,...pool.map(a=>a.id)])];caSave();openModal(gaAddHtml());toast(`Added ${pool.length} athlete${pool.length===1?"":"s"}`);await gaPersist()},
   async gaAddOne(el){const c=caState(),id=el.dataset.id;if(!c.ids.includes(id))c.ids=[...c.ids,id];caSave();
     const q=document.getElementById("ga-addq");S.gaAddQ=q?q.value:"";openModal(gaAddHtml());const q2=document.getElementById("ga-addq");if(q2){q2.focus();q2.setSelectionRange(q2.value.length,q2.value.length)}
     await gaPersist()},
   gaAddDone(){closeModal();render()},
-  caSessAdd(el){actions.caSess(el);setTimeout(()=>{S.gaAddQ="";gaAddOpen()},50)},
+  caSessAdd(el){actions.caSess(el);setTimeout(()=>actions.gaAdd(),50)},
   btab(el){S.btab=el.dataset.v;render()},
+  bTeam(el){S.bteam=el.dataset.v;render()},
+  async bStay(el){const a=find(el.dataset.id),tn=el.dataset.t,ti=teamInfo(tn);if(!a||!ti)return;el.disabled=true;await addSuggestion(a,"cheer",ti.tier,tn)},
+  async bStayAll(el){const tn=el.dataset.t,ti=teamInfo(tn),mx=teamMax(tn);if(!ti)return;
+    const list=S.current.filter(a=>(a.curTeams||[]).some(t=>t.team===tn)&&!(a.dob&&mx!=null&&divAge(a.dob)>mx)&&!plist(a,"cheer").some(e=>e.team===tn));
+    if(!list.length)return;if(!await ask(`Suggest ${tn} again for ${list.length} athlete${list.length===1?"":"s"}? Anyone who ages out is left off.`,"Suggest all"))return;
+    for(const a of list)await addSuggestion(find(a.id),"cheer",ti.tier,tn);toast(`${list.length} suggested to stay on ${tn}`)},
   caTier(el){const c=caState();c.tier=el.dataset.v;c.team="";caSave();render()},
   caTeam(el){const c=caState();c.team=c.team===el.dataset.v?"":el.dataset.v;caSave();render()},
   caPick(el){const c=caState(),id=el.dataset.id;c.ids=c.ids.includes(id)?c.ids.filter(x=>x!==id):[...c.ids,id];caSave();render()},
