@@ -564,6 +564,10 @@ input[type=date].in{min-height:46px;min-width:0;-webkit-appearance:none;appearan
 .vcrange.unset::-webkit-slider-thumb{border-color:#bbb}
 .vcticks{display:flex;justify-content:space-between;font-size:11px;color:var(--mut);font-weight:700;padding:0 8px;margin-bottom:14px}
 .vcbtns{display:grid;grid-template-columns:1fr 1.6fr;gap:8px}
+.sesslist{max-height:none;padding:2px 10px}
+.sessrow{display:flex;align-items:center;gap:8px;border-top:1px solid #f0ecef;padding:4px 0}.sessrow:first-child{border-top:0}
+.sessrow.on .sessopen b{color:var(--pink2)}
+.sessopen{flex:1;min-width:0;text-align:left;padding:8px 2px}.sessopen b{display:block;font-size:14px}.sessopen small{font-size:11px;color:var(--mut)}
 .calist-h{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);font-weight:700;margin:2px 2px 6px}
 .calist-h button{color:var(--pink2);font-weight:800;font-size:12px}
 .calist{background:#fff;border:1px solid var(--line);border-radius:16px;padding:2px 12px;max-height:46vh;overflow:auto;margin-bottom:6px}
@@ -772,9 +776,9 @@ const STAFF={"lydia.mears@outlook.com":"Lydia","info@evolutionofdance.net":"Alis
 const AGES5=["Tiny","Mini","Youth","Junior","Senior"];
 const TIERS={
   cheer:[
-    {id:"sport",name:"Cheer Sport",teams:AGES5.map(d=>({name:"Cheer Sport "+d,div:d,rule:d.toLowerCase()}))},
+    {id:"sport",name:"Cheer Sport",teams:[{name:"Sparkle",sub:"",div:"Tiny",rule:"any"},{name:"Lil Leopards",sub:"",div:"Youth",rule:"any"},{name:"Savage Katz",sub:"",div:"Junior",rule:"any"},...AGES5.map(d=>({name:"Cheer Sport "+d,div:d,rule:d.toLowerCase()}))]},
     {id:"novice",name:"Novice",teams:[{name:"Baby Boss",sub:"Tiny Novice",div:"Tiny",rule:"tinyN"},{name:"Cheetahs",sub:"Mini Novice",div:"Mini",rule:"miniN"}]},
-    {id:"elite",name:"Elite / Premier",teams:[{name:"Tiny Diamonds",sub:"Tiny 1",div:"Tiny",rule:"tiny"},{name:"IBK",sub:"Mini 1",div:"Mini",rule:"mini"},{name:"Lady Lynx",sub:"Youth 1",div:"Youth",rule:"youth"},{name:"Pink Kitties",sub:"Youth 2",div:"Youth",rule:"youth"},{name:"Pink Assassins",sub:"Senior 2",div:"Senior",rule:"senior"},{name:"Claw Katz",sub:"Senior 3",div:"Senior",rule:"senior"},{name:"LD",sub:"Senior 4",div:"Senior",rule:"senior"},{name:"Pink Panthers",sub:"Senior 5",div:"Senior",rule:"senior"},{name:"Open team",sub:"Open",div:"Open",rule:"open"}]}],
+    {id:"elite",name:"Elite / Premier",teams:[{name:"Tiny Diamonds",sub:"Tiny 1",div:"Tiny",rule:"tiny"},{name:"IBK",sub:"Mini 1",div:"Mini",rule:"mini"},{name:"Lady Lynx",sub:"Youth 1",div:"Youth",rule:"youth"},{name:"Pink Kitties",sub:"Youth 2",div:"Youth",rule:"youth"},{name:"Miss Purrrfect",sub:"",div:"Open",rule:"any"},{name:"Pink Assassins",sub:"Senior 2",div:"Senior",rule:"senior"},{name:"Claw Katz",sub:"Senior 3",div:"Senior",rule:"senior"},{name:"LD",sub:"Senior 4",div:"Senior",rule:"senior"},{name:"Pink Panthers",sub:"Senior 5",div:"Senior",rule:"senior"},{name:"Open team",sub:"Open",div:"Open",rule:"open"}]}],
   dance:[
     {id:"dancestars",name:"Dancestars",teams:AGES5.map(d=>({name:"Dancestars "+d,div:d,rule:d.toLowerCase()+"N"}))},
     {id:"novice",name:"Novice",teams:AGES5.map(d=>({name:"Dance Novice "+d,div:d,rule:d.toLowerCase()+"N"}))},
@@ -783,7 +787,7 @@ const TIERS={
 };
 /* AASCF age grid (2026 grid moved forward one year for 2027). Ages = age at 31 Dec of the season year. Mixed / all-girl splits ignored. */
 const GRID={
-  cheer:{tinyN:[4,6],tiny:[5,6],miniN:[4,9],mini:[5,9],youthN:[5,12],youth:[6,12],juniorN:[7,15],junior:[8,15],junior56:[10,16],seniorN:[10,18],senior:[11,18],senior6:[13,18],open:[14,99],open7:[16,99]},
+  cheer:{any:[0,99],tinyN:[4,6],tiny:[5,6],miniN:[4,9],mini:[5,9],youthN:[5,12],youth:[6,12],juniorN:[7,15],junior:[8,15],junior56:[10,16],seniorN:[10,18],senior:[11,18],senior6:[13,18],open:[14,99],open7:[16,99]},
   dance:{tinyN:[0,6],tiny:[4,6],miniN:[0,9],mini:[5,9],youthN:[0,12],youth:[6,12],juniorN:[0,16],junior:[8,16],seniorN:[0,18],senior:[11,18],openN:[14,99],open:[14,99]}
 };
 const GRID_ROWS={
@@ -1005,7 +1009,8 @@ function FirebaseBackend(){
       await this.deleteFile(a.photoPath);
       await ref(a.id).delete();
     },
-    saveSettings(patch){return db.doc("config/settings").set(patch,{merge:true})}
+    saveSettings(patch){return db.doc("config/settings").set(patch,{merge:true})},
+    setSetting(path,v){const FP=fb.firestore.FieldPath,FV=fb.firestore.FieldValue;return db.doc("config/settings").update(new FP(...path),v==null?FV.delete():v)}
   };
 }
 
@@ -1068,7 +1073,8 @@ function DemoBackend(){
     },
     async deleteFile(){},
     async deleteAthlete(a){data.athletes=data.athletes.filter(x=>x.id!==a.id);data.current=data.current.filter(x=>x.id!==a.id);change()},
-    async saveSettings(p){Object.assign(data.settings,p);change()}
+    async saveSettings(p){Object.assign(data.settings,p);change()},
+    async setSetting(path,v){let o=data.settings;for(let i=0;i<path.length-1;i++){o[path[i]]=o[path[i]]&&typeof o[path[i]]==="object"?o[path[i]]:{};o=o[path[i]]}if(v==null)delete o[path[path.length-1]];else o[path[path.length-1]]=v;change()}
   };
 }
 
@@ -1620,10 +1626,12 @@ function vCurForm(){
 }
 async function saveReport(a,rep){try{await B.setField(a.id,["reports",myEmail()],{...rep,name:coachName(),at:Date.now()})}catch(e){toast("Couldn't save: "+e.message)}}
 /* import helpers for a current roster */
-const IMP_FIELDS_CUR=[["first","First name"],["last","Last name"],["full","Full name (if first/last are in one column)"],["dob","Date of birth"],["tier","Tier (Cheerstarz / Novice / Premier)"],["team","Current team(s)"],["pos","Position (base / flyer)"],["parentName","Parent name"],["parentPhone","Parent phone"],["parentEmail","Parent email"],["medical","Medical notes"]];
+const IMP_FIELDS_CUR=[["first","First name"],["last","Last name"],["full","Full name (if first/last are in one column)"],["dob","Date of birth"],["tier","Tier (Cheerstarz / Novice / Premier)"],["team","Current team (or Team 1)"],["team2","Team 2"],["team3","Team 3"],["pos","Position (base / flyer)"],["parentName","Parent name"],["parentPhone","Parent phone"],["parentEmail","Parent email"],["medical","Medical notes"]];
 function impTier(v){const t=String(v||"").toLowerCase();return /star|sport/.test(t)?"cheerstarz":/novice/.test(t)?"novice":/prem|elite|allstar/.test(t)?"premier":""}
 function impPos(v){const t=String(v||"").toLowerCase();return /fly/.test(t)?"flyer":/base|back|spot/.test(t)?"base":""}
+const TEAM_ALIAS={"lady diamonds":"LD","baby boss girls":"Baby Boss","miss purrfect":"Miss Purrrfect","miss purfect":"Miss Purrrfect"};
 function impTeams(v){const known=TIERS.cheer.flatMap(t=>t.teams),out=[];
+  v=String(v||"").split(/[,;\/\n&+]| and /i).map(x=>{const t=x.trim(),a=TEAM_ALIAS[t.toLowerCase()];return a||t}).join(",");
   String(v||"").split(/[,;\/\n&+]| and /i).map(x=>x.trim()).filter(Boolean).forEach(part=>{
     const hit=known.filter(k=>new RegExp("\\b"+k.name.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\b","i").test(part)).sort((x,y)=>y.name.length-x.name.length)[0];
     const t=hit?{team:hit.name,sub:hit.sub||""}:{team:part,sub:""};if(!out.some(o=>o.team===t.team))out.push(t)});
@@ -1709,8 +1717,11 @@ async function filmFor(id,key){const f=await pickFile("video/*");if(!f||!await v
 
 /* ---------- class assess ---------- */
 function caState(){if(!S.ca){let saved=null;try{saved=JSON.parse(localStorage.getItem("eodth_ca")||"null")}catch(e){}
-  S.ca=Object.assign({tier:"",team:"",q:"",ids:[],levels:[],cats:null,fly:false,gq:"",started:false},saved||{});}
+  S.ca=Object.assign({tier:"",team:"",q:"",ids:[],levels:[],cats:null,fly:false,gq:"",started:false,sid:null,name:""},saved||{});}
   return S.ca}
+function sessList(){return Object.entries(S.settings.sessions||{}).map(([id,s])=>({id,...s})).sort((a,b)=>(b.at||0)-(a.at||0))}
+function sessWhat(s){return [...(s.levels||[]).slice().sort((x,y)=>x-y).map(lvlShort),...(s.fly?["Flyer"]:[])].join(" + ")||"No levels"}
+function caDefaultName(){const c=caState();const who=c.team||curTierName(c.tier)||"Class";return `${who} · ${sessWhat(c)} · ${fmtDay(Date.now())}`}
 function caSave(){try{const {gq,...c}=S.ca;localStorage.setItem("eodth_ca",JSON.stringify(c))}catch(e){}}
 function caPool(){const c=caState(),q=c.q.trim().toLowerCase();
   return S.current.filter(a=>(!c.tier||a.tier===c.tier)&&(!c.team||(a.curTeams||[]).some(t=>t.team===c.team))&&(!q||fullName(a).toLowerCase().includes(q)))
@@ -1724,8 +1735,13 @@ function vClassSetup(){
   const c=caState(),pool=caPool(),sel=c.ids.filter(id=>S.current.some(a=>a.id===id));
   const teams=[...new Set(S.current.filter(a=>!c.tier||a.tier===c.tier).flatMap(a=>(a.curTeams||[]).map(t=>t.team)))].sort();
   const cs=c.cats||caTCats(),nCols=caCols().reduce((n,g)=>n+g.items.length,0);
+  const sess=sessList(),cur=c.sid&&(S.settings.sessions||{})[c.sid];
   return `<div class="top"><button class="icon" data-act="go" data-v="home" aria-label="Close">✕</button><div class="logo" style="font-size:16px">Class <span>assess</span></div><span style="width:40px"></span></div>
   <div class="form">
+    ${sess.length?`<div class="sect" style="margin-top:4px">Saved sessions</div><div class="calist sesslist">${sess.map(s=>`<div class="sessrow ${s.id===c.sid?"on":""}"><button class="sessopen" data-act="caSess" data-v="${s.id}"><b>${esc(s.name||"Untitled session")}</b><small>${(s.ids||[]).length} athlete${(s.ids||[]).length===1?"":"s"} · ${esc(sessWhat(s))} · ${esc(s.by||"")} ${s.at?fmtDay(s.at):""}</small></button><button class="tx" data-act="caDelSess" data-v="${s.id}" aria-label="Delete session">✕</button></div>`).join("")}</div>
+      ${c.sid?`<button class="linkbtn" data-act="caNew" style="margin:2px 0 6px">＋ Start a new session instead</button>`:""}`:""}
+    <div class="sect" style="${sess.length?"":"margin-top:4px"}">${cur?"Editing: "+esc(cur.name):"New session"}</div>
+    <label for="ca-name">Session name</label><input class="in" id="ca-name" placeholder="${esc(caDefaultName())}" value="${esc(c.name)}" data-keep autocomplete="off">
     <div class="sect" style="margin-top:4px">1. Who's in the class?</div>
     <div class="chips fchips">${[["","All current"],...CUR_TIERS.map(t=>[t.id,t.name])].map(([v,l])=>`<button class="chip ${c.tier===v?"on":""}" data-act="caTier" data-v="${v}">${esc(l)}</button>`).join("")}</div>
     ${teams.length?`<div class="chips fchips">${teams.map(t=>`<button class="chip ${c.team===t?"on":""}" data-act="caTeam" data-v="${esc(t)}">${esc(t)}</button>`).join("")}</div>`:""}
@@ -1735,7 +1751,8 @@ function vClassSetup(){
     <div class="sect">2. What are you assessing?</div>
     <div class="chips fchips">${CUR_LEVELS.map(l=>`<button class="chip ${c.levels.includes(l)?"on":""}" data-act="caLvl" data-v="${l}">${lvlName(l)}</button>`).join("")}<button class="chip ${c.fly?"on":""}" data-act="caFly">Flyer positions</button></div>
     ${c.levels.length?`<div class="chips fchips">${caTCats().map(k=>`<button class="chip ${cs.includes(k)?"on":""}" data-act="caCat" data-v="${esc(k)}">${esc(k)}</button>`).join("")}</div>`:""}
-    <button class="btn" data-act="caStart" ${sel.length&&nCols?"":"disabled"} style="margin-top:8px">${sel.length&&nCols?`Start · ${sel.length} athlete${sel.length===1?"":"s"} · ${nCols} skill${nCols===1?"":"s"}`:"Pick athletes and a level"}</button>
+    <button class="btn" data-act="caStart" ${sel.length&&nCols?"":"disabled"} style="margin-top:8px">${sel.length&&nCols?`${cur?"Save &amp; open":"Save &amp; start"} · ${sel.length} athlete${sel.length===1?"":"s"} · ${nCols} skill${nCols===1?"":"s"}`:"Pick athletes and a level"}</button>
+    <p class="help" style="margin-top:10px">Sessions are saved for every coach, so anyone can reopen them later.</p>
   </div>`}
 function vClass(){
   const c=caState();if(!c.started)return vClassSetup();
@@ -1748,7 +1765,7 @@ function vClass(){
   const cell=(a,i)=>{const tk=tickOf(a,i.key),t=techOf(a,i.key),nv=(a.videos||[]).filter(v=>v.skill===i.key&&!isPhoto(v)).length,u=upl(a.id,i.key),k=esc(i.key);
     return `<td class="c"><div class="cc ${tk?"y":""}"><button class="ctk" data-act="caTick" data-id="${a.id}" data-k="${k}" aria-label="Tick ${esc(i.name)} for ${esc(a.first||"")}">${tk?"✓":""}</button><button class="ccam ${nv?"has":""}" data-act="cFilm" data-id="${a.id}" data-k="${k}" aria-label="Film ${esc(i.name)}">${u?`<em>${Math.round(u.pct)}%</em>`:"🎥"}${nv&&!u?`<b>${nv}</b>`:""}</button>
       <button class="csc ${t!=null?"has t-"+techCls(t):""}" data-act="caScore" data-id="${a.id}" data-k="${k}">${t!=null?t.toFixed(1):"score"}</button></div></td>`};
-  return `<div class="catop"><button class="icon" data-act="caBack" aria-label="Back">‹</button><div class="catt"><h2>${esc(title||"Class")}</h2><small>${list.length} athlete${list.length===1?"":"s"} · saves as you go</small></div>
+  return `<div class="catop"><button class="icon" data-act="caBack" aria-label="Back">‹</button><div class="catt"><h2>${esc(c.name||title||"Class")}</h2><small>${c.name?esc(title)+" · ":""}${list.length} athlete${list.length===1?"":"s"} · saves as you go</small></div>
     <input class="search casearch" id="ca-gq" placeholder="🔍  Find athlete" value="${esc(c.gq)}" data-keep autocomplete="off"></div>
   <div class="cawrap"><table class="catab">
     <thead><tr><th class="nm" rowspan="2">Athlete</th>${cols.map(g=>`<th class="grp" colspan="${g.items.length}">${esc(g.h)}</th>`).join("")}</tr>
@@ -1878,7 +1895,7 @@ function vPrint(){
 
 /* ---------- Import from Jotform ---------- */
 const IMP_FIELDS=[["first","First name"],["last","Last name"],["full","Full name (if first/last are in one column)"],["dob","Date of birth"],["parentName","Parent name"],["parentPhone","Parent phone"],["parentEmail","Parent email"],["prevGym","Previous gym"],["experience","Experience"],["medical","Medical notes"],["type","Trying out for (cheer / dance)"]];
-const IMP_GUESS={first:/^(athlete\s*)?first|first\s*name|given/i,last:/^(athlete\s*)?last|last\s*name|surname|family/i,full:/^(athlete('s)?\s*)?(full\s*)?name$|athlete\s*name|child('s)?\s*name|dancer\s*name/i,dob:/birth|dob|bday/i,parentName:/parent|guardian|mother|father|contact\s*name/i,parentPhone:/phone|mobile|cell/i,parentEmail:/e-?mail/i,prevGym:/gym|studio|club|previous/i,experience:/experience|years/i,medical:/medical|allerg|injur|condition|health/i,type:/cheer|dance|program|trying|tryout\s*for|interested/i,tier:/tier|program|level\s*type/i,team:/team|squad/i,pos:/position|role/i};
+const IMP_GUESS={first:/^(athlete\s*)?first|first\s*name|given/i,last:/^(athlete\s*)?last|last\s*name|surname|family/i,full:/^(athlete('s)?\s*)?(full\s*)?name$|athlete\s*name|child('s)?\s*name|dancer\s*name/i,dob:/birth|dob|bday/i,parentName:/parent|guardian|mother|father|contact\s*name/i,parentPhone:/phone|mobile|cell/i,parentEmail:/e-?mail/i,prevGym:/gym|studio|club|previous/i,experience:/experience|years/i,medical:/medical|allerg|injur|condition|health/i,type:/cheer|dance|program|trying|tryout\s*for|interested/i,tier:/tier|program|level\s*type/i,team:/team|squad/i,team2:/team\s*2|2nd\s*team|second\s*team/i,team3:/team\s*3|3rd\s*team|third\s*team/i,pos:/position|role/i};
 function impFields(){return S.impCur?IMP_FIELDS_CUR:IMP_FIELDS}
 function parseCSV(t){const rows=[];let r=[],f="",q=false;for(let i=0;i<t.length;i++){const c=t[i];
   if(q){if(c==='"'){if(t[i+1]==='"'){f+='"';i++}else q=false}else f+=c}
@@ -1897,13 +1914,13 @@ function impRows(){const I=S.imp;if(!I)return [];const col=k=>I.map[k]===""||I.m
   return I.rows.map(r=>{let first=g(r,"first"),last=g(r,"last");if(!first&&g(r,"full")){const p=g(r,"full").split(/\s+/);first=p.shift()||"";last=p.join(" ")}
     const dob=impDate(I.raw?(r[col("dob")]):g(r,"dob"),I.fmt);
     let o;
-    if(I.cur){o={first,last,dob,parentName:g(r,"parentName"),parentPhone:g(r,"parentPhone"),parentEmail:g(r,"parentEmail"),medical:g(r,"medical"),curTeams:impTeams(g(r,"team")),pos:impPos(g(r,"pos")),tryoutType:"cheer"};
-      o.tier=impTier(g(r,"tier"))||(o.curTeams.map(t=>tierOfTeam(t.team)).find(Boolean)||"")}
+    if(I.cur){o={first,last,dob,parentName:g(r,"parentName"),parentPhone:g(r,"parentPhone"),parentEmail:g(r,"parentEmail"),medical:g(r,"medical"),curTeams:impTeams([g(r,"team"),g(r,"team2"),g(r,"team3")].filter(Boolean).join(",")),pos:impPos(g(r,"pos")),tryoutType:"cheer"};
+      o.tier=impTier(g(r,"tier"))||(["premier","novice","cheerstarz"].find(t=>o.curTeams.some(x=>tierOfTeam(x.team)===t))||"")}
     else{o={first,last,dob,parentName:g(r,"parentName"),parentPhone:g(r,"parentPhone"),parentEmail:g(r,"parentEmail"),prevGym:g(r,"prevGym"),experience:g(r,"experience"),medical:g(r,"medical")};
       const ty=impType(g(r,"type"));if(ty)o.tryoutType=ty;}
     const key=(first+"|"+last+"|"+dob).toLowerCase();
     o._dup=(I.cur?S.current:S.athletes).some(a=>((a.first||"")+"|"+(a.last||"")+"|"+(a.dob||"")).toLowerCase()===key);
-    o._badDob=g(r,"dob")!==""&&!dob;return o}).filter(o=>o.first)}
+    o._badDob=g(r,"dob")!==""&&!dob;return o}).filter(o=>o.first&&o.first.split(/\s+/).length<=4&&(o.last||o.dob))}
 function vImport(){
   const I=S.imp;
   const head=`<div class="top"><button class="icon" data-act="impBack">‹</button><div class="logo" style="font-size:16px">Import <span>${S.impCur?"current athletes":"athletes"}</span></div><span style="width:38px"></span></div>`;
@@ -2091,7 +2108,18 @@ const actions={
   caLvl(el){const c=caState(),v=+el.dataset.v;c.levels=c.levels.includes(v)?c.levels.filter(x=>x!==v):[...c.levels,v];caSave();render()},
   caFly(){const c=caState();c.fly=!c.fly;caSave();render()},
   caCat(el){const c=caState(),k=el.dataset.v,cs=c.cats||caTCats();c.cats=cs.includes(k)?cs.filter(x=>x!==k):[...cs,k];if(!c.cats.length)c.cats=null;caSave();render()},
-  caStart(){const c=caState();c.ids=c.ids.filter(id=>S.current.some(a=>a.id===id));c.started=true;c.gq="";caSave();render();window.scrollTo(0,0)},
+  async caStart(){const c=caState();c.ids=c.ids.filter(id=>S.current.some(a=>a.id===id));
+    const ni=document.getElementById("ca-name");if(ni)c.name=ni.value.trim();if(!c.name)c.name=caDefaultName();
+    const sid=c.sid||("s"+Date.now()),old=(S.settings.sessions||{})[sid]||{};
+    const rec={name:c.name,ids:c.ids,levels:c.levels,cats:c.cats||null,fly:!!c.fly,tier:c.tier||"",team:c.team||"",by:coachName(),at:Date.now(),created:old.created||Date.now(),createdBy:old.createdBy||coachName()};
+    c.sid=sid;c.started=true;c.gq="";caSave();render();window.scrollTo(0,0);
+    try{await B.setSetting(["sessions",sid],rec);toast(old.name?"Session saved":"Session saved · find it under Saved sessions")}catch(e){toast("Couldn't save the session: "+e.message)}},
+  caSess(el){const s=(S.settings.sessions||{})[el.dataset.v];if(!s)return;
+    S.ca={tier:s.tier||"",team:s.team||"",q:"",ids:[...(s.ids||[])],levels:[...(s.levels||[])],cats:s.cats||null,fly:!!s.fly,gq:"",started:true,sid:el.dataset.v,name:s.name||""};caSave();render();window.scrollTo(0,0)},
+  caNew(){const ni=document.getElementById("ca-name");if(ni)ni.value="";S.ca={tier:"",team:"",q:"",ids:[],levels:[],cats:null,fly:false,gq:"",started:false,sid:null,name:""};caSave();render()},
+  async caDelSess(el){const id=el.dataset.v,s=(S.settings.sessions||{})[id];if(!s)return;
+    if(!await ask(`Delete the session "${s.name||"Untitled"}"? The ticks, scores and videos stay on each athlete.`))return;
+    try{await B.setSetting(["sessions",id],null);if(S.ca&&S.ca.sid===id){S.ca.sid=null;S.ca.name="";caSave();const ni=document.getElementById("ca-name");if(ni)ni.value="";render()}toast("Session deleted")}catch(e){toast("Couldn't delete: "+e.message)}},
   caBack(){const c=caState();c.started=false;caSave();render()},
   caOpen(el){go("profile",{id:el.dataset.id,tab:"cassess",lvl:null,fromClass:true})},
   impCur(){S.imp=null;S.impCur=true;go("import")},
@@ -2418,6 +2446,7 @@ document.addEventListener("input",e=>{
   if(e.target.id==="search"){S.q=e.target.value;render()}
   if(e.target.id==="csearch"){S.cq=e.target.value;render()}
   if(e.target.id==="ca-q"){caState().q=e.target.value;caSave();render()}
+  if(e.target.id==="ca-name"){caState().name=e.target.value;caSave()}
   if(e.target.id==="ca-gq"){caState().gq=e.target.value;render()}
   if(e.target.id==="vc-range"&&S.vc){const v=+e.target.value;S.vc.tech=v;S.vc.scored=true;e.target.classList.remove("unset");
     const val=document.getElementById("vc-val"),lb=document.getElementById("vc-lbl"),sv=document.getElementById("vc-save");
