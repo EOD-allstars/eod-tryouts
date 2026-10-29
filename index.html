@@ -820,6 +820,7 @@ const DEFAULT_SETTINGS = {
   counter: 0
 };
 
+const APP_VERSION="v27";
 const DEMO = !FIREBASE_CONFIG.apiKey;
 const CHEER_LEVELS=["No experience","Novice","Level 1","Level 2","Level 3","Level 4","Level 5","Level 6","Level 7"];
 const POSITIONS=["Flyer","Back spot","Main base","Secondary base","N/A"];
@@ -2305,6 +2306,7 @@ function vSettings(){
     ${isAdmin()?`<button class="btn danger" data-act="clearVideos" style="margin-bottom:10px">Archive season: delete all ${vidCount} videos</button>
     <div class="help">Use once placements are final to free up storage. Profiles, skills, notes and flexibility photos are kept.</div>`:""}
     <button class="btn ghost" data-act="logout" style="margin-top:10px">Log out</button>
+    <p class="help" style="text-align:center;margin-top:14px">App version ${APP_VERSION}</p>
   </div>`;
 }
 
