@@ -808,6 +808,7 @@ input[type=date].in{min-height:46px;min-width:0;-webkit-appearance:none;appearan
   .skillcols{columns:3}
   .grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
 }
+.undolist{max-height:50vh;overflow:auto;border:1px solid var(--line,#e5e5e5);border-radius:10px}.undolist label{display:flex;gap:10px;align-items:center;padding:8px 10px;border-bottom:1px solid var(--line,#eee)}.undolist span{display:flex;flex-direction:column}.undolist small{color:#888;font-size:12px}.impwarn{background:#fff6e5;border:1px solid #f0c36d;border-radius:12px;padding:12px 14px;margin:0 0 14px;font-size:14px;line-height:1.4}.impwarn .btn{margin-top:10px}
 </style>
 </head>
 <body>
@@ -857,7 +858,7 @@ const DEFAULT_SETTINGS = {
   counter: 0
 };
 
-const APP_VERSION="v30";
+const APP_VERSION="v31";
 const DEMO = !FIREBASE_CONFIG.apiKey;
 const CHEER_LEVELS=["No experience","Novice","Level 1","Level 2","Level 3","Level 4","Level 5","Level 6","Level 7"];
 const POSITIONS=["Flyer","Back spot","Main base","Secondary base","N/A"];
@@ -2302,7 +2303,7 @@ function impDate(v,fmt){if(v==null||v==="")return "";if(typeof v==="number"){con
     let dd,mm;if(fmt==="mdy"){mm=a;dd=b}else if(fmt==="dmy"){dd=a;mm=b}else{if(a>12){dd=a;mm=b}else if(b>12){mm=a;dd=b}else{dd=a;mm=b}}
     if(mm<1||mm>12||dd<1||dd>31)return "";return `${y}-${pad(mm)}-${pad(dd)}`}
   const d=new Date(t);return isNaN(d)?"":`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`}
-function impType(v){const t=String(v||"").toLowerCase();const c=/cheer/.test(t),d=/dance/.test(t);return c&&d?"both":c?"cheer":d?"dance":""}
+function impType(v){const t=String(v||"").toLowerCase();if(/both/.test(t))return "both";const c=/cheer|tumbl|gym/.test(t),d=/dance/.test(t);return c&&d?"both":c?"cheer":d?"dance":""}
 function impRows(){const I=S.imp;if(!I)return [];const col=k=>I.map[k]===""||I.map[k]==null?-1:+I.map[k];
   const g=(r,k)=>{const i=col(k);return i<0?"":String(r[i]??"").trim()};
   return I.rows.map(r=>{let first=g(r,"first"),last=g(r,"last");if(!first&&g(r,"full")){const p=g(r,"full").split(/\s+/);first=p.shift()||"";last=p.join(" ")}
@@ -2315,13 +2316,17 @@ function impRows(){const I=S.imp;if(!I)return [];const col=k=>I.map[k]===""||I.m
     const key=(first+"|"+last+"|"+dob).toLowerCase();
     o._dup=(I.cur?S.current:S.athletes).some(a=>((a.first||"")+"|"+(a.last||"")+"|"+(a.dob||"")).toLowerCase()===key);
     o._badDob=g(r,"dob")!==""&&!dob;return o}).filter(o=>o.first&&o.first.split(/\s+/).length<=4&&(o.last||o.dob))}
+function recentCurImports(){const t=Date.now()-48*36e5;return S.current.filter(a=>(a.createdAt||0)>t&&!a.fromTryout&&!Object.keys(a.stars||{}).length&&!Object.keys(a.reports||{}).length&&!(a.videos||[]).length)}
+function undoCard(){if(!isDirector())return "";const l=recentCurImports();if(!l.length)return "";
+  return `<div class="lvlcard" style="margin:18px 0 0;border-color:var(--bad)"><h4>Imported by mistake?</h4><p class="help" style="margin:0 0 10px">${l.length} current athlete${l.length===1?"":"s"} added in the last 2 days (no ratings, reports or videos yet). Pick the ones to remove, then import the file again from New athletes.</p><button class="btn ghost" data-act="impUndo" style="color:var(--bad)">Review and remove ${l.length}</button></div>`}
 function vImport(){
   const I=S.imp;
   const head=`<div class="top"><button class="icon" data-act="impBack">‹</button><div class="logo" style="font-size:16px">Import <span>${S.impCur?"current athletes":"athletes"}</span></div><span style="width:38px"></span></div>`;
   if(!I&&S.impCur)return head+`<div class="form"><div class="lvlcard" style="margin:0 0 14px"><h4>From your roster</h4>
     <ol class="steps"><li>Save your current athlete list as a <b>CSV</b> or <b>Excel</b> file.</li><li>Useful columns: name, date of birth, tier (Cheerstarz, Novice or Premier), current team and position (base or flyer). Parent details are optional.</li><li>Choose that file below.</li></ol></div>
+    <div class="impwarn"><b>Adding new tryout athletes or enquiries?</b> Use the new athlete import instead, so they land in New athletes.<button class="btn ghost" data-act="go" data-v="import">Import new athletes instead</button></div>
     <button class="btn" data-act="impPick">Choose CSV or Excel file</button>
-    <p class="help" style="margin-top:10px">You'll see a preview before anything is added. Anyone already in Current athletes with the same name and date of birth is skipped.</p></div>`;
+    <p class="help" style="margin-top:10px">You'll see a preview before anything is added. Anyone already in Current athletes with the same name and date of birth is skipped.</p>${undoCard()}</div>`;
   if(!I)return head+`<div class="form"><div class="lvlcard" style="margin:0 0 14px"><h4>From Jotform</h4>
     <ol class="steps"><li>In Jotform open your tryout form's <b>Submissions</b>.</li><li>Tap <b>Download All</b> and choose <b>CSV</b> or <b>Excel</b>.</li><li>Choose that file below.</li></ol></div>
     <button class="btn" data-act="impPick">Choose CSV or Excel file</button>
@@ -2544,6 +2549,17 @@ const actions={
   caBack(){const c=caState();c.started=false;caSave();render()},
   caOpen(el){go("profile",{id:el.dataset.id,tab:isCur(find(el.dataset.id))?"cassess":"skills",lvl:null,fromClass:true})},
   impCur(){S.imp=null;S.impCur=true;go("import")},
+  impUndo(){const l=recentCurImports().sort((x,y)=>(y.createdAt||0)-(x.createdAt||0));if(!l.length)return;
+    const day=t=>new Date(t).toLocaleString("en-AU",{weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
+    openModal(`<div class="mhead"><h3 style="margin:0">Remove imported athletes</h3><button class="icon" data-act="closeModal" aria-label="Close">✕</button></div>
+      <p class="help" style="margin:0 0 8px">Untick anyone who should stay in Current athletes.</p>
+      <label class="tgl" style="margin:0 0 6px"><input type="checkbox" id="undoAll" checked> Select all</label>
+      <div class="undolist">${l.map(a=>`<label><input type="checkbox" class="undock" value="${a.id}" checked><span><b>${esc(fullName(a))}</b><small>Added ${day(a.createdAt)}</small></span></label>`).join("")}</div>
+      <button class="btn" data-act="impUndoGo" style="background:var(--bad);margin-top:12px">Remove selected</button>`)},
+  async impUndoGo(){const ids=[...document.querySelectorAll(".undock:checked")].map(x=>x.value);if(!ids.length)return toast("Nothing selected");
+    if(!await ask(`Remove ${ids.length} athlete${ids.length===1?"":"s"} from Current athletes? This can't be undone.`,"Remove"))return;
+    let fail=0;for(const id of ids){try{await B.deleteDoc(id)}catch(e){fail++}}
+    toast(fail?`Removed ${ids.length-fail}. ${fail} failed.`:`Removed ${ids.length} athletes`);render()},
   go(el){const v=el.dataset.v;if(v==="import")S.impCur=false;if(v==="home"||v==="class"||v==="tstats"||v==="board"){S.fromClass=false;S.backTo=null}go(v,{compareMode:v==="compare"||(v==="home"&&S.view==="compare")?S.compareMode:false})},
   open(el){go("profile",{id:el.dataset.id,tab:S.view==="quick"?"skills":(S.id===el.dataset.id?S.tab:"skills"),lvl:null})},
   tab(el){S.tab=el.dataset.v;render();const t=document.querySelector(".tabs");if(t&&window.scrollY>t.offsetTop)window.scrollTo(0,t.offsetTop-8)},
@@ -2887,6 +2903,7 @@ document.addEventListener("input",e=>{
 document.addEventListener("change",e=>{
   const t=e.target;
   if(t.id==="sortSel"){S.sort=t.value;render();return}
+  if(t.id==="undoAll"){document.querySelectorAll(".undock").forEach(x=>x.checked=t.checked);return}
   if(t.id==="boardEmpty"){S.boardEmpty=t.checked;render();return}
   if(t.dataset&&t.dataset.imp&&S.imp){S.imp.map[t.dataset.imp]=t.value;render();return}
   if(t.dataset&&t.dataset.impfmt&&S.imp){S.imp.fmt=t.value;render();return}
