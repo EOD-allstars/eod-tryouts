@@ -820,7 +820,7 @@ const DEFAULT_SETTINGS = {
   counter: 0
 };
 
-const APP_VERSION="v27";
+const APP_VERSION="v28";
 const DEMO = !FIREBASE_CONFIG.apiKey;
 const CHEER_LEVELS=["No experience","Novice","Level 1","Level 2","Level 3","Level 4","Level 5","Level 6","Level 7"];
 const POSITIONS=["Flyer","Back spot","Main base","Secondary base","N/A"];
@@ -1547,7 +1547,7 @@ const CUR_SHORT={report:"Needs report",assess:"To be assessed",suggest:"Pending 
 const CUR_ORDER=["report","assess","suggest","approve","complete"];
 function flyerList(){const l=S.settings.flyerPositions;return Array.isArray(l)&&l.length?l:DEFAULT_FLYER}
 function curTierName(id){return (CUR_TIERS.find(t=>t.id===id)||{}).name||""}
-function curTierTeams(id){const c=CUR_TIERS.find(t=>t.id===id);return c?((TIERS.cheer.find(x=>x.id===c.t)||{}).teams||[]):[]}
+function curTierTeams(id){const c=CUR_TIERS.find(t=>t.id===id);return c?((CUR_CHEER.find(x=>x.id===c.t)||{}).teams||[]):[]}
 function tierOfTeam(name){const c=CUR_TIERS.find(t=>curTierTeams(t.id).some(x=>x.name===name));return c?c.id:""}
 function curTeamsTxt(a,sep=" / "){return (a.curTeams||[]).map(t=>t.team+(t.sub?` · ${t.sub}`:"")).join(sep)}
 function curLevels(a){return (a.levels||[]).map(Number).sort((x,y)=>x-y)}
@@ -1699,7 +1699,7 @@ const IMP_FIELDS_CUR=[["first","First name"],["last","Last name"],["full","Full 
 function impTier(v){const t=String(v||"").toLowerCase();return /star|sport/.test(t)?"cheerstarz":/novice/.test(t)?"novice":/prem|elite|allstar/.test(t)?"premier":""}
 function impPos(v){const t=String(v||"").toLowerCase(),p=[];if(/fly/.test(t))p.push("Flyer");if(/main/.test(t))p.push("Main base");if(/second/.test(t))p.push("Secondary base");if(/back|spot/.test(t))p.push("Back spot");return p}
 const TEAM_ALIAS={"lady diamonds":"LD","baby boss girls":"Baby Boss","miss purrfect":"Miss Purrrfect","miss purfect":"Miss Purrrfect"};
-function impTeams(v){const known=TIERS.cheer.flatMap(t=>t.teams),out=[];
+function impTeams(v){const known=CUR_CHEER.flatMap(t=>t.teams),out=[];
   v=String(v||"").split(/[,;\/\n&+]| and /i).map(x=>{const t=x.trim(),a=TEAM_ALIAS[t.toLowerCase()];return a||t}).join(",");
   String(v||"").split(/[,;\/\n&+]| and /i).map(x=>x.trim()).filter(Boolean).forEach(part=>{
     const hit=known.filter(k=>new RegExp("\\b"+k.name.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\b","i").test(part)).sort((x,y)=>y.name.length-x.name.length)[0];
@@ -1872,7 +1872,7 @@ function vClass(){
 function tierTeamNames(tier){return curTierTeams(tier).map(x=>x.name)}
 function teamsFor(tier){const has=new Set(S.current.flatMap(a=>(a.curTeams||[]).map(t=>t.team)));
   if(tier)return tierTeamNames(tier).filter(n=>has.has(n));
-  const known=TIERS.cheer.flatMap(t=>t.teams.map(x=>x.name));return [...known.filter(n=>has.has(n)),...[...has].filter(n=>!known.includes(n)).sort()]}
+  const known=CUR_CHEER.flatMap(t=>t.teams.map(x=>x.name));return [...known.filter(n=>has.has(n)),...[...has].filter(n=>!known.includes(n)).sort()]}
 function gaAddPool(){const c=caState(),q=S.gaAddQ||"",tr=gaMode()==="tryout";
   return gaSrc().filter(a=>!c.ids.includes(a.id)&&gaMatch(a,q)&&(tr?(!S.gaAddDiv||groupsOf(a).includes(S.gaAddDiv)):(S.gaAddTeam?(a.curTeams||[]).some(t=>t.team===S.gaAddTeam):(!S.gaAddTier||a.tier===S.gaAddTier||(a.curTeams||[]).some(t=>tierTeamNames(S.gaAddTier).includes(t.team))))))
     .sort((x,y)=>(x.first||"").localeCompare(y.first||""))}
@@ -1911,8 +1911,14 @@ const DEFAULT_CHEER_TEAMS={sport:[["Sparkle","","Tiny"],["Lil Leopards","","Yout
   elite:[["Tiny Diamonds","Tiny 1","Tiny"],["IBK","Mini 1","Mini"],["Lady Lynx","Youth 1","Youth"],["Pink Kitties","Youth 2","Youth"],["Miss Purrrfect","","Senior"],["Pink Assassins","Senior 2","Senior"],["Claw Katz","Senior 3","Senior"],["LD","Senior 4","Senior"],["Pink Panthers","Senior 5","Senior"],["Open team","Open","Open"]]};
 function teamRule(tier,div){const d=String(div||"").toLowerCase();if(!d)return "any";return tier==="elite"?d:d+"N"}
 function buildCheerTiers(src){return CHEER_TIER_META.map(m=>({id:m.id,name:m.name,teams:((src&&src[m.id])||[]).map(t=>Array.isArray(t)?{name:t[0],sub:t[1]||"",div:t[2]||""}:t).filter(t=>t&&t.name).map(t=>({name:t.name,sub:t.sub||"",div:t.div||"",rule:teamRule(m.id,t.div)}))}))}
-function applyTeams(){const st=S.settings&&S.settings.cheerTeams;TIERS.cheer=buildCheerTiers(st&&typeof st==="object"?st:DEFAULT_CHEER_TEAMS)}
-function teamsText(){return TIERS.cheer.map(t=>"# "+t.name+"\n"+t.teams.map(x=>[x.name,x.sub,x.div].filter((v,i)=>i===0||v).join(" | ")).join("\n")).join("\n\n")}
+let CUR_CHEER=[];
+function applyTeams(){const ok=x=>x&&typeof x==="object"&&!Array.isArray(x);const st=S.settings||{};
+  TIERS.cheer=buildCheerTiers(ok(st.cheerTeams)?st.cheerTeams:ok(st.curTeamsList)?st.curTeamsList:DEFAULT_CHEER_TEAMS);
+  CUR_CHEER=buildCheerTiers(ok(st.curTeamsList)?st.curTeamsList:ok(st.cheerTeams)?st.cheerTeams:DEFAULT_CHEER_TEAMS)}
+function tiersToStore(tiers){const o={};tiers.forEach(t=>{o[t.id]=t.teams.map(x=>({name:x.name,sub:x.sub||"",div:x.div||""}))});return o}
+function curTeamInfo(name){for(const t of CUR_CHEER){const x=t.teams.find(y=>y.name===name);if(x)return {...x,tier:t.id}}return null}
+function curTeamMax(name){const x=curTeamInfo(name);return x&&x.div&&DIVMAX[x.div]!=null?DIVMAX[x.div]:null}
+function teamsText(tiers){return (tiers||TIERS.cheer).map(t=>"# "+t.name+"\n"+t.teams.map(x=>[x.name,x.sub,x.div].filter((v,i)=>i===0||v).join(" | ")).join("\n")).join("\n\n")}
 function parseTeamsText(txt){const out={sport:[],novice:[],elite:[]};let cur=null,bad=[];
   txt.split("\n").map(l=>l.trim()).filter(Boolean).forEach(l=>{
     if(l.startsWith("#")){const n=l.replace(/^#+/,"").trim().toLowerCase();cur=/star|sport/.test(n)?"sport":/novice/.test(n)?"novice":/prem|elite/.test(n)?"elite":null;if(!cur)bad.push(l);return}
@@ -1988,7 +1994,8 @@ function vRollover(){
       <li>Current athletes with a <b>final</b> 2027 team get that as their new current team. Their old teams are kept as "previous teams".</li>
       <li>Tryout athletes with a <b>final</b> team move into Current athletes, keeping their code, placement code, photo, skills and videos.</li>
       <li>Placements, approvals, checklists and coach reports are cleared for everyone moved, ready for next season. Ticks, tech scores and videos stay.</li>
-      <li>Anyone without a final team is left exactly as they are.</li></ol>
+      <li>Anyone without a final team is left exactly as they are.</li>
+      <li>Your next-season team list becomes the current team list.</li></ol>
       <p class="help" style="margin:8px 0 0">Export both lists first so you have a copy of this season.</p></div>
     <div class="rgrid"><div class="rbox ok"><b>${p.curMove.length}</b>current athletes get new teams</div><div class="rbox ok"><b>${p.tryMove.length}</b>tryout athletes move to Current</div><div class="rbox"><b>${p.curStay.length}</b>current athletes not final yet</div><div class="rbox"><b>${p.tryStay.length}</b>tryout athletes not final yet</div></div>
     <div class="row" style="margin:6px 0 14px"><button class="btn ghost" data-act="exportCurBtn">⬇ Export current</button><button class="btn ghost" data-act="exportTryBtn">⬇ Export tryouts</button></div>
@@ -2014,6 +2021,7 @@ async function runRollover(){
         await B.deleteDoc(a.id)}}
     catch(e){fail++}
     S.roll.done++;if(S.view==="rollover")render()}
+  try{await B.saveSettings({curTeamsList:tiersToStore(TIERS.cheer)})}catch(e){}
   S.roll=null;toast(fail?`Rolled over ${list.length-fail}. ${fail} failed, try again.`:`Rollover done ✦ ${list.length} athletes updated`);S.mode="current";try{localStorage.setItem("eodth_mode","current")}catch(e){}go("home")}
 
 /* ---------- shared bits ---------- */
@@ -2026,7 +2034,7 @@ const DIVMAX={Tiny:6,Mini:9,Youth:12,Junior:15,Senior:18,Open:99};
 function teamInfo(name){for(const t of TIERS.cheer){const x=t.teams.find(y=>y.name===name);if(x)return {...x,tier:t.id}}return null}
 function teamMax(name){const x=teamInfo(name);return x&&x.div&&DIVMAX[x.div]!=null?DIVMAX[x.div]:null}
 function divFor(age){return AGE_GROUPS.find(g=>age<=DIVMAX[g])||"Open"}
-function agesOut(a){if(!a||!a.dob)return [];const age=divAge(a.dob);return (a.curTeams||[]).filter(t=>{const m=teamMax(t.team);return m!=null&&age>m}).map(t=>t.team)}
+function agesOut(a){if(!a||!a.dob)return [];const age=divAge(a.dob);return (a.curTeams||[]).filter(t=>{const m=curTeamMax(t.team);return m!=null&&age>m}).map(t=>t.team)}
 function sugSelect(a){if(!isDirector()||!discsOf(a).includes("cheer"))return "";const cur=plist(a,"cheer").map(e=>e.team);
   return `<select class="sugsel" data-sug="${a.id}" aria-label="Suggest a 2027 team for ${esc(a.first||"")}"><option value="">＋ Suggest</option>${TIERS.cheer.map(t=>{const ts=t.teams.filter(x=>!a.dob||teamOk(a,"cheer",x)||cur.includes(x.name));return ts.length?`<optgroup label="${esc(t.name)}">${ts.map(x=>`<option value="${t.id}|${esc(x.name)}" ${cur.includes(x.name)?"disabled":""}>${cur.includes(x.name)?"✓ ":""}${esc(x.name)}${x.sub?` · ${esc(x.sub)}`:""}</option>`).join("")}</optgroup>`:""}).join("")}</select>`}
 async function addSuggestion(a,d,tierId,name){const list=plist(a,d),k=tkey(name);if(list.some(e=>e.key===k))return;
@@ -2112,7 +2120,7 @@ function tsVidHtml(a,k){const vs=(a.videos||[]).filter(v=>v.skill===k).sort((x,y
   return `<div class="mhead"><h3 style="margin:0">${esc(fullName(a))} · ${esc(skillName(k))}</h3><button class="icon" data-act="closeModal" aria-label="Close">✕</button></div><div class="vrow" style="margin:0">${vs.map(vidCard).join("")}</div>`}
 
 function boardCurrent(){
-  const known=TIERS.cheer.flatMap(t=>t.teams.map(x=>x.name));
+  const known=CUR_CHEER.flatMap(t=>t.teams.map(x=>x.name));
   const groups=CUR_TIERS.map(ct=>({name:ct.name,teams:curTierTeams(ct.id).map(x=>x.name)}));
   const extra=[...new Set(S.current.flatMap(a=>(a.curTeams||[]).map(t=>t.team)).filter(n=>!known.includes(n)))].sort();
   if(extra.length)groups.push({name:"Other teams",teams:extra});
@@ -2126,12 +2134,13 @@ function boardCurrent(){
     const cards=g.teams.filter(tn=>!S.bteam||tn===S.bteam).map(tn=>{
       const mem=S.current.filter(a=>(a.curTeams||[]).some(t=>t.team===tn)&&bMatch(a)).sort((x,y)=>(x.last||"").localeCompare(y.last||"")||(x.first||"").localeCompare(y.first||""));
       if(!mem.length)return "";
-      const ti=teamInfo(tn),mx=teamMax(tn),out=mem.filter(a=>a.dob&&mx!=null&&divAge(a.dob)>mx);
-      const canStay=a=>ti&&!(a.dob&&mx!=null&&divAge(a.dob)>mx)&&!plist(a,"cheer").some(e=>e.team===tn),nStay=isDirector()?mem.filter(canStay).length:0;
+      const ti=curTeamInfo(tn),mx=curTeamMax(tn),out=mem.filter(a=>a.dob&&mx!=null&&divAge(a.dob)>mx);
+      const ti2=teamInfo(tn),mx2=teamMax(tn),old2=a=>a.dob&&mx2!=null&&divAge(a.dob)>mx2;
+      const canStay=a=>ti2&&!old2(a)&&!plist(a,"cheer").some(e=>e.team===tn),nStay=isDirector()?mem.filter(canStay).length:0;
       return `<div class="bteam"><div class="bth"><div><b>${esc(tn)}</b><span>${ti?esc([ti.sub,ti.div].filter(Boolean).filter((v,i,arr)=>arr.indexOf(v)===i).join(" · ")):""}${mx!=null&&mx<99?` · max age ${mx}`:""}</span></div><em>${mem.length}</em></div>
         ${out.length||nStay?`<div class="bcnt">${out.length?`<span class="outc">${out.length} age${out.length===1?"s":""} out</span>`:""}${nStay?`<button class="stayall" data-act="bStayAll" data-t="${esc(tn)}">↺ All stay (${nStay})</button>`:""}</div>`:""}
         ${mem.map(a=>{const age=a.dob?divAge(a.dob):null,old=age!=null&&mx!=null&&age>mx;
-          return `<div class="browx ${old?"old":""}"><button class="brow" data-act="openTeams" data-id="${a.id}">${thumb(a,30)}<span class="bn"><b>${esc(fullName(a))}</b><small>${curCode(a)?curCode(a)+" · ":""}${age!=null?`${age} in ${ageYear()}`:"No DOB"}${posName(a)?" · "+esc(posName(a)):""}</small>${old?`<span class="outb">Ages out → ${divFor(age)}</span>`:""}${sugChips(a)}</span></button>${isDirector()&&ti&&!old?(plist(a,"cheer").some(e=>e.team===tn)?`<span class="staydone">✓ Staying</span>`:`<button class="staybtn" data-act="bStay" data-id="${a.id}" data-t="${esc(tn)}">↺ Stay</button>`):""}${sugSelect(a)}</div>`}).join("")}</div>`}).join("");
+          return `<div class="browx ${old?"old":""}"><button class="brow" data-act="openTeams" data-id="${a.id}">${thumb(a,30)}<span class="bn"><b>${esc(fullName(a))}</b><small>${curCode(a)?curCode(a)+" · ":""}${age!=null?`${age} in ${ageYear()}`:"No DOB"}${posName(a)?" · "+esc(posName(a)):""}</small>${old?`<span class="outb">Ages out → ${divFor(age)}</span>`:""}${sugChips(a)}</span></button>${isDirector()&&ti2&&!old2(a)?(plist(a,"cheer").some(e=>e.team===tn)?`<span class="staydone">✓ Staying</span>`:`<button class="staybtn" data-act="bStay" data-id="${a.id}" data-t="${esc(tn)}">↺ Stay</button>`):""}${sugSelect(a)}</div>`}).join("")}</div>`}).join("");
     if(cards.trim()){shownAny=true;h+=`<div class="btier">${esc(g.name)}</div><div class="bgrid">${cards}</div>`}
   });
   return shownAny?h:h+`<div class="empty"><b>${S.bq?"No matches":"No current athletes yet"}</b>${S.bq?"Try a different name.":"Import your roster from Current athletes."}</div>`}
@@ -2292,8 +2301,10 @@ function vSettings(){
     <label for="s-season">Season name</label><input class="in" id="s-season" value="${esc(st.season)}" data-keep>
     <label for="s-asat">Ages and divisions are worked out as at (age shown is their age on this date)</label><input class="in" id="s-asat" type="date" value="${esc(st.ageAsAt)}" data-keep>
     <div class="help">Age groups follow the AASCF cheer and dance age grids for ${esc(String(ageYear()))}, so athletes can be eligible for more than one.</div>
-    <label for="s-teams">Cheer teams</label><textarea class="in" id="s-teams" rows="16" data-keep>${esc(teamsText())}</textarea>
-    <div class="help">Teams go under # Cheerstarz, # Novice or # Premier. One team per line: Name | Level | Age group, for example "Lady Lynx | Youth 1 | Youth". The age group (Tiny, Mini, Youth, Junior, Senior or Open) sets who is eligible and the ages-out flags. Renaming a team doesn't rename it on athletes already on it.</div>
+    <label for="s-curteams">Current teams (this season)</label><textarea class="in" id="s-curteams" rows="14" data-keep>${esc(teamsText(CUR_CHEER))}</textarea>
+    <div class="help">Used for Current athletes: their team chips, roster imports, the Current teams tab and the ages-out flags.</div>
+    <label for="s-teams">Teams for ${esc(String(ageYear()))} (next season)</label><textarea class="in" id="s-teams" rows="16" data-keep>${esc(teamsText())}</textarea>
+    <div class="help">Used for 2027 team suggestions, Team selection, the Suggest dropdown, 2027 placements and Team stats. Add new team names here. Teams go under # Cheerstarz, # Novice or # Premier. One team per line: Name | Level | Age group, for example "Lady Lynx | Youth 1 | Youth". The age group (Tiny, Mini, Youth, Junior, Senior or Open) sets who is eligible and the ages-out flags. Renaming a team doesn't rename it on athletes already on it.</div>
     <label for="s-skills">Skills checklist</label><textarea class="in" id="s-skills" rows="16" data-keep>${esc(skillsTxt)}</textarea>
     <div class="help">Start a category with #, then one skill per line underneath. Put N: (Novice) or L1 to L6 in front of a skill (like "L3: RO BHS back tuck") to tag its tumbling level. Renaming a skill clears ticks already given for it.</div>
     <label for="s-flyer">Flyer body positions (current athletes)</label><textarea class="in" id="s-flyer" rows="8" data-keep>${esc(flyerList().join("\n"))}</textarea>
@@ -2707,10 +2718,10 @@ const actions={
       else{if(!cur){cur={cat:"Skills",items:[]};skills.push(cur)}const it=normItem(l);if(it.name&&!cur.items.some(x=>x.name===it.name))cur.items.push(it.level?{name:it.name,level:it.level}:{name:it.name,level:null})}
     });
     try{localStorage.setItem("eodth_coach",v("s-coach").trim())}catch(e){}
-    const tparse=parseTeamsText(v("s-teams"));if(tparse.bad.length){toast("Check the team list: each team needs to sit under # Cheerstarz, # Novice or # Premier");if(btn){btn.disabled=false;btn.textContent="Save settings"}return}
+    const tparse=parseTeamsText(v("s-teams")),cparse=parseTeamsText(v("s-curteams"));if(tparse.bad.length||cparse.bad.length){toast("Check the team list: each team needs to sit under # Cheerstarz, # Novice or # Premier");if(btn){btn.disabled=false;btn.textContent="Save settings"}return}
     const slow=setTimeout(()=>toast("Still saving… check you have internet"),8000);
     try{
-      await B.saveSettings({season:v("s-season").trim()||"Tryouts",ageAsAt:v("s-asat")||S.settings.ageAsAt||DEFAULT_SETTINGS.ageAsAt,divisions,skills:skills.filter(c=>c.items.length),cheerTeams:tparse.teams,flyerPositions:[...new Set(v("s-flyer").split("\n").map(x=>x.trim()).filter(Boolean))]});
+      await B.saveSettings({season:v("s-season").trim()||"Tryouts",ageAsAt:v("s-asat")||S.settings.ageAsAt||DEFAULT_SETTINGS.ageAsAt,divisions,skills:skills.filter(c=>c.items.length),cheerTeams:tparse.teams,curTeamsList:cparse.teams,flyerPositions:[...new Set(v("s-flyer").split("\n").map(x=>x.trim()).filter(Boolean))]});
       clearTimeout(slow);toast("Settings saved");go("home");
     }catch(e){clearTimeout(slow);toast("Couldn't save settings: "+(e.message||e));if(btn){btn.disabled=false;btn.textContent="Save settings"}}
   },
