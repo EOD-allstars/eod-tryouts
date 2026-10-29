@@ -1920,7 +1920,7 @@ function parseTeamsText(txt){const out={sport:[],novice:[],elite:[]};let cur=nul
     let div=AGE_GROUPS.find(g=>p.length>1&&g.toLowerCase()===p[p.length-1].toLowerCase())||"";
     let sub=p.length>2?p[1]:(div?"":(p[1]||""));
     if(!div){const txt2=(sub||"").toLowerCase();div=AGE_GROUPS.find(g=>txt2.includes(g.toLowerCase()))||""}
-    if(!out[cur].some(x=>x[0]===name))out[cur].push([name,sub,div])});
+    if(!out[cur].some(x=>x.name===name))out[cur].push({name,sub:sub||"",div:div||""})});
   return {teams:out,bad}}
 
 /* ---------- compare ---------- */
