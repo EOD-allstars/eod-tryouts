@@ -1,7 +1,7 @@
 // EOD Tryout Hub: lets the app install and open fast.
 // Your own files load fresh from the internet when online (so updates show straight away)
 // and fall back to the saved copy when offline. Firebase data, photos and videos are never cached here.
-const CACHE = "eod-tryouts-v28";
+const CACHE = "eod-tryouts-v30";
 const SHELL = ["./", "./index.html", "./manifest.json", "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png", "./icons/logo.webp"];
 
 self.addEventListener("install", e => {

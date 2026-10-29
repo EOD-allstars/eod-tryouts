@@ -639,6 +639,43 @@ input[type=date].in{min-height:46px;min-width:0;-webkit-appearance:none;appearan
 .possel.fly{background:#dff5e6;border-color:#9fd9b3;color:#14713c}
 @media (max-width:699px){.possel{font-size:16px}.tlcol{flex-basis:170px}}
 @media (min-width:700px){.tlwrap{margin:0 0 14px;padding:0 0 6px}.tlcol{flex-basis:210px}}
+.tln{padding:0!important;gap:0!important}
+.tlnb{flex:1;min-width:0;display:flex;align-items:center;gap:5px;text-align:left;font-size:13px;padding:5px 4px 5px 9px;min-height:29px}
+.tlnb span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tlnb i{font-style:normal;font-size:9.5px;font-weight:800;border-radius:6px;padding:1px 5px;flex:none}
+.tlnb i.ok{background:var(--ok);color:#fff}.tlnb i.nw{background:var(--pinkpale);color:var(--pink2)}
+.tlx{flex:none;width:26px;height:26px;margin-right:3px;border-radius:7px;color:#b9b0b7;font-size:11px;font-weight:900}
+.tlx:hover{background:var(--badbg);color:var(--bad)}
+.tladdw{position:relative;border-top:1px solid #f0ecef}
+.tladd{width:100%;border:0;background:#faf8fa;padding:7px 9px;font-size:16px;outline:none}
+.tladd:focus{background:#fff;box-shadow:inset 0 0 0 2px var(--pinkbox)}
+.tlsug{position:absolute;left:0;right:0;top:100%;z-index:30;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(40,20,35,.18);overflow:hidden;min-width:220px}
+.tlso{display:block;width:100%;text-align:left;padding:8px 10px;border-top:1px solid #f0ecef;position:relative}
+.tlso:first-child{border-top:0}.tlso:hover{background:var(--pinkpale)}
+.tlso b{display:block;font-size:13px;padding-right:56px}.tlso small{font-size:10.5px;color:var(--mut)}
+.tlso em{position:absolute;right:8px;top:9px;font-style:normal;font-size:9.5px;font-weight:800;background:var(--badbg);color:var(--bad);border-radius:6px;padding:1px 6px}
+.tlsn{padding:9px 10px;font-size:12px;color:var(--mut)}
+.tlcol{overflow:visible!important}.tlh{border-radius:13px 13px 0 0}
+.tlwrap{overflow:visible;margin:0 0 14px!important;padding:0!important}.tlcols{flex-wrap:wrap}
+@media (max-width:699px){.tlcol{flex:1 1 calc(50% - 5px)!important;min-width:0}}
+@media (min-width:700px){.tladd{font-size:13px}}
+@media (min-width:1000px){
+  #app.wide{max-width:none}
+  #app.wide .boardwrap{max-width:none;padding:0 32px}
+  #app.wide .tlcols{flex-wrap:wrap}
+  #app.wide .tlcol{flex:0 0 240px}
+  #app.wide .cawrap{margin:0 24px}
+  #app.wide .bgrid{grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
+}
+.stl{font-size:12px;margin-top:4px;opacity:.9}.stl em{font-style:normal;font-family:var(--num);font-size:24px;line-height:1;margin-right:3px;vertical-align:-3px}
+.stg{display:inline-block;font-size:10.5px;font-weight:800;border-radius:7px;padding:3px 7px;margin:5px 0 3px}
+.stg.ok{background:#1f9d55;color:#fff}.tlh .stg+span{display:block}.stg.bad{background:#d23b3b;color:#fff}
+.tshead{background:var(--ink);color:#fff;border-radius:14px;padding:6px 12px 8px;flex:none}.tshead .stl{margin-top:0}
+.mt{position:relative;flex:none;font-size:10.5px;color:#a39aa1;font-weight:600;padding:2px 4px;cursor:default;outline:none;white-space:nowrap}
+.mtp{display:none;position:absolute;right:0;top:calc(100% + 4px);z-index:40;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 28px rgba(40,20,35,.18);padding:8px 10px;min-width:180px;color:var(--ink);white-space:normal}
+.mt:hover .mtp,.mt:focus .mtp{display:block}
+.tln .mt,.tln .mtp{overflow:visible!important;flex:none!important;text-overflow:clip!important}.tln .mtp{white-space:nowrap!important;width:max-content;min-width:0}
+.mtp b{display:block;font-size:11px;margin-bottom:4px}.mtp i{display:block;font-style:normal;font-size:12px;padding:2px 0;color:var(--ink);font-weight:600}.mtp i.here{color:var(--pink2)}
 .bchips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
 .bchips .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 .staybtn{flex:none;font-size:12px;font-weight:800;color:var(--ok);background:var(--okbg);border:1.5px solid #b8e3c9;border-radius:10px;padding:8px 9px;white-space:nowrap}
@@ -820,7 +857,7 @@ const DEFAULT_SETTINGS = {
   counter: 0
 };
 
-const APP_VERSION="v28";
+const APP_VERSION="v30";
 const DEMO = !FIREBASE_CONFIG.apiKey;
 const CHEER_LEVELS=["No experience","Novice","Level 1","Level 2","Level 3","Level 4","Level 5","Level 6","Level 7"];
 const POSITIONS=["Flyer","Back spot","Main base","Secondary base","N/A"];
@@ -2078,8 +2115,9 @@ function boardPlace(src,tab){
     let h=`<h3 class="bsh">${d==="cheer"?"Cheer":"Dance"} teams</h3>`;
     if(!cols.length&&!unsug.length)return "";
     h+=`<div class="tlwrap"><div class="tlcols">`+cols.map(t=>{const list=(rows[t.name]||[]).sort(posSort),f=list.filter(x=>x.fin).length,fly=list.filter(x=>primaryPos(x.a)==="Flyer").length;
-      return `<div class="tlcol"><div class="tlh"><small>${esc(t.tier)}</small><b>${esc(t.name)}</b><span>${list.length} · ${d==="cheer"?`${fly} flyer${fly===1?"":"s"} · `:""}${f} final</span></div>
-        ${list.map(x=>`<button class="tln ${d==="cheer"&&primaryPos(x.a)==="Flyer"?"fly":""} ${x.fin?"fin":""}" data-act="openTeams" data-id="${x.a.id}"><span>${esc(fullName(x.a))}</span>${tagNew&&!isCur(x.a)?`<i class="nw">new</i>`:""}${x.fin?`<i class="ok">✓</i>`:""}</button>`).join("")||`<p class="help" style="margin:6px 8px">No athletes</p>`}
+      return `<div class="tlcol"><div class="tlh"><small>${esc(t.tier)}</small><b>${esc(t.name)}</b>${d==="cheer"?stuntLine(list.length,fly):""}<span>${d==="cheer"?"":list.length+" athletes · "}${f} final</span></div>
+        ${list.map(x=>`<div class="tln ${d==="cheer"&&primaryPos(x.a)==="Flyer"?"fly":""} ${x.fin?"fin":""}"><button class="tlnb" data-act="openTeams" data-id="${x.a.id}"><span>${esc(fullName(x.a))}</span>${tagNew&&!isCur(x.a)?`<i class="nw">new</i>`:""}${x.fin?`<i class="ok">✓</i>`:""}</button>${multiTeams(x.a,d,t.name)}${isDirector()?`<button class="tlx" data-act="tlRemove" data-id="${x.a.id}" data-d="${d}" data-k="${x.p.key}" aria-label="Remove ${esc(fullName(x.a))} from ${esc(t.name)}">✕</button>`:""}</div>`).join("")||`<p class="help" style="margin:6px 8px">No athletes</p>`}
+        ${isDirector()&&d==="cheer"&&teamInfo(t.name)?`<div class="tladdw"><input class="tladd" data-addteam="${esc(t.name)}" placeholder="＋ Add athlete" autocomplete="off" aria-label="Add an athlete to ${esc(t.name)}"><div class="tlsug" hidden></div></div>`:""}
       </div>`}).join("")+`</div></div>`;
     if(unsug.length)h+=`<div class="btier">Not suggested yet (${unsug.length})</div><div class="bunsug">${unsug.map(a=>`<div class="browx"><button class="brow" data-act="openTeams" data-id="${a.id}">${thumb(a,30)}<span class="bn"><b>${esc(fullName(a))}${isCur(a)?'<span class="curtag">Current</span>':""}</b><small>${a.dob?"Age "+divAge(a.dob)+" · "+esc(divLabel(a)):""}</small></span>${d==="cheer"&&isDirector()?"":`<i class="no">!</i>`}</button>${d==="cheer"?sugSelect(a):""}</div>`).join("")}</div>`;
     return h};
@@ -2088,6 +2126,24 @@ function boardPlace(src,tab){
       <button class="btn tsbtn" data-act="tsGo">📊 Team stats</button></div>
     ${S.bq?"":`<label class="tgl"><input type="checkbox" id="boardEmpty" ${S.boardEmpty?"checked":""}> Show teams with no athletes</label>`}
     ${body.trim()?body:`<div class="empty"><b>${S.bq?"No matches":"No placements yet"}</b>${S.bq?"Try a different name.":"Suggest teams from the Current teams tab or an athlete's Team selection."}</div>`}`}
+
+function stuntLine(n,fly){const g=Math.floor(n/4),sp=n-g*4,ok=g>0&&fly===g;
+  return `<div class="stl"><em>${n}</em> athlete${n===1?"":"s"}</div><div class="stg ${ok?"ok":"bad"}">${fly} flyer${fly===1?"":"s"} · ${g} stunt group${g===1?"":"s"} · ${sp} spare${sp===1?"":"s"}</div>`}
+function multiTeams(a,d,here){const l=plist(a,d);if(l.length<2)return "";
+  return `<span class="mt" tabindex="0" role="button" aria-label="${l.length} teams">${l.length} teams<span class="mtp"><b>${esc(a.first||"")}'s teams</b>${l.map(e=>`<i class="${e.team===here?"here":""}">${isFinal(e)?"✓ ":""}${esc(teamLbl(e))}</i>`).join("")}</span></span>`}
+function tlSugHtml(team,q){q=q.trim().toLowerCase();if(!q)return "";
+  const ti=teamInfo(team),mx=teamMax(team);
+  const m=allAth().filter(a=>discsOf(a).includes("cheer")&&!plist(a,"cheer").some(e=>e.team===team)&&(fullName(a)+" "+aCode(a)).toLowerCase().includes(q))
+    .sort((x,y)=>(fullName(x).toLowerCase().startsWith(q)?0:1)-(fullName(y).toLowerCase().startsWith(q)?0:1)||fullName(x).localeCompare(fullName(y))).slice(0,8);
+  if(!m.length)return `<div class="tlsn">No matching athletes</div>`;
+  return m.map(a=>{const old=a.dob&&mx!=null&&divAge(a.dob)>mx,sug=plist(a,"cheer").map(e=>e.team);
+    return `<button class="tlso" data-act="tlAdd" data-id="${a.id}" data-team="${esc(team)}"><b>${esc(fullName(a))}</b><small>${esc(aCode(a))}${a.dob?" · "+divAge(a.dob):""}${isCur(a)&&curTeamsTxt(a)?" · "+esc((a.curTeams||[]).map(t=>t.team).join(", ")):isCur(a)?"":" · new"}${sug.length?" · on "+esc(sug.join(", ")):""}</small>${old?`<em>Too old</em>`:""}</button>`}).join("")}
+function tlMoveOpts(a,cur){return TIERS.cheer.map(t=>{const ts=t.teams.filter(x=>x.name!==cur&&!plist(a,"cheer").some(e=>e.team===x.name));return ts.length?`<optgroup label="${esc(t.name)}">${ts.map(x=>`<option value="${t.id}|${esc(x.name)}">${esc(x.name)}${x.sub?` · ${esc(x.sub)}`:""}${a.dob&&!teamOk(a,"cheer",x)?" (not age-eligible)":""}</option>`).join("")}</optgroup>`:""}).join("")}
+async function tlDoRemove(a,d,k,move){const list=plist(a,d),e=list.find(x=>x.key===k);if(!e)return;
+  let nl=list.filter(x=>x.key!==k),msg=`${a.first||"Athlete"} removed from ${e.team}`;
+  if(move){const [tier,...nm]=move.split("|"),name=nm.join("|"),tm=((TIERS[d].find(t=>t.id===tier)||{teams:[]}).teams.find(x=>x.name===name))||{};
+    nl=[...nl,{key:tkey(name),tier,team:name,sub:tm.sub||"",by:coachName(),at:Date.now(),approvals:{}}];msg=`${a.first||"Athlete"} moved from ${e.team} to ${name}`}
+  try{await savePlist(a,d,nl);toast(msg)}catch(er){toast("Couldn't save: "+er.message)}}
 
 /* ---------- Team stats ---------- */
 function vTeamStats(){
@@ -2102,7 +2158,8 @@ function vTeamStats(){
   const cell=(a,i)=>{const tk=tickOf(a,i.key),t=techOf(a,i.key),vs=(a.videos||[]).filter(v=>v.skill===i.key);
     return `<td class="c"><div class="tsc ${tk?"y":""}">${tk?`<span class="cmy">✓</span>`:`<span class="cmn">–</span>`}${t!=null?`<span class="cms t-${techCls(t)}">${t.toFixed(1)}</span>`:""}${vs.length?`<button class="tsv" data-act="tsVid" data-id="${a.id}" data-k="${esc(i.key)}">🎥${vs.length>1?vs.length:""}</button>`:""}</div></td>`};
   const sum=a=>{const n=items.filter(i=>tickOf(a,i.key)).length,ts=items.map(i=>techOf(a,i.key)).filter(v=>v!=null);return `${n}/${items.length}${ts.length?` · ${(ts.reduce((x,y)=>x+y,0)/ts.length).toFixed(1)}`:""}`};
-  return `<div class="catop"><button class="icon" data-act="tsBack" aria-label="Back">‹</button><div class="catt"><h2>Team stats</h2><small>${esc(tn||"No teams yet")}${list.length?` · ${list.length} athletes`:""}</small></div></div>
+  const flyN=list.filter(x=>primaryPos(x.a)==="Flyer").length;
+  return `<div class="catop"><button class="icon" data-act="tsBack" aria-label="Back">‹</button><div class="catt"><h2>Team stats</h2><small>${esc(tn||"No teams yet")}</small></div>${list.length?`<div class="tshead">${stuntLine(list.length,flyN)}</div>`:""}</div>
   <div class="tsbar">
     <div class="bchips">${names.map(n=>`<button class="chip ${n===tn?"on":""}" data-act="tsTeam" data-v="${esc(n)}">${esc(n)} <small>${rows[n].length}</small></button>`).join("")||`<p class="help">No 2027 placements yet.</p>`}</div>
     <div class="bchips">${CUR_LEVELS.map(l=>`<button class="chip gold ${lv===String(l)?"on":""}" data-act="tsLvl" data-v="${l}">${lvlName(l)}</button>`).join("")}<button class="chip gold ${lv==="fly"?"on":""}" data-act="tsLvl" data-v="fly">Flyer positions</button></div>
@@ -2355,6 +2412,7 @@ function render(){
   }
   if(focusId){const el=document.getElementById(focusId);if(el){el.focus();try{if(sel)el.setSelectionRange(sel[0],sel[1])}catch(e){}}}
   render._last=S.view+"|"+S.id+"|"+S.tab;
+  app.classList.toggle("wide",["board","tstats","class"].includes(S.view));
   const tb=document.querySelector(".tabs .on");if(tb){const w=tb.parentElement;if(tb.offsetLeft<w.scrollLeft||tb.offsetLeft+tb.offsetWidth>w.scrollLeft+w.clientWidth)w.scrollLeft=tb.offsetLeft-12}
 }
 function go(view,extra={}){
@@ -2441,6 +2499,16 @@ const actions={
   caSessAdd(el){actions.caSess(el);setTimeout(()=>actions.gaAdd(),50)},
   btab(el){S.btab=el.dataset.v;render()},
   tsGo(){go("tstats")},
+  async tlAdd(el){const a=find(el.dataset.id),team=el.dataset.team,ti=teamInfo(team);if(!a||!ti)return;
+    const mx=teamMax(team);if(a.dob&&mx!=null&&divAge(a.dob)>mx&&!await ask(`${fullName(a)} is too old for ${team}'s age group in ${ageYear()}. Add anyway?`,"Add anyway"))return;
+    await addSuggestion(a,"cheer",ti.tier,team)},
+  tlRemove(el){const a=find(el.dataset.id),d=el.dataset.d,k=el.dataset.k;if(!a)return;const e=findEntry(a,d,k);if(!e)return;const n=apprList(e).length;
+    S.tlRm={id:a.id,d,k};
+    openModal(`<h3>${esc(fullName(a))}</h3><p class="askq" style="font-weight:500;font-size:15px">Remove ${esc(a.first||"them")} from <b>${esc(e.team)}</b>?${n?` This suggestion has ${n} approval${n===1?"":"s"}, which will be lost.`:""}</p>
+      ${d==="cheer"?`<label for="tl-move">Or move them to another team</label><select class="in" id="tl-move"><option value="">Choose a team…</option>${tlMoveOpts(a,e.team)}</select>`:""}
+      <div class="cfbtns"><button class="btn" data-act="tlMoveGo">Move to selected team</button><button class="btn danger" data-act="tlRemoveGo">Remove from ${esc(e.team)}</button><button class="btn ghost" data-act="closeModal">Cancel</button></div>`)},
+  async tlRemoveGo(){const r=S.tlRm;closeModal();if(!r)return;const a=find(r.id);if(a)await tlDoRemove(a,r.d,r.k,null);S.tlRm=null},
+  async tlMoveGo(){const r=S.tlRm,sel=document.getElementById("tl-move");if(!r)return;if(!sel||!sel.value){toast("Pick a team to move them to");return}const v=sel.value;closeModal();const a=find(r.id);if(a)await tlDoRemove(a,r.d,r.k,v);S.tlRm=null},
   tsBack(){go("board")},
   tsTeam(el){S.tsTeam=el.dataset.v;render()},
   tsLvl(el){S.tsLvl=el.dataset.v;render()},
@@ -2798,6 +2866,7 @@ function exportCsv(){
 /* ============================ EVENT WIRING ============================ */
 window.addEventListener("unhandledrejection",e=>{const m=(e.reason&&(e.reason.message||e.reason))||"Something went wrong";toast(String(m).slice(0,140))});
 document.addEventListener("click",e=>{
+  if(!e.target.closest(".tladdw"))document.querySelectorAll(".tlsug").forEach(b=>{b.hidden=true});
   const el=e.target.closest("[data-act]");if(!el||el.disabled)return;
   const fn=actions[el.dataset.act];if(fn){e.preventDefault();fn(el)}
 });
@@ -2808,6 +2877,7 @@ document.addEventListener("input",e=>{
   if(e.target.id==="ca-name"){caState().name=e.target.value;caSave()}
   if(e.target.id==="ga-addq"){S.gaAddQ=e.target.value;const pos=e.target.selectionStart;openModal(gaAddHtml());const q=document.getElementById("ga-addq");if(q){q.focus();try{q.setSelectionRange(pos,pos)}catch(er){}}}
   if(e.target.id==="bsearch"){S.bq=e.target.value;render()}
+  if(e.target.dataset&&e.target.dataset.addteam!=null){const box=e.target.parentElement.querySelector(".tlsug");const h=tlSugHtml(e.target.dataset.addteam,e.target.value);box.innerHTML=h;box.hidden=!h}
   if(e.target.id==="ca-gq"){caState().gq=e.target.value;render()}
   if(e.target.id==="vc-range"&&S.vc){const v=+e.target.value;S.vc.tech=v;S.vc.scored=true;e.target.classList.remove("unset");
     const val=document.getElementById("vc-val"),lb=document.getElementById("vc-lbl"),sv=document.getElementById("vc-save");
@@ -2827,6 +2897,8 @@ document.addEventListener("change",e=>{
   if(t.dataset&&t.dataset.sug&&t.value){const a=find(t.dataset.sug),[tier,...nm]=t.value.split("|");t.disabled=true;if(a)addSuggestion(a,"cheer",tier,nm.join("|"));return}
   if(e.target.id==="teamSel"){B.updateAthlete(e.target.dataset.id,{team:e.target.value}).then(()=>toast(e.target.value?"Team set":"Team cleared"))}
 });
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.dataset&&e.target.dataset.addteam!=null){const o=e.target.parentElement.querySelector(".tlso");if(o){e.preventDefault();o.click()}return}
+  if(e.key==="Escape"&&e.target.dataset&&e.target.dataset.addteam!=null){e.target.value="";const b=e.target.parentElement.querySelector(".tlsug");b.hidden=true;return}});
 document.addEventListener("keydown",e=>{if(e.key==="Enter"&&S.view==="login"&&e.target.tagName==="INPUT")actions.login()});
 
 /* ============================ INSTALLABLE APP ============================ */
