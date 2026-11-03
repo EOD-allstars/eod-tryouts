@@ -829,6 +829,7 @@ input[type=date].in{min-height:46px;min-width:0;-webkit-appearance:none;appearan
 .tcb>div{display:flex;gap:10px;padding:3px 0}.tcb span{flex:none;width:88px;color:var(--mut)}.tcb a{color:var(--pink2);word-break:break-all}
 .tcb .tnote{display:block;background:var(--card);border-radius:10px;padding:8px 10px;margin:6px 0 2px;font-style:italic}
 .tcb .tmeta{color:var(--mut);font-size:11.5px;padding-top:6px}
+.tkids{margin:10px 0 0}.tkid{display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px solid var(--line)}.tkid>span{flex:1;min-width:0}.tkid b{display:block;font-size:14.5px}.tkid small{color:var(--mut);font-size:12px}.tkid .btn{width:auto;flex:none;padding:8px 12px;font-size:10.5px}
 .tbtns{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.tbtns .btn{width:auto;flex:1 1 auto;padding:10px 10px;font-size:10.5px}
 .tbtns .btn.on{background:var(--ink);color:#fff;border-color:var(--ink)}.tbtns .btn.danger{color:var(--bad)}
 .ttrow{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:10px;margin:0 0 8px}
@@ -887,7 +888,7 @@ const DEFAULT_SETTINGS = {
   counter: 0
 };
 
-const APP_VERSION="v32";
+const APP_VERSION="v33";
 const DEMO = !FIREBASE_CONFIG.apiKey;
 const CHEER_LEVELS=["No experience","Novice","Level 1","Level 2","Level 3","Level 4","Level 5","Level 6","Level 7"];
 const POSITIONS=["Flyer","Back spot","Main base","Secondary base","N/A"];
@@ -2269,25 +2270,24 @@ function newTours(){const s=toursSeen();return upcomingTours().filter(t=>(t.crea
 function tourBanner(){const up=upcomingTours();if(!S.toursOn)return "";
   const today=sydParts(Date.now()).date,tod=up.filter(t=>t.date===today).length,nw=newTours();
   return `<button class="tourban" data-act="go" data-v="tours"><span class="ti">📅</span><span class="tt"><b>Gym tours</b><small>${up.length?`${tod?`${tod} today · `:""}${up.length} upcoming`:"No tours booked yet"}</small></span>${nw?`<i>${nw} new</i>`:""}<span class="ta">›</span></button>`}
-function tourMatch(t){const n=(t.first+" "+t.last).trim().toLowerCase();return S.athletes.find(a=>a.id===t.athleteId)||S.athletes.find(a=>fullName(a).toLowerCase()===n&&(!t.dob||!a.dob||a.dob===t.dob))||null}
-function tourCard(t,past){const a=tourMatch(t),age=t.dob?divAge(t.dob):null;
+function tourKids(t){return (t.kids&&t.kids.length?t.kids:[((t.first||"")+" "+(t.last||"")).trim()]).filter(Boolean)}
+function tourFirsts(t){const f=tourKids(t).map(x=>x.split(" ")[0]);return f.length>1?f.slice(0,-1).join(", ")+" & "+f[f.length-1]:f[0]||"Tour"}
+function kidMatch(name){const n=String(name||"").toLowerCase().replace(/\s+/g," ").trim();return n?allAth().find(a=>fullName(a).toLowerCase().replace(/\s+/g," ")===n)||null:null}
+function tourCard(t,past){const kids=tourKids(t);
   const st=t.status==="attended"?`<span class="tst ok">✓ Attended</span>`:t.status==="noshow"?`<span class="tst no">No-show</span>`:"";
   const isNew=(t.createdAt||0)>(S.toursSeenAt||0)&&!past;
   return `<div class="tcard ${isNew?"new":""}">
-    <div class="tch"><span class="ttime">${tTime(t.time)}</span><div class="tcn"><b>${esc((t.first||"")+" "+(t.last||""))}${isNew?`<i class="tnew">New</i>`:""}</b>
-      <small>${[age!=null?`${age} in ${ageYear()}`:"",t.interest,t.experience].filter(Boolean).map(esc).join(" · ")}</small></div>${st}</div>
+    <div class="tch"><span class="ttime">${tTime(t.time)}</span><div class="tcn"><b>${esc(tourFirsts(t))}${isNew?`<i class="tnew">New</i>`:""}</b>
+      <small>${kids.length>1?`${kids.length} children · `:""}${esc(t.parentName||"")}</small></div>${st}</div>
+    <div class="tkids">${kids.map((k,i)=>{const a=kidMatch(k);return `<div class="tkid"><span><b>${esc(k)}</b><small>${a?`${isCur(a)?"Current athlete":"In tryouts"}${a.dob?` · ${divAge(a.dob)} in ${ageYear()}`:""}`:"Not in the app yet"}</small></span>${a?`<button class="btn ghost" data-act="open" data-id="${a.id}">Open</button>`:`<button class="btn ghost" data-act="tourAdd" data-id="${esc(t.id)}" data-i="${i}">＋ Add</button>`}</div>`}).join("")}</div>
     <div class="tcb">
       <div><span>Parent</span><b>${esc(t.parentName||"")}</b></div>
       <div><span>Mobile</span><a href="tel:${esc(String(t.phone||"").replace(/[^\d+]/g,""))}">${esc(t.phone||"")}</a></div>
       <div><span>Email</span><a href="mailto:${esc(t.email||"")}">${esc(t.email||"")}</a></div>
-      ${t.prevGym?`<div><span>Previous</span><b>${esc(t.prevGym)}</b></div>`:""}
-      ${t.others?`<div><span>Also coming</span><b>${esc(t.others)}</b></div>`:""}
-      ${t.heard?`<div><span>Heard via</span><b>${esc(t.heard)}</b></div>`:""}
       ${t.notes?`<div class="tnote">“${esc(t.notes)}”</div>`:""}
       <div class="tmeta">Booked ${new Date(t.createdAt||t.at).toLocaleDateString("en-AU",{day:"numeric",month:"short"})}${t.source==="staff"?` by ${esc(t.by||"staff")}`:" online"}</div>
     </div>
     <div class="tbtns">
-      ${a?`<button class="btn ghost" data-act="open" data-id="${a.id}">Open in tryouts</button>`:`<button class="btn ghost" data-act="tourAdd" data-id="${esc(t.id)}">＋ Add to tryouts</button>`}
       ${past||t.date<=sydParts(Date.now()).date?`<button class="btn ghost ${t.status==="attended"?"on":""}" data-act="tourStatus" data-id="${esc(t.id)}" data-v="attended">✓ Came</button><button class="btn ghost ${t.status==="noshow"?"on":""}" data-act="tourStatus" data-id="${esc(t.id)}" data-v="noshow">No-show</button>`:""}
       ${past?"":`<button class="btn ghost danger" data-act="tourCancel" data-id="${esc(t.id)}">Cancel</button>`}
     </div></div>`}
@@ -2310,7 +2310,7 @@ function vTourTimes(){const now=sydParts(Date.now()),slots=S.tourSlots||{},byKey
   let h=`<p class="help" style="margin:0 0 12px">Tap a time to block it (staff unavailable, public holiday). Tap again to open it. Booked times show the athlete's name.</p>`;
   for(let i=0;i<TOUR_WEEKS*7+1;i++){const d=tAddDays(now.date,i);if(!TOUR_DAYS.includes(tDow(d)))continue;
     const cells=TOUR_SLOTS.map(t=>{const k=tKey(d,t),s=slots[k],b=byKey[k];const st=b?"bk":s&&s.blocked?"bl":s?"bk":"op";
-      return `<button class="tslot ${st}" ${st==="bk"?"disabled":`data-act="tourSlot" data-k="${k}" data-d="${d}" data-t="${t}"`}><b>${tTime(t)}</b><small>${st==="bk"?esc(b?b.first:"Booked"):st==="bl"?"Blocked":"Open"}</small></button>`}).join("");
+      return `<button class="tslot ${st}" ${st==="bk"?"disabled":`data-act="tourSlot" data-k="${k}" data-d="${d}" data-t="${t}"`}><b>${tTime(t)}</b><small>${st==="bk"?esc(b?tourFirsts(b):"Booked"):st==="bl"?"Blocked":"Open"}</small></button>`}).join("");
     const openN=TOUR_SLOTS.filter(t=>!slots[tKey(d,t)]).length,blN=TOUR_SLOTS.filter(t=>(slots[tKey(d,t)]||{}).blocked).length;
     h+=`<div class="ttrow"><div class="ttd"><b>${esc(tDate(d))}</b>${openN?`<button data-act="tourDay" data-d="${d}" data-v="block">Block day</button>`:blN?`<button data-act="tourDay" data-d="${d}" data-v="open">Open day</button>`:""}</div><div class="tslots">${cells}</div></div>`}
   return h}
@@ -2320,8 +2320,7 @@ function tourNewHtml(){const now=sydParts(Date.now()),opts=[];
   <p class="help" style="margin:0 0 10px">For bookings made over the phone or in person.</p>
   <div>
     <label>Time</label><select class="in" id="tn-k">${opts.join("")||`<option value="">No open times</option>`}</select>
-    <div class="row"><div><label>Athlete first name</label><input class="in" id="tn-first"></div><div><label>Last name</label><input class="in" id="tn-last"></div></div>
-    <div class="row"><div><label>Date of birth</label><input class="in" id="tn-dob" type="date"></div><div><label>Interested in</label><select class="in" id="tn-interest"><option>Cheer</option><option>Dance</option><option>Both</option><option>Not sure yet</option></select></div></div>
+    <label>Children <span style="font-weight:500">(full names, one per line)</span></label><textarea class="in" id="tn-kids" rows="2"></textarea>
     <label>Parent name</label><input class="in" id="tn-parent">
     <div class="row"><div><label>Mobile</label><input class="in" id="tn-phone" type="tel"></div><div><label>Email</label><input class="in" id="tn-email" type="email"></div></div>
     <label>Notes</label><input class="in" id="tn-notes">
@@ -2676,27 +2675,26 @@ const actions={
   ttab(el){S.ttab=el.dataset.v;render()},
   async tourCopy(){try{await navigator.clipboard.writeText(TOUR_URL);toast("Booking link copied")}catch(e){openModal(`<div class="mhead"><h3 style="margin:0">Booking link</h3><button class="icon" data-act="closeModal" aria-label="Close">✕</button></div><input class="in" readonly value="${TOUR_URL}" onfocus="this.select()">`)}},
   async tourStatus(el){const t=(S.tours||[]).find(x=>x.id===el.dataset.id);if(!t)return;const v=t.status===el.dataset.v?"booked":el.dataset.v;
-    try{await B.tourUpdate(t.id,{status:v,statusBy:coachName(),statusAt:Date.now()});toast(v==="attended"?`${t.first} came ✓`:v==="noshow"?`${t.first} marked no-show`:"Status cleared")}catch(e){toast("Couldn't save: "+e.message)}},
+    try{await B.tourUpdate(t.id,{status:v,statusBy:coachName(),statusAt:Date.now()});toast(v==="attended"?`${tourFirsts(t)} came ✓`:v==="noshow"?`${tourFirsts(t)} marked no-show`:"Status cleared")}catch(e){toast("Couldn't save: "+e.message)}},
   async tourCancel(el){const t=(S.tours||[]).find(x=>x.id===el.dataset.id);if(!t)return;
-    if(!await ask(`Cancel ${t.first}'s tour on ${tDate(t.date)} at ${tTime(t.time)}? The time opens up for someone else.`,"Cancel tour"))return;
+    if(!await ask(`Cancel the tour for ${tourFirsts(t)} on ${tDate(t.date)} at ${tTime(t.time)}? The time opens up for someone else.`,"Cancel tour"))return;
     try{await B.tourCancel(t.id);toast("Tour cancelled")}catch(e){toast("Couldn't cancel: "+e.message)}},
-  async tourAdd(el){const t=(S.tours||[]).find(x=>x.id===el.dataset.id);if(!t)return;
-    const ty={Cheer:"cheer",Dance:"dance",Both:"both"}[t.interest]||null;
-    const d={first:t.first||"",last:t.last||"",dob:t.dob||"",parentName:t.parentName||"",parentPhone:t.phone||"",parentEmail:t.email||"",prevGym:t.prevGym||"",experience:t.experience||"",fromTour:t.id,cnum:nextCnum(),pcode:genPcode()};
-    if(ty)d.tryoutType=ty;
-    try{const id=B.newId();await B.createAthlete(id,d);await B.tourUpdate(t.id,{athleteId:id});
-      if(t.notes||t.others||t.heard)try{await B.addToList(id,"notes",{text:`From gym tour ${tDate(t.date)}: ${[t.notes,t.others?"Also coming: "+t.others:"",t.heard?"Heard via "+t.heard:""].filter(Boolean).join(". ")}`,by:coachName(),at:Date.now()})}catch(e){}
-      toast(`${t.first} added to tryouts`)}catch(e){toast("Couldn't add: "+e.message)}},
+  async tourAdd(el){const t=(S.tours||[]).find(x=>x.id===el.dataset.id);if(!t)return;const name=tourKids(t)[+el.dataset.i||0]||"";if(!name)return;
+    const parts=name.split(" "),first=parts.shift(),last=parts.join(" ");
+    const d={first,last,dob:"",parentName:t.parentName||"",parentPhone:t.phone||"",parentEmail:t.email||"",fromTour:t.id,cnum:nextCnum(),pcode:genPcode()};
+    try{const id=B.newId();await B.createAthlete(id,d);
+      if(t.notes)try{await B.addToList(id,"notes",{text:`From gym tour ${tDate(t.date)}: ${t.notes}`,by:coachName(),at:Date.now()})}catch(e){}
+      toast(`${first} added to tryouts`)}catch(e){toast("Couldn't add: "+e.message)}},
   async tourSlot(el){const k=el.dataset.k,s=(S.tourSlots||{})[k];
     try{if(s&&s.blocked)await B.slotOpen(k);else if(!s)await B.slotBlock(k,sydToMs(el.dataset.d,el.dataset.t))}catch(e){toast("Couldn't save: "+e.message)}},
   async tourDay(el){const d=el.dataset.d,blk=el.dataset.v==="block",sl=S.tourSlots||{};
     try{for(const t of TOUR_SLOTS){const k=tKey(d,t),s=sl[k];if(blk&&!s)await B.slotBlock(k,sydToMs(d,t));else if(!blk&&s&&s.blocked)await B.slotOpen(k)}toast(blk?`${tDate(d)} blocked`:`${tDate(d)} open`)}catch(e){toast("Couldn't save: "+e.message)}},
   tourNew(){openModal(tourNewHtml())},
   async tourNewGo(){const v=id=>(document.getElementById(id)||{}).value?.trim()||"";const k=v("tn-k");
-    if(!k)return toast("Pick a time");if(!v("tn-first"))return toast("Add the athlete's first name");
+    if(!k)return toast("Pick a time");const kids=v("tn-kids").split(/\n|,/).map(x=>x.replace(/\s+/g," ").trim()).filter(Boolean).slice(0,6);if(!kids.length)return toast("Add at least one child's name");
     const [date,hm]=k.split("_"),time=hm.slice(0,2)+":"+hm.slice(2);
-    const tour={key:k,date,time,at:sydToMs(date,time),first:v("tn-first"),last:v("tn-last"),dob:v("tn-dob"),interest:v("tn-interest"),experience:"",prevGym:"",parentName:v("tn-parent"),phone:v("tn-phone"),email:v("tn-email").toLowerCase(),others:"",heard:"",notes:v("tn-notes"),status:"booked",createdAt:Date.now(),source:"staff",by:coachName()};
-    try{await B.tourBook(k,tour);closeModal();toast(`Tour added for ${tour.first}`)}catch(e){toast(/taken|permission|exists/i.test(e.message)?"That time was just taken. Pick another.":"Couldn't add: "+e.message)}},
+    const tour={key:k,date,time,at:sydToMs(date,time),kids,parentName:v("tn-parent"),phone:v("tn-phone"),email:v("tn-email").toLowerCase(),notes:v("tn-notes"),status:"booked",createdAt:Date.now(),source:"staff",by:coachName()};
+    try{await B.tourBook(k,tour);closeModal();toast(`Tour added for ${tourFirsts(tour)}`)}catch(e){toast(/taken|permission|exists/i.test(e.message)?"That time was just taken. Pick another.":"Couldn't add: "+e.message)}},
   impUndo(){const l=recentCurImports().sort((x,y)=>(y.createdAt||0)-(x.createdAt||0));if(!l.length)return;
     const day=t=>new Date(t).toLocaleString("en-AU",{weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
     openModal(`<div class="mhead"><h3 style="margin:0">Remove imported athletes</h3><button class="icon" data-act="closeModal" aria-label="Close">✕</button></div>

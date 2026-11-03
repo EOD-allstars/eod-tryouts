@@ -79,6 +79,9 @@ input:focus,select:focus,textarea:focus{border-color:var(--pink)}
 .btn.ghost{background:var(--white);color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
 .err{background:var(--badbg);color:var(--bad);border-radius:12px;padding:10px 12px;font-size:14px;margin:0 0 12px;font-weight:600}
 .bad{border-color:var(--bad)!important}
+label.f>span.kidrow{display:flex;gap:8px;align-items:center;margin:0;font:inherit;text-transform:none;letter-spacing:0}.kidrow input{flex:1}
+.kidx{flex:none;width:44px;height:46px;border-radius:12px;border:1.5px solid var(--line);background:var(--white);color:var(--mut);font-size:15px}
+.addkid{display:block;width:100%;border:1.5px dashed var(--pinkbox);border-radius:12px;padding:11px;font-weight:800;font-size:13px;color:var(--pink2);background:var(--pinkpale);margin:0 0 4px}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .done{text-align:center}
 .tick{width:74px;height:74px;border-radius:50%;background:var(--okbg);color:var(--ok);display:grid;place-items:center;font-size:38px;margin:6px auto 14px}
@@ -107,6 +110,12 @@ const GYM = {
   address: "",          // e.g. "12 Example St, Rutherford NSW 2320" (shown on the confirmation)
   phone: "",            // e.g. "0400 000 000"
   email: ""             // e.g. "info@eodallstars.com"
+};
+// Confirmation emails (free at emailjs.com). Leave blank to switch off.
+const EMAILJS = {
+  publicKey: "",        // Account > General > Public key
+  serviceId: "",        // Email Services > your gym email > Service ID
+  templateId: ""        // Email Templates > your tour template > Template ID
 };
 const DAYS = [1,2,3,4,5];                                  // Mon to Fri
 const SLOTS = ["16:30","16:50","17:10","17:30","17:50","18:10"]; // 20 min tours, last one ends 6:30
@@ -174,7 +183,7 @@ function render(){
   <div class="steps" aria-hidden="true"><i class="on"></i><i class="${S.step>=2?"on":""}"></i><i class="${S.step>=3?"on":""}"></i></div>
   ${S.step<3?vPick():vForm()}
   <footer>${GYM.phone||GYM.email?`Questions? ${GYM.phone?`Call <a href="tel:${esc(GYM.phone.replace(/\s/g,""))}">${esc(GYM.phone)}</a>`:""}${GYM.phone&&GYM.email?" or ":""}${GYM.email?`email <a href="mailto:${esc(GYM.email)}">${esc(GYM.email)}</a>`:""}<br>`:""}All times are Sydney time.</footer>`;
-  if(S.step===3){restore();const el=$("#f-first");if(el&&!S.f.first)el.focus({preventScroll:true})}
+  if(S.step===3){restore();const el=$("#f-first");if(el&&!S.f.kid0)el.focus({preventScroll:true})}
   if(S.step<3&&S.date){const on=document.querySelector(".day.on");if(on&&!S._scrolled){on.scrollIntoView({block:"nearest",inline:"center"});S._scrolled=1}}
 }
 function vPick(){
@@ -190,25 +199,17 @@ function vPick(){
     <div class="times">${day.slots.map(s=>`<button class="time ${S.time===s.t&&S.date===day.d?"on":""}" data-time="${s.t}" ${s.open?"":"disabled"}>${niceTime(s.t)}<small>${s.open?"to "+niceTime(endTime(s.t)):"Booked"}</small></button>`).join("")}</div>
   </div>
   <button class="btn" data-go="3" ${S.time&&day.slots.some(s=>s.t===S.time&&s.open)?"":"disabled"}>Next: your details</button>`}
-function vForm(){
+function vForm(){const n=Math.max(1,S.nk||1);
   return `<div class="pick"><div><b>${esc(niceDate(S.date,true))} · ${esc(niceTime(S.time))}</b><span>20 minute gym tour</span></div><button data-go="1">Change</button></div>
   ${S.err?`<div class="err" role="alert">${esc(S.err)}</div>`:""}
   <form class="card" id="form" novalidate>
-    <div class="sect up">Athlete</div>
-    <div class="row2"><label class="f"><span>First name</span><input id="f-first" name="first" autocomplete="off" required maxlength="60"></label>
-    <label class="f"><span>Last name</span><input name="last" autocomplete="off" required maxlength="60"></label></div>
-    <label class="f"><span>Date of birth</span><input name="dob" type="date" required min="1960-01-01"></label>
-    <div class="f" style="margin:0 0 12px"><label class="f" style="margin:0 0 6px"><span>Interested in</span></label>
-      <div class="chips">${["Cheer","Dance","Both","Not sure yet"].map(v=>`<label><input type="radio" name="interest" value="${v}"><span>${v}</span></label>`).join("")}</div></div>
-    <label class="f"><span>Experience</span><select name="experience"><option value="">Choose one</option><option>Completely new</option><option>Some experience</option><option>Experienced</option><option>Advanced / elite</option></select></label>
-    <label class="f"><span>Previous gym, studio or teams <i>(optional)</i></span><input name="prevGym" maxlength="200" placeholder="e.g. Level 2 at ABC Allstars"></label>
+    <div class="sect up">${n>1?"Children":"Child"}</div>
+    ${Array.from({length:n},(_,i)=>`<label class="f kid"><span>${n>1?`Child ${i+1} full name`:"Child's full name"}</span><span class="kidrow"><input ${i===0?'id="f-first"':""} name="kid${i}" autocomplete="off" maxlength="80" placeholder="First and last name">${i>0?`<button type="button" class="kidx" data-rmkid="${i}" aria-label="Remove child ${i+1}">✕</button>`:""}</span></label>`).join("")}
+    ${n<6?`<button type="button" class="addkid" data-addkid>＋ Add another child</button>`:""}
     <div class="sect up">Parent or guardian</div>
     <label class="f"><span>Your name</span><input name="parentName" autocomplete="name" required maxlength="80"></label>
-    <div class="row2"><label class="f"><span>Mobile</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="20"></label>
-    <label class="f"><span>Email</span><input name="email" type="email" autocomplete="email" required maxlength="120"></label></div>
-    <div class="sect up">Anything else</div>
-    <label class="f"><span>Bringing other children? <i>(names and ages, optional)</i></span><input name="others" maxlength="200"></label>
-    <label class="f"><span>How did you hear about us? <i>(optional)</i></span><select name="heard"><option value="">Choose one</option><option>Instagram</option><option>Facebook</option><option>TikTok</option><option>Friend or family</option><option>Saw us at a competition</option><option>School or flyer</option><option>Google</option><option>Other</option></select></label>
+    <label class="f"><span>Mobile</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="20"></label>
+    <label class="f"><span>Email</span><input name="email" type="email" autocomplete="email" required maxlength="120"></label>
     <label class="f"><span>Questions or notes <i>(optional)</i></span><textarea name="notes" maxlength="1000"></textarea></label>
     <div class="hp" aria-hidden="true"><label>Leave this empty<input name="website" tabindex="-1" autocomplete="off"></label></div>
     <button class="btn" type="submit" ${S.busy?"disabled":""}>${S.busy?"Booking…":"Book my tour"}</button>
@@ -216,15 +217,15 @@ function vForm(){
 function vDone(){const b=S.done,start=b.at,end=b.at+TOUR_MINS*6e4;
   const z=ms=>new Date(ms).toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
   const where=GYM.address||GYM.name;
-  const g=`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("EOD Allstars gym tour")}&dates=${z(start)}/${z(end)}&details=${encodeURIComponent(`Gym tour for ${b.first}`)}&location=${encodeURIComponent(where)}`;
+  const g=`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("EOD Allstars gym tour")}&dates=${z(start)}/${z(end)}&details=${encodeURIComponent(`Gym tour for ${b.kids.join(", ")}`)}&location=${encodeURIComponent(where)}`;
   return `<div class="card done">
     <div class="tick">✓</div>
     <h1 class="up" style="font-size:30px">You're <span>booked!</span></h1>
-    <p class="lead" style="margin:0">We can't wait to meet ${esc(b.first)}.</p>
+    <p class="lead" style="margin:0">We can't wait to meet ${esc(kidFirsts(b.kids))}.</p>
     <div class="sum">
       <div><span>Day</span><b>${esc(niceDate(b.date,true))}</b></div>
       <div><span>Time</span><b>${esc(niceTime(b.time))} to ${esc(niceTime(endTime(b.time)))}</b></div>
-      <div><span>Athlete</span><b>${esc(b.first+" "+b.last)}</b></div>
+      <div><span>${b.kids.length>1?"Children":"Child"}</span><b>${b.kids.map(esc).join("<br>")}</b></div>
       ${GYM.address?`<div><span>Where</span><b>${esc(GYM.address)}</b></div>`:""}
     </div>
     <div class="cal"><a href="${g}" target="_blank" rel="noopener">Google Calendar</a><button data-ics>Apple / Outlook</button></div>
@@ -232,12 +233,21 @@ function vDone(){const b=S.done,start=b.at,end=b.at+TOUR_MINS*6e4;
   </div>
   <button class="btn ghost" data-again>Book another tour</button>`}
 
+/* ---------- confirmation email ---------- */
+async function sendEmail(t){if(!EMAILJS.publicKey||!EMAILJS.serviceId||!EMAILJS.templateId)return;
+  try{if(!window.emailjs){await new Promise((res,rej)=>{const sc=document.createElement("script");sc.src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4.4.1/dist/email.min.js";sc.onload=res;sc.onerror=rej;document.head.appendChild(sc)})}
+    await emailjs.send(EMAILJS.serviceId,EMAILJS.templateId,{to_email:t.email,parent_name:t.parentName,children:t.kids.join(", "),child_first_names:kidFirsts(t.kids),
+      tour_day:niceDate(t.date,true),tour_time:`${niceTime(t.time)} to ${niceTime(endTime(t.time))}`,parent_phone:t.phone,notes:t.notes||"",
+      gym_address:GYM.address,gym_phone:GYM.phone,gym_email:GYM.email},{publicKey:EMAILJS.publicKey})}
+  catch(e){console.warn("Email not sent",e)}}
+
 /* ---------- form helpers ---------- */
 function collect(){const fm=$("#form");if(!fm)return;const o={};new FormData(fm).forEach((v,k)=>o[k]=String(v).trim());S.f=o}
+function kidsOf(o){return Array.from({length:Math.max(1,S.nk||1)},(_,i)=>(o["kid"+i]||"").replace(/\s+/g," ").trim()).filter(Boolean)}
+function kidFirsts(k){const f=k.map(x=>x.split(" ")[0]);return f.length>1?f.slice(0,-1).join(", ")+" and "+f[f.length-1]:f[0]||""}
 function restore(){const fm=$("#form");if(!fm)return;Object.entries(S.f).forEach(([k,v])=>{const els=fm.querySelectorAll(`[name="${k}"]`);els.forEach(el=>{if(el.type==="radio")el.checked=el.value===v;else el.value=v})})}
 function validate(o){const miss=[];
-  if(!o.first)miss.push("first");if(!o.last)miss.push("last");
-  if(!o.dob||o.dob<"1960-01-01"||o.dob>sydParts(Date.now()).date)miss.push("dob");
+  if(!o.kid0)miss.push("kid0");
   if(!o.parentName)miss.push("parentName");
   if(o.phone.replace(/\D/g,"").length<8)miss.push("phone");
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(o.email))miss.push("email");
@@ -253,11 +263,12 @@ async function submit(){
     const first=document.querySelector("#form .bad");first&&first.focus();return}
   const k=keyOf(S.date,S.time),at=sydToMs(S.date,S.time);
   const cap=(s,n)=>String(s||"").slice(0,n);
-  const tour={key:k,date:S.date,time:S.time,at,first:cap(o.first,60),last:cap(o.last,60),dob:o.dob,interest:cap(o.interest,20),experience:cap(o.experience,40),prevGym:cap(o.prevGym,200),
-    parentName:cap(o.parentName,80),phone:cap(o.phone,20),email:cap(o.email.toLowerCase(),120),others:cap(o.others,200),heard:cap(o.heard,40),notes:cap(o.notes,1000),status:"booked",createdAt:Date.now()};
+  const tour={key:k,date:S.date,time:S.time,at,kids:kidsOf(o).map(x=>cap(x,80)).slice(0,6),
+    parentName:cap(o.parentName,80),phone:cap(o.phone,20),email:cap(o.email.toLowerCase(),120),notes:cap(o.notes,1000),status:"booked",createdAt:Date.now()};
   S.busy=true;S.err="";render();
   try{await DB.book(k,tour);
-    S.done=tour;S.busy=false;S.taken[k]={at};try{localStorage.setItem("eod_tour_booked",JSON.stringify({at,date:S.date,time:S.time,name:tour.first}))}catch(e){}
+    S.done=tour;S.busy=false;S.taken[k]={at};try{localStorage.setItem("eod_tour_booked",JSON.stringify({at,date:S.date,time:S.time,name:kidFirsts(tour.kids)}))}catch(e){}
+    sendEmail(tour);
     render();window.scrollTo(0,0)}
   catch(e){S.busy=false;
     if(S.taken[k]||/permission|taken|exists/i.test(e.message||e.code||"")){S.err="Sorry, that time was just booked by someone else. Please pick another time.";S.taken[k]={at};S.step=1;S.time=null}
@@ -266,7 +277,7 @@ async function submit(){
 function alertBox(){const c=document.querySelector(".card");if(c)c.insertAdjacentHTML("beforebegin",`<div class="err" role="alert">${esc(S.err)}</div>`);S.err=""}
 function ics(){const b=S.done,z=ms=>new Date(ms).toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
   const txt=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//EOD Allstars//Tours//EN","BEGIN:VEVENT",`UID:${b.key}@eod-tours`,`DTSTAMP:${z(Date.now())}`,`DTSTART:${z(b.at)}`,`DTEND:${z(b.at+TOUR_MINS*6e4)}`,
-    "SUMMARY:EOD Allstars gym tour",`DESCRIPTION:Gym tour for ${b.first}`,`LOCATION:${(GYM.address||GYM.name).replace(/,/g,"\\,")}`,"END:VEVENT","END:VCALENDAR"].join("\r\n");
+    "SUMMARY:EOD Allstars gym tour",`DESCRIPTION:Gym tour for ${b.kids.join("\\, ")}`,`LOCATION:${(GYM.address||GYM.name).replace(/,/g,"\\,")}`,"END:VEVENT","END:VCALENDAR"].join("\r\n");
   const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([txt],{type:"text/calendar"}));a.download="eod-gym-tour.ics";document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),500)}
 
 /* ---------- events ---------- */
@@ -275,7 +286,9 @@ document.addEventListener("click",e=>{const t=e.target.closest("button");if(!t)r
   if(t.dataset.time){S.time=t.dataset.time;S.step=2;render();const n=document.querySelector("[data-go='3']");n&&n.scrollIntoView({block:"nearest",behavior:"smooth"});return}
   if(t.dataset.go){if(S.step===3)collect();S.step=+t.dataset.go;S.err="";render();window.scrollTo(0,0);return}
   if(t.hasAttribute("data-ics")){ics();return}
-  if(t.hasAttribute("data-again")){S.done=null;S.step=1;S.time=null;S.f={};try{const b=JSON.parse(localStorage.getItem("eod_tour_booked")||"null");if(b)S.prev=b}catch(e){}render();window.scrollTo(0,0)}});
+  if(t.hasAttribute("data-addkid")){collect();S.nk=Math.min(6,(S.nk||1)+1);render();const el=document.querySelector(`[name="kid${S.nk-1}"]`);el&&el.focus();return}
+  if(t.dataset.rmkid){collect();const r=+t.dataset.rmkid,n=S.nk||1;for(let i=r;i<n-1;i++)S.f["kid"+i]=S.f["kid"+(i+1)]||"";delete S.f["kid"+(n-1)];S.nk=n-1;render();return}
+  if(t.hasAttribute("data-again")){S.done=null;S.step=1;S.time=null;S.nk=1;try{const b=JSON.parse(localStorage.getItem("eod_tour_booked")||"null");if(b)S.prev=b}catch(e){}render();window.scrollTo(0,0)}});
 document.addEventListener("submit",e=>{e.preventDefault();if(!S.busy)submit()});
 document.addEventListener("input",e=>{if(e.target.classList.contains("bad"))e.target.classList.remove("bad");if(!document.querySelector("#form .bad")){const er=document.querySelector(".err");if(er){er.remove();S.err=""}}});
 
