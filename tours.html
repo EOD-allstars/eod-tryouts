@@ -5,99 +5,124 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Book a Gym Tour · EOD Allstars</title>
 <meta name="description" content="Book a free 20 minute tour of the EOD Allstars gym.">
-<meta name="theme-color" content="#f4f2f4">
+<meta name="theme-color" content="#08070A">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:light;
-  --bg:#f4f2f4;--ink:#141214;--mut:#6f6870;--line:#dcd6db;--card:#ecebe9;--white:#fff;
-  --pinkbox:#e8a4d3;--pinkpale:#fbe6f3;--pink:#d6409a;--pink2:#b22a7b;--ok:#1f9d55;--okbg:#e3f5ea;--bad:#d23b3b;--badbg:#fbe5e5;
-  --shadow:0 2px 12px rgba(90,40,75,.08);
-  --disp:"Archivo","Arial Black",system-ui,sans-serif;--num:"Anton","Impact","Arial Narrow",sans-serif}
+/* Matches the EOD placements site: dark cinema look, dimmed footage, pink glow, glass panels */
+:root{color-scheme:dark;
+  --ink:#08070A;--glow:#3D1233;--pink:#FF4FA8;--pink-soft:#F7A8D3;--chrome:#ECE9EF;--muted:#B9AEB6;--silver:#8E8A94;--graphite:#18171B;
+  --glass:rgba(20,19,24,.62);--edge:rgba(255,255,255,.12);--ok:#5BE39A;--bad:#FF8FC5;
+  --display:"Montserrat","Arial Black",system-ui,sans-serif;--wide:"Michroma","Eurostile",Arial,sans-serif}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{background:var(--bg)}
-body{min-height:100vh;color:var(--ink);font-family:var(--disp);-webkit-text-size-adjust:100%;overflow-x:hidden;background:
-  radial-gradient(120% 60% at 15% 10%,rgba(255,255,255,.95),rgba(255,255,255,0) 60%),
-  radial-gradient(90% 50% at 90% 35%,rgba(225,222,228,.9),rgba(225,222,228,0) 65%),
-  linear-gradient(135deg,#fff 0%,#ebe9ed 22%,#fdfdfd 40%,#e6e3e8 58%,#fafafb 76%,#e9e7ea 100%);background-attachment:fixed}
+html{background:var(--ink)}
+body{min-height:100vh;color:var(--chrome);font-family:var(--display);-webkit-text-size-adjust:100%;overflow-x:hidden;background:transparent}
 button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
 button{background:none;border:0;cursor:pointer}
-.up{font-stretch:125%;text-transform:uppercase}
-#app{max-width:560px;margin:0 auto;padding:max(18px,env(safe-area-inset-top)) 18px 60px}
-header{display:flex;align-items:center;gap:14px;margin:4px 0 18px}
-header img{height:58px;width:auto}
-header .t{font-weight:900;font-size:13px;letter-spacing:.08em;color:var(--mut)}
-h1{font-weight:900;font-size:clamp(30px,8vw,42px);line-height:.95;letter-spacing:.01em;margin:0 0 10px}
-h1 span{color:var(--pink)}
-.lead{color:var(--mut);font-size:15px;line-height:1.5;margin:0 0 18px}
-.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 22px}
-.fact{background:var(--card);border-radius:14px;padding:10px 8px;text-align:center}
-.fact b{display:block;font-family:var(--num);font-weight:400;font-size:clamp(20px,6.5vw,28px);white-space:nowrap;line-height:1.1;color:var(--pink)}
-.fact small{font-weight:800;font-size:10px;letter-spacing:.06em}
+/* background layers */
+#bgv{position:fixed;inset:0;z-index:-1;overflow:hidden;background:var(--ink);pointer-events:none}
+#bgv video{position:absolute;inset:-4%;width:108%;height:108%;object-fit:cover;opacity:.32;filter:blur(2px) saturate(1.05)}
+#bgv .amb{position:absolute;inset:0;background:radial-gradient(60% 45% at 50% 30%,var(--glow) 0%,transparent 70%);opacity:.8}
+#bgv .vig{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.7) 100%)}
+#bgv .grain{position:absolute;inset:-50%;opacity:.5;animation:grain .6s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-6%,4%)}40%{transform:translate(5%,-7%)}60%{transform:translate(-3%,8%)}80%{transform:translate(7%,2%)}100%{transform:translate(0,0)}}
+@media(prefers-reduced-motion:reduce){#bgv .grain{animation:none}}
+#app{max-width:600px;margin:0 auto;padding:max(26px,env(safe-area-inset-top)) 16px 60px;position:relative}
+/* hero */
+header{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;margin:0 0 22px}
+header img{width:clamp(110px,28vw,150px);height:auto;filter:drop-shadow(0 0 22px rgba(255,79,168,.4))}
+.eyebrow{font-family:var(--wide);font-size:clamp(11px,2.6vw,13px);letter-spacing:.3em;text-transform:uppercase;color:var(--pink-soft)}
+h1{display:flex;gap:0 .25em;flex-wrap:wrap;justify-content:center;font-weight:900;text-transform:uppercase;font-size:clamp(42px,12vw,84px);line-height:.92;
+  filter:drop-shadow(0 0 30px rgba(255,79,168,.5));text-align:center}
+h1 span{background:linear-gradient(180deg,#FFFFFF 0%,#FFE0F0 45%,#FF4FA8 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 span:last-child{background:linear-gradient(180deg,#FFFFFF 0%,#DCD7E0 48%,#FFFFFF 52%,#8E8A94 100%);-webkit-background-clip:text;background-clip:text}
+.lead{color:var(--muted);font-size:15px;font-weight:600;line-height:1.55;text-align:center;max-width:460px;margin:0 auto 20px}
+.facts{display:flex;gap:10px;justify-content:center;margin:0 auto 24px;max-width:460px}
+.fact{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:7px;padding:13px 4px 11px;background:var(--glass);border:1px solid var(--edge);border-radius:14px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.fact b{font-family:var(--wide);font-weight:400;font-size:clamp(17px,5vw,26px);line-height:1;color:#fff;text-shadow:0 0 18px rgba(255,79,168,.55);white-space:nowrap}
+.fact small{font-family:var(--wide);font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 .steps{display:flex;gap:6px;margin:0 0 16px}
-.steps i{flex:1;height:5px;border-radius:5px;background:var(--line)}
-.steps i.on{background:var(--pink)}
-h2{font-weight:900;font-size:16px;letter-spacing:.04em;margin:0 0 10px}
-.card{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow);margin:0 0 14px}
-.days{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 10px;margin:0 -2px 6px;scroll-snap-type:x mandatory;scrollbar-width:thin}
-.day{flex:none;width:66px;scroll-snap-align:start;border:1px solid var(--line);border-radius:14px;background:var(--white);padding:8px 0 9px;text-align:center}
-.day small{display:block;font-weight:800;font-size:10px;letter-spacing:.08em;color:var(--mut)}
-.day b{display:block;font-family:var(--num);font-weight:400;font-size:26px;line-height:1.15}
-.day em{display:block;font-style:normal;font-size:10.5px;color:var(--mut)}
-.day.on{background:var(--ink);border-color:var(--ink);color:#fff}.day.on small,.day.on em{color:#f3c6e3}
-.day.full{opacity:.4}
-.wk{font-weight:800;font-size:11px;letter-spacing:.08em;color:var(--mut);margin:4px 0 8px}
+.steps i{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.14)}
+.steps i.on{background:var(--pink);box-shadow:0 0 10px rgba(255,79,168,.7)}
+/* panels */
+.card{background:var(--glass);border:1px solid var(--edge);border-radius:18px;padding:18px 16px;margin:0 0 14px;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+h2{font-family:var(--wide);font-weight:400;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--pink-soft);margin:0 0 14px}
+.wk{font-weight:800;font-size:15px;color:#fff;margin:0 0 10px}
+/* calendar */
+.calhead{display:flex;align-items:center;justify-content:space-between;margin:0 0 12px}
+.calhead b{font-family:var(--wide);font-weight:400;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+.mnav{width:42px;height:42px;border-radius:999px;border:1.5px solid rgba(255,255,255,.28);font-size:20px;line-height:1;color:#fff}
+.mnav:not(:disabled):hover{border-color:var(--pink)}
+.mnav:disabled{opacity:.25;cursor:default}
+.calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cw{text-align:center;font-family:var(--wide);font-size:8.5px;letter-spacing:.14em;color:var(--muted);padding:2px 0 6px;text-transform:uppercase}
+.cd{aspect-ratio:1/1.05;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;padding:2px;border:1px solid transparent}
+.cd b{font-weight:800;font-size:17px;line-height:1.1}
+.cd small{font-size:9px;font-weight:700;white-space:nowrap;overflow:hidden;max-width:100%}
+.cd.empty{visibility:hidden}
+.cd.off{color:rgba(236,233,239,.22)}.cd.off.wk{color:rgba(236,233,239,.14)}
+.cd.op{background:rgba(255,79,168,.12);border-color:rgba(255,79,168,.38);color:#fff}.cd.op small{color:var(--pink-soft)}
+.cd.op:hover{border-color:var(--pink);box-shadow:0 0 14px rgba(255,79,168,.35)}
+.cd.full{background:rgba(255,255,255,.04);color:rgba(236,233,239,.35)}.cd.full small{color:rgba(236,233,239,.35)}
+.cd.on{background:var(--pink);border-color:var(--pink);color:var(--ink);box-shadow:0 0 18px rgba(255,79,168,.6)}.cd.on small{color:var(--ink)}
+.cd.today b{text-decoration:underline;text-underline-offset:3px}
+.legend{display:flex;gap:16px;justify-content:center;margin-top:14px;font-size:12px;font-weight:600;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:6px}.lg{width:12px;height:12px;border-radius:4px;display:inline-block}
+.lg.op{background:rgba(255,79,168,.12);border:1px solid rgba(255,79,168,.38)}.lg.full{background:rgba(255,255,255,.06)}
+/* times */
 .times{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.time{border:1.5px solid var(--line);border-radius:12px;padding:12px 4px;background:var(--white);font-weight:800;font-size:15px;text-align:center}
-.time small{display:block;font-weight:600;font-size:10.5px;color:var(--mut);margin-top:2px}
+.time{border:1.5px solid rgba(255,255,255,.22);border-radius:14px;padding:12px 4px;font-weight:800;font-size:15px;text-align:center;color:#fff;background:rgba(0,0,0,.3)}
+.time small{display:block;font-weight:600;font-size:10.5px;color:var(--muted);margin-top:3px}
 .time:not(:disabled):hover{border-color:var(--pink)}
-.time.on{background:var(--pink);border-color:var(--pink);color:#fff}.time.on small{color:#ffe1f2}
-.time:disabled{background:var(--card);color:#aaa3a9;text-decoration:line-through;cursor:default}
-.help{color:var(--mut);font-size:13px;line-height:1.45}
-.pick{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--pinkpale);border:1px solid var(--pinkbox);border-radius:14px;padding:12px 14px;margin:0 0 14px}
-.pick b{font-weight:900;font-size:15px}.pick span{display:block;font-size:12.5px;color:var(--mut);margin-top:2px}
-.pick button{font-weight:800;font-size:12px;color:var(--pink2);text-decoration:underline}
-label.f{display:block;margin:0 0 12px}
-label.f>span{display:block;font-weight:800;font-size:12px;letter-spacing:.05em;margin:0 0 5px;font-stretch:115%;text-transform:uppercase}
-label.f>span i{font-style:normal;font-weight:600;color:var(--mut);text-transform:none;letter-spacing:0}
-input,select,textarea{width:100%;background:var(--white);border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;font-size:16px;outline:none}
-textarea{min-height:76px;resize:vertical}
-input:focus,select:focus,textarea:focus{border-color:var(--pink)}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chips label{cursor:pointer}
-.chips input{position:absolute;opacity:0;width:1px;height:1px}
-.chips span{display:inline-block;border:1.5px solid var(--line);border-radius:30px;padding:9px 14px;font-weight:700;font-size:14px;background:var(--white)}
-.chips input:checked+span{background:var(--ink);border-color:var(--ink);color:#fff}
-.chips input:focus-visible+span{outline:2px solid var(--pink);outline-offset:2px}
-.sect{font-weight:900;font-size:13px;letter-spacing:.06em;color:var(--pink2);margin:18px 0 10px;padding-top:14px;border-top:1px solid var(--line)}
+.time.on{background:var(--pink);border-color:var(--pink);color:var(--ink);box-shadow:0 0 18px rgba(255,79,168,.5)}.time.on small{color:var(--ink)}
+.time:disabled{color:rgba(236,233,239,.28);border-color:rgba(255,255,255,.08);text-decoration:line-through;cursor:default;background:transparent}
+.help{color:var(--muted);font-size:13px;font-weight:600;line-height:1.5}
+/* chosen time */
+.pick{display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(255,79,168,.12);border:1px solid rgba(255,79,168,.4);border-radius:16px;padding:13px 16px;margin:0 0 14px}
+.pick b{font-weight:800;font-size:15px;color:#fff}.pick span{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-top:2px}
+.pick button{font-weight:800;font-size:12px;color:var(--pink-soft);text-decoration:underline}
+/* form */
+label.f{display:block;margin:0 0 14px}
+label.f>span{display:block;font-family:var(--wide);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--chrome);margin:0 0 7px}
+label.f>span i{font-family:var(--display);font-style:normal;font-weight:600;font-size:11px;letter-spacing:0;text-transform:none;color:var(--muted)}
+input,select,textarea{width:100%;color:#fff;background:rgba(0,0,0,.55);border:1.5px solid rgba(255,255,255,.28);border-radius:14px;padding:13px 16px;font-size:16px;font-weight:600;outline:none}
+input::placeholder,textarea::placeholder{color:rgba(236,233,239,.35)}
+textarea{min-height:80px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--pink);box-shadow:0 0 0 4px rgba(255,79,168,.2)}
+label.f>span.kidrow{display:flex;gap:8px;align-items:center;margin:0;font:inherit;text-transform:none;letter-spacing:0}
+.kidrow input{flex:1}
+.kidx{flex:none;width:46px;height:48px;border-radius:14px;border:1.5px solid rgba(255,255,255,.22);color:var(--muted);font-size:15px}
+.addkid{display:block;width:100%;border:1.5px dashed rgba(255,79,168,.55);border-radius:14px;padding:12px;font-weight:800;font-size:13px;color:var(--pink-soft);margin:0 0 6px}
+.sect{font-family:var(--wide);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--pink-soft);margin:20px 0 12px;padding-top:16px;border-top:1px solid var(--edge)}
 .sect:first-child{margin-top:0;padding-top:0;border:0}
-.btn{display:block;width:100%;background:var(--pink);color:#fff;border-radius:14px;padding:15px;font-weight:900;font-size:15px;letter-spacing:.05em;font-stretch:125%;text-transform:uppercase;box-shadow:0 6px 16px rgba(214,64,154,.25)}
-.btn:disabled{opacity:.55}
-.btn.ghost{background:var(--white);color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
-.err{background:var(--badbg);color:var(--bad);border-radius:12px;padding:10px 12px;font-size:14px;margin:0 0 12px;font-weight:600}
-.bad{border-color:var(--bad)!important}
-label.f>span.kidrow{display:flex;gap:8px;align-items:center;margin:0;font:inherit;text-transform:none;letter-spacing:0}.kidrow input{flex:1}
-.kidx{flex:none;width:44px;height:46px;border-radius:12px;border:1.5px solid var(--line);background:var(--white);color:var(--mut);font-size:15px}
-.addkid{display:block;width:100%;border:1.5px dashed var(--pinkbox);border-radius:12px;padding:11px;font-weight:800;font-size:13px;color:var(--pink2);background:var(--pinkpale);margin:0 0 4px}
+.btn{display:block;width:100%;font:800 15px var(--display);letter-spacing:.04em;text-transform:uppercase;border-radius:999px;padding:16px 26px;border:2px solid var(--pink);background:var(--pink);color:var(--ink);
+  box-shadow:0 0 0 6px rgba(255,79,168,.14),0 0 34px rgba(255,79,168,.4)}
+.btn:disabled{opacity:.35;box-shadow:none;cursor:default}
+.btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.5);box-shadow:none}
+.err{background:rgba(255,79,168,.14);border:1px solid rgba(255,79,168,.5);color:#FFD1E8;border-radius:14px;padding:11px 14px;font-size:14px;margin:0 0 12px;font-weight:700}
+.bad{border-color:var(--bad)!important;box-shadow:0 0 0 4px rgba(255,143,197,.18)!important}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+/* done */
 .done{text-align:center}
-.tick{width:74px;height:74px;border-radius:50%;background:var(--okbg);color:var(--ok);display:grid;place-items:center;font-size:38px;margin:6px auto 14px}
-.sum{text-align:left;background:var(--card);border-radius:14px;padding:14px;margin:14px 0}
-.sum div{display:flex;justify-content:space-between;gap:12px;padding:5px 0;font-size:14px}
-.sum div span{color:var(--mut)}.sum div b{text-align:right}
+.tick{width:76px;height:76px;border-radius:50%;background:rgba(255,79,168,.15);border:1.5px solid var(--pink);color:var(--pink);display:grid;place-items:center;font-size:36px;margin:4px auto 16px;box-shadow:0 0 30px rgba(255,79,168,.45)}
+.done h1{font-size:clamp(34px,10vw,54px);margin:0 0 10px}
+.done .lead{margin:0 auto}
+.sum{text-align:left;background:rgba(0,0,0,.35);border:1px solid var(--edge);border-radius:14px;padding:14px 16px;margin:16px 0}
+.sum div{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:14px}
+.sum div span{font-family:var(--wide);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);padding-top:3px}.sum div b{text-align:right;color:#fff}
 .cal{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 12px}
-.cal a,.cal button{display:block;text-align:center;border:1.5px solid var(--line);border-radius:12px;padding:12px 6px;background:var(--white);font-weight:800;font-size:13px;color:var(--ink);text-decoration:none}
-.note{font-size:13px;color:var(--mut);line-height:1.5;margin-top:6px}
-.loading{text-align:center;color:var(--mut);padding:30px 0}
-footer{text-align:center;color:var(--mut);font-size:12px;margin-top:22px;line-height:1.6}
-footer a{color:var(--pink2)}
-@media(max-width:380px){.times{grid-template-columns:repeat(2,1fr)}.row2{grid-template-columns:1fr}}
+.cal a,.cal button{display:block;text-align:center;border:1.5px solid rgba(255,255,255,.35);border-radius:999px;padding:12px 6px;font-weight:800;font-size:13px;color:#fff;text-decoration:none}
+.note{font-size:13px;font-weight:600;color:var(--muted);line-height:1.5;margin-top:6px}
+.loading{text-align:center;color:var(--muted);padding:30px 0;font-family:var(--wide);font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+footer{text-align:center;color:var(--muted);font-size:12px;font-weight:600;margin-top:22px;line-height:1.7}
+footer a{color:var(--pink-soft)}
+@media(max-width:380px){.times{grid-template-columns:repeat(2,1fr)}.cd b{font-size:15px}.cd small{font-size:8px}.calgrid{gap:3px}}
 </style>
 </head>
 <body>
+<div id="bgv" aria-hidden="true"></div>
 <div id="app"><div class="loading">Loading…</div></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -120,7 +145,17 @@ const EMAILJS = {
 const DAYS = [1,2,3,4,5];                                  // Mon to Fri
 const SLOTS = ["16:30","16:50","17:10","17:30","17:50","18:10"]; // 20 min tours, last one ends 6:30
 const TOUR_MINS = 20;
-const WEEKS_AHEAD = 4;        // how far ahead parents can book
+const LAST_TOUR_DAY = "2026-12-09"; // no tours after this date (leave "" for no end date)
+const CLOSED = [                     // gym closed: [first day, last day, reason]
+  ["2026-11-07","2026-11-08","Cheerbrandz"],
+  ["2026-11-14","2026-11-15","CheerCon"],
+  ["2026-11-25","2026-12-01","Nationals"],
+  ["2026-12-10","2026-12-10","Dance concert"],
+  ["2026-12-14","2026-12-17","Hamilton Island"],
+  ["2026-12-19","2026-12-19","Banquet"]
+];
+const MONTHS_AHEAD = 1;       // this month plus this many more (1 = this month and next)
+const BG_VIDEO = "bg.mp4";          // background video file or link, e.g. "bg.mp4" (plays muted). Blank = no video
 const MIN_NOTICE_HOURS = 2;   // can't book a slot starting sooner than this
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyA6cgGaPcI45pMzGc-ehPBxztHSPhWdZWs",
@@ -149,6 +184,14 @@ function endTime(hhmm){const [h,m]=hhmm.split(":").map(Number),t=h*60+m+TOUR_MIN
 function niceDate(date,long){const [y,m,d]=date.split("-").map(Number);return long?`${WDL[dow(date)]} ${d} ${MON[m-1]}`:`${WD[dow(date)]} ${d} ${MON[m-1]}`}
 const keyOf=(date,hhmm)=>`${date}_${hhmm.replace(":","")}`;
 
+/* ---------- background video ---------- */
+(function bg(){const reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  $("#bgv").innerHTML=`${BG_VIDEO?`<video ${reduce?"":"autoplay"} muted loop playsinline preload="auto" poster="bg.jpg" src="${esc(BG_VIDEO)}"></video>`:""}<span class="amb"></span><span class="vig"></span><span class="grain"></span>`;
+  const v=$("#bgv video");if(v){v.muted=true;v.play&&v.play().catch(()=>{})}
+  try{const g=document.createElement("canvas");g.width=g.height=160;const gc=g.getContext("2d"),img=gc.createImageData(160,160);
+    for(let i=0;i<img.data.length;i+=4){const x=Math.random()*255;img.data[i]=img.data[i+1]=img.data[i+2]=x;img.data[i+3]=26}
+    gc.putImageData(img,0,0);$("#bgv .grain").style.backgroundImage="url("+g.toDataURL()+")"}catch(e){}})();
+
 /* ---------- data: Firebase, or this device only when apiKey is empty ---------- */
 const DEMO=!FIREBASE_CONFIG.apiKey;
 const DB=DEMO?(()=>{const K="eodth_demo_v5",rd=()=>{try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}};
@@ -163,42 +206,56 @@ const DB=DEMO?(()=>{const K="eodth_demo_v5",rd=()=>{try{return JSON.parse(localS
 const S={step:1,date:null,time:null,taken:{},loaded:false,err:"",busy:false,done:null,f:{}};
 try{const b=JSON.parse(localStorage.getItem("eod_tour_booked")||"null");if(b&&b.at>Date.now())S.prev=b}catch(e){}
 
-function bookableDays(){const now=sydParts(Date.now()),out=[];
-  for(let i=0;i<WEEKS_AHEAD*7+1;i++){const d=addDays(now.date,i);if(!DAYS.includes(dow(d)))continue;
-    const slots=SLOTS.map(t=>{const [h,m]=t.split(":").map(Number),k=keyOf(d,t),s=S.taken[k];
-      const late=i===0&&h*60+m<now.mins+MIN_NOTICE_HOURS*60;return {t,k,open:!s&&!late}});
-    out.push({d,slots,open:slots.filter(s=>s.open).length})}
-  return out}
-
+function lastDay(){const now=sydParts(Date.now());let [y,m]=now.date.split("-").map(Number);m+=MONTHS_AHEAD+1;while(m>12){m-=12;y++}const e=addDays(`${y}-${pad(m)}-01`,-1);return LAST_TOUR_DAY&&LAST_TOUR_DAY<e?LAST_TOUR_DAY:e}
+function closedOn(d){const c=CLOSED.find(x=>d>=x[0]&&d<=x[1]);return c?c[2]:""}
+function dayInfo(d){const now=sydParts(Date.now());if(d<now.date||d>lastDay()||!DAYS.includes(dow(d)))return null;
+  if(closedOn(d))return {d,slots:[],open:0,closed:true,why:closedOn(d)};
+  const slots=SLOTS.map(t=>{const [h,m]=t.split(":").map(Number),k=keyOf(d,t),s=S.taken[k];
+    const late=d===now.date&&h*60+m<now.mins+MIN_NOTICE_HOURS*60;return {t,k,open:!s&&!late,blocked:!!(s&&s.blocked),late}});
+  return {d,slots,open:slots.filter(s=>s.open).length,closed:slots.every(s=>s.blocked||s.late)&&slots.some(s=>s.blocked)}}
+function bookableDays(){const now=sydParts(Date.now()),end=lastDay(),out=[];for(let d=now.date;d<=end;d=addDays(d,1)){const x=dayInfo(d);if(x)out.push(x)}return out}
 function render(){
   const app=$("#app");
-  const head=`<header><img src="icons/logo.webp" alt="EOD Allstars" onerror="this.style.display='none'"><div class="t up">Cheer &amp; Dance · Maitland</div></header>`;
+  const head=`<header><img src="icons/logo.webp" alt="EOD Allstars" onerror="this.style.display='none'"><p class="eyebrow">EOD Allstars · Maitland</p></header>`;
   if(S.done)return app.innerHTML=head+vDone();
   if(!S.loaded)return app.innerHTML=head+`<div class="loading">Loading available times…</div>`;
   app.innerHTML=head+`
-  <h1 class="up">Book a <span>gym tour</span></h1>
+  <h1><span>Gym</span> <span>Tours</span></h1>
   <p class="lead">Come and see the gym, meet our coaches and ask us anything about cheer and dance at EOD. Tours are free and take about 20 minutes.</p>
-  <div class="facts"><div class="fact"><b>20</b><small class="up">Minutes</small></div><div class="fact"><b>Free</b><small class="up">No cost</small></div><div class="fact"><b>Weekdays</b><small class="up">4:30–6:30pm</small></div></div>
+  <div class="facts"><div class="fact"><b>20</b><small>Minutes</small></div><div class="fact"><b>Free</b><small>No cost</small></div><div class="fact"><b>Mon–Fri</b><small>4:30–6:30pm</small></div></div>
   ${S.prev?`<div class="pick"><div><b>You already have a tour booked</b><span>${esc(niceDate(S.prev.date,true))} at ${esc(niceTime(S.prev.time))}${S.prev.name?` for ${esc(S.prev.name)}`:""}</span></div></div>`:""}
   <div class="steps" aria-hidden="true"><i class="on"></i><i class="${S.step>=2?"on":""}"></i><i class="${S.step>=3?"on":""}"></i></div>
   ${S.step<3?vPick():vForm()}
   <footer>${GYM.phone||GYM.email?`Questions? ${GYM.phone?`Call <a href="tel:${esc(GYM.phone.replace(/\s/g,""))}">${esc(GYM.phone)}</a>`:""}${GYM.phone&&GYM.email?" or ":""}${GYM.email?`email <a href="mailto:${esc(GYM.email)}">${esc(GYM.email)}</a>`:""}<br>`:""}All times are Sydney time.</footer>`;
   if(S.step===3){restore();const el=$("#f-first");if(el&&!S.f.kid0)el.focus({preventScroll:true})}
-  if(S.step<3&&S.date){const on=document.querySelector(".day.on");if(on&&!S._scrolled){on.scrollIntoView({block:"nearest",inline:"center"});S._scrolled=1}}
 }
 function vPick(){
-  const days=bookableDays();
+  const days=bookableDays(),now=sydParts(Date.now());
   if(!S.date||!days.some(x=>x.d===S.date&&x.open))S.date=(days.find(x=>x.open)||{}).d||null;
-  const day=days.find(x=>x.d===S.date);
-  if(!days.some(x=>x.open))return `<div class="card"><h2 class="up">No times left</h2><p class="help">All tour times for the next ${WEEKS_AHEAD} weeks are booked. ${GYM.phone||GYM.email?"Get in touch and we'll find a time that works.":"Please check back soon."}</p></div>`;
+  if(!days.some(x=>x.open))return `<div class="card"><h2>No times left</h2><p class="help">All tour times are booked for now, or tours are finished for the year. ${GYM.phone||GYM.email?"Get in touch and we'll find a time that works.":"Please check back soon."}</p></div>`;
+  const first=now.date.slice(0,7),last=lastDay().slice(0,7);
+  if(!S.month)S.month=(S.date||now.date).slice(0,7);
+  const [y,m]=S.month.split("-").map(Number),start=`${S.month}-01`,dim=new Date(Date.UTC(y,m,0)).getUTCDate(),lead=(dow(start)+6)%7;
+  const cells=[];for(let i=0;i<lead;i++)cells.push(`<span class="cd empty"></span>`);
+  for(let n=1;n<=dim;n++){const d=`${S.month}-${pad(n)}`,x=dayInfo(d),wkend=!DAYS.includes(dow(d));
+    if(!x){cells.push(`<span class="cd off ${wkend?"wk":""} ${d===now.date?"today":""}"><b>${n}</b></span>`);continue}
+    const lbl=x.open?`${x.open} left`:x.closed?"Closed":"Full";
+    cells.push(`<button class="cd ${x.open?"op":"full"} ${x.why?"shut":""} ${d===S.date?"on":""} ${d===now.date?"today":""}" data-day="${d}" ${x.open?"":"disabled"} aria-label="${esc(niceDate(d,true))}, ${x.why?"closed for "+esc(x.why):lbl}" ${x.why?`title="Closed: ${esc(x.why)}"`:""}><b>${n}</b><small>${lbl}</small></button>`)}
+  const day=S.date?dayInfo(S.date):null;
+  const mName=["January","February","March","April","May","June","July","August","September","October","November","December"][m-1];
   return `<div class="card">
-    <h2 class="up">1. Pick a day</h2>
-    <div class="days" role="listbox" aria-label="Day">${days.map(x=>`<button class="day ${x.d===S.date?"on":""} ${x.open?"":"full"}" data-day="${x.d}" ${x.open?"":"disabled"} role="option" aria-selected="${x.d===S.date}"><small>${WD[dow(x.d)]}</small><b>${+x.d.slice(8)}</b><em>${x.open?MON[+x.d.slice(5,7)-1]:"Full"}</em></button>`).join("")}</div>
-    <h2 class="up" style="margin-top:6px">2. Pick a time</h2>
-    <div class="wk">${esc(niceDate(S.date,true))}</div>
-    <div class="times">${day.slots.map(s=>`<button class="time ${S.time===s.t&&S.date===day.d?"on":""}" data-time="${s.t}" ${s.open?"":"disabled"}>${niceTime(s.t)}<small>${s.open?"to "+niceTime(endTime(s.t)):"Booked"}</small></button>`).join("")}</div>
+    <h2>1. Pick a day</h2>
+    <div class="calhead"><button class="mnav" data-month="-1" ${S.month<=first?"disabled":""} aria-label="Previous month">‹</button><b>${mName} ${y}</b><button class="mnav" data-month="1" ${S.month>=last?"disabled":""} aria-label="Next month">›</button></div>
+    <div class="calgrid">${["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(w=>`<span class="cw">${w}</span>`).join("")}${cells.join("")}</div>
+    <div class="legend"><span><i class="lg op"></i>Times available</span><span><i class="lg full"></i>Full or closed</span></div>
+    ${LAST_TOUR_DAY&&S.month===LAST_TOUR_DAY.slice(0,7)?`<p class="help" style="text-align:center;margin-top:10px">Tours run until ${esc(niceDate(LAST_TOUR_DAY,true))}. The gym is closed some days for competitions and events.</p>`:""}
   </div>
-  <button class="btn" data-go="3" ${S.time&&day.slots.some(s=>s.t===S.time&&s.open)?"":"disabled"}>Next: your details</button>`}
+  ${day&&S.date.slice(0,7)===S.month?`<div class="card" id="timescard">
+    <h2>2. Pick a time</h2>
+    <div class="wk">${esc(niceDate(S.date,true))}</div>
+    <div class="times">${day.slots.map(s=>`<button class="time ${S.time===s.t?"on":""}" data-time="${s.t}" ${s.open?"":"disabled"}>${niceTime(s.t)}<small>${s.open?"to "+niceTime(endTime(s.t)):s.blocked?"Unavailable":s.late?"Too soon":"Booked"}</small></button>`).join("")}</div>
+  </div>
+  <button class="btn" data-go="3" ${S.time&&day.slots.some(s=>s.t===S.time&&s.open)?"":"disabled"}>Next: your details</button>`:`<p class="help" style="text-align:center">Pick a day above to see times.</p>`}`}
 function vForm(){const n=Math.max(1,S.nk||1);
   return `<div class="pick"><div><b>${esc(niceDate(S.date,true))} · ${esc(niceTime(S.time))}</b><span>20 minute gym tour</span></div><button data-go="1">Change</button></div>
   ${S.err?`<div class="err" role="alert">${esc(S.err)}</div>`:""}
@@ -220,7 +277,7 @@ function vDone(){const b=S.done,start=b.at,end=b.at+TOUR_MINS*6e4;
   const g=`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("EOD Allstars gym tour")}&dates=${z(start)}/${z(end)}&details=${encodeURIComponent(`Gym tour for ${b.kids.join(", ")}`)}&location=${encodeURIComponent(where)}`;
   return `<div class="card done">
     <div class="tick">✓</div>
-    <h1 class="up" style="font-size:30px">You're <span>booked!</span></h1>
+    <h1><span>You're</span> <span>booked</span></h1>
     <p class="lead" style="margin:0">We can't wait to meet ${esc(kidFirsts(b.kids))}.</p>
     <div class="sum">
       <div><span>Day</span><b>${esc(niceDate(b.date,true))}</b></div>
@@ -282,20 +339,22 @@ function ics(){const b=S.done,z=ms=>new Date(ms).toISOString().replace(/[-:]/g,"
 
 /* ---------- events ---------- */
 document.addEventListener("click",e=>{const t=e.target.closest("button");if(!t)return;
-  if(t.dataset.day){S.date=t.dataset.day;S.time=null;S.step=1;render();return}
+  if(t.dataset.day){S.date=t.dataset.day;S.time=null;S.step=1;render();const c=$("#timescard");c&&c.scrollIntoView({block:"nearest",behavior:"smooth"});return}
+  if(t.dataset.month){let [y,m]=S.month.split("-").map(Number);m+=+t.dataset.month;if(m<1){m=12;y--}if(m>12){m=1;y++}S.month=`${y}-${pad(m)}`;
+    const days=bookableDays().filter(x=>x.open&&x.d.startsWith(S.month));if(!S.date||!S.date.startsWith(S.month)){S.date=days[0]?days[0].d:null;S.time=null}render();return}
   if(t.dataset.time){S.time=t.dataset.time;S.step=2;render();const n=document.querySelector("[data-go='3']");n&&n.scrollIntoView({block:"nearest",behavior:"smooth"});return}
   if(t.dataset.go){if(S.step===3)collect();S.step=+t.dataset.go;S.err="";render();window.scrollTo(0,0);return}
   if(t.hasAttribute("data-ics")){ics();return}
   if(t.hasAttribute("data-addkid")){collect();S.nk=Math.min(6,(S.nk||1)+1);render();const el=document.querySelector(`[name="kid${S.nk-1}"]`);el&&el.focus();return}
   if(t.dataset.rmkid){collect();const r=+t.dataset.rmkid,n=S.nk||1;for(let i=r;i<n-1;i++)S.f["kid"+i]=S.f["kid"+(i+1)]||"";delete S.f["kid"+(n-1)];S.nk=n-1;render();return}
-  if(t.hasAttribute("data-again")){S.done=null;S.step=1;S.time=null;S.nk=1;try{const b=JSON.parse(localStorage.getItem("eod_tour_booked")||"null");if(b)S.prev=b}catch(e){}render();window.scrollTo(0,0)}});
+  if(t.hasAttribute("data-again")){S.done=null;S.step=1;S.time=null;S.nk=1;S.month=null;try{const b=JSON.parse(localStorage.getItem("eod_tour_booked")||"null");if(b)S.prev=b}catch(e){}render();window.scrollTo(0,0)}});
 document.addEventListener("submit",e=>{e.preventDefault();if(!S.busy)submit()});
 document.addEventListener("input",e=>{if(e.target.classList.contains("bad"))e.target.classList.remove("bad");if(!document.querySelector("#form .bad")){const er=document.querySelector(".err");if(er){er.remove();S.err=""}}});
 
 DB.listen(slots=>{S.taken=slots;S.loaded=true;
   if(S.step===3&&S.time&&slots[keyOf(S.date,S.time)]&&!S.busy&&!S.done){collect();S.err="Sorry, that time was just booked by someone else. Please pick another time.";S.step=1;S.time=null;render();alertBox();return}
   if(S.step===3||S.done)return;render()},
-  ()=>{S.loaded=true;S.err="";$("#app").innerHTML=`<div class="card"><h2 class="up">Couldn't load tour times</h2><p class="help">Please check your connection and refresh the page.</p></div>`});
+  ()=>{S.loaded=true;S.err="";$("#app").innerHTML=`<div class="card"><h2>Couldn't load tour times</h2><p class="help">Please check your connection and refresh the page.</p></div>`});
 </script>
 </body>
 </html>

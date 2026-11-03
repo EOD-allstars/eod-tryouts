@@ -833,7 +833,8 @@ input[type=date].in{min-height:46px;min-width:0;-webkit-appearance:none;appearan
 .tbtns{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.tbtns .btn{width:auto;flex:1 1 auto;padding:10px 10px;font-size:10.5px}
 .tbtns .btn.on{background:var(--ink);color:#fff;border-color:var(--ink)}.tbtns .btn.danger{color:var(--bad)}
 .ttrow{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:10px;margin:0 0 8px}
-.ttd{display:flex;justify-content:space-between;align-items:center;margin:0 0 8px}.ttd b{font-size:14px}.ttd button{font-size:11px;font-weight:800;color:var(--pink2);text-decoration:underline}
+.ttd{display:flex;justify-content:space-between;align-items:center;margin:0 0 8px}.ttd b{font-size:14px}.ttrow.shut{opacity:.6;padding:8px 10px}.ttrow.shut .ttd{margin:0}.ttd span{font-size:12px;color:var(--mut)}
+.ttd button{font-size:11px;font-weight:800;color:var(--pink2);text-decoration:underline}
 .tslots{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
 .tslot{border-radius:9px;padding:6px 2px;text-align:center;border:1px solid var(--line);min-width:0}.tslot b{display:block;font-size:11.5px}.tslot small{display:block;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tslot.op{background:var(--okbg);border-color:#bfe5cd;color:var(--ok)}.tslot.bl{background:var(--card);color:var(--mut);text-decoration:line-through}.tslot.bk{background:var(--pinkpale);border-color:var(--pinkbox);color:var(--pink2)}
@@ -888,7 +889,7 @@ const DEFAULT_SETTINGS = {
   counter: 0
 };
 
-const APP_VERSION="v33";
+const APP_VERSION="v35";
 const DEMO = !FIREBASE_CONFIG.apiKey;
 const CHEER_LEVELS=["No experience","Novice","Level 1","Level 2","Level 3","Level 4","Level 5","Level 6","Level 7"];
 const POSITIONS=["Flyer","Back spot","Main base","Secondary base","N/A"];
@@ -2254,7 +2255,11 @@ function boardCurrent(){
 /* ---------- Directors hub ---------- */
 /* ---------- Gym tours (staff) ---------- */
 const TOUR_URL="https://eod-allstars.github.io/eod-tryouts/tours.html";
-const TOUR_DAYS=[1,2,3,4,5],TOUR_SLOTS=["16:30","16:50","17:10","17:30","17:50","18:10"],TOUR_WEEKS=4;
+const TOUR_DAYS=[1,2,3,4,5],TOUR_SLOTS=["16:30","16:50","17:10","17:30","17:50","18:10"],TOUR_MONTHS=1;
+const TOUR_LAST="2026-12-09";
+const TOUR_CLOSED=[["2026-11-07","2026-11-08","Cheerbrandz"],["2026-11-14","2026-11-15","CheerCon"],["2026-11-25","2026-12-01","Nationals"],["2026-12-10","2026-12-10","Dance concert"],["2026-12-14","2026-12-17","Hamilton Island"],["2026-12-19","2026-12-19","Banquet"]];
+function tourClosed(d){const c=TOUR_CLOSED.find(x=>d>=x[0]&&d<=x[1]);return c?c[2]:""}
+function tourEnd(){const now=sydParts(Date.now());let [y,m]=now.date.split("-").map(Number);m+=TOUR_MONTHS+1;while(m>12){m-=12;y++}const e=tAddDays(`${y}-${String(m).padStart(2,"0")}-01`,-1);return TOUR_LAST&&TOUR_LAST<e?TOUR_LAST:e}
 const TZ_SYD="Australia/Sydney";
 function sydParts(ms){const p={};new Intl.DateTimeFormat("en-CA",{timeZone:TZ_SYD,year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false}).formatToParts(new Date(ms)).forEach(x=>p[x.type]=x.value);return {date:`${p.year}-${p.month}-${p.day}`,mins:(+p.hour%24)*60+(+p.minute)}}
 function sydToMs(date,hhmm){const [y,m,d]=date.split("-").map(Number),[h,mi]=hhmm.split(":").map(Number);let t=Date.UTC(y,m-1,d,h,mi);
@@ -2307,15 +2312,16 @@ function vTours(){
     <div class="tabs ttabs">${[["up",`Upcoming (${up.length})`],["past","Past"],["times","Tour times"]].map(([k,l])=>`<button class="${tab===k?"on":""}" data-act="ttab" data-v="${k}">${l}</button>`).join("")}</div>
     ${body}</div>`}
 function vTourTimes(){const now=sydParts(Date.now()),slots=S.tourSlots||{},byKey={};(S.tours||[]).forEach(t=>{if(t.status!=="cancelled")byKey[t.id]=t});
-  let h=`<p class="help" style="margin:0 0 12px">Tap a time to block it (staff unavailable, public holiday). Tap again to open it. Booked times show the athlete's name.</p>`;
-  for(let i=0;i<TOUR_WEEKS*7+1;i++){const d=tAddDays(now.date,i);if(!TOUR_DAYS.includes(tDow(d)))continue;
+  let h=`<p class="help" style="margin:0 0 12px">Tours run until ${esc(tDate(TOUR_LAST,true))}. Tap a time to block it (staff unavailable, public holiday). Tap again to open it. Booked times show the athlete's name.</p>`;
+  for(let d=now.date;d<=tourEnd();d=tAddDays(d,1)){if(!TOUR_DAYS.includes(tDow(d)))continue;
+    if(tourClosed(d)){h+=`<div class="ttrow shut"><div class="ttd"><b>${esc(tDate(d))}</b><span>Gym closed · ${esc(tourClosed(d))}</span></div></div>`;continue}
     const cells=TOUR_SLOTS.map(t=>{const k=tKey(d,t),s=slots[k],b=byKey[k];const st=b?"bk":s&&s.blocked?"bl":s?"bk":"op";
       return `<button class="tslot ${st}" ${st==="bk"?"disabled":`data-act="tourSlot" data-k="${k}" data-d="${d}" data-t="${t}"`}><b>${tTime(t)}</b><small>${st==="bk"?esc(b?tourFirsts(b):"Booked"):st==="bl"?"Blocked":"Open"}</small></button>`}).join("");
     const openN=TOUR_SLOTS.filter(t=>!slots[tKey(d,t)]).length,blN=TOUR_SLOTS.filter(t=>(slots[tKey(d,t)]||{}).blocked).length;
     h+=`<div class="ttrow"><div class="ttd"><b>${esc(tDate(d))}</b>${openN?`<button data-act="tourDay" data-d="${d}" data-v="block">Block day</button>`:blN?`<button data-act="tourDay" data-d="${d}" data-v="open">Open day</button>`:""}</div><div class="tslots">${cells}</div></div>`}
   return h}
 function tourNewHtml(){const now=sydParts(Date.now()),opts=[];
-  for(let i=0;i<TOUR_WEEKS*7+1;i++){const d=tAddDays(now.date,i);if(!TOUR_DAYS.includes(tDow(d)))continue;TOUR_SLOTS.forEach(t=>{const k=tKey(d,t);if(!(S.tourSlots||{})[k])opts.push(`<option value="${k}">${esc(tDate(d))} · ${tTime(t)}</option>`)})}
+  for(let d=now.date;d<=tourEnd();d=tAddDays(d,1)){if(!TOUR_DAYS.includes(tDow(d))||tourClosed(d))continue;TOUR_SLOTS.forEach(t=>{const k=tKey(d,t);if(!(S.tourSlots||{})[k])opts.push(`<option value="${k}">${esc(tDate(d))} · ${tTime(t)}</option>`)})}
   return `<div class="mhead"><h3 style="margin:0">Add a tour</h3><button class="icon" data-act="closeModal" aria-label="Close">✕</button></div>
   <p class="help" style="margin:0 0 10px">For bookings made over the phone or in person.</p>
   <div>
