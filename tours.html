@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Book a Gym Tour · EOD Allstars</title>
+<meta name="description" content="Book a free 20 minute tour of the EOD Allstars gym.">
+<meta name="theme-color" content="#f4f2f4">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;
+  --bg:#f4f2f4;--ink:#141214;--mut:#6f6870;--line:#dcd6db;--card:#ecebe9;--white:#fff;
+  --pinkbox:#e8a4d3;--pinkpale:#fbe6f3;--pink:#d6409a;--pink2:#b22a7b;--ok:#1f9d55;--okbg:#e3f5ea;--bad:#d23b3b;--badbg:#fbe5e5;
+  --shadow:0 2px 12px rgba(90,40,75,.08);
+  --disp:"Archivo","Arial Black",system-ui,sans-serif;--num:"Anton","Impact","Arial Narrow",sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{min-height:100vh;color:var(--ink);font-family:var(--disp);-webkit-text-size-adjust:100%;overflow-x:hidden;background:
+  radial-gradient(120% 60% at 15% 10%,rgba(255,255,255,.95),rgba(255,255,255,0) 60%),
+  radial-gradient(90% 50% at 90% 35%,rgba(225,222,228,.9),rgba(225,222,228,0) 65%),
+  linear-gradient(135deg,#fff 0%,#ebe9ed 22%,#fdfdfd 40%,#e6e3e8 58%,#fafafb 76%,#e9e7ea 100%);background-attachment:fixed}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+button{background:none;border:0;cursor:pointer}
+.up{font-stretch:125%;text-transform:uppercase}
+#app{max-width:560px;margin:0 auto;padding:max(18px,env(safe-area-inset-top)) 18px 60px}
+header{display:flex;align-items:center;gap:14px;margin:4px 0 18px}
+header img{height:58px;width:auto}
+header .t{font-weight:900;font-size:13px;letter-spacing:.08em;color:var(--mut)}
+h1{font-weight:900;font-size:clamp(30px,8vw,42px);line-height:.95;letter-spacing:.01em;margin:0 0 10px}
+h1 span{color:var(--pink)}
+.lead{color:var(--mut);font-size:15px;line-height:1.5;margin:0 0 18px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 22px}
+.fact{background:var(--card);border-radius:14px;padding:10px 8px;text-align:center}
+.fact b{display:block;font-family:var(--num);font-weight:400;font-size:clamp(20px,6.5vw,28px);white-space:nowrap;line-height:1.1;color:var(--pink)}
+.fact small{font-weight:800;font-size:10px;letter-spacing:.06em}
+.steps{display:flex;gap:6px;margin:0 0 16px}
+.steps i{flex:1;height:5px;border-radius:5px;background:var(--line)}
+.steps i.on{background:var(--pink)}
+h2{font-weight:900;font-size:16px;letter-spacing:.04em;margin:0 0 10px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow);margin:0 0 14px}
+.days{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 10px;margin:0 -2px 6px;scroll-snap-type:x mandatory;scrollbar-width:thin}
+.day{flex:none;width:66px;scroll-snap-align:start;border:1px solid var(--line);border-radius:14px;background:var(--white);padding:8px 0 9px;text-align:center}
+.day small{display:block;font-weight:800;font-size:10px;letter-spacing:.08em;color:var(--mut)}
+.day b{display:block;font-family:var(--num);font-weight:400;font-size:26px;line-height:1.15}
+.day em{display:block;font-style:normal;font-size:10.5px;color:var(--mut)}
+.day.on{background:var(--ink);border-color:var(--ink);color:#fff}.day.on small,.day.on em{color:#f3c6e3}
+.day.full{opacity:.4}
+.wk{font-weight:800;font-size:11px;letter-spacing:.08em;color:var(--mut);margin:4px 0 8px}
+.times{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.time{border:1.5px solid var(--line);border-radius:12px;padding:12px 4px;background:var(--white);font-weight:800;font-size:15px;text-align:center}
+.time small{display:block;font-weight:600;font-size:10.5px;color:var(--mut);margin-top:2px}
+.time:not(:disabled):hover{border-color:var(--pink)}
+.time.on{background:var(--pink);border-color:var(--pink);color:#fff}.time.on small{color:#ffe1f2}
+.time:disabled{background:var(--card);color:#aaa3a9;text-decoration:line-through;cursor:default}
+.help{color:var(--mut);font-size:13px;line-height:1.45}
+.pick{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--pinkpale);border:1px solid var(--pinkbox);border-radius:14px;padding:12px 14px;margin:0 0 14px}
+.pick b{font-weight:900;font-size:15px}.pick span{display:block;font-size:12.5px;color:var(--mut);margin-top:2px}
+.pick button{font-weight:800;font-size:12px;color:var(--pink2);text-decoration:underline}
+label.f{display:block;margin:0 0 12px}
+label.f>span{display:block;font-weight:800;font-size:12px;letter-spacing:.05em;margin:0 0 5px;font-stretch:115%;text-transform:uppercase}
+label.f>span i{font-style:normal;font-weight:600;color:var(--mut);text-transform:none;letter-spacing:0}
+input,select,textarea{width:100%;background:var(--white);border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;font-size:16px;outline:none}
+textarea{min-height:76px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--pink)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{cursor:pointer}
+.chips input{position:absolute;opacity:0;width:1px;height:1px}
+.chips span{display:inline-block;border:1.5px solid var(--line);border-radius:30px;padding:9px 14px;font-weight:700;font-size:14px;background:var(--white)}
+.chips input:checked+span{background:var(--ink);border-color:var(--ink);color:#fff}
+.chips input:focus-visible+span{outline:2px solid var(--pink);outline-offset:2px}
+.sect{font-weight:900;font-size:13px;letter-spacing:.06em;color:var(--pink2);margin:18px 0 10px;padding-top:14px;border-top:1px solid var(--line)}
+.sect:first-child{margin-top:0;padding-top:0;border:0}
+.btn{display:block;width:100%;background:var(--pink);color:#fff;border-radius:14px;padding:15px;font-weight:900;font-size:15px;letter-spacing:.05em;font-stretch:125%;text-transform:uppercase;box-shadow:0 6px 16px rgba(214,64,154,.25)}
+.btn:disabled{opacity:.55}
+.btn.ghost{background:var(--white);color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
+.err{background:var(--badbg);color:var(--bad);border-radius:12px;padding:10px 12px;font-size:14px;margin:0 0 12px;font-weight:600}
+.bad{border-color:var(--bad)!important}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.done{text-align:center}
+.tick{width:74px;height:74px;border-radius:50%;background:var(--okbg);color:var(--ok);display:grid;place-items:center;font-size:38px;margin:6px auto 14px}
+.sum{text-align:left;background:var(--card);border-radius:14px;padding:14px;margin:14px 0}
+.sum div{display:flex;justify-content:space-between;gap:12px;padding:5px 0;font-size:14px}
+.sum div span{color:var(--mut)}.sum div b{text-align:right}
+.cal{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 12px}
+.cal a,.cal button{display:block;text-align:center;border:1.5px solid var(--line);border-radius:12px;padding:12px 6px;background:var(--white);font-weight:800;font-size:13px;color:var(--ink);text-decoration:none}
+.note{font-size:13px;color:var(--mut);line-height:1.5;margin-top:6px}
+.loading{text-align:center;color:var(--mut);padding:30px 0}
+footer{text-align:center;color:var(--mut);font-size:12px;margin-top:22px;line-height:1.6}
+footer a{color:var(--pink2)}
+@media(max-width:380px){.times{grid-template-columns:repeat(2,1fr)}.row2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="app"><div class="loading">Loading…</div></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+/* =====================================================================
+   SETTINGS: edit these to change the page
+   ===================================================================== */
+const GYM = {
+  name: "EOD Allstars",
+  address: "",          // e.g. "12 Example St, Rutherford NSW 2320" (shown on the confirmation)
+  phone: "",            // e.g. "0400 000 000"
+  email: ""             // e.g. "info@eodallstars.com"
+};
+const DAYS = [1,2,3,4,5];                                  // Mon to Fri
+const SLOTS = ["16:30","16:50","17:10","17:30","17:50","18:10"]; // 20 min tours, last one ends 6:30
+const TOUR_MINS = 20;
+const WEEKS_AHEAD = 4;        // how far ahead parents can book
+const MIN_NOTICE_HOURS = 2;   // can't book a slot starting sooner than this
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyA6cgGaPcI45pMzGc-ehPBxztHSPhWdZWs",
+  authDomain: "eod-tryouts.firebaseapp.com",
+  projectId: "eod-tryouts",
+  storageBucket: "eod-tryouts.firebasestorage.app",
+  messagingSenderId: "213167019146",
+  appId: "1:213167019146:web:ec8f6e265acf90e1bb0973"
+};
+/* ===================================================================== */
+
+const TZ="Australia/Sydney";
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const pad=n=>String(n).padStart(2,"0");
+const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const WD=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const WDL=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+function sydParts(ms){const p={};new Intl.DateTimeFormat("en-CA",{timeZone:TZ,year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false}).formatToParts(new Date(ms)).forEach(x=>p[x.type]=x.value);return {date:`${p.year}-${p.month}-${p.day}`,mins:(+p.hour%24)*60+(+p.minute)}}
+function sydToMs(date,hhmm){const [y,m,d]=date.split("-").map(Number),[h,mi]=hhmm.split(":").map(Number);let t=Date.UTC(y,m-1,d,h,mi);
+  for(let i=0;i<2;i++){const p=sydParts(t),[py,pm,pd]=p.date.split("-").map(Number);const wall=Date.UTC(py,pm-1,pd,Math.floor(p.mins/60),p.mins%60);t+=Date.UTC(y,m-1,d,h,mi)-wall}return t}
+function addDays(date,n){const [y,m,d]=date.split("-").map(Number);const x=new Date(Date.UTC(y,m-1,d+n));return `${x.getUTCFullYear()}-${pad(x.getUTCMonth()+1)}-${pad(x.getUTCDate())}`}
+function dow(date){const [y,m,d]=date.split("-").map(Number);return new Date(Date.UTC(y,m-1,d)).getUTCDay()}
+function niceTime(hhmm){let [h,m]=hhmm.split(":").map(Number);const ap=h>=12?"pm":"am";h=h%12||12;return `${h}:${pad(m)}${ap}`}
+function endTime(hhmm){const [h,m]=hhmm.split(":").map(Number),t=h*60+m+TOUR_MINS;return `${pad(Math.floor(t/60))}:${pad(t%60)}`}
+function niceDate(date,long){const [y,m,d]=date.split("-").map(Number);return long?`${WDL[dow(date)]} ${d} ${MON[m-1]}`:`${WD[dow(date)]} ${d} ${MON[m-1]}`}
+const keyOf=(date,hhmm)=>`${date}_${hhmm.replace(":","")}`;
+
+/* ---------- data: Firebase, or this device only when apiKey is empty ---------- */
+const DEMO=!FIREBASE_CONFIG.apiKey;
+const DB=DEMO?(()=>{const K="eodth_demo_v5",rd=()=>{try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}};
+  return {listen(cb){const f=()=>{const d=rd();cb(d.tourSlots||{})};f();window.addEventListener("storage",f)},
+    async book(k,tour){const d=rd();d.tourSlots=d.tourSlots||{};d.tours=d.tours||[];if(d.tourSlots[k])throw new Error("taken");
+      d.tourSlots[k]={at:tour.at};d.tours.push({id:k,...tour});localStorage.setItem(K,JSON.stringify(d))}}})()
+:(()=>{firebase.initializeApp(FIREBASE_CONFIG);const db=firebase.firestore();
+  return {listen(cb,err){db.collection("tourSlots").where("at",">=",Date.now()-864e5).onSnapshot(s=>{const o={};s.docs.forEach(d=>o[d.id]=d.data());cb(o)},err)},
+    async book(k,tour){const b=db.batch();b.set(db.collection("tours").doc(k),tour);b.set(db.collection("tourSlots").doc(k),{at:tour.at});await b.commit()}}})();
+
+/* ---------- state ---------- */
+const S={step:1,date:null,time:null,taken:{},loaded:false,err:"",busy:false,done:null,f:{}};
+try{const b=JSON.parse(localStorage.getItem("eod_tour_booked")||"null");if(b&&b.at>Date.now())S.prev=b}catch(e){}
+
+function bookableDays(){const now=sydParts(Date.now()),out=[];
+  for(let i=0;i<WEEKS_AHEAD*7+1;i++){const d=addDays(now.date,i);if(!DAYS.includes(dow(d)))continue;
+    const slots=SLOTS.map(t=>{const [h,m]=t.split(":").map(Number),k=keyOf(d,t),s=S.taken[k];
+      const late=i===0&&h*60+m<now.mins+MIN_NOTICE_HOURS*60;return {t,k,open:!s&&!late}});
+    out.push({d,slots,open:slots.filter(s=>s.open).length})}
+  return out}
+
+function render(){
+  const app=$("#app");
+  const head=`<header><img src="icons/logo.webp" alt="EOD Allstars" onerror="this.style.display='none'"><div class="t up">Cheer &amp; Dance · Maitland</div></header>`;
+  if(S.done)return app.innerHTML=head+vDone();
+  if(!S.loaded)return app.innerHTML=head+`<div class="loading">Loading available times…</div>`;
+  app.innerHTML=head+`
+  <h1 class="up">Book a <span>gym tour</span></h1>
+  <p class="lead">Come and see the gym, meet our coaches and ask us anything about cheer and dance at EOD. Tours are free and take about 20 minutes.</p>
+  <div class="facts"><div class="fact"><b>20</b><small class="up">Minutes</small></div><div class="fact"><b>Free</b><small class="up">No cost</small></div><div class="fact"><b>Weekdays</b><small class="up">4:30–6:30pm</small></div></div>
+  ${S.prev?`<div class="pick"><div><b>You already have a tour booked</b><span>${esc(niceDate(S.prev.date,true))} at ${esc(niceTime(S.prev.time))}${S.prev.name?` for ${esc(S.prev.name)}`:""}</span></div></div>`:""}
+  <div class="steps" aria-hidden="true"><i class="on"></i><i class="${S.step>=2?"on":""}"></i><i class="${S.step>=3?"on":""}"></i></div>
+  ${S.step<3?vPick():vForm()}
+  <footer>${GYM.phone||GYM.email?`Questions? ${GYM.phone?`Call <a href="tel:${esc(GYM.phone.replace(/\s/g,""))}">${esc(GYM.phone)}</a>`:""}${GYM.phone&&GYM.email?" or ":""}${GYM.email?`email <a href="mailto:${esc(GYM.email)}">${esc(GYM.email)}</a>`:""}<br>`:""}All times are Sydney time.</footer>`;
+  if(S.step===3){restore();const el=$("#f-first");if(el&&!S.f.first)el.focus({preventScroll:true})}
+  if(S.step<3&&S.date){const on=document.querySelector(".day.on");if(on&&!S._scrolled){on.scrollIntoView({block:"nearest",inline:"center"});S._scrolled=1}}
+}
+function vPick(){
+  const days=bookableDays();
+  if(!S.date||!days.some(x=>x.d===S.date&&x.open))S.date=(days.find(x=>x.open)||{}).d||null;
+  const day=days.find(x=>x.d===S.date);
+  if(!days.some(x=>x.open))return `<div class="card"><h2 class="up">No times left</h2><p class="help">All tour times for the next ${WEEKS_AHEAD} weeks are booked. ${GYM.phone||GYM.email?"Get in touch and we'll find a time that works.":"Please check back soon."}</p></div>`;
+  return `<div class="card">
+    <h2 class="up">1. Pick a day</h2>
+    <div class="days" role="listbox" aria-label="Day">${days.map(x=>`<button class="day ${x.d===S.date?"on":""} ${x.open?"":"full"}" data-day="${x.d}" ${x.open?"":"disabled"} role="option" aria-selected="${x.d===S.date}"><small>${WD[dow(x.d)]}</small><b>${+x.d.slice(8)}</b><em>${x.open?MON[+x.d.slice(5,7)-1]:"Full"}</em></button>`).join("")}</div>
+    <h2 class="up" style="margin-top:6px">2. Pick a time</h2>
+    <div class="wk">${esc(niceDate(S.date,true))}</div>
+    <div class="times">${day.slots.map(s=>`<button class="time ${S.time===s.t&&S.date===day.d?"on":""}" data-time="${s.t}" ${s.open?"":"disabled"}>${niceTime(s.t)}<small>${s.open?"to "+niceTime(endTime(s.t)):"Booked"}</small></button>`).join("")}</div>
+  </div>
+  <button class="btn" data-go="3" ${S.time&&day.slots.some(s=>s.t===S.time&&s.open)?"":"disabled"}>Next: your details</button>`}
+function vForm(){
+  return `<div class="pick"><div><b>${esc(niceDate(S.date,true))} · ${esc(niceTime(S.time))}</b><span>20 minute gym tour</span></div><button data-go="1">Change</button></div>
+  ${S.err?`<div class="err" role="alert">${esc(S.err)}</div>`:""}
+  <form class="card" id="form" novalidate>
+    <div class="sect up">Athlete</div>
+    <div class="row2"><label class="f"><span>First name</span><input id="f-first" name="first" autocomplete="off" required maxlength="60"></label>
+    <label class="f"><span>Last name</span><input name="last" autocomplete="off" required maxlength="60"></label></div>
+    <label class="f"><span>Date of birth</span><input name="dob" type="date" required min="1960-01-01"></label>
+    <div class="f" style="margin:0 0 12px"><label class="f" style="margin:0 0 6px"><span>Interested in</span></label>
+      <div class="chips">${["Cheer","Dance","Both","Not sure yet"].map(v=>`<label><input type="radio" name="interest" value="${v}"><span>${v}</span></label>`).join("")}</div></div>
+    <label class="f"><span>Experience</span><select name="experience"><option value="">Choose one</option><option>Completely new</option><option>Some experience</option><option>Experienced</option><option>Advanced / elite</option></select></label>
+    <label class="f"><span>Previous gym, studio or teams <i>(optional)</i></span><input name="prevGym" maxlength="200" placeholder="e.g. Level 2 at ABC Allstars"></label>
+    <div class="sect up">Parent or guardian</div>
+    <label class="f"><span>Your name</span><input name="parentName" autocomplete="name" required maxlength="80"></label>
+    <div class="row2"><label class="f"><span>Mobile</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="20"></label>
+    <label class="f"><span>Email</span><input name="email" type="email" autocomplete="email" required maxlength="120"></label></div>
+    <div class="sect up">Anything else</div>
+    <label class="f"><span>Bringing other children? <i>(names and ages, optional)</i></span><input name="others" maxlength="200"></label>
+    <label class="f"><span>How did you hear about us? <i>(optional)</i></span><select name="heard"><option value="">Choose one</option><option>Instagram</option><option>Facebook</option><option>TikTok</option><option>Friend or family</option><option>Saw us at a competition</option><option>School or flyer</option><option>Google</option><option>Other</option></select></label>
+    <label class="f"><span>Questions or notes <i>(optional)</i></span><textarea name="notes" maxlength="1000"></textarea></label>
+    <div class="hp" aria-hidden="true"><label>Leave this empty<input name="website" tabindex="-1" autocomplete="off"></label></div>
+    <button class="btn" type="submit" ${S.busy?"disabled":""}>${S.busy?"Booking…":"Book my tour"}</button>
+  </form>`}
+function vDone(){const b=S.done,start=b.at,end=b.at+TOUR_MINS*6e4;
+  const z=ms=>new Date(ms).toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
+  const where=GYM.address||GYM.name;
+  const g=`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("EOD Allstars gym tour")}&dates=${z(start)}/${z(end)}&details=${encodeURIComponent(`Gym tour for ${b.first}`)}&location=${encodeURIComponent(where)}`;
+  return `<div class="card done">
+    <div class="tick">✓</div>
+    <h1 class="up" style="font-size:30px">You're <span>booked!</span></h1>
+    <p class="lead" style="margin:0">We can't wait to meet ${esc(b.first)}.</p>
+    <div class="sum">
+      <div><span>Day</span><b>${esc(niceDate(b.date,true))}</b></div>
+      <div><span>Time</span><b>${esc(niceTime(b.time))} to ${esc(niceTime(endTime(b.time)))}</b></div>
+      <div><span>Athlete</span><b>${esc(b.first+" "+b.last)}</b></div>
+      ${GYM.address?`<div><span>Where</span><b>${esc(GYM.address)}</b></div>`:""}
+    </div>
+    <div class="cal"><a href="${g}" target="_blank" rel="noopener">Google Calendar</a><button data-ics>Apple / Outlook</button></div>
+    <p class="note">Please arrive a few minutes early. ${GYM.phone||GYM.email?`If you need to change or cancel, ${GYM.phone?`call ${esc(GYM.phone)}`:""}${GYM.phone&&GYM.email?" or ":""}${GYM.email?`email ${esc(GYM.email)}`:""}.`:"If you need to change or cancel, please let us know."}</p>
+  </div>
+  <button class="btn ghost" data-again>Book another tour</button>`}
+
+/* ---------- form helpers ---------- */
+function collect(){const fm=$("#form");if(!fm)return;const o={};new FormData(fm).forEach((v,k)=>o[k]=String(v).trim());S.f=o}
+function restore(){const fm=$("#form");if(!fm)return;Object.entries(S.f).forEach(([k,v])=>{const els=fm.querySelectorAll(`[name="${k}"]`);els.forEach(el=>{if(el.type==="radio")el.checked=el.value===v;else el.value=v})})}
+function validate(o){const miss=[];
+  if(!o.first)miss.push("first");if(!o.last)miss.push("last");
+  if(!o.dob||o.dob<"1960-01-01"||o.dob>sydParts(Date.now()).date)miss.push("dob");
+  if(!o.parentName)miss.push("parentName");
+  if(o.phone.replace(/\D/g,"").length<8)miss.push("phone");
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(o.email))miss.push("email");
+  return miss}
+async function submit(){
+  collect();const o=S.f;
+  if(o.website)return; // bot
+  const miss=validate(o);
+  document.querySelectorAll("#form .bad").forEach(e=>e.classList.remove("bad"));
+  if(miss.length){miss.forEach(n=>{const el=document.querySelector(`#form [name="${n}"]`);el&&el.classList.add("bad")});
+    S.err=miss.includes("email")&&miss.length===1?"Please check the email address.":miss.includes("phone")&&miss.length===1?"Please check the mobile number.":"Please fill in the highlighted fields.";
+    const e=document.querySelector(".err");if(e)e.textContent=S.err;else{render();miss.forEach(n=>{const el=document.querySelector(`#form [name="${n}"]`);el&&el.classList.add("bad")})}
+    const first=document.querySelector("#form .bad");first&&first.focus();return}
+  const k=keyOf(S.date,S.time),at=sydToMs(S.date,S.time);
+  const cap=(s,n)=>String(s||"").slice(0,n);
+  const tour={key:k,date:S.date,time:S.time,at,first:cap(o.first,60),last:cap(o.last,60),dob:o.dob,interest:cap(o.interest,20),experience:cap(o.experience,40),prevGym:cap(o.prevGym,200),
+    parentName:cap(o.parentName,80),phone:cap(o.phone,20),email:cap(o.email.toLowerCase(),120),others:cap(o.others,200),heard:cap(o.heard,40),notes:cap(o.notes,1000),status:"booked",createdAt:Date.now()};
+  S.busy=true;S.err="";render();
+  try{await DB.book(k,tour);
+    S.done=tour;S.busy=false;S.taken[k]={at};try{localStorage.setItem("eod_tour_booked",JSON.stringify({at,date:S.date,time:S.time,name:tour.first}))}catch(e){}
+    render();window.scrollTo(0,0)}
+  catch(e){S.busy=false;
+    if(S.taken[k]||/permission|taken|exists/i.test(e.message||e.code||"")){S.err="Sorry, that time was just booked by someone else. Please pick another time.";S.taken[k]={at};S.step=1;S.time=null}
+    else S.err="Something went wrong and your tour wasn't booked. Please check your connection and try again.";
+    render();if(S.step===1&&S.err){alertBox()}window.scrollTo(0,0)}}
+function alertBox(){const c=document.querySelector(".card");if(c)c.insertAdjacentHTML("beforebegin",`<div class="err" role="alert">${esc(S.err)}</div>`);S.err=""}
+function ics(){const b=S.done,z=ms=>new Date(ms).toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
+  const txt=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//EOD Allstars//Tours//EN","BEGIN:VEVENT",`UID:${b.key}@eod-tours`,`DTSTAMP:${z(Date.now())}`,`DTSTART:${z(b.at)}`,`DTEND:${z(b.at+TOUR_MINS*6e4)}`,
+    "SUMMARY:EOD Allstars gym tour",`DESCRIPTION:Gym tour for ${b.first}`,`LOCATION:${(GYM.address||GYM.name).replace(/,/g,"\\,")}`,"END:VEVENT","END:VCALENDAR"].join("\r\n");
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([txt],{type:"text/calendar"}));a.download="eod-gym-tour.ics";document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),500)}
+
+/* ---------- events ---------- */
+document.addEventListener("click",e=>{const t=e.target.closest("button");if(!t)return;
+  if(t.dataset.day){S.date=t.dataset.day;S.time=null;S.step=1;render();return}
+  if(t.dataset.time){S.time=t.dataset.time;S.step=2;render();const n=document.querySelector("[data-go='3']");n&&n.scrollIntoView({block:"nearest",behavior:"smooth"});return}
+  if(t.dataset.go){if(S.step===3)collect();S.step=+t.dataset.go;S.err="";render();window.scrollTo(0,0);return}
+  if(t.hasAttribute("data-ics")){ics();return}
+  if(t.hasAttribute("data-again")){S.done=null;S.step=1;S.time=null;S.f={};try{const b=JSON.parse(localStorage.getItem("eod_tour_booked")||"null");if(b)S.prev=b}catch(e){}render();window.scrollTo(0,0)}});
+document.addEventListener("submit",e=>{e.preventDefault();if(!S.busy)submit()});
+document.addEventListener("input",e=>{if(e.target.classList.contains("bad"))e.target.classList.remove("bad");if(!document.querySelector("#form .bad")){const er=document.querySelector(".err");if(er){er.remove();S.err=""}}});
+
+DB.listen(slots=>{S.taken=slots;S.loaded=true;
+  if(S.step===3&&S.time&&slots[keyOf(S.date,S.time)]&&!S.busy&&!S.done){collect();S.err="Sorry, that time was just booked by someone else. Please pick another time.";S.step=1;S.time=null;render();alertBox();return}
+  if(S.step===3||S.done)return;render()},
+  ()=>{S.loaded=true;S.err="";$("#app").innerHTML=`<div class="card"><h2 class="up">Couldn't load tour times</h2><p class="help">Please check your connection and refresh the page.</p></div>`});
+</script>
+</body>
+</html>
