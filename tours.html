@@ -29,7 +29,7 @@ button{background:none;border:0;cursor:pointer}
 #bgv .grain{position:absolute;inset:-50%;opacity:.5;animation:grain .6s steps(6) infinite}
 @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-6%,4%)}40%{transform:translate(5%,-7%)}60%{transform:translate(-3%,8%)}80%{transform:translate(7%,2%)}100%{transform:translate(0,0)}}
 @media(prefers-reduced-motion:reduce){#bgv .grain{animation:none}}
-#app{max-width:600px;margin:0 auto;padding:max(26px,env(safe-area-inset-top)) 16px 60px;position:relative}
+#app{max-width:600px;margin:0 auto;padding:max(18px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom));position:relative}
 /* hero */
 header{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;margin:0 0 22px}
 header img{width:clamp(110px,28vw,150px);height:auto;filter:drop-shadow(0 0 22px rgba(255,79,168,.4))}
@@ -66,6 +66,7 @@ h2{font-family:var(--wide);font-weight:400;font-size:12px;letter-spacing:.24em;t
 .cd.op{background:rgba(255,79,168,.12);border-color:rgba(255,79,168,.38);color:#fff}.cd.op small{color:var(--pink-soft)}
 .cd.op:hover{border-color:var(--pink);box-shadow:0 0 14px rgba(255,79,168,.35)}
 .cd.full{background:rgba(255,255,255,.04);color:rgba(236,233,239,.35)}.cd.full small{color:rgba(236,233,239,.35)}
+.cd small{line-height:1}
 .cd.on{background:var(--pink);border-color:var(--pink);color:var(--ink);box-shadow:0 0 18px rgba(255,79,168,.6)}.cd.on small{color:var(--ink)}
 .cd.today b{text-decoration:underline;text-underline-offset:3px}
 .legend{display:flex;gap:16px;justify-content:center;margin-top:14px;font-size:12px;font-weight:600;color:var(--muted)}
@@ -119,15 +120,18 @@ label.f>span.kidrow{display:flex;gap:8px;align-items:center;margin:0;font:inheri
 footer{text-align:center;color:var(--muted);font-size:12px;font-weight:600;margin-top:22px;line-height:1.7}
 footer a{color:var(--pink-soft)}
 .calwk{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
-.calgrid{grid-auto-rows:clamp(40px,11.5vw,52px)}
+.calgrid{grid-auto-rows:clamp(35px,9.2vw,50px)}
 .facts1{display:flex;justify-content:center;flex-wrap:wrap;gap:4px 8px;margin:0 0 12px;font-family:var(--wide);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--chrome)}
 .facts1 i{font-style:normal;color:var(--pink)}
 .row2{display:grid;grid-template-columns:1fr 1.25fr;gap:8px}
+.slotshead{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:12px 0 8px;padding-top:12px;border-top:1px solid var(--edge)}
+.slotshead b{font-size:14px;color:#fff}.slotshead span{font-size:11px;font-weight:600;color:var(--muted)}
+.slotsnone{text-align:center;margin:12px 0 2px;padding-top:12px;border-top:1px solid var(--edge)}
 /* compact phone layout: each step fits on one screen */
 header{gap:6px;margin:0 0 8px}
-header img{width:clamp(70px,20vw,96px)}
+header img{width:clamp(56px,15vw,96px)}
 header.mini{flex-direction:row;justify-content:center;gap:12px;margin:0 0 12px}header.mini img{width:54px}
-h1{font-size:clamp(34px,10.5vw,64px);margin:2px 0 6px}
+h1{font-size:clamp(32px,9.5vw,64px);margin:0 0 4px}
 .lead{font-size:13.5px;margin:0 auto 12px;line-height:1.45}
 .facts{gap:8px;margin:0 auto 14px}.fact{padding:9px 4px 8px;gap:5px}.fact b{font-size:clamp(15px,4.4vw,22px)}
 .steps{margin:0 0 12px}
@@ -139,7 +143,7 @@ h2{margin:0 0 10px;font-size:11px}
 .cd b{font-size:15px}.cd small{font-size:8.5px}
 .legend{margin-top:10px;font-size:11px}
 .pick{padding:11px 14px;margin:0 0 12px}.pick.prev{margin:0 0 10px}
-.time{padding:14px 4px}
+.time{padding:11px 4px;font-size:14.5px}
 label.f{margin:0 0 10px}label.f>span{margin:0 0 5px}
 input,select,textarea{padding:11px 14px}
 .kidx{height:44px}
@@ -148,9 +152,10 @@ input,select,textarea{padding:11px 14px}
 .btn{padding:14px 22px}
 footer{margin-top:12px;font-size:11px}
 .done h1{font-size:clamp(30px,9vw,48px)}.tick{width:62px;height:62px;font-size:30px;margin:0 auto 10px}.sum{margin:12px 0}
-@media(min-width:700px){header img{width:130px}h1{font-size:76px}.lead{font-size:15px}.calgrid{grid-auto-rows:58px}.cd b{font-size:17px}.card{padding:18px 16px}}
+@media(min-width:700px){header img{width:130px}h1{font-size:76px}.lead{font-size:15px}.calgrid{grid-auto-rows:50px}.cd b{font-size:17px}.card{padding:18px 16px}}
 @media(max-width:700px){.lead{display:none}}
-@media(max-height:620px) and (max-width:700px){header img{width:56px}header{margin:0 0 4px}h1{font-size:30px;margin:0 0 4px}.facts1{margin:0 0 8px}.steps{margin:0 0 8px}.calgrid{grid-auto-rows:38px}.card{padding:12px 10px}.legend{display:none}}
+@media(max-width:700px){header .eyebrow{display:none}footer{margin-top:8px}}
+@media(max-height:620px) and (max-width:700px){header img{width:44px}header{margin:0 0 2px}h1{font-size:28px;margin:0 0 2px}.facts1{display:none}.calgrid{grid-auto-rows:32px}.cd small{display:none}.card{padding:10px}.time{padding:9px 4px}.mnav{width:32px;height:32px}footer{display:none}}
 @media(max-width:380px){.times{grid-template-columns:repeat(2,1fr)}.cd b{font-size:15px}.cd small{font-size:8px}.calgrid{gap:3px}}
 </style>
 </head>
@@ -252,20 +257,20 @@ function render(){
   const head=`<header class="${S.step===3||S.done?"mini":""}"><img src="icons/logo.webp" alt="EOD Allstars" onerror="this.style.display='none'"><p class="eyebrow">EOD Allstars · Maitland</p></header>`;
   if(S.done)return app.innerHTML=head+vDone();
   if(!S.loaded)return app.innerHTML=head+`<div class="loading">Loading available times…</div>`;
-  const hero=S.step===1||(S.step===2&&window.innerHeight>620)?`<h1><span>Gym</span> <span>Tour</span></h1>
+  const hero=S.step===1?`<h1><span>Gym</span> <span>Tour</span></h1>
   <p class="lead">Come and see the gym, meet our coaches and ask us anything about cheer and dance at EOD.</p>
   <p class="facts1"><span>20 min</span><i>·</i><span>Free</span><i>·</i><span>Mon–Fri 4:30–6:30pm</span></p>`:"";
   app.innerHTML=head+hero+`
   ${S.prev&&S.step===1?`<div class="pick prev"><div><b>You already have a tour booked</b><span>${esc(niceDate(S.prev.date,true))} at ${esc(niceTime(S.prev.time))}${S.prev.name?` for ${esc(S.prev.name)}`:""}</span></div></div>`:""}
-  <div class="steps" aria-hidden="true"><i class="on"></i><i class="${S.step>=2?"on":""}"></i><i class="${S.step>=3?"on":""}"></i></div>
-  ${S.step===1?vPick():S.step===2?vTimes():vForm()}
-  ${S.step!==2?"":`<footer>${GYM.phone||GYM.email?`Questions? ${GYM.phone?`Call <a href="tel:${esc(GYM.phone.replace(/\s/g,""))}">${esc(GYM.phone)}</a>`:""}${GYM.phone&&GYM.email?" or ":""}${GYM.email?`email <a href="mailto:${esc(GYM.email)}">${esc(GYM.email)}</a>`:""} · `:""}All times are Sydney time.</footer>`}`;
+  ${S.step===3?vForm():vPick()}
+  ${S.step===3?"":`<footer>${GYM.phone||GYM.email?`Questions? ${GYM.phone?`Call <a href="tel:${esc(GYM.phone.replace(/\s/g,""))}">${esc(GYM.phone)}</a>`:""}${GYM.phone&&GYM.email?" or ":""}${GYM.email?`email <a href="mailto:${esc(GYM.email)}">${esc(GYM.email)}</a>`:""} · `:""}All times are Sydney time.</footer>`}`;
   if(S.step===3){restore();const el=$("#f-first");if(el&&!S.f.kid0&&window.innerWidth>700)el.focus({preventScroll:true})}
 }
 function vPick(){
   const days=bookableDays(),now=sydParts(Date.now());
   if(!days.some(x=>x.open))return `<div class="card"><h2>No times left</h2><p class="help">All tour times are booked for now, or tours are finished for the year. ${GYM.phone||GYM.email?"Get in touch and we'll find a time that works.":"Please check back soon."}</p></div>`;
   const first=now.date.slice(0,7),last=lastDay().slice(0,7);
+  if(!S.date||!days.some(x=>x.d===S.date&&x.open)){S.date=(days.find(x=>x.open&&(!S.month||x.d.startsWith(S.month)))||days.find(x=>x.open)||{}).d||null;S.time=null}
   if(!S.month)S.month=(S.date||(days.find(x=>x.open)||{}).d||now.date).slice(0,7);
   const [y,m]=S.month.split("-").map(Number),start=`${S.month}-01`,dim=new Date(Date.UTC(y,m,0)).getUTCDate(),lead=(dow(start)+6)%7;
   let cells=[];for(let i=0;i<lead;i++)cells.push(`<span class="cd empty"></span>`);
@@ -277,14 +282,16 @@ function vPick(){
     const todayWk=S.month===now.date.slice(0,7)?Math.floor((lead+(+now.date.slice(8))-1)/7):0;cells=wk.slice(todayWk).flat()}
   const mName=["January","February","March","April","May","June","July","August","September","October","November","December"][m-1];
   return `<div class="card">
-    <h2>1. Pick a day</h2>
     <div class="calhead"><button class="mnav" data-month="-1" ${S.month<=first?"disabled":""} aria-label="Previous month">‹</button><b>${mName} ${y}</b><button class="mnav" data-month="1" ${S.month>=last?"disabled":""} aria-label="Next month">›</button></div>
     <div class="calwk">${["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(w=>`<span class="cw">${w}</span>`).join("")}</div>
     <div class="calgrid">${cells.join("")}</div>
-    <div class="legend"><span><i class="lg op"></i>Available</span><span><i class="lg full"></i>Full or closed</span>${LAST_TOUR_DAY&&S.month===LAST_TOUR_DAY.slice(0,7)?`<span>Last tour ${+LAST_TOUR_DAY.slice(8)} ${MON[+LAST_TOUR_DAY.slice(5,7)-1]}</span>`:""}</div>
-
+    ${vSlots()}
   </div>
-  `}
+  <button class="btn" data-go="3" ${S.time&&S.date&&(dayInfo(S.date)||{slots:[]}).slots.some(s=>s.t===S.time&&s.open)?"":"disabled"}>${S.time?`Next: ${esc(niceTime(S.time))} on ${esc(niceDate(S.date))}`:"Pick a time"}</button>`}
+function vSlots(){const day=S.date&&S.date.startsWith(S.month)?dayInfo(S.date):null;
+  if(!day)return `<p class="help slotsnone">${LAST_TOUR_DAY&&S.month===LAST_TOUR_DAY.slice(0,7)?`Last tour day is ${esc(niceDate(LAST_TOUR_DAY,true))}. `:""}Tap a day to see times.</p>`;
+  return `<div class="slotshead"><b>${esc(niceDate(S.date,true))}</b>${LAST_TOUR_DAY&&S.month===LAST_TOUR_DAY.slice(0,7)?`<span>Last tour ${+LAST_TOUR_DAY.slice(8)} ${MON[+LAST_TOUR_DAY.slice(5,7)-1]}</span>`:""}</div>
+    <div class="times">${day.slots.map(s=>`<button class="time ${S.time===s.t?"on":""}" data-time="${s.t}" ${s.open?"":"disabled"} aria-label="${niceTime(s.t)}${s.open?"":" unavailable"}">${niceTime(s.t)}</button>`).join("")}</div>`}
 function vTimes(){const day=S.date?dayInfo(S.date):null;if(!day||!day.open){S.step=1;return vPick()}
   return `<div class="pick"><div><b>${esc(niceDate(S.date,true))}</b><span>Pick a time below</span></div><button data-go="1">‹ Change day</button></div>
   <div class="card">
@@ -373,9 +380,9 @@ function ics(){const b=S.done,z=ms=>new Date(ms).toISOString().replace(/[-:]/g,"
 
 /* ---------- events ---------- */
 document.addEventListener("click",e=>{const t=e.target.closest("button");if(!t)return;
-  if(t.dataset.day){S.date=t.dataset.day;S.time=null;S.step=2;render();window.scrollTo(0,0);return}
+  if(t.dataset.day){S.date=t.dataset.day;S.time=null;render();return}
   if(t.dataset.month){let [y,m]=S.month.split("-").map(Number);m+=+t.dataset.month;if(m<1){m=12;y--}if(m>12){m=1;y++}S.month=`${y}-${pad(m)}`;
-    render();return}
+    S.date=null;S.time=null;render();return}
   if(t.dataset.time){S.time=t.dataset.time;render();return}
   if(t.dataset.go){if(S.step===3)collect();S.step=+t.dataset.go;S.err="";render();window.scrollTo(0,0);return}
   if(t.hasAttribute("data-ics")){ics();return}
